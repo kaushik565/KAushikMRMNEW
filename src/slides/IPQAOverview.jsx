@@ -690,28 +690,18 @@ export default function IPQAOverview() {
               <div style={{fontSize: '0.8em', fontWeight: '600', color: '#64748b'}}>4 Device Types • 38 Processes</div>
             </div>
 
-            {/* Manufacturing Interactive Carousel */}
-            <div style={{position: 'relative', background: 'linear-gradient(135deg, #faf5ff, #ffffff)', border: '2px solid #e9d5ff', borderRadius: '16px', padding: '24px', overflow: 'hidden', marginBottom: '28px'}}>
+            {/* Manufacturing Devices Grid - No Scroll */}
+            <div style={{background: 'linear-gradient(135deg, #faf5ff, #ffffff)', border: '2px solid #e9d5ff', borderRadius: '16px', padding: '24px', marginBottom: '28px'}}>
               
-              {/* Left Arrow */}
-              <button onClick={(e) => {
-                const parent = e.currentTarget.parentElement;
-                const container = parent.querySelector('[data-manufacturing-scroll]');
-                container.scrollBy({left: -400, behavior: 'smooth'});
-              }} style={{position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', color: 'white', border: 'none', borderRadius: '50%', width: '44px', height: '44px', cursor: 'pointer', fontSize: '1.4em', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)', transition: 'all 0.3s ease'}}
-              onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.5)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';}}
-              onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)';}}
-              >←</button>
-
-              {/* Scrollable Devices Container */}
-              <div data-manufacturing-scroll style={{display: 'flex', overflowX: 'auto', gap: '20px', paddingRight: '60px', scrollBehavior: 'smooth', paddingLeft: '60px'}}>
+              {/* Grid Container */}
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px'}}>
                 {[
                   {name: 'Rapid Cell Lysis', icon: '🧬', processes: 3, color: '#3b82f6', data: {clearance: [3.167, 3.2, 3.15, 3.1], closure: [3.483, 3.5, 3.45, 3.4], reverif: [3.783, 3.8, 3.75, 3.7]}},
                   {name: 'Two Bay PCR', icon: '🔬', processes: 9, color: '#8b5cf6', data: {clearance: [4.367, 4.4, 4.35, 4.3], closure: [4.817, 4.85, 4.8, 4.75], reverif: [3.683, 3.7, 3.65, 3.6]}},
                   {name: 'Sixteen Bay PCR', icon: '⚡', processes: 3, color: '#ec4899', data: {clearance: [9.45, 9.5, 9.4, 9.3], closure: [10.667, 10.7, 10.6, 10.5], reverif: [6.7, 6.75, 6.65, 6.55]}},
                   {name: 'Extraction Device', icon: '🔧', processes: 23, color: '#06b6d4', data: {clearance: [5.6, 5.65, 5.55, 5.5], closure: [6.267, 6.3, 6.25, 6.2], reverif: [4.317, 4.35, 4.3, 4.25]}}
                 ].map((device, idx) => (
-                  <div key={idx} style={{flex: '0 0 400px', background: '#ffffff', border: '2px solid #e9d5ff', borderRadius: '14px', padding: '18px', boxShadow: '0 2px 8px rgba(139, 92, 246, 0.1)', transition: 'all 0.3s ease', cursor: 'pointer'}}
+                  <div key={idx} style={{background: '#ffffff', border: '2px solid #e9d5ff', borderRadius: '14px', padding: '18px', boxShadow: '0 2px 8px rgba(139, 92, 246, 0.1)', transition: 'all 0.3s ease', cursor: 'pointer'}}
                   onClick={() => setSelectedManufacturingChart(device)}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.25)';
@@ -807,16 +797,33 @@ export default function IPQAOverview() {
                 ))}
               </div>
 
-              {/* Right Arrow */}
-              <button onClick={(e) => {
-                const parent = e.currentTarget.parentElement;
-                const container = parent.querySelector('[data-manufacturing-scroll]');
-                container.scrollBy({left: 400, behavior: 'smooth'});
-              }} style={{position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', color: 'white', border: 'none', borderRadius: '50%', width: '44px', height: '44px', cursor: 'pointer', fontSize: '1.4em', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)', transition: 'all 0.3s ease'}}
-              onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.5)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';}}
-              onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)';}}
-              >→</button>
+            </div>
 
+            {/* Manufacturing KPI Summary Cards */}
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '28px'}}>
+              <div style={{background: 'linear-gradient(135deg, #e0f2fe, #bae6fd)', border: '2px solid #0284c7', borderRadius: '14px', padding: '20px', textAlign: 'center', transition: 'all 0.3s ease', boxShadow: '0 2px 8px rgba(2, 132, 199, 0.1)'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(2, 132, 199, 0.2)'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(2, 132, 199, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
+                <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0c4a6e', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Clearance Time</div>
+                <div style={{fontSize: '2.2em', fontWeight: '900', color: '#0284c7', marginBottom: '4px'}}>5:42</div>
+                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0369a1'}}>All Devices (Jan-Aug)</div>
+              </div>
+
+              <div style={{background: 'linear-gradient(135deg, #fce7f3, #fbcfe8)', border: '2px solid #ec4899', borderRadius: '14px', padding: '20px', textAlign: 'center', transition: 'all 0.3s ease', boxShadow: '0 2px 8px rgba(236, 72, 153, 0.1)'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(236, 72, 153, 0.2)'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(236, 72, 153, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
+                <div style={{fontSize: '0.75em', fontWeight: '700', color: '#831843', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Closure Time</div>
+                <div style={{fontSize: '2.2em', fontWeight: '900', color: '#ec4899', marginBottom: '4px'}}>6:32</div>
+                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#be185d'}}>All Devices (Jan-Aug)</div>
+              </div>
+
+              <div style={{background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)', border: '2px solid #3b82f6', borderRadius: '14px', padding: '20px', textAlign: 'center', transition: 'all 0.3s ease', boxShadow: '0 2px 8px rgba(59, 130, 246, 0.1)'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.2)'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(59, 130, 246, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
+                <div style={{fontSize: '0.75em', fontWeight: '700', color: '#1e3a8a', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Re-Verification</div>
+                <div style={{fontSize: '2.2em', fontWeight: '900', color: '#3b82f6', marginBottom: '4px'}}>4:63</div>
+                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#1e40af'}}>All Devices (Jan-Aug)</div>
+              </div>
+
+              <div style={{background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)', border: '2px solid #10b981', borderRadius: '14px', padding: '20px', textAlign: 'center', transition: 'all 0.3s ease', boxShadow: '0 2px 8px rgba(16, 185, 129, 0.1)'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(16, 185, 129, 0.2)'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(16, 185, 129, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
+                <div style={{fontSize: '0.75em', fontWeight: '700', color: '#166534', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Total Devices</div>
+                <div style={{fontSize: '2.2em', fontWeight: '900', color: '#10b981', marginBottom: '4px'}}>4</div>
+                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#047857'}}>38 Processes</div>
+              </div>
             </div>
 
             {/* ===== SECTION SEPARATOR ===== */}
