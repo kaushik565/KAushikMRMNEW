@@ -997,28 +997,77 @@ export default function IPQAOverview() {
 
               {/* ===== CALIBRATION DATA SECTION ===== */}
               <div style={{marginTop: '36px', paddingTop: '28px', borderTop: `3px solid ${siteData.color}40`}}>
-                <div style={{fontSize: '0.95em', fontWeight: '800', color: '#1e293b', marginBottom: '20px'}}>🔧 Calibration Data (July - November)</div>
-
-                {/* Simple Month Cards */}
-                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '12px', marginBottom: '20px'}}>
-                  {[
-                    {month: 'July', qty: 28},
-                    {month: 'Aug', qty: 6},
-                    {month: 'Sep', qty: 48},
-                    {month: 'Oct', qty: 5},
-                    {month: 'Nov', qty: 19}
-                  ].map((m, i) => (
-                    <div key={i} style={{background: '#f8fafc', border: '2px solid #cbd5e1', borderRadius: '10px', padding: '16px', textAlign: 'center', transition: 'all 0.3s ease'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)';}}>
-                      <div style={{fontSize: '0.8em', fontWeight: '700', color: '#64748b', marginBottom: '8px'}}>{m.month}</div>
-                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#0f172a'}}>{m.qty}</div>
-                    </div>
-                  ))}
+                <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px'}}>
+                  <div style={{background: 'linear-gradient(135deg, #06b6d4, #0891b2)', color: 'white', borderRadius: '10px', padding: '10px 14px', fontWeight: '800', fontSize: '1em', letterSpacing: '0.5px', boxShadow: '0 4px 12px rgba(6, 182, 212, 0.3)'}}>🔧 CALIBRATION THROUGHPUT</div>
+                  <div style={{fontSize: '0.85em', fontWeight: '600', color: '#64748b', background: '#ffffff', padding: '6px 12px', borderRadius: '20px', border: '1px solid #cffafe'}}>5 Months • 106 Units</div>
                 </div>
 
-                {/* Total Summary */}
-                <div style={{background: '#f0fdf4', border: '2px solid #86efac', borderRadius: '10px', padding: '16px', textAlign: 'center'}}>
-                  <div style={{fontSize: '0.8em', fontWeight: '700', color: '#166534', marginBottom: '8px', textTransform: 'uppercase'}}>Total Calibrated Units</div>
-                  <div style={{fontSize: '2.2em', fontWeight: '900', color: '#15803d'}}>106</div>
+                {/* Interactive Calibration Chart */}
+                <div style={{background: 'linear-gradient(135deg, #ecfeff, #ffffff)', border: '2px solid #06b6d4', borderRadius: '16px', padding: '24px', marginBottom: '20px'}}>
+                  <svg viewBox="0 0 600 240" style={{width: '100%', height: 'auto'}}>
+                    <defs>
+                      <pattern id="calib-grid" width="120" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 120 0 L 0 0 0 40" fill="none" stroke="#cffafe" strokeWidth="1"/>
+                      </pattern>
+                    </defs>
+                    <rect width="600" height="200" fill="url(#calib-grid)" />
+
+                    <line x1="50" y1="20" x2="50" y2="180" stroke="#0891b2" strokeWidth="2"/>
+                    <line x1="50" y1="180" x2="580" y2="180" stroke="#0891b2" strokeWidth="2"/>
+
+                    {[0, 10, 20, 30, 40, 50].map((val, i) => {
+                      const y = 180 - (val * 3.2);
+                      return (
+                        <g key={`calib-y-${i}`}>
+                          <text x="40" y={y + 4} fontSize="11" fill="#64748b" fontWeight="600" textAnchor="end">{val}</text>
+                          <line x1="48" y1={y} x2="580" y2={y} stroke="#cffafe" strokeWidth="1" strokeDasharray="3,3"/>
+                        </g>
+                      );
+                    })}
+
+                    {[
+                      {month: 'July', qty: 28, x: 120, color: '#ef4444'},
+                      {month: 'Aug', qty: 6, x: 220, color: '#f59e0b'},
+                      {month: 'Sep', qty: 48, x: 320, color: '#10b981'},
+                      {month: 'Oct', qty: 5, x: 420, color: '#3b82f6'},
+                      {month: 'Nov', qty: 19, x: 520, color: '#8b5cf6'}
+                    ].map((m, idx) => {
+                      const barHeight = m.qty * 3.2;
+                      const barY = 180 - barHeight;
+                      return (
+                        <g key={`calib-bar-${idx}`}>
+                          <defs>
+                            <linearGradient id={`calib-grad-${idx}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stopColor={m.color} stopOpacity="1" />
+                              <stop offset="100%" stopColor={m.color} stopOpacity="0.7" />
+                            </linearGradient>
+                          </defs>
+                          <rect x={m.x - 25} y={barY} width="50" height={barHeight} fill={`url(#calib-grad-${idx})`} rx="4" style={{transition: 'all 0.3s ease'}}>
+                            <animate attributeName="height" from="0" to={barHeight} dur="0.8s" begin={`${idx * 0.1}s`} fill="freeze" />
+                            <animate attributeName="y" from="180" to={barY} dur="0.8s" begin={`${idx * 0.1}s`} fill="freeze" />
+                          </rect>
+                          <text x={m.x} y={barY - 8} fontSize="14" fontWeight="800" fill={m.color} textAnchor="middle">{m.qty}</text>
+                          <text x={m.x} y="200" fontSize="13" fontWeight="700" fill="#0891b2" textAnchor="middle">{m.month}</text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+
+                  {/* Summary Stats Below Chart */}
+                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginTop: '16px'}}>
+                    <div style={{background: '#f0fdfa', border: '2px solid #06b6d4', borderRadius: '10px', padding: '12px', textAlign: 'center'}}>
+                      <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0c4a6e', marginBottom: '4px'}}>Peak Month</div>
+                      <div style={{fontSize: '1.5em', fontWeight: '900', color: '#06b6d4'}}>Sep (48)</div>
+                    </div>
+                    <div style={{background: '#f0fdfa', border: '2px solid #10b981', borderRadius: '10px', padding: '12px', textAlign: 'center'}}>
+                      <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0c4a6e', marginBottom: '4px'}}>Total Units</div>
+                      <div style={{fontSize: '1.5em', fontWeight: '900', color: '#10b981'}}>106</div>
+                    </div>
+                    <div style={{background: '#f0fdfa', border: '2px solid #8b5cf6', borderRadius: '10px', padding: '12px', textAlign: 'center'}}>
+                      <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0c4a6e', marginBottom: '4px'}}>Monthly Avg</div>
+                      <div style={{fontSize: '1.5em', fontWeight: '900', color: '#8b5cf6'}}>21.2</div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1068,49 +1117,68 @@ export default function IPQAOverview() {
                   ))}
                 </div>
 
-                {/* Monthly Comparison Charts */}
-                <div style={{background: 'linear-gradient(135deg, #f8fafc, #ffffff)', border: '1.5px solid #e2e8f0', borderRadius: '14px', padding: '20px', marginBottom: '28px'}}>
-                  <div style={{fontSize: '0.9em', fontWeight: '800', color: '#1e293b', marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                    <div style={{width: '4px', height: '20px', background: '#3b82f6', borderRadius: '2px'}}></div>
-                    Monthly Sampling Trends
+                {/* Monthly Comparison Charts - Enhanced */}
+                <div style={{background: 'linear-gradient(135deg, #f8fafc, #ffffff)', border: '2px solid #e2e8f0', borderRadius: '16px', padding: '24px', marginBottom: '28px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'}}>
+                  <div style={{fontSize: '1em', fontWeight: '800', color: '#1e293b', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '12px'}}>
+                    <div style={{width: '6px', height: '28px', background: 'linear-gradient(180deg, #3b82f6, #1d4ed8)', borderRadius: '3px'}}></div>
+                    <span>Monthly Sampling Trends</span>
+                    <div style={{marginLeft: 'auto', background: '#dbeafe', color: '#1e40af', padding: '6px 12px', borderRadius: '20px', fontSize: '0.7em', fontWeight: '700'}}>5-Month Analysis</div>
                   </div>
 
                   {/* Chart Grid */}
                   <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '18px'}}>
-                    {/* IQC Chart */}
-                    <div style={{background: 'white', borderRadius: '12px', padding: '16px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'}}>
-                      <div style={{fontSize: '0.8em', fontWeight: '800', color: '#1e293b', marginBottom: '14px', textAlign: 'center', paddingBottom: '10px', borderBottom: '2px solid #ffe2e5'}}>🔍 IQC - Lots/Batch</div>
-                      <div style={{height: '140px', display: 'flex', alignItems: 'flex-end', gap: '8px', justifyContent: 'space-around', paddingBottom: '10px'}}>
+                    {/* IQC Chart - Enhanced */}
+                    <div style={{background: 'white', borderRadius: '14px', padding: '18px', border: '2px solid #fecaca', boxShadow: '0 2px 8px rgba(239, 68, 68, 0.1)', transition: 'all 0.3s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(239, 68, 68, 0.2)'; e.currentTarget.style.transform = 'translateY(-4px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(239, 68, 68, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
+                      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', paddingBottom: '12px', borderBottom: '3px solid #ef4444'}}>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                          <div style={{fontSize: '1.4em'}}>🔍</div>
+                          <div style={{fontSize: '0.85em', fontWeight: '800', color: '#1e293b'}}>IQC - Lots/Batch</div>
+                        </div>
+                        <div style={{fontSize: '0.7em', fontWeight: '700', color: '#ef4444', background: '#fef2f2', padding: '4px 8px', borderRadius: '6px'}}>745 Total</div>
+                      </div>
+                      <div style={{height: '150px', display: 'flex', alignItems: 'flex-end', gap: '10px', justifyContent: 'space-around', paddingBottom: '10px'}}>
                         {[{m: 'Jul', v: 119}, {m: 'Aug', v: 196}, {m: 'Sep', v: 175}, {m: 'Oct', v: 112}, {m: 'Nov', v: 143}].map((d, i) => (
-                          <div key={i} style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px'}}>
-                            <div style={{width: '100%', height: `${(d.v / 196) * 120}px`, background: 'linear-gradient(180deg, #ef4444, #dc2626)', borderRadius: '4px 4px 0 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '4px', fontSize: '0.65em', fontWeight: '700', color: 'white'}}>{d.v}</div>
-                            <div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b'}}>{d.m}</div>
+                          <div key={i} style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px'}}>
+                            <div style={{width: '100%', height: `${(d.v / 196) * 130}px`, background: 'linear-gradient(180deg, #ef4444, #dc2626)', borderRadius: '6px 6px 0 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6px', fontSize: '0.7em', fontWeight: '800', color: 'white', boxShadow: '0 4px 8px rgba(239, 68, 68, 0.3)', transition: 'all 0.3s ease'}}>{d.v}</div>
+                            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#64748b'}}>{d.m}</div>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    {/* FQC Chart */}
-                    <div style={{background: 'white', borderRadius: '12px', padding: '16px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'}}>
-                      <div style={{fontSize: '0.8em', fontWeight: '800', color: '#1e293b', marginBottom: '14px', textAlign: 'center', paddingBottom: '10px', borderBottom: '2px solid #dbeafe'}}>✓ FQC - Lots/Batch</div>
-                      <div style={{height: '140px', display: 'flex', alignItems: 'flex-end', gap: '8px', justifyContent: 'space-around', paddingBottom: '10px'}}>
+                    {/* FQC Chart - Enhanced */}
+                    <div style={{background: 'white', borderRadius: '14px', padding: '18px', border: '2px solid #bfdbfe', boxShadow: '0 2px 8px rgba(59, 130, 246, 0.1)', transition: 'all 0.3s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.2)'; e.currentTarget.style.transform = 'translateY(-4px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(59, 130, 246, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
+                      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', paddingBottom: '12px', borderBottom: '3px solid #3b82f6'}}>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                          <div style={{fontSize: '1.4em'}}>✓</div>
+                          <div style={{fontSize: '0.85em', fontWeight: '800', color: '#1e293b'}}>FQC - Lots/Batch</div>
+                        </div>
+                        <div style={{fontSize: '0.7em', fontWeight: '700', color: '#3b82f6', background: '#eff6ff', padding: '4px 8px', borderRadius: '6px'}}>419 Total</div>
+                      </div>
+                      <div style={{height: '150px', display: 'flex', alignItems: 'flex-end', gap: '10px', justifyContent: 'space-around', paddingBottom: '10px'}}>
                         {[{m: 'Jul', v: 72}, {m: 'Aug', v: 52}, {m: 'Sep', v: 93}, {m: 'Oct', v: 95}, {m: 'Nov', v: 107}].map((d, i) => (
-                          <div key={i} style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px'}}>
-                            <div style={{width: '100%', height: `${(d.v / 107) * 120}px`, background: 'linear-gradient(180deg, #3b82f6, #1d4ed8)', borderRadius: '4px 4px 0 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '4px', fontSize: '0.65em', fontWeight: '700', color: 'white'}}>{d.v}</div>
-                            <div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b'}}>{d.m}</div>
+                          <div key={i} style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px'}}>
+                            <div style={{width: '100%', height: `${(d.v / 107) * 130}px`, background: 'linear-gradient(180deg, #3b82f6, #1d4ed8)', borderRadius: '6px 6px 0 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6px', fontSize: '0.7em', fontWeight: '800', color: 'white', boxShadow: '0 4px 8px rgba(59, 130, 246, 0.3)', transition: 'all 0.3s ease'}}>{d.v}</div>
+                            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#64748b'}}>{d.m}</div>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    {/* IPQC Chart */}
-                    <div style={{background: 'white', borderRadius: '12px', padding: '16px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'}}>
-                      <div style={{fontSize: '0.8em', fontWeight: '800', color: '#1e293b', marginBottom: '14px', textAlign: 'center', paddingBottom: '10px', borderBottom: '2px solid #fef3c7'}}>🎯 IPQC - Lots/Batch</div>
-                      <div style={{height: '140px', display: 'flex', alignItems: 'flex-end', gap: '8px', justifyContent: 'space-around', paddingBottom: '10px'}}>
+                    {/* IPQC Chart - Enhanced */}
+                    <div style={{background: 'white', borderRadius: '14px', padding: '18px', border: '2px solid #fde68a', boxShadow: '0 2px 8px rgba(245, 158, 11, 0.1)', transition: 'all 0.3s ease', cursor: 'pointer'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(245, 158, 11, 0.2)'; e.currentTarget.style.transform = 'translateY(-4px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(245, 158, 11, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
+                      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', paddingBottom: '12px', borderBottom: '3px solid #f59e0b'}}>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                          <div style={{fontSize: '1.4em'}}>🎯</div>
+                          <div style={{fontSize: '0.85em', fontWeight: '800', color: '#1e293b'}}>IPQC - Lots/Batch</div>
+                        </div>
+                        <div style={{fontSize: '0.7em', fontWeight: '700', color: '#f59e0b', background: '#fffbeb', padding: '4px 8px', borderRadius: '6px'}}>232 Total</div>
+                      </div>
+                      <div style={{height: '150px', display: 'flex', alignItems: 'flex-end', gap: '10px', justifyContent: 'space-around', paddingBottom: '10px'}}>
                         {[{m: 'Jul', v: 52}, {m: 'Aug', v: 49}, {m: 'Sep', v: 49}, {m: 'Oct', v: 40}, {m: 'Nov', v: 42}].map((d, i) => (
-                          <div key={i} style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px'}}>
-                            <div style={{width: '100%', height: `${(d.v / 52) * 120}px`, background: 'linear-gradient(180deg, #f59e0b, #d97706)', borderRadius: '4px 4px 0 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '4px', fontSize: '0.65em', fontWeight: '700', color: 'white'}}>{d.v}</div>
-                            <div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b'}}>{d.m}</div>
+                          <div key={i} style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px'}}>
+                            <div style={{width: '100%', height: `${(d.v / 52) * 130}px`, background: 'linear-gradient(180deg, #f59e0b, #d97706)', borderRadius: '6px 6px 0 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6px', fontSize: '0.7em', fontWeight: '800', color: 'white', boxShadow: '0 4px 8px rgba(245, 158, 11, 0.3)', transition: 'all 0.3s ease'}}>{d.v}</div>
+                            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#64748b'}}>{d.m}</div>
                           </div>
                         ))}
                       </div>
