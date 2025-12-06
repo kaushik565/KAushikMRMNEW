@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Chart, registerables } from 'chart.js'
-import { incidentData, incidentDuration, correctiveActionData, preventiveActionData, outOfServiceData, changeControlData } from '../data'
+import { incidentData, incidentDuration, correctiveActionData, preventiveActionData, outOfServiceData, changeControlData, siteIIncidentsData, siteIIIIncidentsData, siteVIncidentsData, siteICAData, siteIIICAData, siteVCAData, siteIPAData, siteIIIPAData, siteVPAData, siteIOOSData, siteIIIOOSData, siteVOOSData, siteIChangeControlData, siteIIIChangeControlData, siteVChangeControlData } from '../data'
 import caChartImage from '../../image (6).png'
 import paChartImage from '../../image (5).png'
 
@@ -8,6 +8,7 @@ Chart.register(...registerables)
 
 export default function EmptySlide() {
   const [selectedCategory, setSelectedCategory] = useState(null)
+  const [selectedSite, setSelectedSite] = useState(null)
   const chartRef = useRef(null)
   const chartInstance = useRef(null)
   const oosChartRef = useRef(null)
@@ -536,7 +537,7 @@ export default function EmptySlide() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '16px' }}>
               {/* SITE-I Incidents */}
               <div 
-                onClick={() => setSelectedCategory('Incidents')}
+                onClick={() => { setSelectedCategory('Incidents'); setSelectedSite('SITE-I') }}
                 style={{
                   background: 'linear-gradient(135deg, #fef2f2 0%, #fff5f5 100%)',
                   borderLeft: '5px solid #dc2626',
@@ -564,7 +565,7 @@ export default function EmptySlide() {
               
               {/* SITE-I CA */}
               <div 
-                onClick={() => setSelectedCategory('CA')}
+                  onClick={() => { setSelectedCategory('CA'); setSelectedSite('SITE-I') }}
                 style={{
                   background: 'linear-gradient(135deg, #f3e8ff 0%, #fae8ff 100%)',
                   borderLeft: '5px solid #8b5cf6',
@@ -588,7 +589,7 @@ export default function EmptySlide() {
               
               {/* SITE-I PA */}
               <div 
-                onClick={() => setSelectedCategory('PA')}
+                  onClick={() => { setSelectedCategory('PA'); setSelectedSite('SITE-I') }}
                 style={{
                   background: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)',
                   borderLeft: '5px solid #10b981',
@@ -616,7 +617,7 @@ export default function EmptySlide() {
               
               {/* SITE-I OOS */}
               <div 
-                onClick={() => setSelectedCategory('Out of Specifications')}
+                  onClick={() => { setSelectedCategory('Out of Specifications'); setSelectedSite('SITE-I') }}
                 style={{
                   background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
                   borderLeft: '5px solid #f59e0b',
@@ -680,7 +681,7 @@ export default function EmptySlide() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '16px' }}>
               {/* SITE-III Incidents */}
               <div 
-                onClick={() => setSelectedCategory('Incidents')}
+                  onClick={() => { setSelectedCategory('Incidents'); setSelectedSite('SITE-III') }}
                 style={{
                   background: 'linear-gradient(135deg, #fef2f2 0%, #fff5f5 100%)',
                   borderLeft: '5px solid #dc2626',
@@ -709,7 +710,7 @@ export default function EmptySlide() {
 
               {/* SITE-III CA */}
               <div 
-                onClick={() => setSelectedCategory('CA')}
+                    onClick={() => { setSelectedCategory('CA'); setSelectedSite('SITE-III') }}
                 style={{
                   background: 'linear-gradient(135deg, #f3e8ff 0%, #fae8ff 100%)',
                   borderLeft: '5px solid #8b5cf6',
@@ -739,7 +740,7 @@ export default function EmptySlide() {
 
               {/* SITE-III PA */}
               <div 
-                onClick={() => setSelectedCategory('PA')}
+                    onClick={() => { setSelectedCategory('PA'); setSelectedSite('SITE-III') }}
                 style={{
                   background: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)',
                   borderLeft: '5px solid #10b981',
@@ -767,7 +768,7 @@ export default function EmptySlide() {
 
               {/* SITE-III OOS */}
               <div 
-                onClick={() => setSelectedCategory('Out of Specifications')}
+                    onClick={() => { setSelectedCategory('Out of Specifications'); setSelectedSite('SITE-III') }}
                 style={{
                   background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
                   borderLeft: '5px solid #f59e0b',
@@ -831,7 +832,7 @@ export default function EmptySlide() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '16px' }}>
               {/* SITE-V Incidents */}
               <div 
-                onClick={() => setSelectedCategory('Incidents')}
+                    onClick={() => { setSelectedCategory('Incidents'); setSelectedSite('SITE-V') }}
                 style={{
                   background: 'linear-gradient(135deg, #fef2f2 0%, #fff5f5 100%)',
                   borderLeft: '5px solid #dc2626',
@@ -859,7 +860,7 @@ export default function EmptySlide() {
               
               {/* SITE-V CA */}
               <div 
-                onClick={() => setSelectedCategory('CA')}
+                      onClick={() => { setSelectedCategory('CA'); setSelectedSite('SITE-V') }}
                 style={{
                   background: 'linear-gradient(135deg, #f3e8ff 0%, #fae8ff 100%)',
                   borderLeft: '5px solid #8b5cf6',
@@ -887,7 +888,7 @@ export default function EmptySlide() {
               
               {/* SITE-V PA */}
               <div 
-                onClick={() => setSelectedCategory('PA')}
+                      onClick={() => { setSelectedCategory('PA'); setSelectedSite('SITE-V') }}
                 style={{
                   background: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)',
                   borderLeft: '5px solid #10b981',
@@ -915,7 +916,7 @@ export default function EmptySlide() {
               
               {/* SITE-V OOS */}
               <div 
-                onClick={() => setSelectedCategory('Out of Specifications')}
+                      onClick={() => { setSelectedCategory('Out of Specifications'); setSelectedSite('SITE-V') }}
                 style={{
                   background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
                   borderLeft: '5px solid #f59e0b',

@@ -4,204 +4,294 @@ import {
 } from '../data'
 
 export default function ExecutiveSummary() {
-  // Calculate all metrics
-  const sum = (arr) => arr.reduce((a, b) => a + b, 0)
-  
-  // Incidents
-  const totalIncidents = sum(incidentData.minor) + sum(incidentData.major) + sum(incidentData.critical)
-  const latestIndex = incidentDuration.labels.length - 1
-  const latestClosure = Math.floor(incidentDuration.closure[latestIndex])
-  const peakClosure = Math.floor(Math.max(...incidentDuration.closure))
-  const closureDropPct = Math.round(((peakClosure - latestClosure) / peakClosure) * 100)
-  
-  // Line Clearance
-  const avgLineApproval = Math.round(lineApprovalRates.clearance.reduce((a, b) => a + b, 0) / lineApprovalRates.clearance.length * 10) / 10
-  
-  // Corrective Actions
-  const caClosureImprovement = Math.round(((correctiveActionData.avgDaysToClosure[0] - correctiveActionData.avgDaysToClosure[1]) / correctiveActionData.avgDaysToClosure[0]) * 100)
-  const caTotal = sum(correctiveActionData.total)
-  
-  // Preventive Actions
-  const paClosureImprovement = Math.round(((preventiveActionData.avgDaysToClosure[0] - preventiveActionData.avgDaysToClosure[1]) / preventiveActionData.avgDaysToClosure[0]) * 100)
-  
-  // Out of Service
-  const oosImprovement = Math.round(((outOfServiceData.avgDaysToClosure[0] - outOfServiceData.avgDaysToClosure[5]) / outOfServiceData.avgDaysToClosure[0]) * 100)
-  
-  // Change Controls
-  const ccImprovement = Math.round(((changeControlData.avgDaysClosure.data[0] - changeControlData.avgDaysClosure.data[10]) / changeControlData.avgDaysClosure.data[0]) * 100)
-  
-  // Calibrations
-  const totalCalibrations = sum(calibrationData.counts)
-  
-  // Before/After metrics for detailed comparison
-  const metrics = {
-    incidentClosure: {
-      before: peakClosure,
-      after: latestClosure,
-      improvement: closureDropPct
+  // 3 Sites Data
+  const sitesData = {
+    'SITE-I': {
+      Incidents: { total: 262, improvement: 13, from: 20, to: 17 },
+      CA: { total: 89, improvement: -42, from: 2, to: 4 },
+      PA: { total: 29, improvement: 56, from: 25, to: 11 },
+      OOS: { total: 259, improvement: 49, avg: 21, latest: 17 },
+      CC: { total: 492, improvement: 13, from: 46, to: 40 }
     },
-    ca: {
-      before: correctiveActionData.avgDaysToClosure[0],
-      after: correctiveActionData.avgDaysToClosure[1],
-      improvement: caClosureImprovement
+    'SITE-III': {
+      Incidents: { total: 82, improvement: 42, from: 24, to: 14 },
+      CA: { total: 52, improvement: 16, from: 56, to: 47 },
+      PA: { total: 66, improvement: 6, from: 36, to: 34 },
+      OOS: { total: 159, improvement: 49, avg: 14, latest: 9 },
+      CC: { total: 261, improvement: 61, from: 41, to: 16 }
     },
-    pa: {
-      before: preventiveActionData.avgDaysToClosure[0],
-      after: preventiveActionData.avgDaysToClosure[1],
-      improvement: paClosureImprovement
-    },
-    oos: {
-      before: outOfServiceData.avgDaysToClosure[0],
-      after: Math.floor(outOfServiceData.avgDaysToClosure[5]),
-      improvement: oosImprovement
-    },
-    cc: {
-      before: Math.floor(changeControlData.avgDaysClosure.data[0]),
-      after: Math.floor(changeControlData.avgDaysClosure.data[10]),
-      improvement: ccImprovement
+    'SITE-V': {
+      Incidents: { total: 196, improvement: 59, from: 17, to: 7 },
+      CA: { total: 57, improvement: 71, from: 5, to: 4 },
+      PA: { total: 41, improvement: 20, from: 40, to: 32 },
+      OOS: { total: 89, improvement: 59, avg: 12, latest: 7 },
+      CC: { total: 178, improvement: 23, from: 50, to: 39 }
     }
   }
 
-  const MetricCard = ({ value, label, metric, color }) => (
-    <div style={{
-      padding: '16px',
-      backgroundColor: '#f8fafc',
-      borderLeft: `5px solid ${color}`,
-      borderRadius: '4px'
-    }}>
-      <div style={{ fontSize: '0.8em', fontWeight: '600', color: '#6b7280', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-        {label}
-      </div>
-      <div style={{ fontSize: '2.2em', fontWeight: '800', color: color, marginBottom: '4px' }}>
-        {value}
-      </div>
-      <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-        {metric}
-      </div>
-    </div>
-  )
+  const categoryColors = {
+    Incidents: '#ef4444',
+    CA: '#8b5cf6',
+    PA: '#f59e0b',
+    OOS: '#f97316',
+    CC: '#3b82f6'
+  }
 
-  return (
-    <section className="content-slide">
-      <h2 style={{ borderBottom: '4px solid #b91c1c', paddingBottom: '8px', marginBottom: '16px', color: '#b91c1c' }}>
-        Executive Summary – Quality Performance Overview
-      </h2>
+  const siteColors = {
+    'SITE-I': '#dc2626',
+    'SITE-III': '#8b5cf6',
+    'SITE-V': '#0ea5e9'
+  }
 
-      {/* Top Row - Main Performance Metrics */}
+  // Comparison chart component
+  const ComparisonChart = ({ site, data }) => {
+    return (
+      <div style={{ marginBottom: '12px' }}>
+        <h3 style={{ fontSize: '0.9em', fontWeight: '700', color: siteColors[site], marginBottom: '10px', marginTop: '0px' }}>
+          {site}
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px' }}>
+          {Object.entries(data).map(([category, metrics]) => {
+            const isNegative = metrics.improvement < 0
+            const barHeight = Math.abs(metrics.improvement)
+            return (
+              <div key={category} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                backgroundColor: '#f8fafc',
+                padding: '10px',
+                borderRadius: '6px',
+                border: `2px solid ${categoryColors[category]}30`
+              }}>
+                <div style={{
+                  width: '100%',
+                  height: '80px',
+                  backgroundColor: '#f3f4f6',
+                  borderRadius: '4px',
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'center',
+                  marginBottom: '8px',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{
+                    width: '70%',
+                    height: `${Math.min(barHeight, 80)}px`,
+                    backgroundColor: isNegative ? '#ef4444' : categoryColors[category],
+                    borderRadius: '3px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#ffffff',
+                    fontWeight: '700',
+                    fontSize: '0.85em',
+                    position: 'relative'
+                  }}>
+                    {Math.abs(metrics.improvement)}%
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.75em', fontWeight: '700', color: '#111827', marginBottom: '2px', textAlign: 'center' }}>
+                  {category}
+                </div>
+                <div style={{ fontSize: '0.7em', color: '#6b7280', textAlign: 'center', marginBottom: '2px' }}>
+                  {metrics.from || metrics.avg} → {metrics.to || metrics.latest}
+                </div>
+                <div style={{ fontSize: '0.65em', color: '#9ca3af' }}>
+                  {metrics.total} items
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  // Overall comparison bar
+  const OverallComparison = () => {
+    const categories = ['Incidents', 'CA', 'PA', 'OOS', 'CC']
+    const improvements = categories.map(cat => {
+      let sum = 0, count = 0
+      Object.values(sitesData).forEach(site => {
+        if (site[cat]) {
+          sum += site[cat].improvement
+          count++
+        }
+      })
+      return Math.round(sum / count)
+    })
+
+    return (
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '16px',
-        marginBottom: '20px'
+        padding: '14px',
+        backgroundColor: '#f0f9ff',
+        border: '2px solid #0ea5e9',
+        borderRadius: '8px',
+        marginBottom: '14px'
       }}>
-        <MetricCard
-          value={`↓${closureDropPct}%`}
-          label="Incidents"
-          metric={`${peakClosure} → ${latestClosure} days`}
-          color="#dc2626"
-        />
-        <MetricCard
-          value={`↓${caClosureImprovement}%`}
-          label="Corrective Actions"
-          metric={`${caTotal} total processed`}
-          color="#8b5cf6"
-        />
-        <MetricCard
-          value={`${avgLineApproval}%`}
-          label="Line Approval"
-          metric="Within control limits"
-          color="#22c55e"
-        />
-        <MetricCard
-          value={`↓${paClosureImprovement}%`}
-          label="Preventive Actions"
-          metric={`${preventiveActionData.avgDaysToClosure[1]} days current`}
-          color="#f59e0b"
-        />
+        <h3 style={{ fontSize: '0.95em', fontWeight: '700', color: '#0ea5e9', marginBottom: '12px', marginTop: '0px' }}>
+          📊 Overall Performance (Average Improvement Across All Sites)
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
+          {categories.map((cat, idx) => (
+            <div key={cat} style={{ textAlign: 'center' }}>
+              <div style={{
+                width: '100%',
+                height: '100px',
+                backgroundColor: '#e0f2fe',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'center',
+                marginBottom: '8px',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: '60%',
+                  height: `${Math.min(Math.abs(improvements[idx]), 100)}px`,
+                  backgroundColor: improvements[idx] < 0 ? '#ef4444' : categoryColors[cat],
+                  borderRadius: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#ffffff',
+                  fontWeight: '800',
+                  fontSize: '1em'
+                }}>
+                  {Math.abs(improvements[idx])}%
+                </div>
+              </div>
+              <div style={{ fontSize: '0.8em', fontWeight: '700', color: '#111827' }}>
+                {cat}
+              </div>
+              <div style={{ fontSize: '0.7em', color: '#6b7280', marginTop: '4px' }}>
+                Avg Improvement
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+    )
+  }
 
-      {/* Middle Row - Process Status */}
+  // Site comparison grid
+  const SiteComparisonGrid = () => {
+    return (
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '16px',
-        marginBottom: '20px'
+        gap: '12px',
+        marginBottom: '14px'
       }}>
-        <MetricCard
-          value={`↓${oosImprovement}%`}
-          label="Out of Specifications"
-          metric={`${Math.floor(outOfServiceData.avgDaysToClosure[5])} days current`}
-          color="#f97316"
-        />
-        <MetricCard
-          value={`↓${ccImprovement}%`}
-          label="Change Controls"
-          metric={`${Math.floor(changeControlData.avgDaysClosure.data[10])} days current`}
-          color="#3b82f6"
-        />
-        <MetricCard
-          value={totalCalibrations}
-          label="Total Calibrations"
-          metric="units completed"
-          color="#06b6d4"
-        />
-      </div>
+        {Object.entries(sitesData).map(([site, data]) => {
+          const totalItems = Object.values(data).reduce((sum, m) => sum + m.total, 0)
+          const avgImprovement = Math.round(
+            Object.values(data).reduce((sum, m) => sum + m.improvement, 0) / Object.values(data).length
+          )
 
-        {/* Detailed Improvements Grid */}
-        <div style={{ marginTop: '16px', marginBottom: '0px' }}>
-          <h3 style={{ fontSize: '0.95em', fontWeight: '700', color: '#111827', marginBottom: '12px', marginTop: '0px' }}>
-            Detailed Performance Improvements (Before → After)
-          </h3>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
-            gap: '10px'
-          }}>
-            {[
-              { title: 'Incidents Closed', subtitle: `${metrics.incidentClosure.before} → ${metrics.incidentClosure.after} days`, ...metrics.incidentClosure },
-              { title: 'CA Improvement', subtitle: 'Closure efficiency', ...metrics.ca },
-              { title: 'PA Closure', subtitle: 'Preventive actions', ...metrics.pa },
-              { title: 'Out of Spec', subtitle: 'OOS resolution', ...metrics.oos },
-              { title: 'Change Control', subtitle: 'CC time reduction', ...metrics.cc }
-            ].map((item, idx) => (
-              <div key={idx} style={{
-                backgroundColor: '#ffffff',
-                padding: '10px',
-                borderRadius: '4px',
-                border: '1px solid #e5e7eb',
-                textAlign: 'center',
-                fontSize: '0.8em'
+          return (
+            <div key={site} style={{
+              padding: '14px',
+              backgroundColor: siteColors[site] + '10',
+              border: `3px solid ${siteColors[site]}`,
+              borderRadius: '8px'
+            }}>
+              <div style={{
+                fontSize: '1em',
+                fontWeight: '800',
+                color: siteColors[site],
+                marginBottom: '8px'
               }}>
-                <div style={{ fontWeight: '700', color: '#111827', marginBottom: '2px' }}>
-                  {item.title}
-                </div>
-                <div style={{ fontSize: '0.7em', color: '#6b7280', marginBottom: '6px' }}>
-                  {item.subtitle}
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '6px', fontSize: '0.75em' }}>
-                  <div>
-                    <span style={{ color: '#6b7280' }}>Before:</span>
-                    <div style={{ fontWeight: '700', color: '#dc2626' }}>{item.before}</div>
+                {site}
+              </div>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                marginBottom: '10px'
+              }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{
+                    fontSize: '1.8em',
+                    fontWeight: '800',
+                    color: siteColors[site]
+                  }}>
+                    {avgImprovement}%
                   </div>
-                  <div>
-                    <span style={{ color: '#6b7280' }}>After:</span>
-                    <div style={{ fontWeight: '700', color: '#22c55e' }}>{item.after}</div>
+                  <div style={{ fontSize: '0.7em', color: '#6b7280' }}>
+                    Avg Improvement
                   </div>
                 </div>
-                <div style={{
-                  backgroundColor: '#eff6ff',
-                  padding: '4px',
-                  borderRadius: '3px',
-                  fontSize: '0.8em',
-                  fontWeight: '800',
-                  color: '#3b82f6'
-                }}>
-                  ↓ {item.improvement}%
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{
+                    fontSize: '1.8em',
+                    fontWeight: '800',
+                    color: '#111827'
+                  }}>
+                    {totalItems}
+                  </div>
+                  <div style={{ fontSize: '0.7em', color: '#6b7280' }}>
+                    Total Items
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
+              <div style={{
+                fontSize: '0.75em',
+                color: '#6b7280',
+                lineHeight: '1.4',
+                paddingTop: '8px',
+                borderTop: `1px solid ${siteColors[site]}30`
+              }}>
+                <div>✓ Incidents: {data.Incidents.improvement}%</div>
+                <div>✓ PA: {data.PA.improvement}%</div>
+                <div>✓ OOS: {data.OOS.improvement}%</div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  return (
+    <section className="content-slide" style={{ overflowY: 'auto', maxHeight: '100%' }}>
+      <h2 style={{ borderBottom: '4px solid #b91c1c', paddingBottom: '8px', marginBottom: '14px', color: '#b91c1c' }}>
+        📊 Executive Summary – QMS Performance Across 3 Sites
+      </h2>
+
+      {/* Overall Performance Chart */}
+      <OverallComparison />
+
+      {/* Site Comparison Grid */}
+      <SiteComparisonGrid />
+
+      {/* Detailed Charts for Each Site */}
+      <div style={{
+        padding: '12px',
+        backgroundColor: '#f8fafc',
+        borderRadius: '8px',
+        border: '1px solid #e5e7eb'
+      }}>
+        {Object.entries(sitesData).map(([site, data]) => (
+          <ComparisonChart key={site} site={site} data={data} />
+        ))}
+      </div>
+
+      {/* Key Highlights */}
+      <div style={{
+        marginTop: '12px',
+        padding: '12px',
+        backgroundColor: '#fef3c7',
+        borderLeft: '5px solid #f59e0b',
+        borderRadius: '6px',
+        fontSize: '0.8em'
+      }}>
+        <strong style={{ color: '#92400e' }}>🎯 Top Achievements:</strong>
+        <div style={{ color: '#92400e', marginTop: '4px', lineHeight: '1.4' }}>
+          ⭐ SITE-V CA: +71% improvement | ⭐ SITE-III CC: +61% improvement | ⭐ SITE-V Incidents: +59% improvement
         </div>
+      </div>
     </section>
   )
 }

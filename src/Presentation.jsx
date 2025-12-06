@@ -1,8 +1,9 @@
 ﻿import { useEffect } from 'react'
 import Reveal from 'reveal.js'
 import TitleSlide from './slides/TitleSlide'
+import SiteOverview from './slides/SiteOverview'
 import ExecutiveSummary from './slides/ExecutiveSummary'
-import EmptySlide from './slides/EmptySlide'
+import IPQAOverview from './slides/IPQAOverview'
 import LineClearance from './slides/LineClearance'
 import IncidentTrend from './slides/IncidentTrend'
 import CalibrationThroughput from './slides/CalibrationThroughput'
@@ -30,7 +31,7 @@ export default function Presentation() {
           transition: 'slide',
           transitionSpeed: 'default',
           slideNumber: 'c/t',
-          keyboard: true,
+          keyboard: false,
           overview: true,
           touch: true,
           loop: false,
@@ -57,6 +58,31 @@ export default function Presentation() {
         })
 
         deck.initialize()
+
+        // Custom keyboard controls for arrow keys
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowDown') {
+            e.preventDefault()
+            const currentSlide = document.querySelector('.reveal .present')
+            if (currentSlide) {
+              currentSlide.parentElement.scrollBy({ top: 150, behavior: 'smooth' })
+            }
+            window.scrollBy({ top: 150, behavior: 'smooth' })
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault()
+            const currentSlide = document.querySelector('.reveal .present')
+            if (currentSlide) {
+              currentSlide.parentElement.scrollBy({ top: -150, behavior: 'smooth' })
+            }
+            window.scrollBy({ top: -150, behavior: 'smooth' })
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault()
+            deck.right()
+          } else if (e.key === 'ArrowLeft') {
+            e.preventDefault()
+            deck.left()
+          }
+        })
       }
     }, 150)
 
@@ -72,8 +98,9 @@ export default function Presentation() {
         <img src="https://new.molbiodiagnostics.com/mailSignature/png/Molbio_Logo.png" alt="Molbio Diagnostics Limited" />
       </div>
       <TitleSlide />
+      <SiteOverview />
       <ExecutiveSummary />
-      <EmptySlide />
+      <IPQAOverview />
       <LineClearance />
       <IncidentTrend />
       <CalibrationThroughput />

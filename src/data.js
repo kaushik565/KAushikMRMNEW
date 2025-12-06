@@ -906,3 +906,172 @@ export const changeControlData = {
         data: [29, 25, 33, 27, 11, 29, 33]
     }
 }
+
+// SITE-I Change Control Data
+export const siteIChangeControlData = {
+    monthly: [
+        { month: 'JAN - JUNE', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'JULY', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'AUGUST', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'SEPTEMBER', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'OCTOBER', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'NOVEMBER', days: 0, count: 0, closed: 0, percent: 0, whole: 0 }
+    ]
+}
+
+// SITE-III Change Control Data
+export const siteIIIChangeControlData = {
+    monthly: [
+        { month: 'JAN - JUNE', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'JULY', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'AUGUST', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'SEPTEMBER', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'OCTOBER', days: 0, count: 0, closed: 0, percent: 0, whole: 0 },
+        { month: 'NOVEMBER', days: 0, count: 0, closed: 0, percent: 0, whole: 0 }
+    ]
+}
+
+// SITE-V Change Control Data
+export const siteVChangeControlData = {
+    monthly: [
+        { month: 'JAN - JUNE', days: 50, count: 232, closed: 19, percent: 8.1, whole: 8 },
+        { month: 'JULY', days: 46, count: 34, closed: 6, percent: 17.6, whole: 18 },
+        { month: 'AUGUST', days: 40, count: 30, closed: 2, percent: 6.6, whole: 7 },
+        { month: 'SEPTEMBER', days: 38, count: 23, closed: 3, percent: 13, whole: 13 },
+        { month: 'OCTOBER', days: 12, count: 34, closed: 5, percent: 14.7, whole: 15 },
+        { month: 'NOVEMBER', days: 30, count: 23, closed: 0, percent: 0, whole: 0 }
+    ]
+}
+
+// ============= SITE-SPECIFIC INCIDENTS DATA =============
+export const siteIIncidentsData = {
+    monthly: [
+        { month: 'JAN - MAY', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 },
+        { month: 'JUN - AUG', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 },
+        { month: 'SEPTEMBER', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 },
+        { month: 'OCTOBER', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 },
+        { month: 'NOVEMBER', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 }
+    ]
+}
+
+export const siteIIIIncidentsData = {
+    monthly: [
+        { month: 'JAN - MAY', minor: 20, major: 2, critical: 0, closureDays: 24.2, investigationDays: 3.6 },
+        { month: 'JUN - AUG', minor: 5, major: 0, critical: 1, closureDays: 25, investigationDays: 25 },
+        { month: 'SEPTEMBER', minor: 7, major: 2, critical: 0, closureDays: 14, investigationDays: 7 },
+        { month: 'OCTOBER', minor: 5, major: 0, critical: 0, closureDays: 23, investigationDays: 1 },
+        { month: 'NOVEMBER', minor: 6, major: 0, critical: 0, closureDays: 17, investigationDays: 4 }
+    ]
+}
+
+export const siteVIncidentsData = {
+    monthly: [
+        { month: 'JAN - MAY', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 },
+        { month: 'JUN - AUG', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 },
+        { month: 'SEPTEMBER', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 },
+        { month: 'OCTOBER', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 },
+        { month: 'NOVEMBER', minor: 0, major: 0, critical: 0, closureDays: 0, investigationDays: 0 }
+    ]
+}
+
+// ============= SITE-SPECIFIC CORRECTIVE ACTIONS (CA) DATA =============
+export const siteICAData = {
+    monthly: [
+        { month: 'JAN - JUNE', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'JULY', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'AUGUST', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'SEPTEMBER', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'OCTOBER', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'NOVEMBER', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 }
+    ]
+}
+
+export const siteIIICAData = {
+    monthly: [
+        { month: 'JAN - JUNE', avgDays: 51, mncCount: 10, ncCount: 3, total: 13 },
+        { month: 'JULY', avgDays: 43, mncCount: 5, ncCount: 2, total: 7 },
+        { month: 'AUGUST', avgDays: 41, mncCount: 6, ncCount: 1, total: 7 },
+        { month: 'SEPTEMBER', avgDays: 39, mncCount: 7, ncCount: 3, total: 10 },
+        { month: 'OCTOBER', avgDays: 38, mncCount: 8, ncCount: 2, total: 10 },
+        { month: 'NOVEMBER', avgDays: 36, mncCount: 8, ncCount: 0, total: 8 }
+    ]
+}
+
+export const siteVCAData = {
+    monthly: [
+        { month: 'JAN - JUNE', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'JULY', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'AUGUST', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'SEPTEMBER', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'OCTOBER', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 },
+        { month: 'NOVEMBER', avgDays: 0, mncCount: 0, ncCount: 0, total: 0 }
+    ]
+}
+
+// ============= SITE-SPECIFIC PREVENTIVE ACTIONS (PA) DATA =============
+export const siteIPAData = {
+    monthly: [
+        { month: 'JAN - JUNE', avgDays: 0 },
+        { month: 'JULY', avgDays: 0 },
+        { month: 'AUGUST', avgDays: 0 },
+        { month: 'SEPTEMBER', avgDays: 0 },
+        { month: 'OCTOBER', avgDays: 0 },
+        { month: 'NOVEMBER', avgDays: 0 }
+    ]
+}
+
+export const siteIIIPAData = {
+    monthly: [
+        { month: 'JAN - JUNE', avgDays: 64 },
+        { month: 'JULY', avgDays: 60 },
+        { month: 'AUGUST', avgDays: 58 },
+        { month: 'SEPTEMBER', avgDays: 56 },
+        { month: 'OCTOBER', avgDays: 54 },
+        { month: 'NOVEMBER', avgDays: 52 }
+    ]
+}
+
+export const siteVPAData = {
+    monthly: [
+        { month: 'JAN - JUNE', avgDays: 0 },
+        { month: 'JULY', avgDays: 0 },
+        { month: 'AUGUST', avgDays: 0 },
+        { month: 'SEPTEMBER', avgDays: 0 },
+        { month: 'OCTOBER', avgDays: 0 },
+        { month: 'NOVEMBER', avgDays: 0 }
+    ]
+}
+
+// ============= SITE-SPECIFIC OUT OF SERVICE (OOS) DATA =============
+export const siteIOOSData = {
+    monthly: [
+        { month: 'JAN - JUNE', avgDays: 0 },
+        { month: 'JULY', avgDays: 0 },
+        { month: 'AUGUST', avgDays: 0 },
+        { month: 'SEPTEMBER', avgDays: 0 },
+        { month: 'OCTOBER', avgDays: 0 },
+        { month: 'NOVEMBER', avgDays: 0 }
+    ]
+}
+
+export const siteIIIOOSData = {
+    monthly: [
+        { month: 'APR - JUNE', avgDays: 27 },
+        { month: 'JULY', avgDays: 47 },
+        { month: 'AUGUST', avgDays: 12 },
+        { month: 'SEPTEMBER', avgDays: 9 },
+        { month: 'OCTOBER', avgDays: 11 },
+        { month: 'NOVEMBER', avgDays: 6 }
+    ]
+}
+
+export const siteVOOSData = {
+    monthly: [
+        { month: 'JAN - JUNE', avgDays: 0 },
+        { month: 'JULY', avgDays: 0 },
+        { month: 'AUGUST', avgDays: 0 },
+        { month: 'SEPTEMBER', avgDays: 0 },
+        { month: 'OCTOBER', avgDays: 0 },
+        { month: 'NOVEMBER', avgDays: 0 }
+    ]
+}

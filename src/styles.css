@@ -28,6 +28,15 @@ body {
     text-align: left;
 }
 
+
+/* Smooth scrolling for content overflow */
+
+.reveal section,
+.reveal section>div,
+.reveal div[style*="overflow"] {
+    scroll-behavior: smooth;
+}
+
 .reveal h1 {
     font-size: 2.6em;
     font-weight: 700;
@@ -1022,4 +1031,34 @@ body.state-title-slide .corner-logo {
     .reveal h2 {
         font-size: 2em;
     }
+}
+
+
+/* Custom Scrollbar Styles */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b91c1c;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #991b1b;
+}
+
+
+/* Firefox Scrollbar */
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #b91c1c #f1f1f1;
 }
