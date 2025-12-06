@@ -96,6 +96,21 @@ body {
     opacity: 0.75;
 }
 
+.title-logo {
+    width: 320px;
+    max-width: 60vw;
+    height: auto;
+    margin-bottom: 28px;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
+}
+
+.title-company {
+    color: var(--primary-red);
+    font-size: 1.6em;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
 
 /* Global Corner Logo */
 
@@ -112,6 +127,13 @@ body {
     width: auto;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+}
+
+
+/* Hide the fixed corner logo on the title slide only */
+
+body.state-title-slide .corner-logo {
+    display: none;
 }
 
 

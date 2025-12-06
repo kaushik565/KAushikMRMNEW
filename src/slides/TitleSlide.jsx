@@ -1,7 +1,10 @@
+const logoUrl = 'https://new.molbiodiagnostics.com/mailSignature/png/Molbio_Logo.png'
+
 export default function TitleSlide() {
   return (
-    <section className="title-slide">
-      <div style={{ color: '#b91c1c', fontSize: '1.5em', fontWeight: '600', marginBottom: '30px' }}>Molbio Diagnostics Limited</div>
+    <section className="title-slide" data-state="title-slide">
+      <img src={logoUrl} alt="Molbio Diagnostics Limited logo" className="title-logo" />
+      <div className="title-company">Molbio Diagnostics Limited</div>
       <h1>Management Review Meeting</h1>
       <div className="date">December 15-16, 2025</div>
       <div style={{ marginTop: '60px', fontSize: '1.2em', color: '#111827' }}>Presented By: Hammed C R</div>
