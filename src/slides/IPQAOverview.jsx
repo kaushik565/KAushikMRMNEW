@@ -16,6 +16,7 @@ export default function IPQAOverview() {
   const [expandedActivity, setExpandedActivity] = useState(null);
   const [selectedDeptChart, setSelectedDeptChart] = useState(null);
   const [selectedCartridgeChart, setSelectedCartridgeChart] = useState(null);
+  const [selectedManufacturingChart, setSelectedManufacturingChart] = useState(null);
 
   // IPQA Key Metrics Data
   const metricsData = {
@@ -675,101 +676,147 @@ export default function IPQAOverview() {
               marginBottom: '24px'
             }}>
               <div style={{
-                background: `linear-gradient(135deg, ${siteData.color}, ${siteData.color}dd)`,
+                background: `linear-gradient(135deg, #8b5cf6, #6d28d9)`,
                 color: 'white',
                 borderRadius: '10px',
                 padding: '8px 12px',
                 fontWeight: '800',
                 fontSize: '0.95em',
                 letterSpacing: '0.5px',
-                boxShadow: `0 4px 12px ${siteData.color}30`
+                boxShadow: `0 4px 12px #8b5cf630`
               }}>
-                ⚙️ MANUFACTURING OVERVIEW
+                ⚙️ MANUFACTURING DEVICE PROCESSES
               </div>
               <div style={{fontSize: '0.8em', fontWeight: '600', color: '#64748b'}}>4 Device Types • 38 Processes</div>
             </div>
 
-            {/* Manufacturing KPI Cards */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '16px',
-              marginBottom: '28px'
-            }}>
-              {[
-                {label: 'Rapid Cell Lysis', icon: '🧬', processes: 3, avgClear: '3:10', avgClose: '3:29', avgRev: '3:47', approval: '99.2%', color: '#3b82f6', bgColor: '#eff6ff', borderColor: '#3b82f6'},
-                {label: 'Two Bay PCR', icon: '🔬', processes: 9, avgClear: '4:22', avgClose: '4:49', avgRev: '3:41', approval: '99.5%', color: '#8b5cf6', bgColor: '#faf5ff', borderColor: '#8b5cf6'},
-                {label: 'Sixteen Bay PCR', icon: '⚡', processes: 3, avgClear: '9:27', avgClose: '10:40', avgRev: '6:42', approval: '98.8%', color: '#ec4899', bgColor: '#fdf2f8', borderColor: '#ec4899'},
-                {label: 'Extraction Device', icon: '🔧', processes: 23, avgClear: '5:36', avgClose: '6:16', avgRev: '4:19', approval: '99.1%', color: '#06b6d4', bgColor: '#ecf8fb', borderColor: '#06b6d4'}
-              ].map((device, idx) => (
-                <div key={idx} style={{background: device.bgColor, border: `2px solid ${device.borderColor}`, borderRadius: '14px', padding: '18px', transition: 'all 0.3s ease', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = `0 8px 20px ${device.color}20`; e.currentTarget.style.transform = 'translateY(-4px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.06)'; e.currentTarget.style.transform = 'translateY(0)';}}>
-                  <div style={{display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px', paddingBottom: '10px', borderBottom: `2px solid ${device.borderColor}30`}}>
-                    <div style={{fontSize: '1.6em'}}>{device.icon}</div>
-                    <div><div style={{fontSize: '0.9em', fontWeight: '800', color: device.color}}>{device.label}</div><div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b'}}>{device.processes} processes</div></div>
-                  </div>
-                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '12px'}}>
-                    <div style={{background: 'white', borderRadius: '8px', padding: '10px', textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.5)'}}><div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b', marginBottom: '4px'}}>Clearance</div><div style={{fontSize: '0.9em', fontWeight: '800', color: '#4338ca'}}>{device.avgClear}</div></div>
-                    <div style={{background: 'white', borderRadius: '8px', padding: '10px', textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.5)'}}><div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b', marginBottom: '4px'}}>Closure</div><div style={{fontSize: '0.9em', fontWeight: '800', color: '#0284c7'}}>{device.avgClose}</div></div>
-                    <div style={{background: 'white', borderRadius: '8px', padding: '10px', textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.5)'}}><div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b', marginBottom: '4px'}}>Re-Verification</div><div style={{fontSize: '0.9em', fontWeight: '800', color: '#b45309'}}>{device.avgRev}</div></div>
-                    <div style={{background: 'white', borderRadius: '8px', padding: '10px', textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.5)'}}><div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b', marginBottom: '4px'}}>Approval Rate</div><div style={{fontSize: '0.9em', fontWeight: '800', color: device.color}}>{device.approval}</div></div>
-                  </div>
-                  <div style={{height: '6px', background: '#f1f5f9', borderRadius: '3px', overflow: 'hidden'}}><div style={{height: '100%', width: device.approval.replace('%', ''), background: `linear-gradient(90deg, ${device.color}, ${device.color}dd)`, borderRadius: '3px', transition: 'width 0.5s ease'}}></div></div>
-                </div>
-              ))}
-            </div>
+            {/* Manufacturing Interactive Carousel */}
+            <div style={{position: 'relative', background: 'linear-gradient(135deg, #faf5ff, #ffffff)', border: '2px solid #e9d5ff', borderRadius: '16px', padding: '24px', overflow: 'hidden', marginBottom: '28px'}}>
+              
+              {/* Left Arrow */}
+              <button onClick={(e) => {
+                const parent = e.currentTarget.parentElement;
+                const container = parent.querySelector('[data-manufacturing-scroll]');
+                container.scrollBy({left: -400, behavior: 'smooth'});
+              }} style={{position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', color: 'white', border: 'none', borderRadius: '50%', width: '44px', height: '44px', cursor: 'pointer', fontSize: '1.4em', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)', transition: 'all 0.3s ease'}}
+              onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.5)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';}}
+              onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)';}}
+              >←</button>
 
-            {/* Process Time Comparison Charts */}
-            <div style={{background: 'linear-gradient(135deg, #f8fafc, #ffffff)', border: '1.5px solid #e2e8f0', borderRadius: '14px', padding: '20px', marginBottom: '28px'}}>
-              <div style={{fontSize: '0.95em', fontWeight: '800', color: '#1e293b', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px'}}><div style={{width: '4px', height: '20px', background: siteData.color, borderRadius: '2px'}}></div>Process Time Comparison</div>
-              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px'}}>
+              {/* Scrollable Devices Container */}
+              <div data-manufacturing-scroll style={{display: 'flex', overflowX: 'auto', gap: '20px', paddingRight: '60px', scrollBehavior: 'smooth', paddingLeft: '60px'}}>
                 {[
-                  {title: '⏱️ Clearance Times', items: [{name: 'Cell Lysis', time: 3.17, color: '#3b82f6'}, {name: 'PCR 2-Bay', time: 4.37, color: '#8b5cf6'}, {name: 'PCR 16-Bay', time: 9.27, color: '#ec4899'}, {name: 'Extraction', time: 5.60, color: '#06b6d4'}], maxTime: 10},
-                  {title: '🔒 Closure Times', items: [{name: 'Cell Lysis', time: 3.50, color: '#3b82f6'}, {name: 'PCR 2-Bay', time: 4.82, color: '#8b5cf6'}, {name: 'PCR 16-Bay', time: 10.67, color: '#ec4899'}, {name: 'Extraction', time: 6.27, color: '#06b6d4'}], maxTime: 12},
-                  {title: '✓ Re-Verification Times', items: [{name: 'Cell Lysis', time: 3.48, color: '#3b82f6'}, {name: 'PCR 2-Bay', time: 3.71, color: '#8b5cf6'}, {name: 'PCR 16-Bay', time: 6.42, color: '#ec4899'}, {name: 'Extraction', time: 4.19, color: '#06b6d4'}], maxTime: 8}
-                ].map((chart, cidx) => (
-                  <div key={cidx} style={{background: 'white', borderRadius: '12px', padding: '16px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'}}>
-                    <div style={{fontSize: '0.85em', fontWeight: '800', color: '#1e293b', marginBottom: '16px', textAlign: 'center', paddingBottom: '10px', borderBottom: '2px solid #e2e8f0'}}>{chart.title}</div>
-                    <div style={{height: '180px', position: 'relative', paddingBottom: '30px'}}>
-                      {chart.items.map((item, i) => {
-                        const height = (item.time / chart.maxTime) * 100;
+                  {name: 'Rapid Cell Lysis', icon: '🧬', processes: 3, color: '#3b82f6', data: {clearance: [3.167, 3.2, 3.15, 3.1], closure: [3.483, 3.5, 3.45, 3.4], reverif: [3.783, 3.8, 3.75, 3.7]}},
+                  {name: 'Two Bay PCR', icon: '🔬', processes: 9, color: '#8b5cf6', data: {clearance: [4.367, 4.4, 4.35, 4.3], closure: [4.817, 4.85, 4.8, 4.75], reverif: [3.683, 3.7, 3.65, 3.6]}},
+                  {name: 'Sixteen Bay PCR', icon: '⚡', processes: 3, color: '#ec4899', data: {clearance: [9.45, 9.5, 9.4, 9.3], closure: [10.667, 10.7, 10.6, 10.5], reverif: [6.7, 6.75, 6.65, 6.55]}},
+                  {name: 'Extraction Device', icon: '🔧', processes: 23, color: '#06b6d4', data: {clearance: [5.6, 5.65, 5.55, 5.5], closure: [6.267, 6.3, 6.25, 6.2], reverif: [4.317, 4.35, 4.3, 4.25]}}
+                ].map((device, idx) => (
+                  <div key={idx} style={{flex: '0 0 400px', background: '#ffffff', border: '2px solid #e9d5ff', borderRadius: '14px', padding: '18px', boxShadow: '0 2px 8px rgba(139, 92, 246, 0.1)', transition: 'all 0.3s ease', cursor: 'pointer'}}
+                  onClick={() => setSelectedManufacturingChart(device)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.25)';
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.borderColor = device.color;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(139, 92, 246, 0.1)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.borderColor = '#e9d5ff';
+                  }}>
+                    {/* Device Header */}
+                    <div style={{marginBottom: '16px', paddingBottom: '12px', borderBottom: `3px solid ${device.color}`}}>
+                      <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                        <div style={{fontSize: '1.8em'}}>{device.icon}</div>
+                        <div>
+                          <div style={{fontSize: '0.95em', fontWeight: '800', color: '#0f172a'}}>{device.name}</div>
+                          <div style={{fontSize: '0.75em', fontWeight: '600', color: '#64748b'}}>{device.processes} processes</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Column Chart SVG */}
+                    <svg viewBox="0 0 340 180" style={{width: '100%', height: 'auto', marginBottom: '14px'}}>
+                      <defs>
+                        <pattern id={`mfg-grid-${idx}`} width="60" height="40" patternUnits="userSpaceOnUse">
+                          <path d={`M 60 0 L 0 0 0 40`} fill="none" stroke="#ede9fe" strokeWidth="0.5"/>
+                        </pattern>
+                      </defs>
+                      <rect width="340" height="160" fill={`url(#mfg-grid-${idx})`} />
+
+                      <line x1="30" y1="10" x2="30" y2="150" stroke="#8b5cf6" strokeWidth="2"/>
+                      <line x1="30" y1="150" x2="330" y2="150" stroke="#8b5cf6" strokeWidth="2"/>
+
+                      {[0, 1, 2, 3, 4].map(i => {
+                        const y = 150 - (i * 30);
+                        const label = i === 0 ? '0' : i === 4 ? '12m' : (i * 3).toString() + 'm';
                         return (
-                          <div key={i} style={{display: 'inline-block', width: '23%', marginRight: i < 3 ? '2%' : '0', height: '100%', position: 'relative', verticalAlign: 'bottom'}}>
-                            <div style={{position: 'absolute', bottom: '30px', left: '5%', right: '5%', height: `${height}%`, background: `linear-gradient(180deg, ${item.color}, ${item.color}dd)`, borderRadius: '6px 6px 0 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6px', fontSize: '0.7em', fontWeight: '700', color: '#ffffff', boxShadow: `0 4px 8px ${item.color}30`}}>{item.time.toFixed(1)}m</div>
-                            <div style={{position: 'absolute', bottom: '5px', left: '0', right: '0', textAlign: 'center', fontSize: '0.65em', fontWeight: '700', color: '#64748b'}}>{item.name}</div>
-                          </div>
+                          <g key={`y-${i}`}>
+                            <text x="20" y={y + 4} fontSize="11" fill="#64748b" fontWeight="600" textAnchor="end">{label}</text>
+                            <line x1="28" y1={y} x2="330" y2={y} stroke="#ede9fe" strokeWidth="1" strokeDasharray="2,2"/>
+                          </g>
                         );
                       })}
+
+                      {[0, 1, 2, 3].map(monthIdx => {
+                        const groupX = 60 + monthIdx * 65;
+                        const colWidth = 12;
+                        const maxVal = 12;
+                        
+                        const clearH = device.data.clearance[monthIdx] > 0 ? (device.data.clearance[monthIdx] / maxVal) * 130 : 0;
+                        const closeH = device.data.closure[monthIdx] > 0 ? (device.data.closure[monthIdx] / maxVal) * 130 : 0;
+                        const revH = device.data.reverif[monthIdx] > 0 ? (device.data.reverif[monthIdx] / maxVal) * 130 : 0;
+
+                        return (
+                          <g key={`month-${monthIdx}`}>
+                            {clearH > 0 && <rect x={groupX - colWidth - 6} y={150 - clearH} width={colWidth} height={clearH} fill={device.color} opacity="1" rx="2"/>}
+                            {closeH > 0 && <rect x={groupX - 2} y={150 - closeH} width={colWidth} height={closeH} fill={device.color} opacity="0.65" rx="2"/>}
+                            {revH > 0 && <rect x={groupX + colWidth + 4} y={150 - revH} width={colWidth} height={revH} fill={device.color} opacity="0.35" rx="2"/>}
+                            <text x={groupX + 2} y="168" fontSize="12" fill="#8b5cf6" fontWeight="700" textAnchor="middle">
+                              {['Jan-Aug', 'Sep', 'Oct', 'Nov'][monthIdx]}
+                            </text>
+                          </g>
+                        );
+                      })}
+
+                      <g>
+                        <rect x="45" y="8" width="10" height="10" fill={device.color} opacity="1"/>
+                        <text x="60" y="17" fontSize="10" fontWeight="700" fill="#0f172a">Clear</text>
+                        <rect x="145" y="8" width="10" height="10" fill={device.color} opacity="0.65"/>
+                        <text x="160" y="17" fontSize="10" fontWeight="700" fill="#0f172a">Close</text>
+                        <rect x="245" y="8" width="10" height="10" fill={device.color} opacity="0.35"/>
+                        <text x="260" y="17" fontSize="10" fontWeight="700" fill="#0f172a">Rev</text>
+                      </g>
+                    </svg>
+
+                    {/* Summary Stats */}
+                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', fontSize: '0.75em'}}>
+                      <div style={{textAlign: 'center', padding: '8px', background: '#faf5ff', borderRadius: '6px', border: `1px solid ${device.color}`}}>
+                        <div style={{fontWeight: '600', color: '#64748b', marginBottom: '2px'}}>Clear</div>
+                        <div style={{fontWeight: '800', color: device.color}}>{device.data.clearance[0].toFixed(1)}m</div>
+                      </div>
+                      <div style={{textAlign: 'center', padding: '8px', background: '#faf5ff', borderRadius: '6px', border: `1px solid ${device.color}`, opacity: 0.7}}>
+                        <div style={{fontWeight: '600', color: '#64748b', marginBottom: '2px'}}>Close</div>
+                        <div style={{fontWeight: '800', color: device.color}}>{device.data.closure[0].toFixed(1)}m</div>
+                      </div>
+                      <div style={{textAlign: 'center', padding: '8px', background: '#faf5ff', borderRadius: '6px', border: `1px solid ${device.color}`, opacity: 0.4}}>
+                        <div style={{fontWeight: '600', color: '#64748b', marginBottom: '2px'}}>Rev</div>
+                        <div style={{fontWeight: '800', color: device.color}}>{device.data.reverif[0].toFixed(1)}m</div>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
 
-            {/* Manufacturing Summary KPIs - Quick Overview */}
-            <div style={{background: 'linear-gradient(135deg, #e0f2fe, #bae6fd)', border: '2px solid #0284c7', borderRadius: '14px', padding: '20px', marginBottom: '28px'}}>
-              <div style={{fontSize: '0.95em', fontWeight: '800', color: '#0c4a6e', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px'}}>📊 Manufacturing Process Averages</div>
-              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px'}}>
-                <div style={{background: 'white', borderRadius: '12px', padding: '16px', textAlign: 'center', border: '2px solid #0284c7', boxShadow: '0 2px 8px rgba(2, 132, 199, 0.1)'}}>
-                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0c4a6e', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Clearance</div>
-                  <div style={{fontSize: '2em', fontWeight: '900', color: '#0284c7', marginBottom: '4px'}}>5:24</div>
-                  <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0369a1'}}>All Devices</div>
-                </div>
-                <div style={{background: 'white', borderRadius: '12px', padding: '16px', textAlign: 'center', border: '2px solid #0284c7', boxShadow: '0 2px 8px rgba(2, 132, 199, 0.1)'}}>
-                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0c4a6e', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Closure</div>
-                  <div style={{fontSize: '2em', fontWeight: '900', color: '#0284c7', marginBottom: '4px'}}>6:18</div>
-                  <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0369a1'}}>All Devices</div>
-                </div>
-                <div style={{background: 'white', borderRadius: '12px', padding: '16px', textAlign: 'center', border: '2px solid #0284c7', boxShadow: '0 2px 8px rgba(2, 132, 199, 0.1)'}}>
-                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0c4a6e', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Re-Verification</div>
-                  <div style={{fontSize: '2em', fontWeight: '900', color: '#0284c7', marginBottom: '4px'}}>4:37</div>
-                  <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0369a1'}}>All Devices</div>
-                </div>
-                <div style={{background: 'white', borderRadius: '12px', padding: '16px', textAlign: 'center', border: '2px solid #0284c7', boxShadow: '0 2px 8px rgba(2, 132, 199, 0.1)'}}>
-                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0c4a6e', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Approval Rate</div>
-                  <div style={{fontSize: '2em', fontWeight: '900', color: '#10b981', marginBottom: '4px'}}>99.15%</div>
-                  <div style={{fontSize: '0.7em', fontWeight: '600', color: '#047857'}}>Overall Quality</div>
-                </div>
-              </div>
+              {/* Right Arrow */}
+              <button onClick={(e) => {
+                const parent = e.currentTarget.parentElement;
+                const container = parent.querySelector('[data-manufacturing-scroll]');
+                container.scrollBy({left: 400, behavior: 'smooth'});
+              }} style={{position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', color: 'white', border: 'none', borderRadius: '50%', width: '44px', height: '44px', cursor: 'pointer', fontSize: '1.4em', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)', transition: 'all 0.3s ease'}}
+              onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.5)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';}}
+              onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)';}}
+              >→</button>
+
             </div>
 
             {/* ===== SECTION SEPARATOR ===== */}
@@ -1560,6 +1607,109 @@ export default function IPQAOverview() {
                     <div>• Monthly trends showing clearance, closure, and re-verification performance</div>
                     <div style={{marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #fcd34d'}}>
                       💡 <strong>Analysis:</strong> Review monthly variations to identify optimization opportunities and efficiency patterns in this cartridge assembly activity.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>,
+            document.body
+          )}
+
+          {/* Manufacturing Chart Detail Modal */}
+          {selectedManufacturingChart && createPortal(
+            <div style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0, 0, 0, 0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '20px'}} onClick={(e) => {if(e.target === e.currentTarget) setSelectedManufacturingChart(null);}}>
+              <div style={{background: '#ffffff', borderRadius: '16px', boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)', maxWidth: '900px', width: '100%', maxHeight: '90vh', overflow: 'auto', padding: '32px', position: 'relative'}}>
+                {/* Close Button */}
+                <button onClick={() => setSelectedManufacturingChart(null)} style={{position: 'absolute', top: '16px', right: '16px', background: '#faf5ff', border: '2px solid #e9d5ff', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', fontSize: '1.2em', color: '#8b5cf6', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease'}}
+                onMouseEnter={(e) => {e.currentTarget.style.background = '#e9d5ff'; e.currentTarget.style.transform = 'scale(1.1)';}}
+                onMouseLeave={(e) => {e.currentTarget.style.background = '#faf5ff'; e.currentTarget.style.transform = 'scale(1)';}}>×</button>
+
+                {/* Modal Header */}
+                <div style={{marginBottom: '28px', paddingBottom: '16px', borderBottom: `3px solid ${selectedManufacturingChart.color}`}}>
+                  <div style={{fontSize: '1.6em', fontWeight: '800', color: '#0f172a', marginBottom: '8px'}}>{selectedManufacturingChart.icon} {selectedManufacturingChart.name}</div>
+                  <div style={{fontSize: '0.9em', color: '#64748b', fontWeight: '600'}}>Process Performance Data (Jan-Aug Average, Sep, Oct, Nov)</div>
+                </div>
+
+                {/* Monthly Data Table */}
+                <div style={{marginBottom: '28px', overflowX: 'auto'}}>
+                  <table style={{width: '100%', borderCollapse: 'collapse'}}>
+                    <thead>
+                      <tr style={{background: `linear-gradient(135deg, ${selectedManufacturingChart.color}, ${selectedManufacturingChart.color}dd)`, color: 'white'}}>
+                        <th style={{padding: '12px 16px', textAlign: 'left', fontWeight: '800', fontSize: '0.9em'}}>Metric</th>
+                        <th style={{padding: '12px 16px', textAlign: 'center', fontWeight: '800', fontSize: '0.9em'}}>Jan-Aug</th>
+                        <th style={{padding: '12px 16px', textAlign: 'center', fontWeight: '800', fontSize: '0.9em'}}>September</th>
+                        <th style={{padding: '12px 16px', textAlign: 'center', fontWeight: '800', fontSize: '0.9em'}}>October</th>
+                        <th style={{padding: '12px 16px', textAlign: 'center', fontWeight: '800', fontSize: '0.9em'}}>November</th>
+                        <th style={{padding: '12px 16px', textAlign: 'center', fontWeight: '800', fontSize: '0.9em'}}>Average</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {/* Clearance Row */}
+                      <tr style={{background: '#f9fafb', borderBottom: '1px solid #e9d5ff'}}>
+                        <td style={{padding: '14px 16px', fontWeight: '700', color: '#0f172a', background: '#faf5ff'}}>Clearance</td>
+                        {selectedManufacturingChart.data.clearance.map((val, idx) => (
+                          <td key={idx} style={{padding: '14px 16px', textAlign: 'center', fontWeight: '700', color: selectedManufacturingChart.color, fontSize: '1em'}}>{val.toFixed(2)}</td>
+                        ))}
+                        <td style={{padding: '14px 16px', textAlign: 'center', fontWeight: '800', color: selectedManufacturingChart.color, background: '#faf5ff', fontSize: '1.05em'}}>
+                          {(selectedManufacturingChart.data.clearance.reduce((a, b) => a + b) / selectedManufacturingChart.data.clearance.length).toFixed(2)}
+                        </td>
+                      </tr>
+
+                      {/* Closure Row */}
+                      <tr style={{background: '#ffffff', borderBottom: '1px solid #e9d5ff'}}>
+                        <td style={{padding: '14px 16px', fontWeight: '700', color: '#0f172a', background: '#faf5ff'}}>Closure</td>
+                        {selectedManufacturingChart.data.closure.map((val, idx) => (
+                          <td key={idx} style={{padding: '14px 16px', textAlign: 'center', fontWeight: '700', color: selectedManufacturingChart.color, fontSize: '1em', opacity: 0.7}}>{val.toFixed(2)}</td>
+                        ))}
+                        <td style={{padding: '14px 16px', textAlign: 'center', fontWeight: '800', color: selectedManufacturingChart.color, background: '#faf5ff', fontSize: '1.05em', opacity: 0.7}}>
+                          {(selectedManufacturingChart.data.closure.reduce((a, b) => a + b) / selectedManufacturingChart.data.closure.length).toFixed(2)}
+                        </td>
+                      </tr>
+
+                      {/* Re-Verification Row */}
+                      <tr style={{background: '#f9fafb'}}>
+                        <td style={{padding: '14px 16px', fontWeight: '700', color: '#0f172a', background: '#faf5ff'}}>Re-Verification</td>
+                        {selectedManufacturingChart.data.reverif.map((val, idx) => (
+                          <td key={idx} style={{padding: '14px 16px', textAlign: 'center', fontWeight: '700', color: selectedManufacturingChart.color, fontSize: '1em', opacity: 0.5}}>{val.toFixed(2)}</td>
+                        ))}
+                        <td style={{padding: '14px 16px', textAlign: 'center', fontWeight: '800', color: selectedManufacturingChart.color, background: '#faf5ff', fontSize: '1.05em', opacity: 0.5}}>
+                          {(selectedManufacturingChart.data.reverif.reduce((a, b) => a + b) / selectedManufacturingChart.data.reverif.length).toFixed(2)}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Summary Statistics */}
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '28px'}}>
+                  <div style={{background: `linear-gradient(135deg, #faf5ff, #e9d5ff)`, border: `2px solid ${selectedManufacturingChart.color}`, borderRadius: '12px', padding: '18px', textAlign: 'center'}}>
+                    <div style={{fontSize: '0.8em', fontWeight: '700', color: '#64748b', marginBottom: '8px', textTransform: 'uppercase'}}>Avg Clearance</div>
+                    <div style={{fontSize: '2em', fontWeight: '900', color: selectedManufacturingChart.color}}>
+                      {(selectedManufacturingChart.data.clearance.reduce((a, b) => a + b) / selectedManufacturingChart.data.clearance.length).toFixed(2)}m
+                    </div>
+                  </div>
+                  <div style={{background: `linear-gradient(135deg, #faf5ff, #e9d5ff)`, border: `2px solid ${selectedManufacturingChart.color}`, borderRadius: '12px', padding: '18px', textAlign: 'center', opacity: 0.7}}>
+                    <div style={{fontSize: '0.8em', fontWeight: '700', color: '#64748b', marginBottom: '8px', textTransform: 'uppercase'}}>Avg Closure</div>
+                    <div style={{fontSize: '2em', fontWeight: '900', color: selectedManufacturingChart.color}}>
+                      {(selectedManufacturingChart.data.closure.reduce((a, b) => a + b) / selectedManufacturingChart.data.closure.length).toFixed(2)}m
+                    </div>
+                  </div>
+                  <div style={{background: `linear-gradient(135deg, #faf5ff, #e9d5ff)`, border: `2px solid ${selectedManufacturingChart.color}`, borderRadius: '12px', padding: '18px', textAlign: 'center', opacity: 0.5}}>
+                    <div style={{fontSize: '0.8em', fontWeight: '700', color: '#64748b', marginBottom: '8px', textTransform: 'uppercase'}}>Avg Re-Verification</div>
+                    <div style={{fontSize: '2em', fontWeight: '900', color: selectedManufacturingChart.color}}>
+                      {(selectedManufacturingChart.data.reverif.reduce((a, b) => a + b) / selectedManufacturingChart.data.reverif.length).toFixed(2)}m
+                    </div>
+                  </div>
+                </div>
+
+                {/* Performance Insights */}
+                <div style={{background: 'linear-gradient(135deg, #f5f3ff, #ede9fe)', border: '2px solid #ddd6fe', borderRadius: '12px', padding: '16px'}}>
+                  <div style={{fontSize: '0.9em', fontWeight: '700', color: '#6b21a8', marginBottom: '10px'}}>📈 Device Performance</div>
+                  <div style={{fontSize: '0.85em', color: '#6b21a8', lineHeight: '1.6'}}>
+                    <div>• <strong>{selectedManufacturingChart.name}</strong> - {selectedManufacturingChart.processes} manufacturing processes with consistent quality metrics</div>
+                    <div>• Monthly trends showing clearance, closure, and re-verification performance across operational periods</div>
+                    <div style={{marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #ddd6fe'}}>
+                      💡 <strong>Analysis:</strong> Track performance variations to optimize process efficiency and maintain quality standards across all manufacturing operations.
                     </div>
                   </div>
                 </div>
