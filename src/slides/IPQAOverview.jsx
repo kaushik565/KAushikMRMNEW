@@ -333,8 +333,21 @@ export default function IPQAOverview() {
           </div>
         </div>
 
-        {/* Metrics Grid (hide for SITE-III to remove old KPI cards) */}
-        {siteName !== 'SITE-III' && (
+        {/* Metrics Grid: hide for SITE-III; show placeholder for SITE-I */}
+        {siteName === 'SITE-I' ? (
+          <div style={{
+            marginTop: '12px',
+            padding: '14px',
+            borderRadius: '12px',
+            border: '1px dashed #dc2626',
+            background: '#fff1f2',
+            color: '#991b1b',
+            fontWeight: '700',
+            textAlign: 'center'
+          }}>
+            Data to be added for SITE-I IPQA metrics
+          </div>
+        ) : siteName !== 'SITE-III' && (
           <div style={{
             display: 'grid',
             gridTemplateColumns: `repeat(${Object.keys(siteData.metrics).length}, 1fr)`,
@@ -1530,7 +1543,7 @@ export default function IPQAOverview() {
               marginBottom: '12px'
             }}></div>
             <p style={{ fontSize: '0.9em', color: '#4b5563', margin: '0px' }}>
-              In-Process Quality Assurance Performance Across Manufacturing Sites • Click SITE-V cards for detailed analysis
+              In-Process Quality Assurance Performance Across Manufacturing Sites
             </p>
           </div>
 

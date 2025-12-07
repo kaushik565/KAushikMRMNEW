@@ -4,13 +4,7 @@ import TitleSlide from './slides/TitleSlide'
 import SiteOverview from './slides/SiteOverview'
 import ExecutiveSummary from './slides/ExecutiveSummary'
 import IPQAOverview from './slides/IPQAOverview'
-import LineClearance from './slides/LineClearance'
-import IncidentTrend from './slides/IncidentTrend'
-import CalibrationThroughput from './slides/CalibrationThroughput'
-import CartridgeAssembly from './slides/CartridgeAssembly'
-import DeviceAssembly from './slides/DeviceAssembly'
 import ValidationReports from './slides/ValidationReports'
-import ProcessImprovements from './slides/ProcessImprovements'
 import ClosingSlide from './slides/ClosingSlide'
 const primaryLogo = 'https://ci3.googleusercontent.com/meips/ADKq_NYoWiyCxIBqXhvayEyoxq9RdqOFqxTu5zYVWWPmrNV2i6HjGtBI5ZIGmLgb8GS-P9z___3MejWcSMXcOtakV5I2Jx_qBa-jgUgiWCxeHnZMfcTzixwuqAXJ=s0-d-e1-ft#https://new.molbiodiagnostics.com/mailSignature/png/Molbio_Logo.png'
 const fallbackLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/image.png'
@@ -107,13 +101,7 @@ export default function Presentation() {
       <SiteOverview />
       <ExecutiveSummary />
       <IPQAOverview />
-      <LineClearance />
-      <IncidentTrend />
-      <CalibrationThroughput />
-      <CartridgeAssembly />
-      <DeviceAssembly />
       <ValidationReports />
-      <ProcessImprovements />
       <ClosingSlide />
     </>
   )
