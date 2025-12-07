@@ -10,6 +10,12 @@ import SiteIIILineClearance from './ipqa-details/SiteIIILineClearance';
 import SiteIIILineClosure from './ipqa-details/SiteIIILineClosure';
 import SiteIIILineReverification from './ipqa-details/SiteIIILineReverification';
 import SiteIIILineVerification from './ipqa-details/SiteIIILineVerification';
+import SiteILineClearance from './ipqa-details/SiteILineClearance';
+import SiteILineClosure from './ipqa-details/SiteILineClosure';
+import SiteIReverification from './ipqa-details/SiteISampling';
+import SiteISamplingTypes from './ipqa-details/SiteISamplingTypes';
+import SiteIEquipmentCalibration from './ipqa-details/SiteIEquipmentCalibration';
+import ipqaActivityData from '../../data/ipqa_activity_data.json';
 
 export default function IPQAOverview() {
   const [selectedDetail, setSelectedDetail] = useState(null);
@@ -18,9 +24,10 @@ export default function IPQAOverview() {
   const [selectedCartridgeChart, setSelectedCartridgeChart] = useState(null);
   const [selectedManufacturingChart, setSelectedManufacturingChart] = useState(null);
   const [selectedSite3Chart, setSelectedSite3Chart] = useState(null);
+  const [selectedSiteIChart, setSelectedSiteIChart] = useState(null);
 
   // Lock background scroll while any overlay/modal is open to avoid slide jump
-  const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart;
+  const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart || selectedSiteIChart;
 
   useEffect(() => {
     if (hasOverlayOpen) {
@@ -59,11 +66,11 @@ export default function IPQAOverview() {
       bgColor: '#fee2e2',
       accentColor: '#b91c1c',
       metrics: {
-        'Audits': { value: 145, trend: '+18%', status: 'Excellent' },
-        'NCs': { value: 78, trend: '-35%', status: 'Improved' },
-        'Compliance': { value: '94%', trend: '+8%', status: 'Good' },
-        'Training': { value: '94%', trend: '+25%', status: 'Excellent' },
-        'Open Issues': { value: 9, trend: '-17%', status: 'Stable' }
+        'Line Clearance': { value: 6578, subtitle: '7 Not Approved', trend: '99.89%', status: 'Excellent' },
+        'Line Closure': { value: 6620, subtitle: '4 Not Approved', trend: '99.94%', status: 'Excellent' },
+        'Re-verification': { value: 2203, subtitle: '12 Not Approved', trend: '99.46%', status: 'Excellent' },
+        'Sampling Types': { value: 3056, subtitle: 'Multi-type', trend: '100%', status: 'Excellent' },
+        'Equipment Calibration': { value: 167, subtitle: '3 Overdue', trend: '98.2%', status: 'Good' }
       }
     },
     'SITE-III': {
@@ -308,7 +315,7 @@ export default function IPQAOverview() {
     const handleMetricClick = (metricName) => {
       console.log('Card clicked:', siteName, metricName);
       
-      // Only SITE-V and SITE-III have detailed views
+      // Only SITE-V and SITE-III have modal detailed views
       if (siteName !== 'SITE-V' && siteName !== 'SITE-III') {
         alert(`Detailed view for ${siteName} - ${metricName} is coming soon!`);
         return;
@@ -366,21 +373,8 @@ export default function IPQAOverview() {
           </div>
         </div>
 
-        {/* Metrics Grid: hide for SITE-III; show placeholder for SITE-I */}
-        {siteName === 'SITE-I' ? (
-          <div style={{
-            marginTop: '12px',
-            padding: '14px',
-            borderRadius: '12px',
-            border: '1px dashed #dc2626',
-            background: '#fff1f2',
-            color: '#991b1b',
-            fontWeight: '700',
-            textAlign: 'center'
-          }}>
-            Data to be added for SITE-I IPQA metrics
-          </div>
-        ) : siteName !== 'SITE-III' && (
+        {/* Metrics Grid - Hide for SITE-I and SITE-III */}
+        {siteName !== 'SITE-III' && siteName !== 'SITE-I' && (
           <div style={{
             display: 'grid',
             gridTemplateColumns: `repeat(${Object.keys(siteData.metrics).length}, 1fr)`,
@@ -401,6 +395,17 @@ export default function IPQAOverview() {
                 onClick={(siteName === 'SITE-V' || siteName === 'SITE-III') ? () => handleMetricClick(metricName) : null}
               />
             ))}
+          </div>
+        )}
+
+        {/* SITE-I Inline Detailed Sections */}
+        {siteName === 'SITE-I' && (
+          <div style={{ marginTop: '20px' }}>
+            <SiteILineClearance />
+            <SiteILineClosure />
+            <SiteIReverification />
+            <SiteISamplingTypes />
+            <SiteIEquipmentCalibration />
           </div>
         )}
 
@@ -974,19 +979,19 @@ export default function IPQAOverview() {
               <div style={{background: 'linear-gradient(135deg, #e0f2fe, #bae6fd)', border: '2px solid #0284c7', borderRadius: '14px', padding: '20px', textAlign: 'center', transition: 'all 0.3s ease', boxShadow: '0 2px 8px rgba(2, 132, 199, 0.1)'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(2, 132, 199, 0.2)'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(2, 132, 199, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
                 <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0c4a6e', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Clearance Time</div>
                 <div style={{fontSize: '2.2em', fontWeight: '900', color: '#0284c7', marginBottom: '4px'}}>5:42</div>
-                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0369a1'}}>All Devices (Jan-Aug)</div>
+                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0369a1'}}>All Devices (Sep-Nov)</div>
               </div>
 
               <div style={{background: 'linear-gradient(135deg, #fce7f3, #fbcfe8)', border: '2px solid #ec4899', borderRadius: '14px', padding: '20px', textAlign: 'center', transition: 'all 0.3s ease', boxShadow: '0 2px 8px rgba(236, 72, 153, 0.1)'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(236, 72, 153, 0.2)'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(236, 72, 153, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
                 <div style={{fontSize: '0.75em', fontWeight: '700', color: '#831843', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Closure Time</div>
                 <div style={{fontSize: '2.2em', fontWeight: '900', color: '#ec4899', marginBottom: '4px'}}>6:32</div>
-                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#be185d'}}>All Devices (Jan-Aug)</div>
+                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#be185d'}}>All Devices (Sep-Nov)</div>
               </div>
 
               <div style={{background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)', border: '2px solid #3b82f6', borderRadius: '14px', padding: '20px', textAlign: 'center', transition: 'all 0.3s ease', boxShadow: '0 2px 8px rgba(59, 130, 246, 0.1)'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.2)'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(59, 130, 246, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
                 <div style={{fontSize: '0.75em', fontWeight: '700', color: '#1e3a8a', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Avg Re-Verification</div>
                 <div style={{fontSize: '2.2em', fontWeight: '900', color: '#3b82f6', marginBottom: '4px'}}>4:63</div>
-                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#1e40af'}}>All Devices (Jan-Aug)</div>
+                <div style={{fontSize: '0.7em', fontWeight: '600', color: '#1e40af'}}>All Devices (Sep-Nov)</div>
               </div>
 
               <div style={{background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)', border: '2px solid #10b981', borderRadius: '14px', padding: '20px', textAlign: 'center', transition: 'all 0.3s ease', boxShadow: '0 2px 8px rgba(16, 185, 129, 0.1)'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(16, 185, 129, 0.2)'; e.currentTarget.style.transform = 'translateY(-2px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(16, 185, 129, 0.1)'; e.currentTarget.style.transform = 'translateY(0)';}}>
@@ -2073,9 +2078,21 @@ export default function IPQAOverview() {
                   case 'Destruction Records':
                     return <SiteVDestructionRecords />;
                   case 'Line Clearance':
+                    if (selectedDetail.site === 'SITE-I') {
+                      return <SiteILineClearance />;
+                    }
                     return <SiteIIILineClearance />;
                   case 'Line Closure':
+                    if (selectedDetail.site === 'SITE-I') {
+                      return <SiteILineClosure />;
+                    }
                     return <SiteIIILineClosure />;
+                  case 'Re-verification':
+                    return <SiteIReverification />;
+                  case 'Sampling Types':
+                    return <SiteISamplingTypes />;
+                  case 'Equipment Calibration':
+                    return <SiteIEquipmentCalibration />;
                   case 'Line Reverification':
                     return <SiteIIILineReverification />;
                   case 'Line Verification':
@@ -2086,8 +2103,9 @@ export default function IPQAOverview() {
                         <p>Component not found for: {selectedDetail.metric}</p>
                         <p style={{ fontSize: '0.8em', marginTop: '20px' }}>Available metrics:</p>
                         <ul style={{ listStyle: 'none', padding: 0 }}>
-                          <li>SITE-V: Incoming Sampling, In-Process Sampling, BMR Verification, Transfer Note Verif., Destruction Records</li>
+                          <li>SITE-I: Line Clearance, Line Closure, Re-verification, Sampling Types, Equipment Calibration</li>
                           <li>SITE-III: Line Clearance, Line Closure, Line Reverification, Line Verification</li>
+                          <li>SITE-V: Incoming Sampling, In-Process Sampling, BMR Verification, Transfer Note Verif., Destruction Records</li>
                         </ul>
                       </div>
                     );
@@ -2170,6 +2188,79 @@ export default function IPQAOverview() {
                     return <SiteIIILineReverification />;
                   case 'Line Verification':
                     return <SiteIIILineVerification />;
+                  default:
+                    return <div style={{ padding: '40px', textAlign: 'center' }}>No chart selected</div>;
+                }
+              })()}
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* SITE-I Chart Modal */}
+      {selectedSiteIChart && createPortal(
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
+          zIndex: 999999,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px'
+        }}>
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '20px',
+            width: '90%',
+            height: '90%',
+            maxWidth: '1400px',
+            maxHeight: '900px',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+            position: 'relative',
+            overflowY: 'auto'
+          }}>
+            {/* Close Button */}
+            <button onClick={() => setSelectedSiteIChart(null)}
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '20px',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                border: 'none',
+                backgroundColor: '#dc2626',
+                color: '#ffffff',
+                fontSize: '1.5em',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1000000,
+                fontWeight: 'bold'
+              }}>
+              ✕
+            </button>
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+              {(() => {
+                switch(selectedSiteIChart) {
+                  case 'lineClearance':
+                    return <SiteILineClearance />;
+                  case 'lineClosure':
+                    return <SiteILineClosure />;
+                  case 'reverification':
+                    return <SiteIReverification />;
+                  case 'sampling':
+                    return <SiteISamplingTypes />;
+                  case 'calibration':
+                    return <SiteIEquipmentCalibration />;
                   default:
                     return <div style={{ padding: '40px', textAlign: 'center' }}>No chart selected</div>;
                 }

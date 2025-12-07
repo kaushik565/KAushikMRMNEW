@@ -37,10 +37,10 @@ export default function SiteVDestructionRecords() {
 
   // Environmental compliance metrics
   const envCompliance = [
-    { metric: 'EPA Compliance', status: 'Full', score: 100, lastAudit: 'Aug 2024' },
-    { metric: 'Waste Manifest Accuracy', status: 'Excellent', score: 98.1, lastAudit: 'Sep 2024' },
-    { metric: 'Vendor Certifications', status: 'Current', score: 100, lastAudit: 'Oct 2024' },
-    { metric: 'Documentation Complete', status: 'Excellent', score: 98.1, lastAudit: 'Nov 2024' }
+    { metric: 'EPA Compliance', status: 'Full', score: 100, lastAudit: 'Aug 2025' },
+    { metric: 'Waste Manifest Accuracy', status: 'Excellent', score: 98.1, lastAudit: 'Sep 2025' },
+    { metric: 'Vendor Certifications', status: 'Current', score: 100, lastAudit: 'Oct 2025' },
+    { metric: 'Documentation Complete', status: 'Excellent', score: 98.1, lastAudit: 'Nov 2025' }
   ];
 
   return (
