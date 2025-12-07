@@ -10,12 +10,7 @@ import SiteIIILineClearance from './ipqa-details/SiteIIILineClearance';
 import SiteIIILineClosure from './ipqa-details/SiteIIILineClosure';
 import SiteIIILineReverification from './ipqa-details/SiteIIILineReverification';
 import SiteIIILineVerification from './ipqa-details/SiteIIILineVerification';
-import SiteILineClearance from './ipqa-details/SiteILineClearance';
-import SiteILineClosure from './ipqa-details/SiteILineClosure';
-import SiteIReverification from './ipqa-details/SiteISampling';
-import SiteISamplingTypes from './ipqa-details/SiteISamplingTypes';
-import SiteIEquipmentCalibration from './ipqa-details/SiteIEquipmentCalibration';
-import ipqaActivityData from '../../data/ipqa_activity_data.json';
+import SiteISection from './ipqa-details/SiteISection';
 
 export default function IPQAOverview() {
   const [selectedDetail, setSelectedDetail] = useState(null);
@@ -398,21 +393,10 @@ export default function IPQAOverview() {
           </div>
         )}
 
-        {/* SITE-I Inline Detailed Sections */}
+        {/* SITE-I Clean Redesigned Section */}
         {siteName === 'SITE-I' && (
-          <div style={{ 
-            marginTop: '20px',
-            maxHeight: '800px',
-            overflowY: 'auto',
-            paddingRight: '10px',
-            scrollbarWidth: 'thin',
-            scrollbarColor: '#dc2626 #fee2e2'
-          }}>
-            <SiteILineClearance />
-            <SiteILineClosure />
-            <SiteIReverification />
-            <SiteISamplingTypes />
-            <SiteIEquipmentCalibration />
+          <div style={{ marginTop: '20px' }}>
+            <SiteISection />
           </div>
         )}
 
