@@ -1521,79 +1521,6 @@ export default function IPQAOverview() {
     )
   }
 
-  // Comparison Bar Component
-  const ComparisonBar = () => {
-    const sites = ['SITE-I', 'SITE-III', 'SITE-V']
-    const metrics = ['Compliance', 'Training', 'NCs']
-
-    return (
-      <div style={{
-        backgroundColor: '#f8fafc',
-        borderRadius: '12px',
-        padding: '20px',
-        marginTop: '16px',
-        border: '2px solid #e5e7eb'
-      }}>
-        <div style={{ fontSize: '1em', fontWeight: '800', color: '#111827', marginBottom: '16px' }}>
-          📊 Activity Volume Comparison
-        </div>
-
-        {['Incoming Sampling', 'In-Process Sampling', 'BMR Verification'].map(metricLabel => (
-          <div key={metricLabel} style={{ marginBottom: '14px' }}>
-            <div style={{ fontSize: '0.9em', fontWeight: '700', color: '#374151', marginBottom: '8px' }}>
-              {metricLabel}
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
-              {sites.map(site => {
-                const metricName = metricLabel === 'Incoming Sampling' ? 'Incoming Sampling' : 
-                                   metricLabel === 'In-Process Sampling' ? 'In-Process Sampling' : 'BMR Verification'
-                const data = metricsData[site].metrics[metricName]
-                if (!data) return null
-                
-                const value = typeof data.value === 'string' ? parseInt(data.value) : data.value
-                const color = metricsData[site].color
-                const maxValue = 3057 // Max value from all data
-
-                return (
-                  <div key={`${site}-${metricLabel}`} style={{
-                    position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: '32px',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '8px',
-                    border: `1px solid ${color}40`
-                  }}>
-                    <div style={{
-                      position: 'absolute',
-                      left: 0,
-                      height: '100%',
-                      width: `${(value / maxValue) * 100}%`,
-                      backgroundColor: `${color}40`,
-                      borderRadius: '8px 0 0 8px',
-                      transition: 'width 0.5s ease'
-                    }}></div>
-                    <div style={{
-                      position: 'relative',
-                      zIndex: 1,
-                      width: '100%',
-                      textAlign: 'center',
-                      fontSize: '0.8em',
-                      fontWeight: '700',
-                      color: '#111827'
-                    }}>
-                      {site}: {data.value}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
   return (
     <>
       {/* Main Overview */}
@@ -1641,9 +1568,6 @@ export default function IPQAOverview() {
           {Object.entries(metricsData).map(([siteName, siteData]) => (
             <SiteCard key={siteName} siteName={siteName} siteData={siteData} />
           ))}
-
-          {/* Comparison Section */}
-          <ComparisonBar />
 
           {/* Department Chart Detail Modal */}
           {selectedDeptChart && createPortal(
@@ -2043,8 +1967,8 @@ export default function IPQAOverview() {
                   {site} Highlight
                 </div>
                 <div style={{ fontSize: '0.75em', color: '#6b7280' }}>
-                  {site === 'SITE-I' && 'Solid Performance with Strong Compliance'}
-                  {site === 'SITE-III' && 'Consistent Quality Verification'}
+                  {site === 'SITE-I' && '100% Calibration Compliance (1,153 Equipment)'}
+                  {site === 'SITE-III' && '99.2% Approval Rate with 84% Faster Investigations'}
                   {site === 'SITE-V' && 'Highest In-Process Sampling Volume (3,057)'}
                 </div>
               </div>

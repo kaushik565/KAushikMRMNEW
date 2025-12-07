@@ -1,5 +1,5 @@
-const primaryLogoUrl = 'https://ci3.googleusercontent.com/meips/ADKq_NYoWiyCxIBqXhvayEyoxq9RdqOFqxTu5zYVWWPmrNV2i6HjGtBI5ZIGmLgb8GS-P9z___3MejWcSMXcOtakV5I2Jx_qBa-jgUgiWCxeHnZMfcTzixwuqAXJ=s0-d-e1-ft#https://new.molbiodiagnostics.com/mailSignature/png/Molbio_Logo.png'
-const fallbackLogoUrl = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/image.png'
+const primaryLogoUrl = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
+const fallbackLogoUrl = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
 
 export default function TitleSlide() {
   return (
