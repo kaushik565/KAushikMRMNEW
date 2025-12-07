@@ -3,6 +3,7 @@ import Reveal from 'reveal.js'
 import TitleSlide from './slides/TitleSlide'
 import SiteOverview from './slides/SiteOverview'
 import IPQAOverview from './slides/IPQAOverview'
+import LabQAOverview from './slides/LabQAOverview'
 import ValidationReports from './slides/ValidationReports'
 import ClosingSlide from './slides/ClosingSlide'
 const primaryLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
@@ -98,6 +99,7 @@ export default function Presentation() {
       <TitleSlide />
       <SiteOverview />
       <IPQAOverview />
+      <LabQAOverview />
       <ValidationReports />
       <ClosingSlide />
     </>
