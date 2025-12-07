@@ -1199,7 +1199,54 @@ export default function IPQAOverview() {
               <div style={{fontSize: '0.8em', fontWeight: '600', color: '#64748b'}}>4 Device Types • 38 Processes</div>
             </div>
 
-            {/* Manufacturing Devices Grid - No Scroll */}
+            {/* Combined Manufacturing Devices Chart */}
+            <div style={{background: 'linear-gradient(135deg, #ffffff, #faf5ff)', border: '3px solid #8b5cf6', borderRadius: '16px', padding: '24px', marginBottom: '28px', boxShadow: '0 8px 24px rgba(139, 92, 246, 0.1)'}}>
+              <div style={{fontSize: '0.9em', fontWeight: '900', color: '#0f172a', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px'}}>
+                <span style={{fontSize: '1.3em', background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', color: 'white', padding: '8px 12px', borderRadius: '8px'}}>📊</span>
+                <span>Combined Device Performance - All 4 Types</span>
+              </div>
+              <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={[
+                  {period: 'Jan-Aug', clearance: 6.094, closure: 6.532, reverif: 4.625},
+                  {period: 'Sep', clearance: 6.188, closure: 6.613, reverif: 4.650},
+                  {period: 'Oct', clearance: 6.100, closure: 6.525, reverif: 4.550},
+                  {period: 'Nov', clearance: 6.025, closure: 6.425, reverif: 4.475}
+                ]} margin={{top: 15, right: 30, left: 0, bottom: 0}}>
+                  <defs>
+                    <linearGradient id="gradClear" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="gradClose" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#ec4899" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#ec4899" stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="gradRev" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="4 4" stroke="#e9d5ff" />
+                  <XAxis dataKey="period" stroke="#8b5cf6" style={{fontSize: '0.9em', fontWeight: '700'}} tick={{fill: '#8b5cf6'}} />
+                  <YAxis stroke="#8b5cf6" style={{fontSize: '0.8em'}} tick={{fill: '#8b5cf6'}} />
+                  <Tooltip 
+                    contentStyle={{background: '#faf5ff', border: '2px solid #8b5cf6', borderRadius: '10px', fontSize: '0.85em', boxShadow: '0 8px 24px rgba(139, 92, 246, 0.2)'}}
+                    labelStyle={{fontWeight: '800', color: '#0f172a'}}
+                    formatter={(value) => value.toFixed(2)}
+                    cursor={{stroke: '#8b5cf6', strokeWidth: 2}}
+                  />
+                  <Legend wrapperStyle={{fontSize: '0.8em', fontWeight: '800', paddingTop: '12px'}} />
+                  <Line type="monotone" dataKey="clearance" stroke="#8b5cf6" strokeWidth={4} dot={{fill: '#8b5cf6', r: 6}} activeDot={{r: 8, fill: '#7c3aed'}} name="Clearance" isAnimationActive={true} animationDuration={800} />
+                  <Line type="monotone" dataKey="closure" stroke="#ec4899" strokeWidth={4} dot={{fill: '#ec4899', r: 6}} activeDot={{r: 8, fill: '#be185d'}} name="Closure" isAnimationActive={true} animationDuration={800} />
+                  <Line type="monotone" dataKey="reverif" stroke="#06b6d4" strokeWidth={4} dot={{fill: '#06b6d4', r: 6}} activeDot={{r: 8, fill: '#0891b2'}} name="Re-Verification" isAnimationActive={true} animationDuration={800} />
+                </LineChart>
+              </ResponsiveContainer>
+              <div style={{fontSize: '0.75em', color: '#6b21a8', textAlign: 'center', marginTop: '12px', fontWeight: '600', background: '#f3e8ff', padding: '10px', borderRadius: '8px', border: '1px solid #e9d5ff'}}>
+                ✨ Overall trend showing average times across all device types (Rapid Cell Lysis, Two Bay PCR, Sixteen Bay PCR, Extraction Device)
+              </div>
+            </div>
+
+            {/* Manufacturing Devices Grid - Individual Cards */}
             <div style={{background: 'linear-gradient(135deg, #faf5ff, #ffffff)', border: '2px solid #e9d5ff', borderRadius: '16px', padding: '24px', marginBottom: '28px'}}>
               
               {/* Grid Container */}
@@ -1349,6 +1396,53 @@ export default function IPQAOverview() {
                   📦 CARTRIDGE ASSEMBLY & PACKAGING
                 </div>
                 <div style={{fontSize: '0.85em', fontWeight: '600', color: '#64748b', background: '#ffffff', padding: '6px 12px', borderRadius: '20px', border: '1px solid #d1fae5'}}>11 Activities • Optimized Timing</div>
+              </div>
+
+              {/* Combined Cartridge Assembly Chart */}
+              <div style={{background: 'linear-gradient(135deg, #ffffff, #f0fdf4)', border: '3px solid #10b981', borderRadius: '16px', padding: '24px', marginBottom: '28px', boxShadow: '0 8px 24px rgba(16, 185, 129, 0.1)'}}>
+                <div style={{fontSize: '0.9em', fontWeight: '900', color: '#0f172a', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px'}}>
+                  <span style={{fontSize: '1.3em', background: 'linear-gradient(135deg, #10b981, #059669)', color: 'white', padding: '8px 12px', borderRadius: '8px'}}>📊</span>
+                  <span>Combined Cartridge Assembly - All 11 Activities</span>
+                </div>
+                <ResponsiveContainer width="100%" height={280}>
+                  <AreaChart data={[
+                    {period: 'Jan-Aug', clearance: 9.45, closure: 8.92, reverif: 6.58},
+                    {period: 'Sep', clearance: 9.73, closure: 9.08, reverif: 6.65},
+                    {period: 'Oct', clearance: 9.52, closure: 8.98, reverif: 6.48},
+                    {period: 'Nov', clearance: 9.28, closure: 8.65, reverif: 6.12}
+                  ]} margin={{top: 15, right: 30, left: 0, bottom: 0}}>
+                    <defs>
+                      <linearGradient id="gradCartClear" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="gradCartClose" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#059669" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#059669" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="gradCartRev" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#34d399" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#34d399" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="4 4" stroke="#d1fae5" />
+                    <XAxis dataKey="period" stroke="#10b981" style={{fontSize: '0.9em', fontWeight: '700'}} tick={{fill: '#059669'}} />
+                    <YAxis stroke="#10b981" style={{fontSize: '0.8em'}} tick={{fill: '#059669'}} />
+                    <Tooltip 
+                      contentStyle={{background: '#f0fdf4', border: '2px solid #10b981', borderRadius: '10px', fontSize: '0.85em', boxShadow: '0 8px 24px rgba(16, 185, 129, 0.2)'}}
+                      labelStyle={{fontWeight: '800', color: '#0f172a'}}
+                      formatter={(value) => value.toFixed(2)}
+                      cursor={{stroke: '#10b981', strokeWidth: 2}}
+                    />
+                    <Legend wrapperStyle={{fontSize: '0.8em', fontWeight: '800', paddingTop: '12px'}} />
+                    <Area type="monotone" dataKey="clearance" stackId="1" stroke="#10b981" fill="url(#gradCartClear)" name="Clearance" isAnimationActive={true} animationDuration={800} />
+                    <Area type="monotone" dataKey="closure" stackId="1" stroke="#059669" fill="url(#gradCartClose)" name="Closure" isAnimationActive={true} animationDuration={800} />
+                    <Area type="monotone" dataKey="reverif" stackId="1" stroke="#34d399" fill="url(#gradCartRev)" name="Re-Verification" isAnimationActive={true} animationDuration={800} />
+                  </AreaChart>
+                </ResponsiveContainer>
+                <div style={{fontSize: '0.75em', color: '#065f46', textAlign: 'center', marginTop: '12px', fontWeight: '600', background: '#ecfdf5', padding: '10px', borderRadius: '8px', border: '1px solid #d1fae5'}}>
+                  ✨ Average times across all 11 cartridge assembly activities (LINE-G, Dump to Annealing, Matrix Pallet, Rework, Verification, QR Code, QR Pasting, Grommet, Smiley, Filter Washing, Filter Heating)
+                </div>
               </div>
 
               {/* Scrollable Container with Arrows */}
