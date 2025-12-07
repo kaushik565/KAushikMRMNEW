@@ -247,26 +247,49 @@ export default function ExecutiveSummary() {
           }}>
             Before: Jan-Jun 2025 | After: Jul-Nov 2025
           </div>
-          <ResponsiveContainer width="100%" height={380}>
-            <BarChart data={closureDaysComparisonData} margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
+          <ResponsiveContainer width="100%" height={480}>
+            <BarChart data={closureDaysComparisonData} margin={{ top: 10, right: 30, left: 20, bottom: 70 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-              <XAxis dataKey="category" stroke="#64748b" style={{ fontSize: '0.85em', fontWeight: '600' }} />
-              <YAxis stroke="#64748b" style={{ fontSize: '0.85em' }} />
+              <XAxis 
+                dataKey="category" 
+                stroke="#64748b" 
+                style={{ fontSize: '0.75em', fontWeight: '600' }}
+                angle={0}
+                textAnchor="middle"
+              />
+              <YAxis 
+                stroke="#64748b" 
+                style={{ fontSize: '0.8em' }}
+                label={{ value: 'Days', angle: -90, position: 'insideLeft', style: { fontSize: '0.85em', fontWeight: '600' } }}
+              />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: '#ffffff', 
                   border: '2px solid #e2e8f0',
                   borderRadius: '8px',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                  fontSize: '0.85em'
                 }}
               />
-              <Legend wrapperStyle={{ fontSize: '0.75em', fontWeight: '600' }} />
-              <Bar dataKey="SITE-I Before" fill="#fca5a5" />
-              <Bar dataKey="SITE-I After" fill="#dc2626" />
-              <Bar dataKey="SITE-III Before" fill="#d8b4fe" />
-              <Bar dataKey="SITE-III After" fill="#8b5cf6" />
-              <Bar dataKey="SITE-V Before" fill="#7dd3fc" />
-              <Bar dataKey="SITE-V After" fill="#0ea5e9" />
+              <Legend 
+                wrapperStyle={{ 
+                  fontSize: '0.72em', 
+                  fontWeight: '600',
+                  paddingTop: '30px',
+                  lineHeight: '1.8'
+                }}
+                iconSize={10}
+                align="center"
+                verticalAlign="bottom"
+                layout="horizontal"
+                iconType="rect"
+              />
+              <Bar dataKey="SITE-I Before" fill="#fca5a5" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="SITE-I After" fill="#dc2626" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="SITE-III Before" fill="#d8b4fe" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="SITE-III After" fill="#8b5cf6" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="SITE-V Before" fill="#7dd3fc" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="SITE-V After" fill="#0ea5e9" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -300,23 +323,38 @@ export default function ExecutiveSummary() {
           }}>
             Percentage Reduction in Closure Days
           </div>
-          <ResponsiveContainer width="100%" height={380}>
-            <BarChart data={improvementByCategory} margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
+          <ResponsiveContainer width="100%" height={420}>
+            <BarChart data={improvementByCategory} margin={{ top: 10, right: 30, left: 30, bottom: 50 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-              <XAxis dataKey="category" stroke="#64748b" style={{ fontSize: '0.85em', fontWeight: '600' }} />
-              <YAxis stroke="#64748b" style={{ fontSize: '0.85em' }} label={{ value: 'Improvement %', angle: -90, position: 'insideLeft', fill: '#64748b' }} />
+              <XAxis 
+                dataKey="category" 
+                stroke="#64748b" 
+                style={{ fontSize: '0.8em', fontWeight: '600' }}
+              />
+              <YAxis 
+                stroke="#64748b" 
+                style={{ fontSize: '0.8em' }} 
+                label={{ value: 'Improvement %', angle: -90, position: 'insideLeft', style: { fontSize: '0.85em', fontWeight: '600' } }}
+              />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: '#ffffff', 
                   border: '2px solid #e2e8f0',
                   borderRadius: '8px',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                  fontSize: '0.85em'
                 }}
               />
-              <Legend wrapperStyle={{ fontSize: '0.75em', fontWeight: '600' }} />
-              <Bar dataKey="SITE-I" fill="#dc2626" />
-              <Bar dataKey="SITE-III" fill="#8b5cf6" />
-              <Bar dataKey="SITE-V" fill="#0ea5e9" />
+              <Legend 
+                wrapperStyle={{ fontSize: '0.72em', fontWeight: '600', paddingTop: '25px' }}
+                iconSize={10}
+                align="center"
+                verticalAlign="bottom"
+                iconType="rect"
+              />
+              <Bar dataKey="SITE-I" fill="#dc2626" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="SITE-III" fill="#8b5cf6" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="SITE-V" fill="#0ea5e9" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -324,7 +362,7 @@ export default function ExecutiveSummary() {
       {/* TREND ANALYSIS */}
       <div style={{ 
         background: '#ffffff',
-        padding: '22px',
+        padding: '24px',
         borderRadius: '12px',
         boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
         border: '2px solid #e2e8f0',
@@ -339,7 +377,7 @@ export default function ExecutiveSummary() {
           paddingBottom: '10px',
           borderBottom: '3px solid #3b82f6'
         }}>
-          📉 Monthly Trend Analysis - Closure Days Reduction (All Sites Combined)
+          📉 Monthly Trend Analysis - Closure Days Reduction
         </div>
         <div style={{ 
           fontSize: '0.82em', 
@@ -348,25 +386,39 @@ export default function ExecutiveSummary() {
           marginBottom: '14px',
           fontWeight: '600'
         }}>
-          Continuous improvement trend from Jan to Nov 2025
+          Continuous improvement trend from Jan to Nov 2025 (All Sites Combined)
         </div>
-        <ResponsiveContainer width="100%" height={280}>
-          <ComposedChart data={trendData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+        <ResponsiveContainer width="100%" height={320}>
+          <ComposedChart data={trendData} margin={{ top: 10, right: 30, left: 10, bottom: 50 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis dataKey="month" stroke="#64748b" style={{ fontSize: '0.85em', fontWeight: '600' }} />
-            <YAxis stroke="#64748b" style={{ fontSize: '0.85em' }} />
+            <XAxis 
+              dataKey="month" 
+              stroke="#64748b" 
+              style={{ fontSize: '0.8em', fontWeight: '600' }}
+            />
+            <YAxis 
+              stroke="#64748b" 
+              style={{ fontSize: '0.8em' }}
+              label={{ value: 'Days', angle: -90, position: 'insideLeft', style: { fontSize: '0.85em', fontWeight: '600' } }}
+            />
             <Tooltip 
               contentStyle={{ 
                 backgroundColor: '#ffffff', 
                 border: '2px solid #e2e8f0',
                 borderRadius: '8px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                fontSize: '0.85em'
               }}
             />
-            <Legend wrapperStyle={{ fontSize: '0.8em', fontWeight: '600' }} />
+            <Legend 
+              wrapperStyle={{ fontSize: '0.72em', fontWeight: '600', paddingTop: '25px' }}
+              iconSize={10}
+              align="center"
+              verticalAlign="bottom"
+            />
             <Area type="monotone" dataKey="incidents" fill="#fecaca" stroke="#dc2626" strokeWidth={2} name="Incidents (days)" />
-            <Line type="monotone" dataKey="ca" stroke="#8b5cf6" strokeWidth={3} name="CA (days)" dot={{ r: 4 }} />
-            <Line type="monotone" dataKey="pa" stroke="#0ea5e9" strokeWidth={3} name="PA (days)" dot={{ r: 4 }} />
+            <Line type="monotone" dataKey="ca" stroke="#8b5cf6" strokeWidth={3} name="CA (days)" dot={{ r: 5, fill: '#8b5cf6', strokeWidth: 2, stroke: '#fff' }} />
+            <Line type="monotone" dataKey="pa" stroke="#0ea5e9" strokeWidth={3} name="PA (days)" dot={{ r: 5, fill: '#0ea5e9', strokeWidth: 2, stroke: '#fff' }} />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
@@ -661,7 +713,7 @@ export default function ExecutiveSummary() {
                   </div>
                 </div>
                 <div style={{ 
-                  background: values.improvement > 0 ? '#22c55e' : '#94a3b8',
+                  background: values.improvement > 0 ? '#22c55e' : '#ef4444',
                   color: '#ffffff',
                   padding: '6px 10px',
                   borderRadius: '6px',
@@ -670,7 +722,7 @@ export default function ExecutiveSummary() {
                   minWidth: '50px',
                   textAlign: 'center'
                 }}>
-                  {values.improvement > 0 ? '↓' : ''}{values.improvement}%
+                  {values.improvement > 0 ? '↓' : '↑'}{Math.abs(values.improvement)}%
                 </div>
               </div>
             ))}
@@ -706,27 +758,57 @@ export default function ExecutiveSummary() {
         }}>
           High approval rates maintained across all sites with significant activity volume
         </div>
-        <ResponsiveContainer width="100%" height={260}>
-          <ComposedChart data={ipqaPerformanceData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+        <ResponsiveContainer width="100%" height={340}>
+          <ComposedChart data={ipqaPerformanceData} margin={{ top: 10, right: 40, left: 20, bottom: 50 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis dataKey="site" stroke="#64748b" style={{ fontSize: '0.9em', fontWeight: '600' }} />
-            <YAxis yAxisId="left" stroke="#64748b" style={{ fontSize: '0.85em' }} domain={[97, 100]} label={{ value: 'Approval %', angle: -90, position: 'insideLeft', fill: '#64748b' }} />
-            <YAxis yAxisId="right" orientation="right" stroke="#64748b" style={{ fontSize: '0.85em' }} label={{ value: 'Activities', angle: 90, position: 'insideRight', fill: '#64748b' }} />
+            <XAxis 
+              dataKey="site" 
+              stroke="#64748b" 
+              style={{ fontSize: '0.8em', fontWeight: '600' }}
+            />
+            <YAxis 
+              yAxisId="left" 
+              stroke="#64748b" 
+              style={{ fontSize: '0.8em' }} 
+              domain={[97, 100]} 
+              label={{ value: 'Approval %', angle: -90, position: 'insideLeft', style: { fontSize: '0.85em', fontWeight: '600' } }}
+            />
+            <YAxis 
+              yAxisId="right" 
+              orientation="right" 
+              stroke="#64748b" 
+              style={{ fontSize: '0.8em' }} 
+              label={{ value: 'Activities', angle: 90, position: 'insideRight', style: { fontSize: '0.85em', fontWeight: '600' } }}
+            />
             <Tooltip 
               contentStyle={{ 
                 backgroundColor: '#ffffff', 
                 border: '2px solid #e2e8f0',
                 borderRadius: '8px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                fontSize: '0.85em'
               }}
             />
-            <Legend wrapperStyle={{ fontSize: '0.8em', fontWeight: '600' }} />
-            <Bar yAxisId="right" dataKey="activities" fill="#14b8a6" name="Total Activities">
+            <Legend 
+              wrapperStyle={{ fontSize: '0.72em', fontWeight: '600', paddingTop: '25px' }}
+              iconSize={10}
+              align="center"
+              verticalAlign="bottom"
+            />
+            <Bar yAxisId="right" dataKey="activities" fill="#14b8a6" name="Total Activities" radius={[8, 8, 0, 0]}>
               <Cell fill="#dc2626" />
               <Cell fill="#8b5cf6" />
               <Cell fill="#0ea5e9" />
             </Bar>
-            <Line yAxisId="left" type="monotone" dataKey="Approval Rate" stroke="#22c55e" strokeWidth={4} name="Approval Rate %" dot={{ r: 6, fill: '#22c55e' }} />
+            <Line 
+              yAxisId="left" 
+              type="monotone" 
+              dataKey="Approval Rate" 
+              stroke="#22c55e" 
+              strokeWidth={4} 
+              name="Approval Rate %" 
+              dot={{ r: 6, fill: '#22c55e', strokeWidth: 2, stroke: '#fff' }} 
+            />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
