@@ -1,3 +1,5 @@
+const logoUrl = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
+
 export default function ClosingSlide() {
   return (
     <section className="closing-slide" style={{
@@ -9,6 +11,18 @@ export default function ClosingSlide() {
       textAlign: 'center',
       backgroundColor: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)'
     }}>
+      {/* Company Logo */}
+      <img 
+        src={logoUrl}
+        alt="Company Logo"
+        style={{
+          width: '280px',
+          height: 'auto',
+          marginBottom: '48px',
+          objectFit: 'contain'
+        }}
+      />
+
       {/* Main Thank You Message */}
       <h1 style={{
         fontSize: '4em',

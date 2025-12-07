@@ -59,7 +59,8 @@ export default function Presentation() {
         const handleSlideState = () => {
           const current = deck?.getCurrentSlide()
           const isTitle = current?.dataset?.state === 'title-slide'
-          document.body.classList.toggle('hide-corner-logo', !!isTitle)
+          const isClosing = current?.classList?.contains('closing-slide')
+          document.body.classList.toggle('hide-corner-logo', !!(isTitle || isClosing))
         }
 
         deck.on('ready', handleSlideState)
