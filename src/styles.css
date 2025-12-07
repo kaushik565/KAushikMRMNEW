@@ -1100,6 +1100,7 @@ body.state-title-slide .corner-logo {
     scrollbar-color: #b91c1c #f1f1f1;
 }
 
+
 /* ===== IPQA Detail Sections ===== */
 
 .ipqa-detail-section {
@@ -1132,6 +1133,7 @@ body.state-title-slide .corner-logo {
     color: var(--muted);
     margin: 0;
 }
+
 
 /* KPI Cards Grid */
 
@@ -1199,6 +1201,7 @@ body.state-title-slide .corner-logo {
     line-height: 1.1;
 }
 
+
 /* Charts Container */
 
 .charts-row {
@@ -1242,7 +1245,9 @@ body.state-title-slide .corner-logo {
     background: transparent !important;
 }
 
+
 /* Ensure responsive chart sizing */
+
 .chart-container .recharts-wrapper {
     width: 100% !important;
 }
@@ -1252,6 +1257,7 @@ body.state-title-slide .corner-logo {
     height: auto !important;
     min-height: 280px;
 }
+
 
 /* Data Table */
 
@@ -1344,6 +1350,7 @@ body.state-title-slide .corner-logo {
     color: var(--muted);
 }
 
+
 /* Observations Section */
 
 .observations-section {
@@ -1386,6 +1393,7 @@ body.state-title-slide .corner-logo {
     color: var(--mid);
     font-weight: 500;
 }
+
 
 /* Insights Section */
 
@@ -1435,18 +1443,17 @@ body.state-title-slide .corner-logo {
     line-height: 1.5;
 }
 
+
 /* Responsive for Detail Slides */
 
 @media (max-width: 1024px) {
     .ipqa-detail-container {
         padding: 30px 40px;
     }
-
     .kpi-cards-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 15px;
     }
-
     .charts-row {
         grid-template-columns: 1fr;
     }
@@ -1456,29 +1463,38 @@ body.state-title-slide .corner-logo {
     .ipqa-detail-container {
         padding: 20px 25px;
     }
-
     .kpi-cards-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
     }
-
     .kpi-value {
         font-size: 1.8em;
     }
-
     .kpi-label {
         font-size: 0.8em;
     }
-
     .data-table {
         font-size: 0.8em;
     }
-
     .data-table td {
         padding: 8px;
     }
-
     .insights-list {
         grid-template-columns: 1fr;
+    }
+}
+
+
+/* Pulse animation for scroll indicator */
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translateY(4px);
     }
 }

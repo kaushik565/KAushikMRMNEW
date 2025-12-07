@@ -400,32 +400,14 @@ export default function IPQAOverview() {
 
         {/* SITE-I Inline Detailed Sections */}
         {siteName === 'SITE-I' && (
-          <div style={{ marginTop: '20px' }}>
-            <div style={{
-              background: 'linear-gradient(135deg, #fee2e2, #fecaca)',
-              border: '2px solid #dc262630',
-              borderRadius: '14px',
-              padding: '16px 20px',
-              marginBottom: '24px',
-              boxShadow: '0 4px 12px rgba(220, 38, 38, 0.1)'
-            }}>
-              <div style={{
-                fontSize: '1.1em',
-                fontWeight: '700',
-                color: '#b91c1c',
-                marginBottom: '8px'
-              }}>
-                📊 SITE-I IPQA Activities Overview
-              </div>
-              <div style={{
-                fontSize: '0.85em',
-                color: '#4b5563',
-                lineHeight: '1.6'
-              }}>
-                Comprehensive IPQA performance across all activities including Line Clearance, Line Closure, Re-verification, Sampling Operations (Incoming, In-Process, Finished Kit, Control Kit, Stability Kit, Transfer Note Verification), In-Process Verification, and Equipment Calibration with designated responsible personnel.
-              </div>
-            </div>
-            
+          <div style={{ 
+            marginTop: '20px',
+            maxHeight: '800px',
+            overflowY: 'auto',
+            paddingRight: '10px',
+            scrollbarWidth: 'thin',
+            scrollbarColor: '#dc2626 #fee2e2'
+          }}>
             <SiteILineClearance />
             <SiteILineClosure />
             <SiteIReverification />
