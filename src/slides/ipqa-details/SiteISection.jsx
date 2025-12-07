@@ -213,28 +213,29 @@ export default function SiteISection() {
 
   return (
     <div style={{ padding: '0px' }}>
-      {/* Enhanced KPI Cards Row */}
+      {/* PREMIUM KPI Cards Row */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '12px',
-        marginBottom: '20px'
+        gap: '14px',
+        marginBottom: '18px'
       }}>
         {kpiData.map((kpi, idx) => (
           <div key={idx} style={{
-            background: kpi.bgColor,
+            background: `linear-gradient(135deg, ${kpi.bgColor}, #ffffff)`,
             border: `3px solid ${kpi.color}`,
-            borderRadius: '12px',
-            padding: '16px',
-            boxShadow: `0 4px 12px ${kpi.color}30`
+            borderRadius: '14px',
+            padding: '18px',
+            boxShadow: `0 6px 20px ${kpi.color}25`,
+            transition: 'transform 0.3s ease'
           }}>
             <div style={{
-              fontSize: '0.7em',
-              fontWeight: '700',
+              fontSize: '0.68em',
+              fontWeight: '800',
               color: '#6b7280',
-              marginBottom: '8px',
+              marginBottom: '10px',
               textTransform: 'uppercase',
-              letterSpacing: '0.5px'
+              letterSpacing: '0.8px'
             }}>
               {kpi.label}
             </div>
@@ -242,241 +243,357 @@ export default function SiteISection() {
               display: 'flex',
               alignItems: 'baseline',
               gap: '8px',
-              marginBottom: '8px'
+              marginBottom: '10px'
             }}>
               <div style={{
-                fontSize: '2.2em',
+                fontSize: '2.4em',
                 fontWeight: '900',
-                color: kpi.color
+                color: kpi.color,
+                lineHeight: '1'
               }}>
                 {kpi.value}
               </div>
               {kpi.unit && (
                 <div style={{
-                  fontSize: '0.7em',
-                  color: '#6b7280'
+                  fontSize: '0.65em',
+                  color: '#6b7280',
+                  fontWeight: '600'
                 }}>
                   {kpi.unit}
                 </div>
               )}
             </div>
             <div style={{
-              fontSize: '0.85em',
-              fontWeight: '700',
+              fontSize: '0.8em',
+              fontWeight: '800',
               color: kpi.trendColor,
               display: 'flex',
               alignItems: 'center',
-              gap: '4px'
+              gap: '4px',
+              background: `${kpi.trendColor}15`,
+              padding: '6px 8px',
+              borderRadius: '6px',
+              width: 'fit-content'
             }}>
-              {kpi.trendColor === '#16a34a' ? '↑' : '↓'} {kpi.trend} <span style={{ fontSize: '0.7em', color: '#9ca3af' }}>vs Jun</span>
+              {kpi.trendColor === '#16a34a' ? '📈' : '📉'} {kpi.trend} <span style={{ fontSize: '0.65em', color: '#6b7280' }}>vs Jun</span>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Charts Section - Row 1 */}
+      {/* Charts Section - Row 1: MAIN ANALYSIS */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1.2fr 1fr',
+        gridTemplateColumns: '1.5fr 1fr',
         gap: '16px',
-        marginBottom: '20px'
+        marginBottom: '18px'
       }}>
-        {/* Monthly Throughput Trend */}
+        {/* Monthly Throughput Trend - PRIMARY CHART */}
         <div style={{
           background: '#ffffff',
           border: '2px solid #e5e7eb',
-          borderRadius: '12px',
-          padding: '16px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+          borderRadius: '14px',
+          padding: '18px',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.1)'
         }}>
           <div style={{
-            fontSize: '0.9em',
-            fontWeight: '700',
+            fontSize: '0.95em',
+            fontWeight: '800',
             color: '#111827',
-            marginBottom: '12px'
+            marginBottom: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
           }}>
             📈 Monthly Throughput Trend (Jun-Nov 2025)
           </div>
-          <ResponsiveContainer width="100%" height={220}>
-            <AreaChart data={throughputTrendData} margin={{ top: 0, right: 10, left: -15, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={240}>
+            <ComposedChart data={throughputTrendData} margin={{ top: 5, right: 15, left: -10, bottom: 5 }}>
               <defs>
                 <linearGradient id="colorClearance" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#dc2626" stopOpacity={0.3}/>
+                  <stop offset="5%" stopColor="#dc2626" stopOpacity={0.4}/>
                   <stop offset="95%" stopColor="#dc2626" stopOpacity={0}/>
                 </linearGradient>
+                <linearGradient id="colorClosure" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0}/>
+                </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="month" fontSize={11} />
-              <YAxis fontSize={11} />
-              <Tooltip contentStyle={{ backgroundColor: '#fff', border: '1px solid #e5e7eb', borderRadius: '6px' }} />
-              <Legend wrapperStyle={{ fontSize: '10px' }} />
-              <Area type="monotone" dataKey="clearance" stroke="#dc2626" strokeWidth={2} fillOpacity={1} fill="url(#colorClearance)" name="Line Clearance" />
-              <Line type="monotone" dataKey="closure" stroke="#0ea5e9" strokeWidth={2} name="Line Closure" />
-              <Line type="monotone" dataKey="incoming" stroke="#f59e0b" strokeWidth={2} name="Incoming Sampling" />
-            </AreaChart>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+              <XAxis dataKey="month" fontSize={11} stroke="#9ca3af" />
+              <YAxis fontSize={11} stroke="#9ca3af" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: '#fff', border: '2px solid #e5e7eb', borderRadius: '8px', padding: '10px' }} 
+                cursor={{ fill: 'rgba(0,0,0,0.05)' }}
+              />
+              <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
+              <Area type="monotone" dataKey="clearance" stroke="#dc2626" strokeWidth={3} fillOpacity={1} fill="url(#colorClearance)" name="Line Clearance" />
+              <Line type="monotone" dataKey="closure" stroke="#0ea5e9" strokeWidth={2.5} name="Line Closure" dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="incoming" stroke="#f59e0b" strokeWidth={2.5} name="Incoming Sampling" dot={{ r: 3 }} />
+            </ComposedChart>
           </ResponsiveContainer>
         </div>
 
-        {/* Team Performance Ranking */}
+        {/* Quality Issues Distribution */}
         <div style={{
           background: '#ffffff',
           border: '2px solid #e5e7eb',
-          borderRadius: '12px',
-          padding: '16px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+          borderRadius: '14px',
+          padding: '18px',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.1)'
         }}>
           <div style={{
-            fontSize: '0.9em',
-            fontWeight: '700',
+            fontSize: '0.95em',
+            fontWeight: '800',
             color: '#111827',
-            marginBottom: '12px'
+            marginBottom: '14px'
           }}>
-            🏆 Top Performers (Improvement %)
+            🔍 Quality Issues Distribution
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {topPerformers.map((perf, idx) => (
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={qualityMetrics} margin={{ top: 5, right: 15, left: 0, bottom: 40 }}>
+              <defs>
+                <linearGradient id="qualityGradient2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0ea5e9" stopOpacity={1}/>
+                  <stop offset="100%" stopColor="#0ea5e9" stopOpacity={0.6}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+              <XAxis dataKey="category" fontSize={10} angle={-30} textAnchor="end" height={70} stroke="#9ca3af" />
+              <YAxis fontSize={11} stroke="#9ca3af" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: '#fff', border: '2px solid #e5e7eb', borderRadius: '8px' }}
+                formatter={(value) => `${value} issues`}
+                cursor={{ fill: 'rgba(0,0,0,0.05)' }}
+              />
+              <Bar dataKey="count" fill="url(#qualityGradient2)" radius={[8, 8, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '10px',
+            marginTop: '12px'
+          }}>
+            {qualityMetrics.map((metric, idx) => (
               <div key={idx} style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
                 padding: '8px',
                 background: '#f9fafb',
                 borderRadius: '6px',
-                borderLeft: `3px solid ${perf.color}`
+                borderLeft: `3px solid ${['#dc2626', '#0ea5e9', '#f59e0b', '#8b5cf6'][idx]}`,
+                fontSize: '0.7em'
               }}>
-                <div style={{
-                  background: perf.color,
-                  color: 'white',
-                  width: '24px',
-                  height: '24px',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '0.7em',
-                  fontWeight: '700'
-                }}>
-                  {idx + 1}
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '0.75em', fontWeight: '600', color: '#111827' }}>{perf.name}</div>
-                  <div style={{ fontSize: '0.65em', color: '#6b7280' }}>{perf.activity}</div>
-                </div>
-                <div style={{
-                  fontSize: '0.9em',
-                  fontWeight: '700',
-                  color: parseFloat(perf.improvement) > 0 ? '#16a34a' : '#dc2626'
-                }}>
-                  {perf.improvement}%
-                </div>
+                <div style={{ fontWeight: '700', color: '#111827' }}>{metric.count}</div>
+                <div style={{ fontSize: '0.65em', color: '#6b7280' }}>{metric.percentage}%</div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Charts Section - Row 2 */}
+      {/* Sampling Activities Performance Analysis - Full Width */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '16px',
-        marginBottom: '20px'
+        marginBottom: '18px'
       }}>
-        {/* Quality Issues Distribution */}
+        {/* Sampling Data Analysis Section */}
         <div style={{
           background: '#ffffff',
           border: '2px solid #e5e7eb',
-          borderRadius: '12px',
-          padding: '16px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+          borderRadius: '14px',
+          padding: '18px',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.1)'
         }}>
           <div style={{
-            fontSize: '0.9em',
-            fontWeight: '700',
+            fontSize: '0.95em',
+            fontWeight: '800',
             color: '#111827',
-            marginBottom: '12px'
+            marginBottom: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
           }}>
-            🔍 Quality Issues Breakdown
+            📊 Sampling Activities Performance Analysis (Jun → Nov 2025)
           </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <ComposedChart data={qualityMetrics} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="category" fontSize={9} angle={-45} textAnchor="end" height={70} />
-              <YAxis fontSize={11} />
-              <Tooltip contentStyle={{ backgroundColor: '#fff', border: '1px solid #e5e7eb', borderRadius: '6px' }} />
-              <Bar dataKey="count" fill="#0ea5e9" radius={[4, 4, 0, 0]} />
-            </ComposedChart>
-          </ResponsiveContainer>
-        </div>
+          
+          {/* Sampling Trend Chart */}
+          <div style={{ marginBottom: '16px' }}>
+            <ResponsiveContainer width="100%" height={240}>
+              <ComposedChart data={[
+                { month: 'Jun', incoming: 255, inprocess: 260, finished: 48, control: 46, stability: 10 },
+                { month: 'Jul', incoming: 436, inprocess: 450, finished: 80, control: 65, stability: 0 },
+                { month: 'Aug', incoming: 272, inprocess: 355, finished: 95, control: 91, stability: 0 },
+                { month: 'Sep', incoming: 307, inprocess: 329, finished: 60, control: 53, stability: 0 },
+                { month: 'Oct', incoming: 272, inprocess: 333, finished: 42, control: 40, stability: 3 },
+                { month: 'Nov', incoming: 597, inprocess: 271, finished: 66, control: 53, stability: 5 }
+              ]} margin={{ top: 5, right: 15, left: 0, bottom: 5 }}>
+                <defs>
+                  <linearGradient id="incomingGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.3}/>
+                  </linearGradient>
+                  <linearGradient id="inprocessGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0.3}/>
+                  </linearGradient>
+                  <linearGradient id="finishedGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#06b6d4" stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor="#06b6d4" stopOpacity={0.3}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                <XAxis dataKey="month" fontSize={10} stroke="#9ca3af" />
+                <YAxis fontSize={10} stroke="#9ca3af" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: '#fff', border: '2px solid #e5e7eb', borderRadius: '8px' }}
+                  cursor={{ fill: 'rgba(0,0,0,0.05)' }}
+                />
+                <Legend wrapperStyle={{ fontSize: '0.7em' }} />
+                <Area type="monotone" dataKey="incoming" fill="url(#incomingGrad)" stroke="#f59e0b" strokeWidth={2} name="Incoming" />
+                <Area type="monotone" dataKey="inprocess" fill="url(#inprocessGrad)" stroke="#8b5cf6" strokeWidth={2} name="In-Process" />
+                <Bar dataKey="finished" fill="#06b6d4" radius={[4, 4, 0, 0]} name="Finished Kit" />
+                <Line type="monotone" dataKey="control" stroke="#ec4899" strokeWidth={2} dot={{ r: 4 }} name="Control Kit" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
 
-        {/* Defect Rate by Team */}
-        <div style={{
-          background: '#ffffff',
-          border: '2px solid #e5e7eb',
-          borderRadius: '12px',
-          padding: '16px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
-        }}>
-          <div style={{
-            fontSize: '0.9em',
-            fontWeight: '700',
-            color: '#111827',
-            marginBottom: '12px'
+          {/* Sampling Performance Cards */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(5, 1fr)', 
+            gap: '10px',
+            marginBottom: '14px'
           }}>
-            📊 Defect Rate Analysis by Team
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {teamPerformanceData.map((perf, idx) => (
-              <div key={idx} style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                <div style={{
-                  flex: 1,
-                  height: '24px',
-                  background: '#f3f4f6',
-                  borderRadius: '4px',
-                  overflow: 'hidden',
-                  position: 'relative'
+            {[
+              { name: 'Incoming Sampling', jun: 255, nov: 597, obs: 10, color: '#f59e0b', icon: '📥' },
+              { name: 'In-Process', jun: 260, nov: 271, obs: 8, color: '#8b5cf6', icon: '⚙️' },
+              { name: 'Finished Kit', jun: 48, nov: 66, obs: 4, color: '#06b6d4', icon: '📦' },
+              { name: 'Control Kit', jun: 46, nov: 53, obs: 2, color: '#ec4899', icon: '🎛️' },
+              { name: 'Stability Kit', jun: 10, nov: 5, obs: 0, color: '#84cc16', icon: '🧪' }
+            ].map((item, idx) => {
+              const improvement = ((item.nov - item.jun) / item.jun * 100).toFixed(1);
+              const isPositive = improvement >= 0;
+              return (
+                <div key={idx} style={{
+                  background: `${item.color}08`,
+                  border: `2px solid ${item.color}40`,
+                  borderRadius: '10px',
+                  padding: '12px',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}>
+                  <div style={{ 
+                    fontSize: '1.3em', 
+                    marginBottom: '6px',
+                    filter: 'grayscale(0%)'
+                  }}>{item.icon}</div>
+                  <div style={{ 
+                    fontSize: '0.7em', 
+                    fontWeight: '700', 
+                    color: '#111827',
+                    marginBottom: '8px',
+                    lineHeight: '1.2'
+                  }}>{item.name}</div>
                   <div style={{
-                    height: '100%',
-                    width: `${parseFloat(perf.defectRate)}%`,
-                    background: parseFloat(perf.defectRate) > 2 ? '#dc2626' : parseFloat(perf.defectRate) > 1 ? '#f59e0b' : '#16a34a',
-                    borderRadius: '4px'
-                  }}></div>
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'baseline',
+                    marginBottom: '6px'
+                  }}>
+                    <span style={{ fontSize: '0.65em', color: '#6b7280', fontWeight: '600' }}>Jun</span>
+                    <span style={{ fontSize: '0.9em', fontWeight: '800', color: '#111827' }}>{item.jun}</span>
+                  </div>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'baseline',
+                    marginBottom: '8px',
+                    paddingBottom: '8px',
+                    borderBottom: `1px solid ${item.color}30`
+                  }}>
+                    <span style={{ fontSize: '0.65em', color: '#6b7280', fontWeight: '600' }}>Nov</span>
+                    <span style={{ fontSize: '1.1em', fontWeight: '900', color: item.color }}>{item.nov}</span>
+                  </div>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '4px'
+                  }}>
+                    <div style={{
+                      fontSize: '0.85em',
+                      fontWeight: '900',
+                      color: isPositive ? '#16a34a' : '#dc2626',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '2px'
+                    }}>
+                      {isPositive ? '↑' : '↓'} {Math.abs(improvement)}%
+                    </div>
+                    <div style={{
+                      fontSize: '0.65em',
+                      background: '#fef3c7',
+                      color: '#d97706',
+                      padding: '2px 6px',
+                      borderRadius: '4px',
+                      fontWeight: '700'
+                    }}>
+                      ⚠️ {item.obs}
+                    </div>
+                  </div>
                 </div>
-                <div style={{
-                  fontSize: '0.75em',
-                  fontWeight: '600',
-                  color: '#111827',
-                  minWidth: '45px',
-                  textAlign: 'right'
-                }}>
-                  {perf.defectRate}%
-                </div>
-              </div>
-            ))}
+              );
+            })}
+          </div>
+
+          {/* Sampling Observations Summary */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(5, 1fr)',
+            gap: '8px',
+            padding: '12px',
+            background: '#f9fafb',
+            borderRadius: '8px',
+            border: '1px solid #e5e7eb'
+          }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '0.7em', color: '#6b7280', marginBottom: '4px', fontWeight: '600' }}>Total Jun</div>
+              <div style={{ fontSize: '1.1em', fontWeight: '800', color: '#111827' }}>619</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '0.7em', color: '#6b7280', marginBottom: '4px', fontWeight: '600' }}>Total Nov</div>
+              <div style={{ fontSize: '1.1em', fontWeight: '800', color: '#0ea5e9' }}>992</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '0.7em', color: '#6b7280', marginBottom: '4px', fontWeight: '600' }}>Growth</div>
+              <div style={{ fontSize: '1.1em', fontWeight: '800', color: '#16a34a' }}>↑ 60.3%</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '0.7em', color: '#6b7280', marginBottom: '4px', fontWeight: '600' }}>Observations</div>
+              <div style={{ fontSize: '1.1em', fontWeight: '800', color: '#f59e0b' }}>24 total</div>
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '0.7em', color: '#6b7280', marginBottom: '4px', fontWeight: '600' }}>Compliance</div>
+              <div style={{ fontSize: '1.1em', fontWeight: '800', color: '#16a34a' }}>✓ 99.1%</div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Performance Data Table */}
       <div style={{
-        marginBottom: '20px',
+        marginBottom: '18px',
         background: '#ffffff',
         border: '2px solid #e5e7eb',
-        borderRadius: '12px',
-        padding: '16px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+        borderRadius: '14px',
+        padding: '18px',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
         overflowX: 'auto'
       }}>
         <div style={{
-          fontSize: '0.9em',
-          fontWeight: '700',
+          fontSize: '0.95em',
+          fontWeight: '800',
           color: '#111827',
-          marginBottom: '12px'
+          marginBottom: '14px'
         }}>
           📋 Monthly Performance Data (Approved + Not Approved/Observations)
         </div>
@@ -486,23 +603,23 @@ export default function SiteISection() {
           fontSize: '0.68em'
         }}>
           <thead>
-            <tr style={{ background: '#f3f4f6', borderBottom: '2px solid #e5e7eb' }}>
-              <th style={{ padding: '8px', textAlign: 'left', fontWeight: '700', color: '#111827' }}>Activity / Team</th>
-              <th style={{ padding: '8px', textAlign: 'center', fontWeight: '700', color: '#6b7280' }}>June</th>
-              <th style={{ padding: '8px', textAlign: 'center', fontWeight: '700', color: '#6b7280' }}>July</th>
-              <th style={{ padding: '8px', textAlign: 'center', fontWeight: '700', color: '#6b7280' }}>August</th>
-              <th style={{ padding: '8px', textAlign: 'center', fontWeight: '700', color: '#6b7280' }}>Sept</th>
-              <th style={{ padding: '8px', textAlign: 'center', fontWeight: '700', color: '#6b7280' }}>Oct</th>
-              <th style={{ padding: '8px', textAlign: 'center', fontWeight: '700', color: '#6b7280' }}>Nov</th>
-              <th style={{ padding: '8px', textAlign: 'center', fontWeight: '700', color: '#0ea5e9' }}>Improvement</th>
+            <tr style={{ background: '#f3f4f6', borderBottom: '3px solid #e5e7eb' }}>
+              <th style={{ padding: '10px', textAlign: 'left', fontWeight: '800', color: '#111827' }}>Activity / Team</th>
+              <th style={{ padding: '10px', textAlign: 'center', fontWeight: '800', color: '#6b7280' }}>Jun</th>
+              <th style={{ padding: '10px', textAlign: 'center', fontWeight: '800', color: '#6b7280' }}>Jul</th>
+              <th style={{ padding: '10px', textAlign: 'center', fontWeight: '800', color: '#6b7280' }}>Aug</th>
+              <th style={{ padding: '10px', textAlign: 'center', fontWeight: '800', color: '#6b7280' }}>Sep</th>
+              <th style={{ padding: '10px', textAlign: 'center', fontWeight: '800', color: '#6b7280' }}>Oct</th>
+              <th style={{ padding: '10px', textAlign: 'center', fontWeight: '800', color: '#111827', background: '#fef3c7' }}>Nov</th>
+              <th style={{ padding: '10px', textAlign: 'center', fontWeight: '800', color: '#0ea5e9', background: '#e0f2fe' }}>Improvement</th>
             </tr>
           </thead>
           <tbody>
             {monthlyPerformanceData.flatMap((row, idx) => {
               const improvement = calculateImprovement(row.june, row.november);
               return [
-                <tr key={`${idx}-main`} style={{ background: idx % 2 === 0 ? '#f9fafb' : '#ffffff', borderBottom: '1px solid #e5e7eb' }}>
-                  <td style={{ padding: '8px', fontWeight: '700', color: row.color }}>
+                <tr key={`${idx}-main`} style={{ background: idx % 2 === 0 ? '#ffffff' : '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                  <td style={{ padding: '10px', fontWeight: '700', color: row.color }}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <span style={{
                         width: '8px',
@@ -513,44 +630,51 @@ export default function SiteISection() {
                       {row.activity}
                     </span>
                   </td>
-                  <td style={{ padding: '8px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.june}</td>
-                  <td style={{ padding: '8px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.july}</td>
-                  <td style={{ padding: '8px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.august}</td>
-                  <td style={{ padding: '8px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.september}</td>
-                  <td style={{ padding: '8px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.october}</td>
-                  <td style={{ padding: '8px', textAlign: 'center', color: '#111827', fontWeight: '700' }}>{row.november}</td>
+                  <td style={{ padding: '10px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.june}</td>
+                  <td style={{ padding: '10px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.july}</td>
+                  <td style={{ padding: '10px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.august}</td>
+                  <td style={{ padding: '10px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.september}</td>
+                  <td style={{ padding: '10px', textAlign: 'center', color: '#111827', fontWeight: '600' }}>{row.october}</td>
+                  <td style={{ 
+                    padding: '10px', 
+                    textAlign: 'center', 
+                    color: '#111827', 
+                    fontWeight: '800',
+                    background: '#fef3c7'
+                  }}>{row.november}</td>
                   <td style={{
-                    padding: '8px',
+                    padding: '10px',
                     textAlign: 'center',
-                    fontWeight: '700',
-                    color: improvement > 0 ? '#16a34a' : '#dc2626'
+                    fontWeight: '800',
+                    color: improvement > 0 ? '#16a34a' : '#dc2626',
+                    background: '#e0f2fe'
                   }}>
                     {improvement > 0 ? '↑' : '↓'} {Math.abs(improvement)}%
                   </td>
                 </tr>,
                 <tr key={`${idx}-sub`} style={{ background: idx % 2 === 0 ? '#fafbfc' : '#f5f6f7', borderBottom: '2px solid #e5e7eb' }}>
-                  <td style={{ padding: '6px 8px', fontSize: '0.6em', fontWeight: '600', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', paddingLeft: '24px' }}>
+                  <td style={{ padding: '8px 10px', fontSize: '0.62em', fontWeight: '600', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', paddingLeft: '24px' }}>
                     {row.type === 'Not Approved' ? '❌ Not Approved' : '⚠️ Observations'}
                   </td>
-                  <td style={{ padding: '6px 8px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
+                  <td style={{ padding: '8px 10px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
                     {row.juneNotApproved !== undefined ? row.juneNotApproved : (row.juneObservations !== undefined ? row.juneObservations : 0)}
                   </td>
-                  <td style={{ padding: '6px 8px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
+                  <td style={{ padding: '8px 10px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
                     {row.julyNotApproved !== undefined ? row.julyNotApproved : (row.julyObservations !== undefined ? row.julyObservations : 0)}
                   </td>
-                  <td style={{ padding: '6px 8px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
+                  <td style={{ padding: '8px 10px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
                     {row.augustNotApproved !== undefined ? row.augustNotApproved : (row.augustObservations !== undefined ? row.augustObservations : 0)}
                   </td>
-                  <td style={{ padding: '6px 8px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
+                  <td style={{ padding: '8px 10px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
                     {row.septemberNotApproved !== undefined ? row.septemberNotApproved : (row.septemberObservations !== undefined ? row.septemberObservations : 0)}
                   </td>
-                  <td style={{ padding: '6px 8px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
+                  <td style={{ padding: '8px 10px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
                     {row.octoberNotApproved !== undefined ? row.octoberNotApproved : (row.octoberObservations !== undefined ? row.octoberObservations : 0)}
                   </td>
-                  <td style={{ padding: '6px 8px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
+                  <td style={{ padding: '8px 10px', textAlign: 'center', color: row.type === 'Not Approved' ? '#dc2626' : '#f59e0b', fontSize: '0.7em', fontWeight: '600' }}>
                     {row.novemberNotApproved !== undefined ? row.novemberNotApproved : (row.novemberObservations !== undefined ? row.novemberObservations : 0)}
                   </td>
-                  <td style={{ padding: '6px 8px', textAlign: 'center' }}></td>
+                  <td style={{ padding: '8px 10px', textAlign: 'center' }}></td>
                 </tr>
               ];
             })}
@@ -558,35 +682,195 @@ export default function SiteISection() {
         </table>
       </div>
 
+      {/* Equipment Calibration Section */}
+      <div style={{
+        marginBottom: '18px',
+        marginTop: '18px'
+      }}>
+        <div style={{
+          background: '#ffffff',
+          border: '2px solid #e5e7eb',
+          borderRadius: '14px',
+          padding: '18px',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.1)'
+        }}>
+          <div style={{
+            fontSize: '0.95em',
+            fontWeight: '800',
+            color: '#111827',
+            marginBottom: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            🔧 Equipment Calibration Performance Analysis
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1.5fr 1fr',
+            gap: '16px',
+            marginBottom: '14px'
+          }}>
+            {/* Calibration Trend Chart */}
+            <div>
+              <ResponsiveContainer width="100%" height={220}>
+                <ComposedChart data={[
+                  { month: 'Jun', calibration: 258, target: 200 },
+                  { month: 'Jul', calibration: 132, target: 200 },
+                  { month: 'Aug', calibration: 134, target: 200 },
+                  { month: 'Sep', calibration: 249, target: 200 },
+                  { month: 'Oct', calibration: 230, target: 200 },
+                  { month: 'Nov', calibration: 150, target: 200 }
+                ]} margin={{ top: 5, right: 15, left: 0, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="calibrationGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#6366f1" stopOpacity={0.8}/>
+                      <stop offset="100%" stopColor="#6366f1" stopOpacity={0.3}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
+                  <XAxis dataKey="month" fontSize={10} stroke="#9ca3af" />
+                  <YAxis fontSize={10} stroke="#9ca3af" />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#fff', border: '2px solid #e5e7eb', borderRadius: '8px' }}
+                    cursor={{ fill: 'rgba(0,0,0,0.05)' }}
+                  />
+                  <Legend wrapperStyle={{ fontSize: '0.7em' }} />
+                  <Area type="monotone" dataKey="calibration" fill="url(#calibrationGrad)" stroke="#6366f1" strokeWidth={3} name="Calibrations" />
+                  <Line type="monotone" dataKey="target" stroke="#f59e0b" strokeWidth={2} strokeDasharray="5 5" dot={{ r: 3 }} name="Target" />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Calibration Statistics - Square Cards in Row */}
+            <div style={{
+              display: 'flex',
+              gap: '10px',
+              alignItems: 'center',
+              height: '220px'
+            }}>
+              <div style={{
+                background: 'linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%)',
+                border: '2px solid #6366f1',
+                borderRadius: '10px',
+                padding: '12px',
+                flex: 1,
+                aspectRatio: '1',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center'
+              }}>
+                <div style={{ fontSize: '0.55em', color: '#6b7280', fontWeight: '700', marginBottom: '4px' }}>Total Calibrations</div>
+                <div style={{ fontSize: '1.4em', fontWeight: '900', color: '#6366f1', marginBottom: '2px' }}>1,153</div>
+                <div style={{ fontSize: '0.5em', color: '#6b7280' }}>Jun-Nov 2025</div>
+              </div>
+
+              <div style={{
+                background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+                border: '2px solid #f59e0b',
+                borderRadius: '10px',
+                padding: '12px',
+                flex: 1,
+                aspectRatio: '1',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center'
+              }}>
+                <div style={{ fontSize: '0.55em', color: '#6b7280', fontWeight: '700', marginBottom: '4px' }}>Average/Month</div>
+                <div style={{ fontSize: '1.4em', fontWeight: '900', color: '#f59e0b', marginBottom: '2px' }}>192</div>
+                <div style={{ fontSize: '0.5em', color: '#6b7280' }}>Calibrations</div>
+              </div>
+
+              <div style={{
+                background: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)',
+                border: '2px solid #16a34a',
+                borderRadius: '10px',
+                padding: '12px',
+                flex: 1,
+                aspectRatio: '1',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center'
+              }}>
+                <div style={{ fontSize: '0.55em', color: '#6b7280', fontWeight: '700', marginBottom: '4px' }}>Compliance Rate</div>
+                <div style={{ fontSize: '1.4em', fontWeight: '900', color: '#16a34a', marginBottom: '2px' }}>100%</div>
+                <div style={{ fontSize: '0.5em', color: '#16a34a', fontWeight: '700' }}>✓ All On Schedule</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Monthly Breakdown Cards */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(6, 1fr)',
+            gap: '10px',
+            padding: '14px',
+            background: '#f9fafb',
+            borderRadius: '8px',
+            border: '1px solid #e5e7eb'
+          }}>
+            {[
+              { month: 'Jun', count: 258, color: '#6366f1' },
+              { month: 'Jul', count: 132, color: '#8b5cf6' },
+              { month: 'Aug', count: 134, color: '#ec4899' },
+              { month: 'Sep', count: 249, color: '#06b6d4' },
+              { month: 'Oct', count: 230, color: '#10b981' },
+              { month: 'Nov', count: 150, color: '#f59e0b' }
+            ].map((item, idx) => (
+              <div key={idx} style={{
+                background: 'white',
+                border: `2px solid ${item.color}40`,
+                borderRadius: '8px',
+                padding: '12px',
+                textAlign: 'center',
+                borderLeft: `4px solid ${item.color}`
+              }}>
+                <div style={{ fontSize: '0.7em', color: '#6b7280', fontWeight: '700', marginBottom: '6px' }}>{item.month}</div>
+                <div style={{ fontSize: '1.6em', fontWeight: '900', color: item.color }}>{item.count}</div>
+                <div style={{ fontSize: '0.65em', color: '#9ca3af', marginTop: '4px' }}>calibrations</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Summary Footer with Key Metrics */}
       <div style={{
-        background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)',
-        border: '2px solid #0ea5e9',
-        borderRadius: '10px',
-        padding: '14px',
+        background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+        border: '3px solid #0ea5e9',
+        borderRadius: '12px',
+        padding: '18px',
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '12px'
+        gap: '14px',
+        boxShadow: '0 4px 16px rgba(14, 165, 233, 0.15)'
       }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '0.65em', color: '#6b7280', fontWeight: '600', marginBottom: '4px' }}>Total Throughput</div>
-          <div style={{ fontSize: '1.4em', fontWeight: '900', color: '#0ea5e9' }}>{totalThroughput.toLocaleString()}</div>
-          <div style={{ fontSize: '0.65em', color: '#16a34a', fontWeight: '700' }}>+{overallImprovement}% Jun→Nov</div>
+        <div style={{ textAlign: 'center', borderRight: '1px solid #0ea5e930' }}>
+          <div style={{ fontSize: '0.7em', color: '#6b7280', fontWeight: '700', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total Throughput</div>
+          <div style={{ fontSize: '1.6em', fontWeight: '900', color: '#0ea5e9' }}>{totalThroughput.toLocaleString()}</div>
+          <div style={{ fontSize: '0.75em', color: '#16a34a', fontWeight: '800', marginTop: '4px' }}>+{overallImprovement}% Jun→Nov</div>
+        </div>
+        <div style={{ textAlign: 'center', borderRight: '1px solid #0ea5e930' }}>
+          <div style={{ fontSize: '0.7em', color: '#6b7280', fontWeight: '700', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Activities</div>
+          <div style={{ fontSize: '1.6em', fontWeight: '900', color: '#0ea5e9' }}>9</div>
+          <div style={{ fontSize: '0.75em', color: '#111827', fontWeight: '600', marginTop: '4px' }}>All On-Track ✓</div>
+        </div>
+        <div style={{ textAlign: 'center', borderRight: '1px solid #0ea5e930' }}>
+          <div style={{ fontSize: '0.7em', color: '#6b7280', fontWeight: '700', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Avg Defect</div>
+          <div style={{ fontSize: '1.6em', fontWeight: '900', color: '#16a34a' }}>1.2%</div>
+          <div style={{ fontSize: '0.75em', color: '#16a34a', fontWeight: '700', marginTop: '4px' }}>Within Target</div>
         </div>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '0.65em', color: '#6b7280', fontWeight: '600', marginBottom: '4px' }}>Activities Monitored</div>
-          <div style={{ fontSize: '1.4em', fontWeight: '900', color: '#0ea5e9' }}>9</div>
-          <div style={{ fontSize: '0.65em', color: '#111827', fontWeight: '600' }}>All On-Track</div>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '0.65em', color: '#6b7280', fontWeight: '600', marginBottom: '4px' }}>Avg Defect Rate</div>
-          <div style={{ fontSize: '1.4em', fontWeight: '900', color: '#16a34a' }}>1.2%</div>
-          <div style={{ fontSize: '0.65em', color: '#16a34a', fontWeight: '700' }}>Within Target</div>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '0.65em', color: '#6b7280', fontWeight: '600', marginBottom: '4px' }}>Period Covered</div>
-          <div style={{ fontSize: '1.4em', fontWeight: '900', color: '#0ea5e9' }}>6 Months</div>
-          <div style={{ fontSize: '0.65em', color: '#111827', fontWeight: '600' }}>Jun-Nov 2025</div>
+          <div style={{ fontSize: '0.7em', color: '#6b7280', fontWeight: '700', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Period</div>
+          <div style={{ fontSize: '1.6em', fontWeight: '900', color: '#0ea5e9' }}>6M</div>
+          <div style={{ fontSize: '0.75em', color: '#111827', fontWeight: '600', marginTop: '4px' }}>Jun-Nov 2025</div>
         </div>
       </div>
     </div>
