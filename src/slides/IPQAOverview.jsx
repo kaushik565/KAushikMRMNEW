@@ -1,7 +1,7 @@
 // IPQA Key Metrics Overview - Modern Horizontal Layout
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import SiteVIncomingSampling from './ipqa-details/SiteVIncomingSampling';
 import SiteVInProcessSampling from './ipqa-details/SiteVInProcessSampling';
 import SiteVBMRVerification from './ipqa-details/SiteVBMRVerification';
@@ -745,97 +745,117 @@ export default function IPQAOverview() {
                 </div>
 
                 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
-                  {/* Sampling Volume Trends Chart */}
-                  <div style={{background: 'linear-gradient(135deg, #ffffff, #f0f9ff)', border: '2px solid #bae6fd', borderRadius: '12px', padding: '20px'}}>
+                  {/* Sampling Volume Trends Chart - AREA CHART */}
+                  <div style={{background: 'linear-gradient(135deg, #f0f9ff, #ffffff)', border: '2px solid #0ea5e9', borderRadius: '14px', padding: '20px', boxShadow: '0 4px 12px rgba(14, 165, 233, 0.1)'}}>
                     <div style={{fontSize: '0.85em', fontWeight: '800', color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                      <span style={{fontSize: '1.3em'}}>🧪</span>
+                      <span style={{fontSize: '1.3em', background: 'linear-gradient(135deg, #0ea5e9, #2563eb)', color: 'white', padding: '4px 8px', borderRadius: '6px'}}>🧪</span>
                       <span>Sampling Volume Growth</span>
                     </div>
                     <ResponsiveContainer width="100%" height={220}>
-                      <BarChart data={[
+                      <AreaChart data={[
                         {month: 'Jul', incoming: 1180, inProcess: 2450, bmr: 540},
                         {month: 'Aug', incoming: 1230, inProcess: 2620, bmr: 580},
                         {month: 'Sep', incoming: 1310, inProcess: 2850, bmr: 610},
                         {month: 'Oct', incoming: 1365, inProcess: 2980, bmr: 625},
                         {month: 'Nov', incoming: 1405, inProcess: 3057, bmr: 643}
                       ]}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e0f2fe" />
+                        <defs>
+                          <linearGradient id="colorIncoming" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="colorInProcess" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#2563eb" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="colorBMR" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#7c3aed" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="4 4" stroke="#dbeafe" />
                         <XAxis dataKey="month" stroke="#64748b" style={{fontSize: '0.85em', fontWeight: '700'}} />
                         <YAxis stroke="#64748b" style={{fontSize: '0.75em'}} />
                         <Tooltip 
-                          contentStyle={{background: '#ffffff', border: '2px solid #0ea5e9', borderRadius: '8px', fontSize: '0.8em'}}
+                          contentStyle={{background: '#ffffff', border: '2px solid #0ea5e9', borderRadius: '8px', fontSize: '0.8em', boxShadow: '0 4px 12px rgba(14, 165, 233, 0.15)'}}
                           labelStyle={{fontWeight: '800', color: '#0f172a'}}
                         />
-                        <Legend wrapperStyle={{fontSize: '0.75em', fontWeight: '700'}} />
-                        <Bar dataKey="incoming" fill="#0ea5e9" name="Incoming" radius={[6, 6, 0, 0]} />
-                        <Bar dataKey="inProcess" fill="#2563eb" name="In-Process" radius={[6, 6, 0, 0]} />
-                        <Bar dataKey="bmr" fill="#7c3aed" name="BMR Verif." radius={[6, 6, 0, 0]} />
-                      </BarChart>
+                        <Legend wrapperStyle={{fontSize: '0.75em', fontWeight: '700', paddingTop: '12px'}} />
+                        <Area type="monotone" dataKey="incoming" stackId="1" stroke="#0ea5e9" fill="url(#colorIncoming)" name="Incoming" />
+                        <Area type="monotone" dataKey="inProcess" stackId="1" stroke="#2563eb" fill="url(#colorInProcess)" name="In-Process" />
+                        <Area type="monotone" dataKey="bmr" stackId="1" stroke="#7c3aed" fill="url(#colorBMR)" name="BMR Verif." />
+                      </AreaChart>
                     </ResponsiveContainer>
-                    <div style={{fontSize: '0.7em', color: '#64748b', textAlign: 'center', marginTop: '8px', fontWeight: '600'}}>
+                    <div style={{fontSize: '0.7em', color: '#64748b', textAlign: 'center', marginTop: '8px', fontWeight: '600', background: '#f0f9ff', padding: '8px', borderRadius: '6px'}}>
                       Consistent upward trend across all sampling categories
                     </div>
                   </div>
 
-                  {/* Destruction Records Reduction Chart */}
-                  <div style={{background: 'linear-gradient(135deg, #ffffff, #fef3f2)', border: '2px solid #fecaca', borderRadius: '12px', padding: '20px'}}>
+                  {/* Destruction Records Reduction Chart - LINE CHART WITH TARGET */}
+                  <div style={{background: 'linear-gradient(135deg, #fef3f2, #ffffff)', border: '2px solid #fb7185', borderRadius: '14px', padding: '20px', boxShadow: '0 4px 12px rgba(251, 113, 133, 0.1)'}}>
                     <div style={{fontSize: '0.85em', fontWeight: '800', color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                      <span style={{fontSize: '1.3em'}}>📉</span>
+                      <span style={{fontSize: '1.3em', background: 'linear-gradient(135deg, #ef4444, #f87171)', color: 'white', padding: '4px 8px', borderRadius: '6px'}}>📉</span>
                       <span>Destruction Records Reduction</span>
                     </div>
                     <ResponsiveContainer width="100%" height={220}>
-                      <BarChart data={[
+                      <LineChart data={[
                         {month: 'Jul', value: 72, target: 60},
                         {month: 'Aug', value: 68, target: 60},
                         {month: 'Sep', value: 61, target: 60},
                         {month: 'Oct', value: 56, target: 60},
                         {month: 'Nov', value: 52, target: 60}
                       ]}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#fee2e2" />
+                        <defs>
+                          <linearGradient id="targetGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#86efac" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#86efac" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="4 4" stroke="#fee2e2" />
                         <XAxis dataKey="month" stroke="#64748b" style={{fontSize: '0.85em', fontWeight: '700'}} />
                         <YAxis stroke="#64748b" style={{fontSize: '0.75em'}} />
                         <Tooltip 
-                          contentStyle={{background: '#ffffff', border: '2px solid #ef4444', borderRadius: '8px', fontSize: '0.8em'}}
+                          contentStyle={{background: '#ffffff', border: '2px solid #fb7185', borderRadius: '8px', fontSize: '0.8em', boxShadow: '0 4px 12px rgba(251, 113, 133, 0.15)'}}
                           labelStyle={{fontWeight: '800', color: '#0f172a'}}
                         />
-                        <Legend wrapperStyle={{fontSize: '0.75em', fontWeight: '700'}} />
-                        <Bar dataKey="value" fill="#ef4444" name="Destruction Records" radius={[6, 6, 0, 0]} />
-                        <Bar dataKey="target" fill="#86efac" name="Target (≤60)" radius={[6, 6, 0, 0]} />
-                      </BarChart>
+                        <Legend wrapperStyle={{fontSize: '0.75em', fontWeight: '700', paddingTop: '12px'}} />
+                        <Line type="monotone" dataKey="value" stroke="#ef4444" strokeWidth={4} dot={{fill: '#ef4444', r: 5}} activeDot={{r: 7, fill: '#dc2626'}} name="Destruction Records" isAnimationActive={true} animationDuration={800} />
+                        <Line type="monotone" dataKey="target" stroke="#16a34a" strokeWidth={3} strokeDasharray="5 5" dot={{fill: '#16a34a', r: 4}} name="Target (≤60)" isAnimationActive={true} animationDuration={800} />
+                      </LineChart>
                     </ResponsiveContainer>
-                    <div style={{fontSize: '0.7em', color: '#64748b', textAlign: 'center', marginTop: '8px', fontWeight: '600'}}>
-                      28% reduction achieved - now below target threshold
+                    <div style={{fontSize: '0.7em', color: '#dc2626', textAlign: 'center', marginTop: '8px', fontWeight: '600', background: '#fee2e2', padding: '8px', borderRadius: '6px'}}>
+                      📊 28% reduction achieved - now below target threshold ✓
                     </div>
                   </div>
 
-                  {/* Transfer Note Verification Trend */}
-                  <div style={{background: 'linear-gradient(135deg, #ffffff, #faf5ff)', border: '2px solid #e9d5ff', borderRadius: '12px', padding: '20px'}}>
+                  {/* Transfer Note Verification Trend - STACKED BAR */}
+                  <div style={{background: 'linear-gradient(135deg, #faf5ff, #ffffff)', border: '2px solid #c084fc', borderRadius: '14px', padding: '20px', boxShadow: '0 4px 12px rgba(192, 132, 252, 0.1)'}}>
                     <div style={{fontSize: '0.85em', fontWeight: '800', color: '#0f172a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                      <span style={{fontSize: '1.3em'}}>📋</span>
+                      <span style={{fontSize: '1.3em', background: 'linear-gradient(135deg, #a78bfa, #c084fc)', color: 'white', padding: '4px 8px', borderRadius: '6px'}}>📋</span>
                       <span>Transfer Note Verification</span>
                     </div>
                     <ResponsiveContainer width="100%" height={220}>
                       <BarChart data={[
-                        {month: 'Jul', value: 510, approved: 502, rejected: 8},
-                        {month: 'Aug', value: 535, approved: 528, rejected: 7},
-                        {month: 'Sep', value: 548, approved: 542, rejected: 6},
-                        {month: 'Oct', value: 558, approved: 553, rejected: 5},
-                        {month: 'Nov', value: 566, approved: 562, rejected: 4}
+                        {month: 'Jul', approved: 502, rejected: 8},
+                        {month: 'Aug', approved: 528, rejected: 7},
+                        {month: 'Sep', approved: 542, rejected: 6},
+                        {month: 'Oct', approved: 553, rejected: 5},
+                        {month: 'Nov', approved: 562, rejected: 4}
                       ]}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f3e8ff" />
+                        <CartesianGrid strokeDasharray="4 4" stroke="#f3e8ff" />
                         <XAxis dataKey="month" stroke="#64748b" style={{fontSize: '0.85em', fontWeight: '700'}} />
                         <YAxis stroke="#64748b" style={{fontSize: '0.75em'}} />
                         <Tooltip 
-                          contentStyle={{background: '#ffffff', border: '2px solid #7c3aed', borderRadius: '8px', fontSize: '0.8em'}}
+                          contentStyle={{background: '#ffffff', border: '2px solid #c084fc', borderRadius: '8px', fontSize: '0.8em', boxShadow: '0 4px 12px rgba(192, 132, 252, 0.15)'}}
                           labelStyle={{fontWeight: '800', color: '#0f172a'}}
                         />
-                        <Legend wrapperStyle={{fontSize: '0.75em', fontWeight: '700'}} />
-                        <Bar dataKey="approved" stackId="a" fill="#7c3aed" name="Approved" radius={[6, 6, 0, 0]} />
-                        <Bar dataKey="rejected" stackId="a" fill="#f87171" name="Rejected" radius={[0, 0, 0, 0]} />
+                        <Legend wrapperStyle={{fontSize: '0.75em', fontWeight: '700', paddingTop: '12px'}} />
+                        <Bar dataKey="approved" stackId="a" fill="#a78bfa" name="Approved" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="rejected" stackId="a" fill="#f87171" name="Rejected" radius={[0, 0, 4, 4]} />
                       </BarChart>
                     </ResponsiveContainer>
-                    <div style={{fontSize: '0.7em', color: '#64748b', textAlign: 'center', marginTop: '8px', fontWeight: '600'}}>
-                      8% volume increase with declining rejection rate
+                    <div style={{fontSize: '0.7em', color: '#6b21a8', textAlign: 'center', marginTop: '8px', fontWeight: '600', background: '#f3e8ff', padding: '8px', borderRadius: '6px'}}>
+                      98.3% approval rate with declining rejections
                     </div>
                   </div>
 
