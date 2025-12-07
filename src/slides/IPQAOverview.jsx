@@ -17,6 +17,7 @@ export default function IPQAOverview() {
   const [selectedDeptChart, setSelectedDeptChart] = useState(null);
   const [selectedCartridgeChart, setSelectedCartridgeChart] = useState(null);
   const [selectedManufacturingChart, setSelectedManufacturingChart] = useState(null);
+  const [selectedSite3Chart, setSelectedSite3Chart] = useState(null);
 
   // IPQA Key Metrics Data
   const metricsData = {
@@ -332,28 +333,186 @@ export default function IPQAOverview() {
           </div>
         </div>
 
-        {/* Metrics Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: `repeat(${Object.keys(siteData.metrics).length}, 1fr)`,
-          gap: '12px',
-          position: 'relative',
-          zIndex: 1
-        }}>
-          {Object.entries(siteData.metrics).map(([metricName, metricData]) => (
-            <MetricTile
-              key={metricName}
-              label={metricName}
-              value={metricData.value}
-              subtitle={metricData.subtitle}
-              trend={metricData.trend}
-              status={metricData.status}
-              color={siteData.color}
-              siteName={siteName}
-              onClick={(siteName === 'SITE-V' || siteName === 'SITE-III') ? () => handleMetricClick(metricName) : null}
-            />
-          ))}
-        </div>
+        {/* Metrics Grid (hide for SITE-III to remove old KPI cards) */}
+        {siteName !== 'SITE-III' && (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${Object.keys(siteData.metrics).length}, 1fr)`,
+            gap: '12px',
+            position: 'relative',
+            zIndex: 1
+          }}>
+            {Object.entries(siteData.metrics).map(([metricName, metricData]) => (
+              <MetricTile
+                key={metricName}
+                label={metricName}
+                value={metricData.value}
+                subtitle={metricData.subtitle}
+                trend={metricData.trend}
+                status={metricData.status}
+                color={siteData.color}
+                siteName={siteName}
+                onClick={(siteName === 'SITE-V' || siteName === 'SITE-III') ? () => handleMetricClick(metricName) : null}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* SITE-III Enhanced Visual Performance Dashboard */}
+        {siteName === 'SITE-III' && (
+          <div style={{
+            marginTop: '28px',
+            paddingTop: '24px',
+            borderTop: `3px solid ${siteData.color}40`,
+            position: 'relative',
+            zIndex: 1
+          }}>
+            {/* SITE-III Overview Snapshot & Quick Stats */}
+            <div style={{background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)', border: `2px solid ${siteData.color}30`, borderRadius: '14px', padding: '20px', marginBottom: '32px', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.1)'}}>
+              {/* Quick Stats Row shown first */}
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px', marginBottom: '16px'}}>
+                {[
+                  { value: '99.2%', label: 'Overall IPQA Approval', delta: null, deltaColor: '#10b981', bar: 99.2, barColor: '#10b981' },
+                  { value: '84%↓', label: 'Incident Investigation', delta: '25d → 4d', deltaColor: '#10b981', bar: 84, barColor: '#10b981' },
+                  { value: '2.5%', label: 'Rejection Rate', delta: '4% → 2.5%', deltaColor: '#10b981', bar: 2.5, barWidth: 62, barColor: '#10b981' },
+                  { value: '98.5%', label: 'Sampling Coverage', delta: '1.4k+ lots, 99% pass', deltaColor: '#8b5cf6', bar: 98.5, barColor: '#8b5cf6' }
+                ].map((stat, idx) => (
+                  <div key={idx} style={{background: '#fff', border: '1px solid rgba(139, 92, 246, 0.18)', borderRadius: '14px', padding: '14px', boxShadow: '0 6px 16px rgba(15, 23, 42, 0.08)', display: 'grid', gap: '8px', position: 'relative', overflow: 'hidden'}}>
+                    <div style={{position: 'absolute', inset: 0, background: `radial-gradient(circle at 20% 20%, ${stat.barColor}08, transparent 45%)`}}></div>
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 1}}>
+                      <div style={{fontSize: '0.8em', fontWeight: '800', color: '#1f2937'}}>{stat.label}</div>
+                      {stat.delta && <div style={{fontSize: '0.8em', fontWeight: '800', color: stat.deltaColor}}>{stat.delta}</div>}
+                    </div>
+                    <div style={{display: 'flex', alignItems: 'baseline', gap: '8px', position: 'relative', zIndex: 1}}>
+                      <div style={{fontSize: '1.55em', fontWeight: '900', color: stat.barColor}}>{stat.value}</div>
+                      {stat.label === 'Rejection Rate' && (
+                        <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0f172a', background: '#ecfdf3', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '4px 8px'}}>
+                          Lower is better
+                        </div>
+                      )}
+                    </div>
+                    <div style={{height: '9px', background: '#f8fafc', borderRadius: '999px', overflow: 'hidden', position: 'relative', zIndex: 1}}>
+                      <div style={{width: `${stat.barWidth ?? stat.bar}%`, height: '100%', background: `linear-gradient(90deg, ${stat.barColor}, ${stat.barColor}aa)`, borderRadius: '999px', boxShadow: '0 2px 6px rgba(0,0,0,0.08)'}}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px'}}>
+                <div style={{fontSize: '1.2em'}}>📈</div>
+                <div style={{fontSize: '0.95em', fontWeight: '800', color: '#0f172a'}}>SITE-III IPQA Snapshot</div>
+                <div style={{marginLeft: 'auto', display: 'flex', gap: '8px'}}>
+                  <div style={{background: '#8b5cf6', color: 'white', borderRadius: '6px', padding: '4px 10px', fontSize: '0.7em', fontWeight: '700', textTransform: 'uppercase'}}>All On Track</div>
+                  <div style={{background: '#10b981', color: 'white', borderRadius: '6px', padding: '4px 10px', fontSize: '0.7em', fontWeight: '700', textTransform: 'uppercase'}}>Optimized</div>
+                </div>
+              </div>
+
+              <div style={{fontSize: '0.85em', color: '#475569', lineHeight: '1.6'}}>
+                Comprehensive overview of Manufacturing, Cartridge Assembly, Calibration & Sampling Operations with real-time metrics and quality indicators.
+              </div>
+            </div>
+
+            {/* Interactive Performance Visualization */}
+            <div style={{marginBottom: '28px'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px'}}>
+                <div style={{background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', color: 'white', borderRadius: '10px', padding: '10px 14px', fontWeight: '800', fontSize: '1em', letterSpacing: '0.5px', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)'}}>
+                  📊 LINE OPERATIONS PERFORMANCE
+                </div>
+                <div style={{fontSize: '0.85em', fontWeight: '600', color: '#64748b', background: '#ffffff', padding: '6px 12px', borderRadius: '20px', border: '1px solid #ede9fe'}}>4 Key Metrics • 99%+ Approval Rate</div>
+              </div>
+
+              {/* Visual Performance Chart */}
+              <div style={{background: 'linear-gradient(135deg, #faf5ff, #ffffff)', border: '2px solid #e9d5ff', borderRadius: '16px', padding: '32px 24px', marginBottom: '20px'}}>
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px'}}>
+                  {[
+                    {name: 'Line Clearance', value: 2464, notApproved: 29, trend: '98.84%', color: '#8b5cf6', icon: '🔓', total: 2493},
+                    {name: 'Line Closure', value: 2459, notApproved: 29, trend: '98.84%', color: '#6d28d9', icon: '🔒', total: 2488},
+                    {name: 'Line Reverification', value: 4421, notApproved: 34, trend: '99.24%', color: '#a78bfa', icon: '🔄', total: 4455},
+                    {name: 'Line Verification', value: 6190, notApproved: 1, trend: '99.98%', color: '#c4b5fd', icon: '✓', total: 6191}
+                  ].map((metric, idx) => {
+                    const approvalPercent = (metric.value / metric.total) * 100;
+                    const radius = 70;
+                    const circumference = 2 * Math.PI * radius;
+                    const strokeDashoffset = circumference - (approvalPercent / 100) * circumference;
+
+                    return (
+                      <div key={idx} style={{background: '#ffffff', borderRadius: '14px', padding: '20px', border: `2px solid ${metric.color}30`, boxShadow: '0 2px 8px rgba(139, 92, 246, 0.1)', transition: 'all 0.3s ease', cursor: 'pointer'}} onClick={() => setSelectedSite3Chart(metric.name)} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.25)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.borderColor = metric.color;}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = '0 2px 8px rgba(139, 92, 246, 0.1)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = `${metric.color}30`;}}>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', paddingBottom: '12px', borderBottom: `2px solid ${metric.color}20`}}>
+                          <div style={{fontSize: '2em'}}>{metric.icon}</div>
+                          <div>
+                            <div style={{fontSize: '0.95em', fontWeight: '800', color: '#0f172a'}}>{metric.name}</div>
+                            <div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b'}}>Total: {metric.total.toLocaleString()} operations</div>
+                          </div>
+                        </div>
+
+                        <div style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
+                          {/* Circular Progress */}
+                          <div style={{position: 'relative', width: '140px', height: '140px'}}>
+                            <svg width="140" height="140" style={{transform: 'rotate(-90deg)'}}>
+                              <circle cx="70" cy="70" r={radius} stroke="#f3f4f6" strokeWidth="12" fill="none"/>
+                              <circle cx="70" cy="70" r={radius} stroke={metric.color} strokeWidth="12" fill="none" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} strokeLinecap="round" style={{transition: 'stroke-dashoffset 1s ease'}}>
+                                <animate attributeName="stroke-dashoffset" from={circumference} to={strokeDashoffset} dur="1.5s" begin={`${idx * 0.2}s`} fill="freeze"/>
+                              </circle>
+                            </svg>
+                            <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center'}}>
+                              <div style={{fontSize: '0.95em', fontWeight: '900', color: metric.color}}>{metric.trend}</div>
+                              <div style={{fontSize: '0.55em', fontWeight: '600', color: '#64748b', marginTop: '2px'}}>Approved</div>
+                            </div>
+                          </div>
+
+                          {/* Stats */}
+                          <div style={{flex: 1}}>
+                            <div style={{marginBottom: '12px'}}>
+                              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px'}}>
+                                <div style={{fontSize: '0.75em', fontWeight: '700', color: '#166534'}}>✓ Approved</div>
+                                <div style={{fontSize: '1.3em', fontWeight: '900', color: '#10b981'}}>{metric.value.toLocaleString()}</div>
+                              </div>
+                              <div style={{background: '#f0fdf4', height: '8px', borderRadius: '4px', overflow: 'hidden'}}>
+                                <div style={{background: 'linear-gradient(90deg, #10b981, #059669)', height: '100%', width: `${approvalPercent}%`, transition: 'width 1s ease'}}></div>
+                              </div>
+                            </div>
+
+                            <div>
+                              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px'}}>
+                                <div style={{fontSize: '0.75em', fontWeight: '700', color: '#991b1b'}}>✗ Not Approved</div>
+                                <div style={{fontSize: '1.3em', fontWeight: '900', color: '#ef4444'}}>{metric.notApproved}</div>
+                              </div>
+                              <div style={{background: '#fef2f2', height: '8px', borderRadius: '4px', overflow: 'hidden'}}>
+                                <div style={{background: 'linear-gradient(90deg, #ef4444, #dc2626)', height: '100%', width: `${(metric.notApproved / metric.total) * 100}%`, transition: 'width 1s ease'}}></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Summary Stats Bar */}
+                <div style={{marginTop: '24px', padding: '16px', background: 'linear-gradient(135deg, #ede9fe, #f5f3ff)', borderRadius: '12px', border: '2px solid #8b5cf6'}}>
+                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px'}}>
+                    <div style={{textAlign: 'center'}}>
+                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Total Operations</div>
+                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#8b5cf6'}}>15,627</div>
+                    </div>
+                    <div style={{textAlign: 'center'}}>
+                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Total Approved</div>
+                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#10b981'}}>15,534</div>
+                    </div>
+                    <div style={{textAlign: 'center'}}>
+                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Not Approved</div>
+                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#ef4444'}}>93</div>
+                    </div>
+                    <div style={{textAlign: 'center'}}>
+                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Overall Rate</div>
+                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#8b5cf6'}}>99.40%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* SITE-V Improvements Section */}
         {siteName === 'SITE-V' && (
@@ -633,41 +792,6 @@ export default function IPQAOverview() {
             position: 'relative',
             zIndex: 1
           }}>
-            {/* SITE-III Overview Dashboard Header */}
-            <div style={{background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)', border: `2px solid ${siteData.color}30`, borderRadius: '14px', padding: '20px', marginBottom: '32px', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.1)'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px'}}>
-                <div style={{fontSize: '1.4em'}}>📈</div>
-                <div style={{fontSize: '0.95em', fontWeight: '800', color: '#0f172a'}}>SITE-III IPQA Dashboard</div>
-                <div style={{marginLeft: 'auto', display: 'flex', gap: '8px'}}>
-                  <div style={{background: '#8b5cf6', color: 'white', borderRadius: '6px', padding: '4px 10px', fontSize: '0.7em', fontWeight: '700', textTransform: 'uppercase'}}>All On Track</div>
-                  <div style={{background: '#10b981', color: 'white', borderRadius: '6px', padding: '4px 10px', fontSize: '0.7em', fontWeight: '700', textTransform: 'uppercase'}}>Optimized</div>
-                </div>
-              </div>
-              <div style={{fontSize: '0.85em', color: '#475569', lineHeight: '1.6', marginBottom: '12px'}}>
-                Comprehensive overview of Manufacturing, Cartridge Assembly, Calibration & Sampling Operations with real-time metrics and quality indicators.
-              </div>
-              
-              {/* Quick Stats Row */}
-              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', paddingTop: '12px', borderTop: '1px solid rgba(139, 92, 246, 0.2)'}}>
-                <div style={{textAlign: 'center', paddingY: '6px'}}>
-                  <div style={{fontSize: '1.2em', fontWeight: '900', color: '#8b5cf6'}}>4</div>
-                  <div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b'}}>Device Types</div>
-                </div>
-                <div style={{textAlign: 'center', paddingY: '6px'}}>
-                  <div style={{fontSize: '1.2em', fontWeight: '900', color: '#8b5cf6'}}>11</div>
-                  <div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b'}}>Cart Activities</div>
-                </div>
-                <div style={{textAlign: 'center', paddingY: '6px'}}>
-                  <div style={{fontSize: '1.2em', fontWeight: '900', color: '#8b5cf6'}}>106</div>
-                  <div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b'}}>Calibrated Units</div>
-                </div>
-                <div style={{textAlign: 'center', paddingY: '6px'}}>
-                  <div style={{fontSize: '1.2em', fontWeight: '900', color: '#8b5cf6'}}>1.4k+</div>
-                  <div style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b'}}>Total Lots Sampled</div>
-                </div>
-              </div>
-            </div>
-
             {/* ===== MANUFACTURING SECTION ===== */}
             <div style={{
               display: 'flex',
@@ -1921,6 +2045,87 @@ export default function IPQAOverview() {
                         </ul>
                       </div>
                     );
+                }
+              })()}
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* SITE-III Chart Modal */}
+      {selectedSite3Chart && createPortal(
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
+          zIndex: 999999,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px'
+        }}>
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '20px',
+            width: '90%',
+            height: '90%',
+            maxWidth: '1400px',
+            maxHeight: '900px',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+            position: 'relative'
+          }}>
+            {/* Close Button */}
+            <button onClick={() => setSelectedSite3Chart(null)}
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '20px',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                border: 'none',
+                backgroundColor: '#ef4444',
+                color: '#ffffff',
+                fontSize: '1.5em',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 10,
+                transition: 'all 0.3s ease',
+                fontWeight: 'bold'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.1)';
+                e.currentTarget.style.backgroundColor = '#dc2626';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.backgroundColor = '#ef4444';
+              }}>
+              ✕
+            </button>
+
+            {/* Detail Content */}
+            <div style={{ height: '100%', overflow: 'auto', backgroundColor: '#f0f9ff' }}>
+              {(() => {
+                switch(selectedSite3Chart) {
+                  case 'Line Clearance':
+                    return <SiteIIILineClearance />;
+                  case 'Line Closure':
+                    return <SiteIIILineClosure />;
+                  case 'Line Reverification':
+                    return <SiteIIILineReverification />;
+                  case 'Line Verification':
+                    return <SiteIIILineVerification />;
+                  default:
+                    return <div style={{ padding: '40px', textAlign: 'center' }}>No chart selected</div>;
                 }
               })()}
             </div>

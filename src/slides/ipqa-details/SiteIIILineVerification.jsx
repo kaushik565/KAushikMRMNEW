@@ -39,68 +39,49 @@ export default function SiteIIILineVerification() {
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '16px',
+        gap: '20px',
         marginBottom: '32px'
       }}>
-        <div style={{
-          background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
-          border: '2px solid #86efac',
-          borderRadius: '16px',
-          padding: '20px',
-          textAlign: 'center'
-        }}>
-          <div style={{ fontSize: '2.5em', fontWeight: '900', color: '#16a34a', marginBottom: '8px' }}>
-            {totalApproved}
+        {[
+          { value: totalApproved, label: 'Total Approved', color: '#16a34a', bg: 'linear-gradient(135deg, #f0fdf4, #dcfce7)', border: '#86efac', icon: '✓' },
+          { value: totalNotApproved, label: 'Total Not Approved', color: '#dc2626', bg: 'linear-gradient(135deg, #fef2f2, #fee2e2)', border: '#fca5a5', icon: '✗' },
+          { value: totalQty, label: 'Total Quantity', color: '#8b5cf6', bg: 'linear-gradient(135deg, #ede9fe, #ddd6fe)', border: '#c4b5fd', icon: '📊' },
+          { value: overallApprovalRate, label: 'Approval Rate', color: '#d97706', bg: 'linear-gradient(135deg, #fef3c7, #fde68a)', border: '#fcd34d', icon: '📈' }
+        ].map((card, idx) => (
+          <div key={idx} style={{
+            background: card.bg,
+            border: `2px solid ${card.border}`,
+            borderRadius: '16px',
+            padding: '24px',
+            textAlign: 'center',
+            transition: 'all 0.3s ease',
+            cursor: 'pointer',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-8px)';
+            e.currentTarget.style.boxShadow = `0 12px 24px ${card.color}40`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}>
+            <div style={{
+              position: 'absolute',
+              top: '-10px',
+              right: '-10px',
+              fontSize: '4em',
+              opacity: '0.1'
+            }}>{card.icon}</div>
+            <div style={{ fontSize: '2.8em', fontWeight: '900', color: card.color, marginBottom: '8px', position: 'relative', zIndex: 1 }}>
+              {card.value}
+            </div>
+            <div style={{ fontSize: '0.95em', fontWeight: '700', color: card.color, opacity: '0.8', position: 'relative', zIndex: 1 }}>
+              {card.label}
+            </div>
           </div>
-          <div style={{ fontSize: '0.9em', fontWeight: '600', color: '#15803d' }}>
-            Total Approved
-          </div>
-        </div>
-
-        <div style={{
-          background: 'linear-gradient(135deg, #fef2f2, #fee2e2)',
-          border: '2px solid #fca5a5',
-          borderRadius: '16px',
-          padding: '20px',
-          textAlign: 'center'
-        }}>
-          <div style={{ fontSize: '2.5em', fontWeight: '900', color: '#dc2626', marginBottom: '8px' }}>
-            {totalNotApproved}
-          </div>
-          <div style={{ fontSize: '0.9em', fontWeight: '600', color: '#991b1b' }}>
-            Total Not Approved
-          </div>
-        </div>
-
-        <div style={{
-          background: 'linear-gradient(135deg, #ede9fe, #ddd6fe)',
-          border: '2px solid #c4b5fd',
-          borderRadius: '16px',
-          padding: '20px',
-          textAlign: 'center'
-        }}>
-          <div style={{ fontSize: '2.5em', fontWeight: '900', color: '#8b5cf6', marginBottom: '8px' }}>
-            {totalQty}
-          </div>
-          <div style={{ fontSize: '0.9em', fontWeight: '600', color: '#6d28d9' }}>
-            Total Quantity
-          </div>
-        </div>
-
-        <div style={{
-          background: 'linear-gradient(135deg, #fef3c7, #fde68a)',
-          border: '2px solid #fcd34d',
-          borderRadius: '16px',
-          padding: '20px',
-          textAlign: 'center'
-        }}>
-          <div style={{ fontSize: '2.5em', fontWeight: '900', color: '#d97706', marginBottom: '8px' }}>
-            {overallApprovalRate}
-          </div>
-          <div style={{ fontSize: '0.9em', fontWeight: '600', color: '#92400e' }}>
-            Approval Rate
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Chart Section */}
