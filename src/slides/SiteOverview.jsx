@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { Chart, registerables } from 'chart.js'
+Chart.register(...registerables)
 import SiteIIncidents from './site-details/SiteIIncidents'
 import SiteICorrectiveActions from './site-details/SiteICorrectiveActions'
 import SiteIPreventiveActions from './site-details/SiteIPreventiveActions'
@@ -39,6 +42,190 @@ const metricsData = {
     'Out of Specifications': { total: 89, period: 'Apr-Aug 2024', improvement: '59%', avg: 12, latest: 7, label: 'Improvement' },
     'Change Controls': { total: 178, period: 'Jan-Nov 2024', improvement: '23%', from: 50, to: 39, label: 'Closure Days Reduced' }
   }
+}
+
+// Executive Summary Data - 3 Sites Data
+const sitesData = {
+  'SITE-I': {
+    Incidents: { total: 262, improvement: 13, from: 20, to: 17 },
+    CA: { total: 89, improvement: -42, from: 2, to: 4 },
+    PA: { total: 29, improvement: 56, from: 25, to: 11 },
+    OOS: { total: 259, improvement: 49, avg: 21, latest: 17 },
+    CC: { total: 492, improvement: 13, from: 46, to: 40 }
+  },
+  'SITE-III': {
+    Incidents: { total: 82, improvement: 42, from: 24, to: 14 },
+    CA: { total: 52, improvement: 16, from: 56, to: 47 },
+    PA: { total: 66, improvement: 6, from: 36, to: 34 },
+    OOS: { total: 159, improvement: 49, avg: 14, latest: 9 },
+    CC: { total: 261, improvement: 61, from: 41, to: 16 }
+  },
+  'SITE-V': {
+    Incidents: { total: 196, improvement: 59, from: 17, to: 7 },
+    CA: { total: 57, improvement: 71, from: 5, to: 4 },
+    PA: { total: 41, improvement: 20, from: 40, to: 32 },
+    OOS: { total: 89, improvement: 59, avg: 12, latest: 7 },
+    CC: { total: 178, improvement: 23, from: 50, to: 39 }
+  }
+}
+
+const categoryColors = {
+  Incidents: '#ef4444',
+  CA: '#8b5cf6',
+  PA: '#f59e0b',
+  OOS: '#f97316',
+  CC: '#3b82f6'
+}
+
+const siteColors = {
+  'SITE-I': '#dc2626',
+  'SITE-III': '#8b5cf6',
+  'SITE-V': '#0ea5e9'
+}
+
+// Overall Performance Component
+function OverallPerformance() {
+  const categories = ['Incidents', 'CA', 'PA', 'OOS', 'CC']
+  const improvements = categories.map(cat => {
+    let sum = 0, count = 0
+    Object.values(sitesData).forEach(site => {
+      if (site[cat]) {
+        sum += site[cat].improvement
+        count++
+      }
+    })
+    return Math.round(sum / count)
+  })
+
+  return (
+    <div style={{
+      padding: '14px',
+      backgroundColor: '#f0f9ff',
+      border: '2px solid #0ea5e9',
+      borderRadius: '8px',
+      marginBottom: '14px'
+    }}>
+      <h3 style={{ fontSize: '0.95em', fontWeight: '700', color: '#0ea5e9', marginBottom: '12px', marginTop: '0px' }}>
+        📊 Overall Performance (Average Improvement Across All Sites)
+      </h3>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
+        {categories.map((cat, idx) => (
+          <div key={cat} style={{ textAlign: 'center' }}>
+            <div style={{
+              width: '100%',
+              height: '100px',
+              backgroundColor: '#e0f2fe',
+              borderRadius: '6px',
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+              marginBottom: '8px',
+              position: 'relative'
+            }}>
+              <div style={{
+                width: '60%',
+                height: `${Math.min(Math.abs(improvements[idx]), 100)}px`,
+                backgroundColor: improvements[idx] < 0 ? '#ef4444' : categoryColors[cat],
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#ffffff',
+                fontWeight: '800',
+                fontSize: '1em'
+              }}>
+                {Math.abs(improvements[idx])}%
+              </div>
+            </div>
+            <div style={{ fontSize: '0.8em', fontWeight: '700', color: '#111827' }}>
+              {cat}
+            </div>
+            <div style={{ fontSize: '0.7em', color: '#6b7280', marginTop: '4px' }}>
+              Avg Improvement
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// Site Comparison Grid Component
+function SiteComparisonGrid() {
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      gap: '12px',
+      marginBottom: '14px'
+    }}>
+      {Object.entries(sitesData).map(([site, data]) => {
+        const totalItems = Object.values(data).reduce((sum, m) => sum + m.total, 0)
+        const avgImprovement = Math.round(
+          Object.values(data).reduce((sum, m) => sum + m.improvement, 0) / Object.values(data).length
+        )
+
+        return (
+          <div key={site} style={{
+            padding: '14px',
+            backgroundColor: siteColors[site] + '10',
+            border: `3px solid ${siteColors[site]}`,
+            borderRadius: '8px'
+          }}>
+            <div style={{
+              fontSize: '1em',
+              fontWeight: '800',
+              color: siteColors[site],
+              marginBottom: '8px'
+            }}>
+              {site}
+            </div>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              marginBottom: '10px'
+            }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  fontSize: '1.8em',
+                  fontWeight: '800',
+                  color: siteColors[site]
+                }}>
+                  {avgImprovement}%
+                </div>
+                <div style={{ fontSize: '0.7em', color: '#6b7280' }}>
+                  Avg Improvement
+                </div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  fontSize: '1.8em',
+                  fontWeight: '800',
+                  color: '#111827'
+                }}>
+                  {totalItems}
+                </div>
+                <div style={{ fontSize: '0.7em', color: '#6b7280' }}>
+                  Total Items
+                </div>
+              </div>
+            </div>
+            <div style={{
+              fontSize: '0.75em',
+              color: '#6b7280',
+              lineHeight: '1.4',
+              paddingTop: '8px',
+              borderTop: `1px solid ${siteColors[site]}30`
+            }}>
+              <div>✓ Incidents: {data.Incidents.improvement}%</div>
+              <div>✓ PA: {data.PA.improvement}%</div>
+              <div>✓ OOS: {data.OOS.improvement}%</div>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 // Helper component to render category card with single highlighted metric
@@ -215,12 +402,40 @@ function CategoryCard({ title, metrics, color, borderColor, onClick, textColor, 
 export default function SiteOverview() {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedSite, setSelectedSite] = useState(null)
+  const [scrollPosition, setScrollPosition] = useState(0)
+  const sectionRef = useRef(null)
+
+  const handleCategoryClick = (category, site) => {
+    // Save the current scroll position of the section
+    if (sectionRef.current) {
+      setScrollPosition(sectionRef.current.scrollTop)
+    }
+    setSelectedCategory(category)
+    setSelectedSite(site)
+  }
+
+  const handleClose = () => {
+    setSelectedCategory(null)
+    setSelectedSite(null)
+    // Restore scroll position after state update
+    setTimeout(() => {
+      if (sectionRef.current) {
+        sectionRef.current.scrollTop = scrollPosition
+      }
+    }, 0)
+  }
 
   return (
-    <section className="content-slide">
-      <h2 style={{ borderBottom: '4px solid #b91c1c', paddingBottom: '8px', marginBottom: '30px', color: '#b91c1c', fontSize: '1.8em', fontWeight: '600' }}>
+    <section className="content-slide" ref={sectionRef} style={{ position: 'relative', overflow: 'auto' }}>
+      <h2 style={{ borderBottom: '4px solid #b91c1c', paddingBottom: '8px', marginBottom: '20px', color: '#b91c1c', fontSize: '1.8em', fontWeight: '600' }}>
         📊 Key Metrics Overview - QMS
       </h2>
+
+      {/* Executive Summary Sections at the top */}
+      <div style={{ marginBottom: '30px', paddingBottom: '20px', borderBottom: '2px solid #e5e7eb' }}>
+        <OverallPerformance />
+        <SiteComparisonGrid />
+      </div>
 
       {/* Home Button */}
       {selectedCategory && (
@@ -262,6 +477,9 @@ export default function SiteOverview() {
       {/* Overview - Show when no category is selected */}
       {!selectedCategory && (
         <div style={{ marginTop: '20px' }}>
+          <h3 style={{ fontSize: '1.2em', color: '#0f172a', fontWeight: '700', marginBottom: '20px', paddingBottom: '10px', borderBottom: '2px solid #b91c1c' }}>
+            📈 Individual Site Key Metrics
+          </h3>
           {/* SITE-I Section */}
           <div style={{ marginBottom: '40px' }}>
             <h3 style={{ 
@@ -285,7 +503,7 @@ export default function SiteOverview() {
                 color="#dc2626"
                 borderColor="#dc2626"
                 textColor="#991b1b"
-                onClick={() => { setSelectedCategory('Incidents'); setSelectedSite('SITE-I') }}
+                onClick={() => handleCategoryClick('Incidents', 'SITE-I')}
               />
               <CategoryCard
                 title="Corrective Actions"
@@ -293,7 +511,7 @@ export default function SiteOverview() {
                 color="#8b5cf6"
                 borderColor="#8b5cf6"
                 textColor="#6d28d9"
-                onClick={() => { setSelectedCategory('CA'); setSelectedSite('SITE-I') }}
+                onClick={() => handleCategoryClick('CA', 'SITE-I')}
               />
               <CategoryCard
                 title="Preventive Actions"
@@ -301,7 +519,7 @@ export default function SiteOverview() {
                 color="#10b981"
                 borderColor="#10b981"
                 textColor="#047857"
-                onClick={() => { setSelectedCategory('PA'); setSelectedSite('SITE-I') }}
+                onClick={() => handleCategoryClick('PA', 'SITE-I')}
               />
               <CategoryCard
                 title="Out of Specifications"
@@ -309,7 +527,7 @@ export default function SiteOverview() {
                 color="#f59e0b"
                 borderColor="#f59e0b"
                 textColor="#b45309"
-                onClick={() => { setSelectedCategory('Out of Specifications'); setSelectedSite('SITE-I') }}
+                onClick={() => handleCategoryClick('Out of Specifications', 'SITE-I')}
               />
               <CategoryCard
                 title="Change Controls"
@@ -317,7 +535,7 @@ export default function SiteOverview() {
                 color="#3b82f6"
                 borderColor="#3b82f6"
                 textColor="#1e40af"
-                onClick={() => { setSelectedCategory('Change Controls'); setSelectedSite('SITE-I') }}
+                onClick={() => handleCategoryClick('Change Controls', 'SITE-I')}
               />
             </div>
           </div>
@@ -345,7 +563,7 @@ export default function SiteOverview() {
                 color="#dc2626"
                 borderColor="#dc2626"
                 textColor="#991b1b"
-                onClick={() => { setSelectedCategory('Incidents'); setSelectedSite('SITE-III') }}
+                onClick={() => handleCategoryClick('Incidents', 'SITE-III')}
               />
               <CategoryCard
                 title="Corrective Actions"
@@ -353,7 +571,7 @@ export default function SiteOverview() {
                 color="#8b5cf6"
                 borderColor="#8b5cf6"
                 textColor="#6d28d9"
-                onClick={() => { setSelectedCategory('CA'); setSelectedSite('SITE-III') }}
+                onClick={() => handleCategoryClick('CA', 'SITE-III')}
               />
               <CategoryCard
                 title="Preventive Actions"
@@ -361,7 +579,7 @@ export default function SiteOverview() {
                 color="#10b981"
                 borderColor="#10b981"
                 textColor="#047857"
-                onClick={() => { setSelectedCategory('PA'); setSelectedSite('SITE-III') }}
+                onClick={() => handleCategoryClick('PA', 'SITE-III')}
               />
               <CategoryCard
                 title="Out of Specifications"
@@ -369,7 +587,7 @@ export default function SiteOverview() {
                 color="#f59e0b"
                 borderColor="#f59e0b"
                 textColor="#b45309"
-                onClick={() => { setSelectedCategory('Out of Specifications'); setSelectedSite('SITE-III') }}
+                onClick={() => handleCategoryClick('Out of Specifications', 'SITE-III')}
               />
               <CategoryCard
                 title="Change Controls"
@@ -377,7 +595,7 @@ export default function SiteOverview() {
                 color="#3b82f6"
                 borderColor="#3b82f6"
                 textColor="#1e40af"
-                onClick={() => { setSelectedCategory('Change Controls'); setSelectedSite('SITE-III') }}
+                onClick={() => handleCategoryClick('Change Controls', 'SITE-III')}
               />
             </div>
           </div>
@@ -405,7 +623,7 @@ export default function SiteOverview() {
                 color="#dc2626"
                 borderColor="#dc2626"
                 textColor="#991b1b"
-                onClick={() => { setSelectedCategory('Incidents'); setSelectedSite('SITE-V') }}
+                onClick={() => handleCategoryClick('Incidents', 'SITE-V')}
               />
               <CategoryCard
                 title="Corrective Actions"
@@ -413,7 +631,7 @@ export default function SiteOverview() {
                 color="#8b5cf6"
                 borderColor="#8b5cf6"
                 textColor="#6d28d9"
-                onClick={() => { setSelectedCategory('CA'); setSelectedSite('SITE-V') }}
+                onClick={() => handleCategoryClick('CA', 'SITE-V')}
               />
               <CategoryCard
                 title="Preventive Actions"
@@ -421,7 +639,7 @@ export default function SiteOverview() {
                 color="#10b981"
                 borderColor="#10b981"
                 textColor="#047857"
-                onClick={() => { setSelectedCategory('PA'); setSelectedSite('SITE-V') }}
+                onClick={() => handleCategoryClick('PA', 'SITE-V')}
               />
               <CategoryCard
                 title="Out of Specifications"
@@ -429,7 +647,7 @@ export default function SiteOverview() {
                 color="#f59e0b"
                 borderColor="#f59e0b"
                 textColor="#b45309"
-                onClick={() => { setSelectedCategory('Out of Specifications'); setSelectedSite('SITE-V') }}
+                onClick={() => handleCategoryClick('Out of Specifications', 'SITE-V')}
               />
               <CategoryCard
                 title="Change Controls"
@@ -437,7 +655,7 @@ export default function SiteOverview() {
                 color="#3b82f6"
                 borderColor="#3b82f6"
                 textColor="#1e40af"
-                onClick={() => { setSelectedCategory('Change Controls'); setSelectedSite('SITE-V') }}
+                onClick={() => handleCategoryClick('Change Controls', 'SITE-V')}
               />
             </div>
           </div>
@@ -447,15 +665,54 @@ export default function SiteOverview() {
       {/* Category Details View */}
       {selectedCategory && selectedSite && (
         <div style={{ 
-          marginTop: '20px',
-          maxHeight: 'calc(100vh - 250px)',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: '#ffffff',
+          zIndex: 9999,
           overflowY: 'auto',
           overflowX: 'hidden',
-          paddingRight: '10px'
+          padding: '40px'
         }}>
-          <h3 style={{ fontSize: '1.3em', color: '#0f172a', fontWeight: '700', marginBottom: '20px' }}>
-            {selectedSite} - {selectedCategory}
-          </h3>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '30px',
+            paddingBottom: '20px',
+            borderBottom: '2px solid #e5e7eb'
+          }}>
+            <h3 style={{ fontSize: '1.8em', color: '#0f172a', fontWeight: '700', margin: '0' }}>
+              {selectedSite} - {selectedCategory}
+            </h3>
+            <button
+              onClick={handleClose}
+              style={{
+                padding: '10px 20px',
+                fontSize: '1em',
+                fontWeight: '600',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                backgroundColor: '#b91c1c',
+                color: '#ffffff',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 12px rgba(185, 28, 28, 0.3)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#991b1b'
+                e.target.style.boxShadow = '0 6px 16px rgba(185, 28, 28, 0.4)'
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#b91c1c'
+                e.target.style.boxShadow = '0 4px 12px rgba(185, 28, 28, 0.3)'
+              }}
+            >
+              ✕ Close
+            </button>
+          </div>
 
           {selectedSite === 'SITE-I' && selectedCategory === 'Incidents' && <SiteIIncidents />}
           {selectedSite === 'SITE-I' && selectedCategory === 'CA' && <SiteICorrectiveActions />}

@@ -2,6 +2,11 @@ import {
   incidentData, incidentDuration, correctiveActionData, preventiveActionData, 
   outOfServiceData, changeControlData, lineApprovalRates, calibrationData 
 } from '../data'
+import DataDashboard from './DataDashboard'
+
+import { useEffect, useRef, useState } from 'react'
+import { Chart, registerables } from 'chart.js'
+Chart.register(...registerables)
 
 export default function ExecutiveSummary() {
   // 3 Sites Data
@@ -255,8 +260,11 @@ export default function ExecutiveSummary() {
   }
 
   return (
-    <section className="content-slide" style={{ overflowY: 'auto', maxHeight: '100%' }}>
-      <h2 style={{ borderBottom: '4px solid #b91c1c', paddingBottom: '8px', marginBottom: '14px', color: '#b91c1c' }}>
+    <section className="content-slide" style={{ 
+      userSelect: 'text',
+      WebkitUserSelect: 'text'
+    }}>
+      <h2 style={{ borderBottom: '4px solid #b91c1c', paddingBottom: '8px', marginBottom: '20px', color: '#b91c1c' }}>
         📊 Executive Summary – QMS Performance Across 3 Sites
       </h2>
 
@@ -266,29 +274,21 @@ export default function ExecutiveSummary() {
       {/* Site Comparison Grid */}
       <SiteComparisonGrid />
 
-      {/* Detailed Charts for Each Site */}
-      <div style={{
-        padding: '12px',
-        backgroundColor: '#f8fafc',
-        borderRadius: '8px',
-        border: '1px solid #e5e7eb'
-      }}>
-        {Object.entries(sitesData).map(([site, data]) => (
-          <ComparisonChart key={site} site={site} data={data} />
-        ))}
-      </div>
+      {/* Embedded DataDashboard - Full Dashboard with All Metrics and Charts */}
+      <DataDashboard />
 
       {/* Key Highlights */}
       <div style={{
-        marginTop: '12px',
-        padding: '12px',
+        marginTop: '24px',
+        marginBottom: '20px',
+        padding: '16px',
         backgroundColor: '#fef3c7',
         borderLeft: '5px solid #f59e0b',
         borderRadius: '6px',
-        fontSize: '0.8em'
+        fontSize: '0.85em'
       }}>
-        <strong style={{ color: '#92400e' }}>🎯 Top Achievements:</strong>
-        <div style={{ color: '#92400e', marginTop: '4px', lineHeight: '1.4' }}>
+        <strong style={{ color: '#92400e', fontSize: '1em' }}>🎯 Top Achievements:</strong>
+        <div style={{ color: '#92400e', marginTop: '8px', lineHeight: '1.6', fontSize: '0.9em' }}>
           ⭐ SITE-V CA: +71% improvement | ⭐ SITE-III CC: +61% improvement | ⭐ SITE-V Incidents: +59% improvement
         </div>
       </div>

@@ -29,6 +29,18 @@ body {
 }
 
 
+/* Top-align content slides (but leave the title slide centered) */
+
+.reveal .slides>section:not(.title-slide),
+.reveal .slides>section>section:not(.title-slide) {
+    top: 0 !important;
+    transform: none !important;
+    margin: 0 !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+}
+
+
 /* Smooth scrolling for content overflow */
 
 .reveal section,
@@ -82,8 +94,29 @@ body {
     text-align: center;
     background: #ffffff;
     color: var(--dark);
-    padding: 60px 40px !important;
-    border-bottom: 8px solid var(--primary-red);
+    padding: 0 !important;
+    border-bottom: 6px solid var(--primary-red);
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+
+/* Ensure title slide occupies full viewport height without extra Reveal padding */
+
+.reveal section.title-slide {
+    min-height: 100vh;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
+.title-slide .title-content {
+    padding: 80px 48px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .title-slide h1 {
@@ -129,6 +162,10 @@ body {
     right: 0;
     z-index: 900;
     pointer-events: none;
+}
+
+.hide-corner-logo .corner-logo {
+    display: none;
 }
 
 .corner-logo img {

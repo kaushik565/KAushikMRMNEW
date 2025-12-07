@@ -1,5 +1,5 @@
 // IPQA Key Metrics Overview - Modern Horizontal Layout
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import SiteVIncomingSampling from './ipqa-details/SiteVIncomingSampling';
 import SiteVInProcessSampling from './ipqa-details/SiteVInProcessSampling';
@@ -18,6 +18,39 @@ export default function IPQAOverview() {
   const [selectedCartridgeChart, setSelectedCartridgeChart] = useState(null);
   const [selectedManufacturingChart, setSelectedManufacturingChart] = useState(null);
   const [selectedSite3Chart, setSelectedSite3Chart] = useState(null);
+
+  // Lock background scroll while any overlay/modal is open to avoid slide jump
+  const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart;
+
+  useEffect(() => {
+    if (hasOverlayOpen) {
+      const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      document.body.dataset.scrollLock = 'true';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.body.removeAttribute('data-scroll-lock');
+        window.scrollTo(0, scrollY);
+      };
+    }
+
+    if (document.body.dataset.scrollLock) {
+      const top = document.body.style.top || '0px';
+      const offset = parseInt(top.replace('px', ''), 10) || 0;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      document.body.removeAttribute('data-scroll-lock');
+      window.scrollTo(0, -offset);
+    }
+  }, [hasOverlayOpen]);
 
   // IPQA Key Metrics Data
   const metricsData = {
@@ -1356,7 +1389,7 @@ export default function IPQAOverview() {
                     <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px'}}>
                       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', background: 'linear-gradient(135deg, #10b981, #059669)', borderRadius: '8px', color: 'white', fontWeight: '900', fontSize: '1.1em', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'}}>✓</div>
                       <span>Completed Initiatives</span>
-                      <span style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b', marginLeft: 'auto', background: '#d1fae5', color: '#065f46', padding: '4px 10px', borderRadius: '20px'}}>8 Achievements</span>
+                      <span style={{fontSize: '0.7em', fontWeight: '600', color: '#065f46', marginLeft: 'auto', background: '#d1fae5', padding: '4px 10px', borderRadius: '20px'}}>8 Achievements</span>
                     </div>
                     <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                       {[
@@ -1382,7 +1415,7 @@ export default function IPQAOverview() {
                     <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px'}}>
                       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', background: '#fbbf24', borderRadius: '8px', color: '#78350f', fontWeight: '900', fontSize: '1.1em', boxShadow: '0 4px 12px rgba(251, 191, 36, 0.3)'}}>→</div>
                       <span>In Progress</span>
-                      <span style={{fontSize: '0.7em', fontWeight: '600', color: '#64748b', marginLeft: 'auto', background: '#fef3c7', color: '#92400e', padding: '4px 10px', borderRadius: '20px'}}>3 In Progress</span>
+                      <span style={{fontSize: '0.7em', fontWeight: '600', color: '#92400e', marginLeft: 'auto', background: '#fef3c7', padding: '4px 10px', borderRadius: '20px'}}>3 In Progress</span>
                     </div>
                     <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px'}}>
                       {[

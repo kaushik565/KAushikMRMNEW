@@ -2,7 +2,6 @@
 import Reveal from 'reveal.js'
 import TitleSlide from './slides/TitleSlide'
 import SiteOverview from './slides/SiteOverview'
-import ExecutiveSummary from './slides/ExecutiveSummary'
 import IPQAOverview from './slides/IPQAOverview'
 import ValidationReports from './slides/ValidationReports'
 import ClosingSlide from './slides/ClosingSlide'
@@ -24,8 +23,8 @@ export default function Presentation() {
           progress: true,
           history: true,
           center: false,
-          transition: 'slide',
-          transitionSpeed: 'default',
+          transition: 'fade',
+          transitionSpeed: 'fast',
           slideNumber: 'c/t',
           keyboard: false,
           overview: true,
@@ -51,27 +50,24 @@ export default function Presentation() {
           margin: 0.04,
           minScale: 0.2,
           maxScale: 2.0,
+          viewDistance: 2,
+          mobileViewDistance: 1,
         })
 
         deck.initialize()
 
-        // Custom keyboard controls for arrow keys
+        const handleSlideState = () => {
+          const current = deck?.getCurrentSlide()
+          const isTitle = current?.dataset?.state === 'title-slide'
+          document.body.classList.toggle('hide-corner-logo', !!isTitle)
+        }
+
+        deck.on('ready', handleSlideState)
+        deck.on('slidechanged', handleSlideState)
+
+        // Custom keyboard controls for arrow keys (left/right only to avoid auto-scrolling)
         document.addEventListener('keydown', (e) => {
-          if (e.key === 'ArrowDown') {
-            e.preventDefault()
-            const currentSlide = document.querySelector('.reveal .present')
-            if (currentSlide) {
-              currentSlide.parentElement.scrollBy({ top: 150, behavior: 'smooth' })
-            }
-            window.scrollBy({ top: 150, behavior: 'smooth' })
-          } else if (e.key === 'ArrowUp') {
-            e.preventDefault()
-            const currentSlide = document.querySelector('.reveal .present')
-            if (currentSlide) {
-              currentSlide.parentElement.scrollBy({ top: -150, behavior: 'smooth' })
-            }
-            window.scrollBy({ top: -150, behavior: 'smooth' })
-          } else if (e.key === 'ArrowRight') {
+          if (e.key === 'ArrowRight') {
             e.preventDefault()
             deck.right()
           } else if (e.key === 'ArrowLeft') {
@@ -84,6 +80,7 @@ export default function Presentation() {
 
     return () => {
       if (timer) clearTimeout(timer)
+      document.body.classList.remove('hide-corner-logo')
       if (deck) deck.destroy()
     }
   }, [])
@@ -99,7 +96,6 @@ export default function Presentation() {
       </div>
       <TitleSlide />
       <SiteOverview />
-      <ExecutiveSummary />
       <IPQAOverview />
       <ValidationReports />
       <ClosingSlide />

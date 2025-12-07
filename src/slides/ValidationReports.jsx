@@ -12,6 +12,39 @@ export default function ValidationReports() {
   const [chartImages, setChartImages] = useState({ reports: '', mvp: '' })
   const [activeChart, setActiveChart] = useState('')
 
+  // Prevent background scroll jump while fullscreen chart modal is open
+  const hasModalOpen = !!activeChart
+
+  useEffect(() => {
+    if (hasModalOpen) {
+      const scrollY = window.scrollY || document.documentElement.scrollTop || 0
+      document.body.dataset.scrollLock = 'true'
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = '100%'
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.width = ''
+        document.body.style.overflow = ''
+        document.body.removeAttribute('data-scroll-lock')
+        window.scrollTo(0, scrollY)
+      }
+    }
+
+    if (document.body.dataset.scrollLock) {
+      const top = document.body.style.top || '0px'
+      const offset = parseInt(top.replace('px', ''), 10) || 0
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.body.style.overflow = ''
+      document.body.removeAttribute('data-scroll-lock')
+      window.scrollTo(0, -offset)
+    }
+  }, [hasModalOpen])
+
   const reviewData = {
     labels: ['JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER'],
     reportsVerified: [19, 22, 13, 8, 23],
