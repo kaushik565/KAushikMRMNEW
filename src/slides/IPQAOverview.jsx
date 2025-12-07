@@ -1,6 +1,7 @@
 // IPQA Key Metrics Overview - Modern Horizontal Layout
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import SiteVIncomingSampling from './ipqa-details/SiteVIncomingSampling';
 import SiteVInProcessSampling from './ipqa-details/SiteVInProcessSampling';
 import SiteVBMRVerification from './ipqa-details/SiteVBMRVerification';
@@ -410,47 +411,81 @@ export default function IPQAOverview() {
             zIndex: 1
           }}>
             {/* SITE-III Overview Snapshot & Quick Stats */}
-            <div style={{background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)', border: `2px solid ${siteData.color}30`, borderRadius: '14px', padding: '20px', marginBottom: '32px', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.1)'}}>
-              {/* Quick Stats Row shown first */}
-              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px', marginBottom: '16px'}}>
-                {[
-                  { value: '99.2%', label: 'Overall IPQA Approval', delta: null, deltaColor: '#10b981', bar: 99.2, barColor: '#10b981' },
-                  { value: '84%↓', label: 'Incident Investigation', delta: '25d → 4d', deltaColor: '#10b981', bar: 84, barColor: '#10b981' },
-                  { value: '2.5%', label: 'Rejection Rate', delta: '4% → 2.5%', deltaColor: '#10b981', bar: 2.5, barWidth: 62, barColor: '#10b981' },
-                  { value: '98.5%', label: 'Sampling Coverage', delta: '1.4k+ lots, 99% pass', deltaColor: '#8b5cf6', bar: 98.5, barColor: '#8b5cf6' }
-                ].map((stat, idx) => (
-                  <div key={idx} style={{background: '#fff', border: '1px solid rgba(139, 92, 246, 0.18)', borderRadius: '14px', padding: '14px', boxShadow: '0 6px 16px rgba(15, 23, 42, 0.08)', display: 'grid', gap: '8px', position: 'relative', overflow: 'hidden'}}>
-                    <div style={{position: 'absolute', inset: 0, background: `radial-gradient(circle at 20% 20%, ${stat.barColor}08, transparent 45%)`}}></div>
-                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 1}}>
-                      <div style={{fontSize: '0.8em', fontWeight: '800', color: '#1f2937'}}>{stat.label}</div>
-                      {stat.delta && <div style={{fontSize: '0.8em', fontWeight: '800', color: stat.deltaColor}}>{stat.delta}</div>}
-                    </div>
-                    <div style={{display: 'flex', alignItems: 'baseline', gap: '8px', position: 'relative', zIndex: 1}}>
-                      <div style={{fontSize: '1.55em', fontWeight: '900', color: stat.barColor}}>{stat.value}</div>
-                      {stat.label === 'Rejection Rate' && (
-                        <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0f172a', background: '#ecfdf3', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '4px 8px'}}>
-                          Lower is better
-                        </div>
-                      )}
-                    </div>
-                    <div style={{height: '9px', background: '#f8fafc', borderRadius: '999px', overflow: 'hidden', position: 'relative', zIndex: 1}}>
-                      <div style={{width: `${stat.barWidth ?? stat.bar}%`, height: '100%', background: `linear-gradient(90deg, ${stat.barColor}, ${stat.barColor}aa)`, borderRadius: '999px', boxShadow: '0 2px 6px rgba(0,0,0,0.08)'}}></div>
-                    </div>
+            <div style={{background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)', border: `2px solid ${siteData.color}30`, borderRadius: '14px', padding: '24px', marginBottom: '28px', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.1)'}}>
+              
+              {/* Enhanced KPI Cards with Trend Analysis */}
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '20px'}}>
+                {/* Overall IPQA Approval Card */}
+                <div style={{background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)', border: '2px solid #86efac', borderRadius: '12px', padding: '20px', position: 'relative', overflow: 'hidden'}}>
+                  <div style={{position: 'absolute', top: '-20px', right: '-20px', fontSize: '5em', opacity: '0.1'}}>✓</div>
+                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#166534', marginBottom: '8px', textTransform: 'uppercase'}}>Overall IPQA Approval</div>
+                  <div style={{display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px'}}>
+                    <div style={{fontSize: '2.5em', fontWeight: '900', color: '#16a34a'}}>99.2%</div>
+                    <div style={{fontSize: '0.85em', fontWeight: '700', color: '#16a34a', background: '#dcfce7', padding: '4px 8px', borderRadius: '6px'}}>↑ 0.3%</div>
                   </div>
-                ))}
-              </div>
-
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px'}}>
-                <div style={{fontSize: '1.2em'}}>📈</div>
-                <div style={{fontSize: '0.95em', fontWeight: '800', color: '#0f172a'}}>SITE-III IPQA Snapshot</div>
-                <div style={{marginLeft: 'auto', display: 'flex', gap: '8px'}}>
-                  <div style={{background: '#8b5cf6', color: 'white', borderRadius: '6px', padding: '4px 10px', fontSize: '0.7em', fontWeight: '700', textTransform: 'uppercase'}}>All On Track</div>
-                  <div style={{background: '#10b981', color: 'white', borderRadius: '6px', padding: '4px 10px', fontSize: '0.7em', fontWeight: '700', textTransform: 'uppercase'}}>Optimized</div>
+                  <div style={{fontSize: '0.7em', color: '#166534', marginBottom: '10px'}}>15,534 approved out of 15,627 operations</div>
+                  <div style={{height: '10px', background: '#f0fdf4', borderRadius: '999px', overflow: 'hidden'}}>
+                    <div style={{width: '99.2%', height: '100%', background: 'linear-gradient(90deg, #16a34a, #22c55e)', borderRadius: '999px'}}></div>
+                  </div>
                 </div>
-              </div>
 
-              <div style={{fontSize: '0.85em', color: '#475569', lineHeight: '1.6'}}>
-                Comprehensive overview of Manufacturing, Cartridge Assembly, Calibration & Sampling Operations with real-time metrics and quality indicators.
+                {/* Incident Investigation Improvement Card */}
+                <div style={{background: 'linear-gradient(135deg, #eff6ff, #dbeafe)', border: '2px solid #93c5fd', borderRadius: '12px', padding: '20px', position: 'relative', overflow: 'hidden'}}>
+                  <div style={{position: 'absolute', top: '-20px', right: '-20px', fontSize: '5em', opacity: '0.1'}}>⚡</div>
+                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#1e40af', marginBottom: '8px', textTransform: 'uppercase'}}>Incident Investigation Speed</div>
+                  <div style={{display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px'}}>
+                    <div style={{fontSize: '2.5em', fontWeight: '900', color: '#2563eb'}}>4d</div>
+                    <div style={{fontSize: '0.85em', fontWeight: '700', color: '#16a34a', background: '#dcfce7', padding: '4px 8px', borderRadius: '6px'}}>84%↓</div>
+                  </div>
+                  <div style={{fontSize: '0.7em', color: '#1e40af', marginBottom: '10px'}}>Reduced from 25 days</div>
+                  <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
+                    <div style={{flex: 1, height: '8px', background: '#fee2e2', borderRadius: '4px'}}>
+                      <div style={{width: '100%', height: '100%', background: '#ef4444', borderRadius: '4px'}}></div>
+                    </div>
+                    <div style={{fontSize: '0.65em', color: '#6b7280'}}>25d</div>
+                    <div style={{fontSize: '0.8em'}}>→</div>
+                    <div style={{flex: 1, height: '8px', background: '#dcfce7', borderRadius: '4px'}}>
+                      <div style={{width: '16%', height: '100%', background: '#16a34a', borderRadius: '4px'}}></div>
+                    </div>
+                    <div style={{fontSize: '0.65em', color: '#16a34a', fontWeight: '700'}}>4d</div>
+                  </div>
+                </div>
+
+                {/* Rejection Rate Card */}
+                <div style={{background: 'linear-gradient(135deg, #fef3c7, #fde68a)', border: '2px solid #fcd34d', borderRadius: '12px', padding: '20px', position: 'relative', overflow: 'hidden'}}>
+                  <div style={{position: 'absolute', top: '-20px', right: '-20px', fontSize: '5em', opacity: '0.1'}}>📉</div>
+                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#92400e', marginBottom: '8px', textTransform: 'uppercase'}}>Rejection Rate</div>
+                  <div style={{display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px'}}>
+                    <div style={{fontSize: '2.5em', fontWeight: '900', color: '#d97706'}}>2.5%</div>
+                    <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0f172a', background: '#ecfdf3', border: '1px solid #bbf7d0', borderRadius: '6px', padding: '4px 8px'}}>Lower is better ↓</div>
+                  </div>
+                  <div style={{fontSize: '0.7em', color: '#92400e', marginBottom: '10px'}}>Improved from 4.0% • Target: &lt;2%</div>
+                  <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
+                    <div style={{flex: 1, height: '8px', background: '#fee2e2', borderRadius: '4px'}}>
+                      <div style={{width: '100%', height: '100%', background: '#ef4444', borderRadius: '4px'}}></div>
+                    </div>
+                    <div style={{fontSize: '0.65em', color: '#dc2626'}}>4%</div>
+                    <div style={{fontSize: '0.8em'}}>→</div>
+                    <div style={{flex: 1, height: '8px', background: '#fef3c7', borderRadius: '4px'}}>
+                      <div style={{width: '62.5%', height: '100%', background: '#d97706', borderRadius: '4px'}}></div>
+                    </div>
+                    <div style={{fontSize: '0.65em', color: '#16a34a', fontWeight: '700'}}>2.5%</div>
+                  </div>
+                </div>
+
+                {/* Sampling Coverage Card */}
+                <div style={{background: 'linear-gradient(135deg, #faf5ff, #f3e8ff)', border: '2px solid #c4b5fd', borderRadius: '12px', padding: '20px', position: 'relative', overflow: 'hidden'}}>
+                  <div style={{position: 'absolute', top: '-20px', right: '-20px', fontSize: '5em', opacity: '0.1'}}>🎯</div>
+                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#6b21a8', marginBottom: '8px', textTransform: 'uppercase'}}>Sampling Coverage</div>
+                  <div style={{display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '10px'}}>
+                    <div style={{fontSize: '2.5em', fontWeight: '900', color: '#8b5cf6'}}>98.5%</div>
+                    <div style={{fontSize: '0.85em', fontWeight: '700', color: '#8b5cf6', background: '#f3e8ff', padding: '4px 8px', borderRadius: '6px'}}>1,400+ lots</div>
+                  </div>
+                  <div style={{fontSize: '0.7em', color: '#6b21a8', marginBottom: '10px'}}>99% pass rate • Zero critical defects</div>
+                  <div style={{height: '10px', background: '#faf5ff', borderRadius: '999px', overflow: 'hidden'}}>
+                    <div style={{width: '98.5%', height: '100%', background: 'linear-gradient(90deg, #8b5cf6, #a78bfa)', borderRadius: '999px'}}></div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -461,6 +496,54 @@ export default function IPQAOverview() {
                   📊 LINE OPERATIONS PERFORMANCE
                 </div>
                 <div style={{fontSize: '0.85em', fontWeight: '600', color: '#64748b', background: '#ffffff', padding: '6px 12px', borderRadius: '20px', border: '1px solid #ede9fe'}}>4 Key Metrics • 99%+ Approval Rate</div>
+              </div>
+
+              {/* Summary Stats Bar - At Top of Line Operations */}
+              <div style={{marginBottom: '20px'}}>
+                {/* Summary Stats Cards */}
+                <div style={{marginBottom: '16px', padding: '20px', background: 'linear-gradient(135deg, #ede9fe, #f5f3ff)', borderRadius: '12px', border: '2px solid #8b5cf6', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.15)'}}>
+                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px'}}>
+                    <div style={{textAlign: 'center'}}>
+                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Total Operations</div>
+                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#8b5cf6'}}>15,627</div>
+                    </div>
+                    <div style={{textAlign: 'center'}}>
+                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Total Approved</div>
+                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#10b981'}}>15,534</div>
+                    </div>
+                    <div style={{textAlign: 'center'}}>
+                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Not Approved</div>
+                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#ef4444'}}>93</div>
+                    </div>
+                    <div style={{textAlign: 'center'}}>
+                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Overall Rate</div>
+                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#8b5cf6'}}>99.40%</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Combined Stacked Bar Chart */}
+                <div style={{padding: '24px', background: '#ffffff', borderRadius: '12px', border: '2px solid #e9d5ff', boxShadow: '0 4px 12px rgba(139, 92, 246, 0.1)'}}>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={[
+                      {name: '🔓 Clearance', approved: 2464, notApproved: 29, rate: '98.84%'},
+                      {name: '🔒 Closure', approved: 2459, notApproved: 29, rate: '98.84%'},
+                      {name: '🔄 Reverif', approved: 4421, notApproved: 34, rate: '99.24%'},
+                      {name: '✓ Verif', approved: 6190, notApproved: 1, rate: '99.98%'}
+                    ]} layout="vertical" margin={{top: 5, right: 30, left: 90, bottom: 5}}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <XAxis type="number" fontSize={11} stroke="#9ca3af" />
+                      <YAxis dataKey="name" type="category" fontSize={12} stroke="#9ca3af" width={85} />
+                      <Tooltip 
+                        contentStyle={{background: '#fff', border: '2px solid #e9d5ff', borderRadius: '8px', fontSize: '0.85em'}}
+                        formatter={(value, name) => [value.toLocaleString(), name === 'approved' ? '✓ Approved' : '✗ Not Approved']}
+                      />
+                      <Legend wrapperStyle={{fontSize: '0.8em'}} />
+                      <Bar dataKey="approved" stackId="a" fill="#10b981" name="Approved" radius={[0, 4, 4, 0]} />
+                      <Bar dataKey="notApproved" stackId="a" fill="#ef4444" name="Not Approved" radius={[0, 4, 4, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
 
               {/* Visual Performance Chart */}
@@ -528,28 +611,6 @@ export default function IPQAOverview() {
                       </div>
                     );
                   })}
-                </div>
-
-                {/* Summary Stats Bar */}
-                <div style={{marginTop: '24px', padding: '16px', background: 'linear-gradient(135deg, #ede9fe, #f5f3ff)', borderRadius: '12px', border: '2px solid #8b5cf6'}}>
-                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px'}}>
-                    <div style={{textAlign: 'center'}}>
-                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Total Operations</div>
-                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#8b5cf6'}}>15,627</div>
-                    </div>
-                    <div style={{textAlign: 'center'}}>
-                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Total Approved</div>
-                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#10b981'}}>15,534</div>
-                    </div>
-                    <div style={{textAlign: 'center'}}>
-                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Not Approved</div>
-                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#ef4444'}}>93</div>
-                    </div>
-                    <div style={{textAlign: 'center'}}>
-                      <div style={{fontSize: '0.7em', fontWeight: '700', color: '#6d28d9', marginBottom: '6px', textTransform: 'uppercase'}}>Overall Rate</div>
-                      <div style={{fontSize: '1.8em', fontWeight: '900', color: '#8b5cf6'}}>99.40%</div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
