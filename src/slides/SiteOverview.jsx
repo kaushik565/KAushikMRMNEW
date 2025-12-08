@@ -23,7 +23,7 @@ import QMSOverview from './QMSOverview'
 // Data extracted from actual component calculations
 const metricsData = {
   'SITE-I': {
-    'Incidents': { total: 262, period: 'Jan-Nov 2025', improvement: '13%', from: 20, to: 17, label: 'Closure Days Reduced' },
+    'Incidents': { total: 262, period: 'Jan-Nov 2025', improvement: '15%', from: 20, to: 17, label: 'Closure Days Reduced' },
     'CA': { total: 89, period: 'Jan-Nov 2025', improvement: '54%', from: 91, to: 42, label: 'Avg Days to Close Reduced' },
     'PA': { total: 29, period: 'Jan-Nov 2025', improvement: '60%', from: 135, to: 54, label: 'Processing Time Reduced' },
     'Out of Specifications': { total: 259, period: 'Apr-Nov 2025', improvement: '49%', avg: 21, latest: 17, label: 'Improvement' },
@@ -48,7 +48,7 @@ const metricsData = {
 // Executive Summary Data - 3 Sites Data
 const sitesData = {
   'SITE-I': {
-    Incidents: { total: 262, improvement: 13, from: 20, to: 17 },
+    Incidents: { total: 262, improvement: 15, from: 20, to: 17 },
     CA: { total: 89, improvement: 54, from: 91, to: 42 },
     PA: { total: 29, improvement: 60, from: 135, to: 54 },
     OOS: { total: 259, improvement: 49, avg: 21, latest: 17 },

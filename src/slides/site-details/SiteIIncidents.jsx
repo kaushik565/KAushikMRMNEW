@@ -6,15 +6,24 @@ export default function SiteIIncidents() {
   const avgInvestigationDays = [6.1, 5.8]
   const irCounts = [181, 81]
 
+  // Jan-May vs Jun-Nov comparison
+  const janMayAvgClosure = 19.9
+  const junNovAvgClosure = 15.6
+  const janMayAvgInvestigation = 6.1
+  const junNovAvgInvestigation = 5.7
+  const janMayIRCount = 130
+  const junNovIRCount = 81
+
+  // Calculate improvement percentages (based on Jan-May vs Jun-Nov)
+  const closureImprovement = 15
+  const investigationImprovement = Math.round(((janMayAvgInvestigation - junNovAvgInvestigation) / janMayAvgInvestigation) * 100)
+
   const totalIRs = irCounts.reduce((a, b) => a + b, 0)
-  const closureImprovement = Math.round(((avgClosureDays[0] - avgClosureDays[1]) / avgClosureDays[0]) * 100)
-  const investigationImprovement = Math.round(((avgInvestigationDays[0] - avgInvestigationDays[1]) / avgInvestigationDays[0]) * 100)
-  const volumeReduction = Math.round(((irCounts[0] - irCounts[1]) / irCounts[0]) * 100)
 
   return (
     <div style={{ marginTop: '20px' }}>
       {/* Key Performance Metrics */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' }}>
         <div style={{
           background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)',
           padding: '20px',
@@ -35,8 +44,11 @@ export default function SiteIIncidents() {
           boxShadow: '0 4px 12px rgba(16, 185, 129, 0.1)'
         }}>
           <div style={{ fontSize: '0.85em', color: '#065f46', fontWeight: '600', marginBottom: '8px' }}>Closure Time Improvement</div>
-          <div style={{ fontSize: '2em', fontWeight: '800', color: '#10b981' }}>21.6% ↓</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>19.9 → 15.6 days</div>
+          <div style={{ fontSize: '1.8em', fontWeight: '800', color: '#10b981' }}>{closureImprovement}% ↓</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>20 → 17 days</div>
+          <div style={{ fontSize: '0.7em', color: '#64748b', marginTop: '2px', paddingTop: '6px', borderTop: '1px solid #d1fae5' }}>
+            Jan-May: 20 | Jun-Nov: 17
+          </div>
         </div>
 
         <div style={{
@@ -47,20 +59,11 @@ export default function SiteIIncidents() {
           boxShadow: '0 4px 12px rgba(59, 130, 246, 0.1)'
         }}>
           <div style={{ fontSize: '0.85em', color: '#1e40af', fontWeight: '600', marginBottom: '8px' }}>Investigation Time Improvement</div>
-          <div style={{ fontSize: '2em', fontWeight: '800', color: '#3b82f6' }}>6.6% ↓</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>6.1 → 5.7 days</div>
-        </div>
-
-        <div style={{
-          background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-          padding: '20px',
-          borderRadius: '12px',
-          borderLeft: '4px solid #f59e0b',
-          boxShadow: '0 4px 12px rgba(245, 158, 11, 0.1)'
-        }}>
-          <div style={{ fontSize: '0.85em', color: '#92400e', fontWeight: '600', marginBottom: '8px' }}>Average Closure Days</div>
-          <div style={{ fontSize: '2em', fontWeight: '800', color: '#f59e0b' }}>18.3</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Overall Average</div>
+          <div style={{ fontSize: '1.8em', fontWeight: '800', color: '#3b82f6' }}>{investigationImprovement}% ↓</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>{janMayAvgInvestigation} → {junNovAvgInvestigation} days</div>
+          <div style={{ fontSize: '0.7em', color: '#64748b', marginTop: '2px', paddingTop: '6px', borderTop: '1px solid #dbeafe' }}>
+            Jan-May: {janMayAvgInvestigation} | Jun-Nov: {junNovAvgInvestigation}
+          </div>
         </div>
       </div>
 

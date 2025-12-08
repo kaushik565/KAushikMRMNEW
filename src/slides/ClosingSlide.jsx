@@ -52,19 +52,6 @@ export default function ClosingSlide() {
         marginBottom: '48px',
         borderRadius: '2px'
       }}></div>
-
-      {/* Footer text */}
-      <p style={{
-        fontSize: '1.1em',
-        color: '#64748b',
-        maxWidth: '600px',
-        lineHeight: '1.6',
-        marginBottom: '32px'
-      }}>
-        Hammed C R<br/>
-        <span style={{ fontSize: '0.85em', color: '#9ca3af' }}>Asst. Manager</span><br/>
-        <span style={{ fontSize: '0.85em', color: '#9ca3af' }}>Quality Assurance Site-III</span>
-      </p>
     </section>
   )
 }
