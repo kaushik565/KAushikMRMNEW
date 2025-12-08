@@ -23,6 +23,7 @@ export default function IPQAOverview() {
   const [selectedSite3Chart, setSelectedSite3Chart] = useState(null);
   const [selectedSiteIChart, setSelectedSiteIChart] = useState(null);
   const [selectedSite3KPIInfo, setSelectedSite3KPIInfo] = useState(null);
+  const [selectedQualityScoreInfo, setSelectedQualityScoreInfo] = useState(null);
 
   // Lock background scroll while any overlay/modal is open to avoid slide jump
   const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart || selectedSiteIChart;
@@ -287,6 +288,234 @@ export default function IPQAOverview() {
                 }}>
                   <div style={{width: '6px', height: '6px', background: '#8b5cf6', borderRadius: '50%'}}></div>
                   {detail}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
+  };
+
+  // Quality Score Info Modal Component
+  const QualityScoreInfoModal = ({ site, onClose }) => {
+    if (!site) return null;
+
+    const qualityScoreDetails = {
+      'SITE-I': {
+        title: 'SITE-I Quality Score Calculation',
+        color: '#dc2626',
+        currentScore: '99.6%',
+        previousScore: '99.2%',
+        calculation: '(Compliant Operations ÷ Total Operations) × 100',
+        details: [
+          'Total Operations Reviewed: 12,850',
+          'Compliant Operations: 12,799',
+          'Non-Compliant: 51',
+          'Current Score: (12,799 ÷ 12,850) × 100 = 99.6%',
+          'Previous Score: 99.2% (3 months ago)',
+          'Improvement: +0.4 percentage points'
+        ],
+        metrics: [
+          'BMR Verification: 99.8% compliance',
+          'Line Clearance: 99.5% compliance',
+          'Sampling Coverage: 99.4% compliance',
+          'Documentation Quality: 99.7% compliance'
+        ]
+      },
+      'SITE-III': {
+        title: 'SITE-III Quality Score Calculation',
+        color: '#8b5cf6',
+        currentScore: '99.2%',
+        previousScore: '98.9%',
+        calculation: '(Approved IPQA Activities ÷ Total IPQA Activities) × 100',
+        details: [
+          'Total IPQA Activities: 15,627',
+          'Approved Activities: 15,534',
+          'Not Approved/Observations: 93',
+          'Current Score: (15,534 ÷ 15,627) × 100 = 99.2%',
+          'Previous Score: 98.9% (3 months ago)',
+          'Improvement: +0.3 percentage points'
+        ],
+        metrics: [
+          'Line Clearance: 99.4% approval',
+          'Line Closure: 99.1% approval',
+          'Line Verification: 99.0% approval',
+          'Line Reverification: 99.3% approval'
+        ]
+      },
+      'SITE-V': {
+        title: 'SITE-V Quality Score Calculation',
+        color: '#0ea5e9',
+        currentScore: '98.8%',
+        previousScore: '98.3%',
+        calculation: '(Quality-Compliant Lots ÷ Total Lots Processed) × 100',
+        details: [
+          'Total Lots Processed: 1,450',
+          'Quality-Compliant Lots: 1,433',
+          'Non-Compliant Lots: 17',
+          'Current Score: (1,433 ÷ 1,450) × 100 = 98.8%',
+          'Previous Score: 98.3% (3 months ago)',
+          'Improvement: +0.5 percentage points'
+        ],
+        metrics: [
+          'Incoming Sampling: 99.1% compliance',
+          'In-Process Sampling: 98.7% compliance',
+          'BMR Verification: 98.5% compliance',
+          'Transfer Note Verification: 99.0% compliance'
+        ]
+      }
+    };
+
+    const details = qualityScoreDetails[site];
+    if (!details) return null;
+
+    return createPortal(
+      <div onClick={onClose} style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0, 0, 0, 0.6)',
+        backdropFilter: 'blur(4px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 99999,
+        padding: '20px'
+      }}>
+        <div onClick={(e) => e.stopPropagation()} style={{
+          background: 'linear-gradient(135deg, #ffffff, #f9fafb)',
+          borderRadius: '16px',
+          padding: '32px',
+          maxWidth: '700px',
+          width: '100%',
+          maxHeight: '85vh',
+          overflow: 'auto',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+          border: `3px solid ${details.color}`,
+          position: 'relative'
+        }}>
+          <button onClick={onClose} style={{
+            position: 'absolute',
+            top: '16px',
+            right: '16px',
+            background: '#ef4444',
+            color: 'white',
+            border: 'none',
+            borderRadius: '50%',
+            width: '36px',
+            height: '36px',
+            fontSize: '1.2em',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.2s'
+          }} onMouseEnter={(e) => {e.target.style.background = '#dc2626'; e.target.style.transform = 'scale(1.1)';}} onMouseLeave={(e) => {e.target.style.background = '#ef4444'; e.target.style.transform = 'scale(1)';}}>
+            ×
+          </button>
+
+          <div style={{marginBottom: '24px'}}>
+            <h3 style={{
+              fontSize: '1.5em',
+              fontWeight: '800',
+              color: details.color,
+              marginBottom: '8px',
+              marginTop: 0
+            }}>{details.title}</h3>
+            <div style={{height: '3px', background: `linear-gradient(90deg, ${details.color}, ${details.color}dd)`, width: '100px', borderRadius: '2px'}}></div>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '16px',
+            marginBottom: '24px'
+          }}>
+            <div style={{
+              background: '#f0f9ff',
+              borderRadius: '12px',
+              padding: '16px',
+              border: `2px solid ${details.color}30`,
+              textAlign: 'center'
+            }}>
+              <div style={{fontSize: '0.7em', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', marginBottom: '8px'}}>Previous Score</div>
+              <div style={{fontSize: '2em', fontWeight: '900', color: '#94a3b8'}}>{details.previousScore}</div>
+            </div>
+            <div style={{
+              background: `${details.color}10`,
+              borderRadius: '12px',
+              padding: '16px',
+              border: `2px solid ${details.color}`,
+              textAlign: 'center'
+            }}>
+              <div style={{fontSize: '0.7em', fontWeight: '700', color: '#1e293b', textTransform: 'uppercase', marginBottom: '8px'}}>Current Score</div>
+              <div style={{fontSize: '2em', fontWeight: '900', color: details.color}}>{details.currentScore}</div>
+            </div>
+          </div>
+
+          <div style={{
+            background: '#f0f9ff',
+            borderLeft: `4px solid ${details.color}`,
+            padding: '16px',
+            borderRadius: '8px',
+            marginBottom: '20px'
+          }}>
+            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '8px'}}>Formula</div>
+            <div style={{fontSize: '1em', fontWeight: '600', color: '#1f2937', fontFamily: 'monospace', background: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #cbd5e1'}}>
+              {details.calculation}
+            </div>
+          </div>
+
+          <div style={{
+            background: '#fefce8',
+            borderRadius: '8px',
+            padding: '16px',
+            border: '2px solid #fde047',
+            marginBottom: '20px'
+          }}>
+            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#854d0e', textTransform: 'uppercase', marginBottom: '12px'}}>Calculation Details</div>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+              {details.details.map((detail, index) => (
+                <div key={index} style={{
+                  fontSize: '0.85em',
+                  color: '#422006',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <div style={{width: '6px', height: '6px', background: details.color, borderRadius: '50%'}}></div>
+                  {detail}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{
+            background: '#f1f5f9',
+            borderRadius: '8px',
+            padding: '16px',
+            border: '2px solid #cbd5e1'
+          }}>
+            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '12px'}}>Key Quality Metrics</div>
+            <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+              {details.metrics.map((metric, index) => (
+                <div key={index} style={{
+                  fontSize: '0.85em',
+                  color: '#1e293b',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'white',
+                  padding: '8px 12px',
+                  borderRadius: '6px'
+                }}>
+                  <div style={{fontSize: '1.2em'}}>✓</div>
+                  {metric}
                 </div>
               ))}
             </div>
@@ -2221,10 +2450,40 @@ export default function IPQAOverview() {
                   borderBottom: '2px solid #fecaca'
                 }}>
                   <div style={{fontSize: '1.5em'}}>🎯</div>
-                  <div>
+                  <div style={{flex: 1}}>
                     <div style={{fontSize: '1.2em', fontWeight: '900', color: '#dc2626'}}>SITE-I</div>
                     <div style={{fontSize: '0.7em', fontWeight: '600', color: '#7f1d1d'}}>Overall Quality Performance</div>
                   </div>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedQualityScoreInfo('SITE-I');
+                    }}
+                    style={{
+                      background: '#dc2626',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '28px',
+                      height: '28px',
+                      fontSize: '0.9em',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s',
+                      boxShadow: '0 2px 8px rgba(220, 38, 38, 0.3)',
+                      position: 'relative',
+                      zIndex: 10,
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(220, 38, 38, 0.5)';e.currentTarget.style.background = '#b91c1c';}}
+                    onMouseLeave={(e) => {e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(220, 38, 38, 0.3)';e.currentTarget.style.background = '#dc2626';}}
+                  >
+                    ⓘ
+                  </button>
                 </div>
 
                 <div style={{textAlign: 'center', marginBottom: '12px'}}>
@@ -2287,10 +2546,40 @@ export default function IPQAOverview() {
                   borderBottom: '2px solid #e9d5ff'
                 }}>
                   <div style={{fontSize: '1.5em'}}>🎯</div>
-                  <div>
+                  <div style={{flex: 1}}>
                     <div style={{fontSize: '1.2em', fontWeight: '900', color: '#8b5cf6'}}>SITE-III</div>
                     <div style={{fontSize: '0.7em', fontWeight: '600', color: '#6b21a8'}}>Overall Quality Performance</div>
                   </div>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedQualityScoreInfo('SITE-III');
+                    }}
+                    style={{
+                      background: '#8b5cf6',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '28px',
+                      height: '28px',
+                      fontSize: '0.9em',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s',
+                      boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)',
+                      position: 'relative',
+                      zIndex: 10,
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.5)';e.currentTarget.style.background = '#7c3aed';}}
+                    onMouseLeave={(e) => {e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(139, 92, 246, 0.3)';e.currentTarget.style.background = '#8b5cf6';}}
+                  >
+                    ⓘ
+                  </button>
                 </div>
 
                 <div style={{textAlign: 'center', marginBottom: '12px'}}>
@@ -2353,10 +2642,40 @@ export default function IPQAOverview() {
                   borderBottom: '2px solid #cffafe'
                 }}>
                   <div style={{fontSize: '1.5em'}}>🎯</div>
-                  <div>
+                  <div style={{flex: 1}}>
                     <div style={{fontSize: '1.2em', fontWeight: '900', color: '#0ea5e9'}}>SITE-V</div>
                     <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0c4a6e'}}>Overall Quality Performance</div>
                   </div>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedQualityScoreInfo('SITE-V');
+                    }}
+                    style={{
+                      background: '#0ea5e9',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '28px',
+                      height: '28px',
+                      fontSize: '0.9em',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s',
+                      boxShadow: '0 2px 8px rgba(14, 165, 233, 0.3)',
+                      position: 'relative',
+                      zIndex: 10,
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(14, 165, 233, 0.5)';e.currentTarget.style.background = '#0284c7';}}
+                    onMouseLeave={(e) => {e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(14, 165, 233, 0.3)';e.currentTarget.style.background = '#0ea5e9';}}
+                  >
+                    ⓘ
+                  </button>
                 </div>
 
                 <div style={{textAlign: 'center', marginBottom: '12px'}}>
@@ -3091,6 +3410,14 @@ export default function IPQAOverview() {
         <Site3KPIInfoModal 
           kpiInfo={selectedSite3KPIInfo}
           onClose={() => setSelectedSite3KPIInfo(null)}
+        />
+      )}
+
+      {/* Quality Score Info Modal */}
+      {selectedQualityScoreInfo && (
+        <QualityScoreInfoModal 
+          site={selectedQualityScoreInfo}
+          onClose={() => setSelectedQualityScoreInfo(null)}
         />
       )}
     </>

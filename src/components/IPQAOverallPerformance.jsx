@@ -147,9 +147,13 @@ export const IPQAOverallPerformance = () => {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
           {/* SITE-I */}
           <div style={{ background: "linear-gradient(135deg, #ffffff, #fef2f2)", border: "3px solid #dc2626", borderRadius: "12px", padding: "18px", position: "relative" }}>
-            <button onClick={() => setSelectedSiteInfo('SITE-I')} style={{position: 'absolute', top: '12px', right: '12px', background: '#fee2e2', border: '2px solid #dc2626', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '1em', color: '#dc2626', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease'}}
-            onMouseEnter={(e) => {e.currentTarget.style.background = '#dc2626'; e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.15)';}}
-            onMouseLeave={(e) => {e.currentTarget.style.background = '#fee2e2'; e.currentTarget.style.color = '#dc2626'; e.currentTarget.style.transform = 'scale(1)';}}>ⓘ</button>
+            <button onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setSelectedSiteInfo('SITE-I');
+            }} style={{position: 'absolute', top: '12px', right: '12px', background: '#fee2e2', border: '2px solid #dc2626', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '1em', color: '#dc2626', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease', zIndex: 10}}
+            onMouseEnter={(e) => {e.currentTarget.style.background = '#dc2626'; e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.15)';e.currentTarget.style.boxShadow = '0 4px 12px rgba(220, 38, 38, 0.4)';}}
+            onMouseLeave={(e) => {e.currentTarget.style.background = '#fee2e2'; e.currentTarget.style.color = '#dc2626'; e.currentTarget.style.transform = 'scale(1)';e.currentTarget.style.boxShadow = 'none';}}>ⓘ</button>
             
             <div style={{ fontSize: "1em", fontWeight: "800", color: "#dc2626", marginBottom: "12px" }}>SITE-I</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "12px" }}>
@@ -168,9 +172,13 @@ export const IPQAOverallPerformance = () => {
 
           {/* SITE-III */}
           <div style={{ background: "linear-gradient(135deg, #ffffff, #faf5ff)", border: "3px solid #8b5cf6", borderRadius: "12px", padding: "18px", position: "relative" }}>
-            <button onClick={() => setSelectedSiteInfo('SITE-III')} style={{position: 'absolute', top: '12px', right: '12px', background: '#ede9fe', border: '2px solid #8b5cf6', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '1em', color: '#8b5cf6', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease'}}
-            onMouseEnter={(e) => {e.currentTarget.style.background = '#8b5cf6'; e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.15)';}}
-            onMouseLeave={(e) => {e.currentTarget.style.background = '#ede9fe'; e.currentTarget.style.color = '#8b5cf6'; e.currentTarget.style.transform = 'scale(1)';}}>ⓘ</button>
+            <button onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setSelectedSiteInfo('SITE-III');
+            }} style={{position: 'absolute', top: '12px', right: '12px', background: '#ede9fe', border: '2px solid #8b5cf6', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '1em', color: '#8b5cf6', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease', zIndex: 10}}
+            onMouseEnter={(e) => {e.currentTarget.style.background = '#8b5cf6'; e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.15)';e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.4)';}}
+            onMouseLeave={(e) => {e.currentTarget.style.background = '#ede9fe'; e.currentTarget.style.color = '#8b5cf6'; e.currentTarget.style.transform = 'scale(1)';e.currentTarget.style.boxShadow = 'none';}}>ⓘ</button>
             
             <div style={{ fontSize: "1em", fontWeight: "800", color: "#8b5cf6", marginBottom: "12px" }}>SITE-III</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "12px" }}>
@@ -189,9 +197,13 @@ export const IPQAOverallPerformance = () => {
 
           {/* SITE-V */}
           <div style={{ background: "linear-gradient(135deg, #ffffff, #ecfdf5)", border: "3px solid #0ea5e9", borderRadius: "12px", padding: "18px", position: "relative" }}>
-            <button onClick={() => setSelectedSiteInfo('SITE-V')} style={{position: 'absolute', top: '12px', right: '12px', background: '#cffafe', border: '2px solid #0ea5e9', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '1em', color: '#0ea5e9', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease'}}
-            onMouseEnter={(e) => {e.currentTarget.style.background = '#0ea5e9'; e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.15)';}}
-            onMouseLeave={(e) => {e.currentTarget.style.background = '#cffafe'; e.currentTarget.style.color = '#0ea5e9'; e.currentTarget.style.transform = 'scale(1)';}}>ⓘ</button>
+            <button onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setSelectedSiteInfo('SITE-V');
+            }} style={{position: 'absolute', top: '12px', right: '12px', background: '#cffafe', border: '2px solid #0ea5e9', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '1em', color: '#0ea5e9', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s ease', zIndex: 10}}
+            onMouseEnter={(e) => {e.currentTarget.style.background = '#0ea5e9'; e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.15)';e.currentTarget.style.boxShadow = '0 4px 12px rgba(14, 165, 233, 0.4)';}}
+            onMouseLeave={(e) => {e.currentTarget.style.background = '#cffafe'; e.currentTarget.style.color = '#0ea5e9'; e.currentTarget.style.transform = 'scale(1)';e.currentTarget.style.boxShadow = 'none';}}>ⓘ</button>
             
             <div style={{ fontSize: "1em", fontWeight: "800", color: "#0ea5e9", marginBottom: "12px" }}>SITE-V</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "12px" }}>
