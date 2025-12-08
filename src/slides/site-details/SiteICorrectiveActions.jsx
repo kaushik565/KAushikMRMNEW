@@ -2,8 +2,8 @@ import { Line, Bar } from 'react-chartjs-2'
 
 export default function SiteICorrectiveActions() {
   const periods = ['Jan-Jun', 'Jul-Nov']
-  const avgDays = [3, 5]
-  const avgDaysNC = [0, 3]
+  const avgDays = [91, 42]
+  const avgDaysNC = [79, 41]
   const mncCounts = [31, 49]
   const ncCounts = [4, 5]
   const totals = [35, 54]
@@ -57,7 +57,7 @@ export default function SiteICorrectiveActions() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#1e40af', fontWeight: '600', marginBottom: '8px' }}>Best Avg Days</div>
           <div style={{ fontSize: '2em', fontWeight: '800', color: '#3b82f6' }}>{bestAvg}</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jan-Jun performance</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jul-Nov performance</div>
         </div>
 
         <div style={{
@@ -249,9 +249,9 @@ export default function SiteICorrectiveActions() {
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
             <div style={{ fontSize: '1.5em' }}>✅</div>
             <div>
-              <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Consistent NC Control</div>
+              <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>NC Control Maintained</div>
               <div style={{ fontSize: '0.85em', color: '#475569', lineHeight: '1.5' }}>
-                NC counts remain low (4 → 5) while MNC handled efficiently.
+                NC counts stay low (4 → 5) while NC avg days improved from 79 → 41.
               </div>
             </div>
           </div>
@@ -259,9 +259,9 @@ export default function SiteICorrectiveActions() {
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
             <div style={{ fontSize: '1.5em' }}>📈</div>
             <div>
-              <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Avg Days Stable</div>
+              <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Cycle Time Drop</div>
               <div style={{ fontSize: '0.85em', color: '#475569', lineHeight: '1.5' }}>
-                Avg days rose modestly (3 → 5); NC avg days improved to 3 in recent period.
+                MNC avg days cut from 91 → 42 (≈54% faster) with NC timelines also improving.
               </div>
             </div>
           </div>
@@ -271,7 +271,7 @@ export default function SiteICorrectiveActions() {
             <div>
               <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Throughput Increased</div>
               <div style={{ fontSize: '0.85em', color: '#475569', lineHeight: '1.5' }}>
-                Total CA processed increased from 35 to 54 with controlled NC timelines.
+                Total CA processed rose from 35 → 54 while cycle times shortened.
               </div>
             </div>
           </div>
@@ -281,7 +281,7 @@ export default function SiteICorrectiveActions() {
             <div>
               <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Best Avg Days</div>
               <div style={{ fontSize: '0.85em', color: '#475569', lineHeight: '1.5' }}>
-                Jan-Jun delivered best avg days (3) indicating strong early-cycle efficiency.
+                Jul-Nov delivered best MNC avg days at 42 (NC at 41) with higher volume.
               </div>
             </div>
           </div>
@@ -314,17 +314,17 @@ export default function SiteICorrectiveActions() {
           <tbody>
             <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
               <td style={{ padding: '14px 16px', color: '#0f172a', fontWeight: '600' }}>Jan-Jun</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>3</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>91</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>31</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>0</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>79</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>4</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>35</td>
             </tr>
             <tr>
               <td style={{ padding: '14px 16px', color: '#0f172a', fontWeight: '600' }}>Jul-Nov</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>5</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>42</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>49</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>3</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>41</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>5</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>54</td>
             </tr>

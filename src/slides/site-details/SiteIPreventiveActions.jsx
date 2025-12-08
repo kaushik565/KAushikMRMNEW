@@ -2,7 +2,7 @@ import { Line, Bar } from 'react-chartjs-2'
 
 export default function SiteIPreventiveActions() {
   const periods = ['Jan-Jun', 'Jul-Nov']
-  const avgDays = [25, 11]
+  const avgDays = [135, 54]
   const counts = [5, 24]
   const totalPA = counts.reduce((a, b) => a + b, 0)
   const weightedAvg = ((avgDays[0] * counts[0]) + (avgDays[1] * counts[1])) / totalPA
@@ -221,7 +221,7 @@ export default function SiteIPreventiveActions() {
             <div>
               <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Cycle Time Improvement</div>
               <div style={{ fontSize: '0.85em', color: '#475569', lineHeight: '1.5' }}>
-                Avg days dropped from 25 to 11 ({improvementPct}% improvement) between periods.
+                Avg days dropped from 135 to 54 ({improvementPct}% improvement) between periods.
               </div>
             </div>
           </div>
@@ -241,7 +241,7 @@ export default function SiteIPreventiveActions() {
             <div>
               <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Sustained Efficiency</div>
               <div style={{ fontSize: '0.85em', color: '#475569', lineHeight: '1.5' }}>
-                Weighted avg cycle time is 13.4 days across 29 actions.
+                Weighted avg cycle time is 68.0 days across 29 actions.
               </div>
             </div>
           </div>
@@ -251,7 +251,7 @@ export default function SiteIPreventiveActions() {
             <div>
               <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Best Period</div>
               <div style={{ fontSize: '0.85em', color: '#475569', lineHeight: '1.5' }}>
-                Jul-Nov delivered best avg days (11) with the highest throughput.
+                Jul-Nov delivered best avg days (54) with the highest throughput.
               </div>
             </div>
           </div>
@@ -282,7 +282,7 @@ export default function SiteIPreventiveActions() {
           <tbody>
             <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
               <td style={{ padding: '14px 16px', color: '#0f172a', fontWeight: '600' }}>Jan-Jun</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>25</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>135</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>5</td>
               <td style={{ padding: '14px 16px', textAlign: 'center' }}>
                 <span style={{ background: '#fee2e2', color: '#9f1239', padding: '4px 12px', borderRadius: '12px', fontSize: '0.85em', fontWeight: '600' }}>
@@ -292,7 +292,7 @@ export default function SiteIPreventiveActions() {
             </tr>
             <tr>
               <td style={{ padding: '14px 16px', color: '#0f172a', fontWeight: '600' }}>Jul-Nov</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>11</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>54</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>24</td>
               <td style={{ padding: '14px 16px', textAlign: 'center' }}>
                 <span style={{ background: '#dcfce7', color: '#047857', padding: '4px 12px', borderRadius: '12px', fontSize: '0.85em', fontWeight: '600' }}>

@@ -4,8 +4,8 @@ Chart.register(...registerables)
 
 const siteData = {
   'SITE-I': {
-    totals: { Incidents: 262, CA: 89, PA: 54, OOS: 259, CC: 492 },
-    improvements: { Incidents: 22, CA: 13, PA: 56, OOS: 19, CC: 13 },
+    totals: { Incidents: 262, CA: 89, PA: 29, OOS: 259, CC: 492 },
+    improvements: { Incidents: 22, CA: 54, PA: 60, OOS: 19, CC: 13 },
     note: 'Largest volume; steady gains across PA and OOS'
   },
   'SITE-III': {
@@ -42,12 +42,12 @@ const allClosureDaysData = {
     'SITE-V': { before: 17, after: 7, improvement: 59, color: '#3b82f6' }
   },
   'Corrective Actions': {
-    'SITE-I': { before: 3, after: 5, improvement: -67, color: '#3b82f6' },
+    'SITE-I': { before: 91, after: 42, improvement: 54, color: '#3b82f6' },
     'SITE-III': { before: 56, after: 47, improvement: 16, color: '#3b82f6' },
     'SITE-V': { before: 56, after: 27, improvement: 52, color: '#3b82f6' }
   },
   'Preventive Actions': {
-    'SITE-I': { before: 25, after: 11, improvement: 56, color: '#3b82f6' },
+    'SITE-I': { before: 135, after: 54, improvement: 60, color: '#3b82f6' },
     'SITE-III': { before: 36, after: 34, improvement: 6, color: '#3b82f6' },
     'SITE-V': { before: 63, after: 29, improvement: 54, color: '#3b82f6' }
   },

@@ -24,8 +24,8 @@ import QMSOverview from './QMSOverview'
 const metricsData = {
   'SITE-I': {
     'Incidents': { total: 262, period: 'Jan-Nov 2025', improvement: '13%', from: 20, to: 17, label: 'Closure Days Reduced' },
-    'CA': { total: 89, period: 'Jan-Nov 2025', improvement: '-42%', from: 2, to: 4, label: 'Avg Days to Close Reduced' },
-    'PA': { total: 29, period: 'Jan-Nov 2025', improvement: '56%', from: 25, to: 11, label: 'Processing Time Reduced' },
+    'CA': { total: 89, period: 'Jan-Nov 2025', improvement: '54%', from: 91, to: 42, label: 'Avg Days to Close Reduced' },
+    'PA': { total: 29, period: 'Jan-Nov 2025', improvement: '60%', from: 135, to: 54, label: 'Processing Time Reduced' },
     'Out of Specifications': { total: 259, period: 'Apr-Nov 2025', improvement: '49%', avg: 21, latest: 17, label: 'Improvement' },
     'Change Controls': { total: 492, period: 'Jan-Nov 2025', improvement: '13%', from: 46, to: 40, label: 'Closure Days Reduced' }
   },
@@ -49,8 +49,8 @@ const metricsData = {
 const sitesData = {
   'SITE-I': {
     Incidents: { total: 262, improvement: 13, from: 20, to: 17 },
-    CA: { total: 89, improvement: -42, from: 2, to: 4 },
-    PA: { total: 29, improvement: 56, from: 25, to: 11 },
+    CA: { total: 89, improvement: 54, from: 91, to: 42 },
+    PA: { total: 29, improvement: 60, from: 135, to: 54 },
     OOS: { total: 259, improvement: 49, avg: 21, latest: 17 },
     CC: { total: 492, improvement: 13, from: 46, to: 40 }
   },
@@ -85,7 +85,7 @@ const siteColors = {
 }
 
 // Overall Performance Component
-function OverallPerformance() {
+function OverallPerformance({ onCompleteOverviewClick }) {
   const categories = ['Incidents', 'CA', 'PA', 'OOS', 'CC']
   const improvements = categories.map(cat => {
     let sum = 0, count = 0
@@ -106,9 +106,36 @@ function OverallPerformance() {
       borderRadius: '8px',
       marginBottom: '14px'
     }}>
-      <h3 style={{ fontSize: '0.95em', fontWeight: '700', color: '#0ea5e9', marginBottom: '12px', marginTop: '0px' }}>
-        📊 Overall Performance (Average Improvement Across All Sites)
-      </h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+        <h3 style={{ fontSize: '0.95em', fontWeight: '700', color: '#0ea5e9', margin: '0' }}>
+          📊 Overall Performance (Average Improvement Across All Sites)
+        </h3>
+        <button
+          onClick={onCompleteOverviewClick}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#0ea5e9',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: '6px',
+            fontSize: '0.85em',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            whiteSpace: 'nowrap'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#0284c7'
+            e.currentTarget.style.transform = 'scale(1.05)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#0ea5e9'
+            e.currentTarget.style.transform = 'scale(1)'
+          }}
+        >
+          Complete Overview
+        </button>
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
         {categories.map((cat, idx) => (
           <div key={cat} style={{ textAlign: 'center' }}>
@@ -152,7 +179,7 @@ function OverallPerformance() {
 }
 
 // Site Comparison Grid Component
-function SiteComparisonGrid() {
+function SiteComparisonGrid({ onSiteClick }) {
   return (
     <div style={{
       display: 'grid',
@@ -167,12 +194,24 @@ function SiteComparisonGrid() {
         )
 
         return (
-          <div key={site} style={{
+          <div key={site} onClick={() => onSiteClick(site)} style={{
             padding: '14px',
             backgroundColor: siteColors[site] + '10',
             border: `3px solid ${siteColors[site]}`,
-            borderRadius: '8px'
-          }}>
+            borderRadius: '8px',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            transform: 'scale(1)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)'
+            e.currentTarget.style.boxShadow = `0 8px 20px ${siteColors[site]}30`
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)'
+            e.currentTarget.style.boxShadow = 'none'
+          }}
+          >
             <div style={{
               fontSize: '1em',
               fontWeight: '800',
@@ -432,6 +471,11 @@ export default function SiteOverview() {
   const [selectedSite, setSelectedSite] = useState(null)
   const [scrollPosition, setScrollPosition] = useState(0)
   const sectionRef = useRef(null)
+  const siteRefMap = useRef({
+    'SITE-I': useRef(null),
+    'SITE-III': useRef(null),
+    'SITE-V': useRef(null)
+  })
 
   const handleCategoryClick = (category, site) => {
     // Save the current scroll position of the section
@@ -453,6 +497,20 @@ export default function SiteOverview() {
     }, 0)
   }
 
+  const handleSiteClick = (siteName) => {
+    if (siteRefMap.current[siteName] && siteRefMap.current[siteName].current) {
+      const siteElement = siteRefMap.current[siteName].current
+      const sectionContainer = sectionRef.current
+      if (sectionContainer) {
+        const elementPosition = siteElement.offsetTop - 100
+        sectionContainer.scrollTo({
+          top: elementPosition,
+          behavior: 'smooth'
+        })
+      }
+    }
+  }
+
   return (
     <section className="content-slide" ref={sectionRef} style={{ position: 'relative', overflow: 'auto' }}>
       <h2 style={{ borderBottom: '4px solid #b91c1c', paddingBottom: '8px', marginBottom: '20px', color: '#b91c1c', fontSize: '1.8em', fontWeight: '600' }}>
@@ -461,8 +519,8 @@ export default function SiteOverview() {
 
       {/* Executive Summary Sections at the top */}
       <div style={{ marginBottom: '30px', paddingBottom: '20px', borderBottom: '2px solid #e5e7eb' }}>
-        <OverallPerformance />
-        <SiteComparisonGrid />
+        <OverallPerformance onCompleteOverviewClick={() => setSelectedCategory('overview')} />
+        <SiteComparisonGrid onSiteClick={handleSiteClick} />
       </div>
 
       {/* Home Button - Show when any category is selected (except overview) */}
@@ -541,38 +599,13 @@ export default function SiteOverview() {
       {/* Overview - Show when no category is selected */}
       {!selectedCategory && (
         <div style={{ marginTop: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <h3 style={{ fontSize: '1.2em', color: '#0f172a', fontWeight: '700', paddingBottom: '10px', borderBottom: '2px solid #b91c1c', margin: 0, flex: 1 }}>
               📈 Individual Site Key Metrics
             </h3>
-            <button
-              onClick={() => setSelectedCategory('overview')}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#0ea5e9',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: '6px',
-                fontSize: '0.9em',
-                fontWeight: '600',
-                cursor: 'pointer',
-                marginLeft: '12px',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#0284c7'
-                e.currentTarget.style.transform = 'scale(1.05)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#0ea5e9'
-                e.currentTarget.style.transform = 'scale(1)'
-              }}
-            >
-              Complete Overview
-            </button>
           </div>
           {/* SITE-I Section */}
-          <div style={{ marginBottom: '40px' }}>
+          <div ref={siteRefMap.current['SITE-I']} style={{ marginBottom: '40px' }}>
             <h3 style={{ 
               fontSize: '1.4em', 
               color: '#0f172a', 
@@ -632,7 +665,7 @@ export default function SiteOverview() {
           </div>
 
           {/* SITE-III Section */}
-          <div style={{ marginBottom: '40px' }}>
+          <div ref={siteRefMap.current['SITE-III']} style={{ marginBottom: '40px' }}>
             <h3 style={{ 
               fontSize: '1.4em', 
               color: '#0f172a', 
@@ -692,7 +725,7 @@ export default function SiteOverview() {
           </div>
 
           {/* SITE-V Section */}
-          <div style={{ marginBottom: '40px' }}>
+          <div ref={siteRefMap.current['SITE-V']} style={{ marginBottom: '40px' }}>
             <h3 style={{ 
               fontSize: '1.4em', 
               color: '#0f172a', 
@@ -748,6 +781,78 @@ export default function SiteOverview() {
                 textColor="#1e40af"
                 onClick={() => handleCategoryClick('Change Controls', 'SITE-V')}
               />
+            </div>
+          </div>
+
+          {/* RANKING SUMMARY SECTION - MOVED HERE AFTER ALL SITE METRICS */}
+          <div style={{ marginTop: '50px', marginBottom: '40px', paddingTop: '30px', borderTop: '3px solid #e5e7eb' }}>
+            {/* Key Insights */}
+            <div style={{
+              background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+              padding: '28px',
+              borderRadius: '16px',
+              border: '2px solid #10b981',
+              boxShadow: '0 8px 24px rgba(16, 185, 129, 0.15)'
+            }}>
+              <h3 style={{ margin: '0 0 20px 0', color: '#065f46', fontWeight: '700', fontSize: '1.3em', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                💡 KEY INSIGHTS
+              </h3>
+              
+              <div style={{ marginBottom: '20px' }}>
+                <h4 style={{ margin: '0 0 12px 0', color: '#047857', fontWeight: '700', fontSize: '1.05em' }}>
+                  1️⃣ Volume vs Quality Trade-off Analysis
+                </h4>
+                <div style={{ background: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #86efac' }}>
+                  <div style={{ fontSize: '0.9em', color: '#111827', lineHeight: '1.7' }}>
+                    <div style={{ marginBottom: '8px' }}>
+                      <strong style={{ color: '#047857' }}>SITE-I</strong> handles <strong>HIGHEST volume</strong> (1,131 events) but maintains <strong>GOOD quality</strong> (38% improvement)
+                    </div>
+                    <div style={{ marginBottom: '8px' }}>
+                      <strong style={{ color: '#047857' }}>SITE-III</strong> handles <strong>MEDIUM volume</strong> (620 events) with <strong>EXCELLENT quality</strong> (35% improvement)
+                    </div>
+                    <div>
+                      <strong style={{ color: '#047857' }}>SITE-V</strong> handles <strong>LOWEST volume</strong> (570 events) with <strong>EXCEPTIONAL quality</strong> (49% improvement)
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 style={{ margin: '0 0 12px 0', color: '#047857', fontWeight: '700', fontSize: '1.05em' }}>
+                  2️⃣ Closure Time Trends
+                </h4>
+                <div style={{ background: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #86efac' }}>
+                  <div style={{ fontSize: '0.9em', color: '#111827', lineHeight: '1.7' }}>
+                    <strong style={{ color: '#047857' }}>✓ All sites show IMPROVEMENT</strong> in closure times Jul-Nov vs Jan-Jun<br/>
+                    <strong style={{ color: '#047857' }}>✓ Consistent improvement across</strong> all 5 QMS categories
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Conclusion */}
+            <div style={{
+              background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
+              padding: '28px',
+              borderRadius: '16px',
+              border: '2px solid #3b82f6',
+              boxShadow: '0 8px 24px rgba(59, 130, 246, 0.15)',
+              marginTop: '24px'
+            }}>
+              <h3 style={{ margin: '0 0 16px 0', color: '#1e40af', fontWeight: '700', fontSize: '1.3em' }}>
+                ✨ CONCLUSION
+              </h3>
+              <div style={{ background: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #93c5fd' }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.95em', color: '#111827', lineHeight: '1.8' }}>
+                  <strong style={{ color: '#1e40af' }}>All sites demonstrate:</strong>
+                </p>
+                <ul style={{ margin: '0', paddingLeft: '20px', fontSize: '0.9em', color: '#111827', lineHeight: '1.8' }}>
+                  <li>✓ Consistent improvement over time</li>
+                  <li>✓ Strong process controls</li>
+                  <li>✓ Effective incident management</li>
+                  <li>✓ Reduced closure times across all categories</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

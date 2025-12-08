@@ -6,8 +6,8 @@ export default function ExecutiveSummary() {
   const qmsClosureDaysData = {
     'SITE-I': {
       incidents: { before: 20, after: 17, improvement: 13 },
-      ca: { before: 2, after: 4, improvement: -100 },
-      pa: { before: 25, after: 11, improvement: 56 },
+      ca: { before: 91, after: 42, improvement: 54 },
+      pa: { before: 135, after: 54, improvement: 60 },
       oos: { before: 21, after: 17, improvement: 19 },
       cc: { before: 46, after: 40, improvement: 13 }
     },
@@ -65,13 +65,13 @@ export default function ExecutiveSummary() {
     },
     {
       category: 'CA',
-      'SITE-I Before': 2, 'SITE-I After': 4,
+      'SITE-I Before': 91, 'SITE-I After': 42,
       'SITE-III Before': 56, 'SITE-III After': 47,
       'SITE-V Before': 56, 'SITE-V After': 27
     },
     {
       category: 'PA',
-      'SITE-I Before': 25, 'SITE-I After': 11,
+      'SITE-I Before': 135, 'SITE-I After': 54,
       'SITE-III Before': 36, 'SITE-III After': 34,
       'SITE-V Before': 63, 'SITE-V After': 29
     },
@@ -91,8 +91,8 @@ export default function ExecutiveSummary() {
 
   const improvementByCategory = [
     { category: 'Incidents', 'SITE-I': 13, 'SITE-III': 42, 'SITE-V': 59 },
-    { category: 'CA', 'SITE-I': -100, 'SITE-III': 16, 'SITE-V': 52 },
-    { category: 'PA', 'SITE-I': 56, 'SITE-III': 6, 'SITE-V': 54 },
+    { category: 'CA', 'SITE-I': 54, 'SITE-III': 16, 'SITE-V': 52 },
+    { category: 'PA', 'SITE-I': 60, 'SITE-III': 6, 'SITE-V': 54 },
     { category: 'OOS', 'SITE-I': 19, 'SITE-III': 36, 'SITE-V': 42 },
     { category: 'CC', 'SITE-I': 13, 'SITE-III': 61, 'SITE-V': 22 }
   ];
