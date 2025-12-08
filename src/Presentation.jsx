@@ -2,6 +2,7 @@
 import Reveal from 'reveal.js'
 import TitleSlide from './slides/TitleSlide'
 import ExecutiveSummary from './slides/ExecutiveSummary'
+import QMSOverview from './slides/QMSOverview'
 import SiteOverview from './slides/SiteOverview'
 import IPQAOverview from './slides/IPQAOverview'
 import LabQAOverview from './slides/LabQAOverview'
@@ -53,6 +54,8 @@ export default function Presentation() {
           maxScale: 2.0,
           viewDistance: 2,
           mobileViewDistance: 1,
+          pdfMaxPagesPerSlide: 1, // Ensure one slide per PDF page
+          pdfPageHeightOffset: 0,
         })
 
         deck.initialize()
@@ -96,11 +99,13 @@ export default function Presentation() {
           onError={(e) => { e.currentTarget.src = fallbackLogo }}
         />
       </div>
+      {/* React mounts into #root inside the Reveal structure defined in index.html */}
       <TitleSlide />
-      <ExecutiveSummary />
       <SiteOverview />
+      <QMSOverview />
       <IPQAOverview />
       <LabQAOverview />
+      <ExecutiveSummary />
       <ClosingSlide />
     </>
   )
