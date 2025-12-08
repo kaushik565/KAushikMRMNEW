@@ -12,6 +12,7 @@ import SiteIIILineClosure from './ipqa-details/SiteIIILineClosure';
 import SiteIIILineReverification from './ipqa-details/SiteIIILineReverification';
 import SiteIIILineVerification from './ipqa-details/SiteIIILineVerification';
 import SiteISection from './ipqa-details/SiteISection';
+import { IPQAOverallPerformance } from '../components/IPQAOverallPerformance';
 
 export default function IPQAOverview() {
   const [selectedDetail, setSelectedDetail] = useState(null);
@@ -1939,6 +1940,9 @@ export default function IPQAOverview() {
               In-Process Quality Assurance Performance Across Manufacturing Sites
             </p>
           </div>
+
+          {/* Overall Performance Dashboard */}
+          <IPQAOverallPerformance />
 
           {/* Site Cards */}
           {Object.entries(metricsData).map(([siteName, siteData]) => (

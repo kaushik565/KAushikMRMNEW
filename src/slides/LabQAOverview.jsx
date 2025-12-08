@@ -103,29 +103,34 @@ export default function LabQAOverview() {
       color: '#10b981',
       icon: '🔬',
       metrics: [
-        { label: 'Total Reports Verified', value: 2845 },
-        { label: 'Reports Passed', value: 2790 },
-        { label: 'Reports Failed', value: 55 },
-        { label: 'Pass Rate', value: '98.2%' }
+        { label: 'Total Reports Verified', value: 7518 },
+        { label: 'Approved', value: 7374 },
+        { label: 'Out of Specification (OOS)', value: 144 },
+        { label: 'Approval Rate', value: '98.1%' }
       ],
       monthlyData: [
-        { month: 'Jul', iqc: 245, ipqc: 198, fqc: 12, passTotal: 442, failTotal: 13 },
-        { month: 'Aug', iqc: 268, ipqc: 215, fqc: 18, passTotal: 489, failTotal: 12 },
-        { month: 'Sep', iqc: 292, ipqc: 234, fqc: 22, passTotal: 535, failTotal: 13 },
-        { month: 'Oct', iqc: 278, ipqc: 221, fqc: 15, passTotal: 498, failTotal: 16 },
-        { month: 'Nov', iqc: 316, ipqc: 262, fqc: 28, passTotal: 579, failTotal: 1 }
+        { month: 'Jul', incomingMaterials: 559, stability: 196, rawMaterials: 257, truenat: 314, trueprep: 83, approvedTotal: 1409, oosTotal: 29 },
+        { month: 'Aug', incomingMaterials: 542, stability: 197, rawMaterials: 269, truenat: 340, trueprep: 89, approvedTotal: 1437, oosTotal: 25 },
+        { month: 'Sep', incomingMaterials: 559, stability: 212, rawMaterials: 271, truenat: 338, trueprep: 96, approvedTotal: 1476, oosTotal: 20 },
+        { month: 'Oct', incomingMaterials: 600, stability: 215, rawMaterials: 280, truenat: 336, trueprep: 106, approvedTotal: 1537, oosTotal: 25 },
+        { month: 'Nov', incomingMaterials: 566, stability: 234, rawMaterials: 279, truenat: 344, trueprep: 92, approvedTotal: 1515, oosTotal: 45 }
       ],
       series: [
-        { key: 'iqc', name: 'IQC', color: COLORS[0], type: 'bar' },
-        { key: 'ipqc', name: 'IPQC', color: COLORS[1], type: 'bar' },
-        { key: 'fqc', name: 'FQC', color: COLORS[2], type: 'bar' },
-        { key: 'passTotal', name: 'Pass', color: COLORS[3], type: 'line' },
-        { key: 'failTotal', name: 'Fail', color: '#ef4444', type: 'line' }
+        { key: 'incomingMaterials', name: 'Incoming Materials', color: COLORS[0], type: 'bar' },
+        { key: 'stability', name: 'Stability', color: COLORS[1], type: 'bar' },
+        { key: 'rawMaterials', name: 'Raw Materials', color: COLORS[2], type: 'bar' },
+        { key: 'truenat', name: 'Truenat®', color: '#8b5cf6', type: 'bar' },
+        { key: 'trueprep', name: 'Trueprep®', color: '#ec4899', type: 'bar' },
+        { key: 'approvedTotal', name: 'Approved', color: COLORS[3], type: 'line' },
+        { key: 'oosTotal', name: 'OOS', color: '#ef4444', type: 'line' }
       ],
       testTypes: [
-        { name: 'IQC', value: 1399, percentage: 49 },
-        { name: 'IPQC', value: 1130, percentage: 40 },
-        { name: 'FQC', value: 316, percentage: 11 }
+        { name: 'Incoming Materials', value: 2826, percentage: 37.6 },
+        { name: 'Stability', value: 1054, percentage: 14.0 },
+        { name: 'Raw Materials', value: 1356, percentage: 18.0 },
+        { name: 'Truenat®', value: 1672, percentage: 22.2 },
+        { name: 'Trueprep®', value: 466, percentage: 6.2 },
+        { name: 'Out of Spec', value: 144, percentage: 1.9 }
       ]
     }
   ];
@@ -225,7 +230,8 @@ export default function LabQAOverview() {
                     background: '#ffffff',
                     padding: '12px',
                     borderRadius: '8px',
-                    borderLeft: `4px solid ${site.color}`
+                    borderLeft: `4px solid ${site.color}`,
+                    gridColumn: (site.name === 'SITE-I' && mIdx === 2) ? 'span 2' : 'auto'
                   }}
                 >
                   <div style={{
