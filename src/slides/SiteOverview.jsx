@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 import SiteIIncidents from './site-details/SiteIIncidents'
@@ -86,6 +87,8 @@ const siteColors = {
 
 // Overall Performance Component
 function OverallPerformance({ onCompleteOverviewClick }) {
+  const [selectedCategoryInfo, setSelectedCategoryInfo] = useState(null);
+  
   const categories = ['Incidents', 'CA', 'PA', 'OOS', 'CC']
   const improvements = categories.map(cat => {
     let sum = 0, count = 0
@@ -98,7 +101,112 @@ function OverallPerformance({ onCompleteOverviewClick }) {
     return Math.round(sum / count)
   })
 
+  const categoryDetails = {
+    'Incidents': {
+      title: 'Incidents - Average Improvement Calculation',
+      avgImprovement: improvements[0],
+      calculation: `(SITE-I: 15% + SITE-III: 42% + SITE-V: 59%) ÷ 3 = ${improvements[0]}%`,
+      sites: [
+        { name: 'SITE-I', improvement: 15, from: '20 days', to: '17 days', total: 262 },
+        { name: 'SITE-III', improvement: 42, from: '24 days', to: '14 days', total: 82 },
+        { name: 'SITE-V', improvement: 59, from: '17 days', to: '7 days', total: 196 }
+      ],
+      description: 'Incident closure time reduction across all manufacturing sites'
+    },
+    'CA': {
+      title: 'Corrective Actions (CA) - Average Improvement Calculation',
+      avgImprovement: improvements[1],
+      calculation: `(SITE-I: 54% + SITE-III: 16% + SITE-V: 52%) ÷ 3 = ${improvements[1]}%`,
+      sites: [
+        { name: 'SITE-I', improvement: 54, from: '91 days', to: '42 days', total: 89 },
+        { name: 'SITE-III', improvement: 16, from: '56 days', to: '47 days', total: 52 },
+        { name: 'SITE-V', improvement: 52, from: '56 days', to: '27 days', total: 70 }
+      ],
+      description: 'Corrective action closure time improvement across sites'
+    },
+    'PA': {
+      title: 'Preventive Actions (PA) - Average Improvement Calculation',
+      avgImprovement: improvements[2],
+      calculation: `(SITE-I: 60% + SITE-III: 6% + SITE-V: 54%) ÷ 3 = ${improvements[2]}%`,
+      sites: [
+        { name: 'SITE-I', improvement: 60, from: '135 days', to: '54 days', total: 29 },
+        { name: 'SITE-III', improvement: 6, from: '36 days', to: '34 days', total: 66 },
+        { name: 'SITE-V', improvement: 54, from: '63 days', to: '29 days', total: 37 }
+      ],
+      description: 'Preventive action processing time reduction across sites'
+    },
+    'OOS': {
+      title: 'Out of Specifications (OOS) - Average Improvement Calculation',
+      avgImprovement: improvements[3],
+      calculation: `(SITE-I: 49% + SITE-III: 49% + SITE-V: 59%) ÷ 3 = ${improvements[3]}%`,
+      sites: [
+        { name: 'SITE-I', improvement: 49, from: '21 days avg', to: '17 days', total: 259 },
+        { name: 'SITE-III', improvement: 49, from: '14 days avg', to: '9 days', total: 159 },
+        { name: 'SITE-V', improvement: 59, from: '12 days avg', to: '7 days', total: 89 }
+      ],
+      description: 'Out of specification resolution time improvement'
+    },
+    'CC': {
+      title: 'Change Controls (CC) - Average Improvement Calculation',
+      avgImprovement: improvements[4],
+      calculation: `(SITE-I: 13% + SITE-III: 61% + SITE-V: 23%) ÷ 3 = ${improvements[4]}%`,
+      sites: [
+        { name: 'SITE-I', improvement: 13, from: '46 days', to: '40 days', total: 492 },
+        { name: 'SITE-III', improvement: 61, from: '41 days', to: '16 days', total: 261 },
+        { name: 'SITE-V', improvement: 23, from: '50 days', to: '39 days', total: 178 }
+      ],
+      description: 'Change control closure time reduction across all sites'
+    }
+  };
+
+  const CategoryInfoModal = ({ category, onClose }) => {
+    const details = categoryDetails[category];
+    return createPortal(
+      <div onClick={onClose} style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0, 0, 0, 0.7)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99999, padding: '20px'}}>
+        <div onClick={(e) => e.stopPropagation()} style={{background: 'linear-gradient(135deg, #ffffff, #f9fafb)', borderRadius: '16px', padding: '32px', maxWidth: '700px', width: '100%', maxHeight: '85vh', overflow: 'auto', boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)', border: `3px solid ${categoryColors[category]}`, position: 'relative'}}>
+          <button onClick={onClose} style={{position: 'absolute', top: '16px', right: '16px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '50%', width: '36px', height: '36px', fontSize: '1.2em', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s'}}
+          onMouseEnter={(e) => {e.currentTarget.style.background = '#dc2626'; e.currentTarget.style.transform = 'scale(1.1)';}}
+          onMouseLeave={(e) => {e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.transform = 'scale(1)';}}>×</button>
+
+          <div style={{marginBottom: '24px'}}>
+            <h3 style={{fontSize: '1.5em', fontWeight: '800', color: categoryColors[category], marginBottom: '8px', marginTop: 0}}>{details.title}</h3>
+            <div style={{height: '3px', background: `linear-gradient(90deg, ${categoryColors[category]}, ${categoryColors[category]}dd)`, width: '100px', borderRadius: '2px'}}></div>
+            <p style={{fontSize: '0.9em', color: '#64748b', marginTop: '12px', fontStyle: 'italic'}}>{details.description}</p>
+          </div>
+
+          <div style={{textAlign: 'center', padding: '20px', background: `${categoryColors[category]}10`, borderRadius: '12px', border: `2px solid ${categoryColors[category]}`, marginBottom: '24px'}}>
+            <div style={{fontSize: '0.8em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '8px'}}>Average Improvement Across All Sites</div>
+            <div style={{fontSize: '3em', fontWeight: '900', color: categoryColors[category]}}>{details.avgImprovement}%</div>
+          </div>
+
+          <div style={{background: '#f0f9ff', borderLeft: `4px solid ${categoryColors[category]}`, padding: '16px', borderRadius: '8px', marginBottom: '20px'}}>
+            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '8px'}}>Calculation Formula</div>
+            <div style={{fontSize: '0.95em', fontFamily: 'monospace', color: '#1f2937', background: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #cbd5e1'}}>{details.calculation}</div>
+          </div>
+
+          <div style={{marginBottom: '16px'}}>
+            <div style={{fontSize: '1em', fontWeight: '700', color: '#0f172a', marginBottom: '12px'}}>📊 Site-wise Breakdown:</div>
+            {details.sites.map((site, idx) => (
+              <div key={idx} style={{marginBottom: '12px', padding: '14px', background: '#f8fafc', borderLeft: `4px solid ${siteColors[site.name]}`, borderRadius: '8px'}}>
+                <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '8px'}}>
+                  <div style={{fontSize: '1.1em', fontWeight: '800', color: siteColors[site.name]}}>{site.name}</div>
+                  <div style={{fontSize: '1.4em', fontWeight: '900', color: siteColors[site.name]}}>{site.improvement}%</div>
+                </div>
+                <div style={{fontSize: '0.85em', color: '#475569', lineHeight: '1.5'}}>
+                  <div>Before: {site.from} → After: {site.to}</div>
+                  <div>Total Items: {site.total}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
+  };
+
   return (
+    <>
     <div style={{
       padding: '14px',
       backgroundColor: '#f0f9ff',
@@ -138,7 +246,44 @@ function OverallPerformance({ onCompleteOverviewClick }) {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
         {categories.map((cat, idx) => (
-          <div key={cat} style={{ textAlign: 'center' }}>
+          <div key={cat} style={{ textAlign: 'center', position: 'relative' }}>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setSelectedCategoryInfo(cat);
+              }}
+              style={{
+                position: 'absolute',
+                top: '4px',
+                right: '4px',
+                background: categoryColors[cat],
+                color: 'white',
+                border: 'none',
+                borderRadius: '50%',
+                width: '24px',
+                height: '24px',
+                fontSize: '0.75em',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+                zIndex: 10,
+                boxShadow: `0 2px 8px ${categoryColors[cat]}60`
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.15)';
+                e.currentTarget.style.boxShadow = `0 4px 12px ${categoryColors[cat]}80`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = `0 2px 8px ${categoryColors[cat]}60`;
+              }}
+            >
+              ⓘ
+            </button>
             <div style={{
               width: '100%',
               height: '100px',
@@ -175,6 +320,15 @@ function OverallPerformance({ onCompleteOverviewClick }) {
         ))}
       </div>
     </div>
+    
+    {/* Category Info Modal */}
+    {selectedCategoryInfo && (
+      <CategoryInfoModal 
+        category={selectedCategoryInfo}
+        onClose={() => setSelectedCategoryInfo(null)}
+      />
+    )}
+    </>
   )
 }
 
