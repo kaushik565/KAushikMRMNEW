@@ -20,8 +20,8 @@ export default function ExecutiveSummary() {
     },
     'SITE-V': {
       incidents: { before: 17, after: 7, improvement: 59 },
-      ca: { before: 5, after: 4, improvement: 20 },
-      pa: { before: 40, after: 32, improvement: 20 },
+      ca: { before: 56, after: 27, improvement: 52 },
+      pa: { before: 63, after: 29, improvement: 54 },
       oos: { before: 12, after: 7, improvement: 42 },
       cc: { before: 50, after: 39, improvement: 22 }
     }
@@ -67,13 +67,13 @@ export default function ExecutiveSummary() {
       category: 'CA',
       'SITE-I Before': 2, 'SITE-I After': 4,
       'SITE-III Before': 56, 'SITE-III After': 47,
-      'SITE-V Before': 5, 'SITE-V After': 4
+      'SITE-V Before': 56, 'SITE-V After': 27
     },
     {
       category: 'PA',
       'SITE-I Before': 25, 'SITE-I After': 11,
       'SITE-III Before': 36, 'SITE-III After': 34,
-      'SITE-V Before': 40, 'SITE-V After': 32
+      'SITE-V Before': 63, 'SITE-V After': 29
     },
     {
       category: 'OOS',
@@ -91,8 +91,8 @@ export default function ExecutiveSummary() {
 
   const improvementByCategory = [
     { category: 'Incidents', 'SITE-I': 13, 'SITE-III': 42, 'SITE-V': 59 },
-    { category: 'CA', 'SITE-I': -100, 'SITE-III': 16, 'SITE-V': 20 },
-    { category: 'PA', 'SITE-I': 56, 'SITE-III': 6, 'SITE-V': 20 },
+    { category: 'CA', 'SITE-I': -100, 'SITE-III': 16, 'SITE-V': 52 },
+    { category: 'PA', 'SITE-I': 56, 'SITE-III': 6, 'SITE-V': 54 },
     { category: 'OOS', 'SITE-I': 19, 'SITE-III': 36, 'SITE-V': 42 },
     { category: 'CC', 'SITE-I': 13, 'SITE-III': 61, 'SITE-V': 22 }
   ];

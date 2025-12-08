@@ -14,9 +14,9 @@ const siteData = {
     note: 'Strongest change control improvement and OOS gains'
   },
   'SITE-V': {
-    totals: { Incidents: 196, CA: 57, PA: 41, OOS: 89, CC: 178 },
-    improvements: { Incidents: 59, CA: 71, PA: 20, OOS: 42, CC: 23 },
-    note: 'Best incident reduction; fastest CA cycle time'
+    totals: { Incidents: 196, CA: 70, PA: 37, OOS: 89, CC: 178 },
+    improvements: { Incidents: 59, CA: 52, PA: 54, OOS: 42, CC: 23 },
+    note: 'Best incident reduction; strong CA (NC) and PA improvements'
   }
 }
 
@@ -44,12 +44,12 @@ const allClosureDaysData = {
   'Corrective Actions': {
     'SITE-I': { before: 3, after: 5, improvement: -67, color: '#3b82f6' },
     'SITE-III': { before: 56, after: 47, improvement: 16, color: '#3b82f6' },
-    'SITE-V': { before: 5, after: 4, improvement: 20, color: '#3b82f6' }
+    'SITE-V': { before: 56, after: 27, improvement: 52, color: '#3b82f6' }
   },
   'Preventive Actions': {
     'SITE-I': { before: 25, after: 11, improvement: 56, color: '#3b82f6' },
     'SITE-III': { before: 36, after: 34, improvement: 6, color: '#3b82f6' },
-    'SITE-V': { before: 40, after: 32, improvement: 20, color: '#3b82f6' }
+    'SITE-V': { before: 63, after: 29, improvement: 54, color: '#3b82f6' }
   },
   'Out of Specs': {
     'SITE-I': { before: 21, after: 17, improvement: 19, color: '#3b82f6' },
@@ -294,51 +294,7 @@ export default function QMSOverview() {
         </div>
       </div>
 
-      {/* Site-wise Summary Cards with Category Breakdown */}
-      <div className="closure-hero-grid">
-        <div className="hero-card overall">
-          <div className="hero-content">
-            <div className="hero-title">SITE-I</div>
-            <div className="hero-sub">Avg Improvement</div>
-            <div className="hero-value">18%</div>
-            <div className="hero-categories-breakdown">
-              <div className="category-perf">Incidents: ↓22%</div>
-              <div className="category-perf negative">CA: ↑67%</div>
-              <div className="category-perf">PA: ↓56%</div>
-              <div className="category-perf">OOS: ↓19%</div>
-              <div className="category-perf">CC: ↓13%</div>
-            </div>
-          </div>
-        </div>
-        <div className="hero-card best">
-          <div className="hero-content">
-            <div className="hero-title">SITE-III</div>
-            <div className="hero-sub">Avg Improvement</div>
-            <div className="hero-value">30%</div>
-            <div className="hero-categories-breakdown">
-              <div className="category-perf">Incidents: ↓33%</div>
-              <div className="category-perf">CA: ↓16%</div>
-              <div className="category-perf">PA: ↓6%</div>
-              <div className="category-perf">OOS: ↓36%</div>
-              <div className="category-perf">CC: ↓61%</div>
-            </div>
-          </div>
-        </div>
-        <div className="hero-card total">
-          <div className="hero-content">
-            <div className="hero-title">SITE-V</div>
-            <div className="hero-sub">Avg Improvement</div>
-            <div className="hero-value">33%</div>
-            <div className="hero-categories-breakdown">
-              <div className="category-perf">Incidents: ↓59%</div>
-              <div className="category-perf">CA: ↓20%</div>
-              <div className="category-perf">PA: ↓20%</div>
-              <div className="category-perf">OOS: ↓42%</div>
-              <div className="category-perf">CC: ↓22%</div>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
       {/* All Categories Closure Days Breakdown */}
       <div className="closure-categories-grid">

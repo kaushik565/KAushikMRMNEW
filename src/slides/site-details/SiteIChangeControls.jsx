@@ -33,7 +33,7 @@ export default function SiteIChangeControls() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#581c87', fontWeight: '600', marginBottom: '8px' }}>Total CCs</div>
           <div style={{ fontSize: '2em', fontWeight: '800', color: '#a855f7' }}>{totalRecords}</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jan-Nov 2024</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jan-Nov 2025</div>
         </div>
 
         <div style={{

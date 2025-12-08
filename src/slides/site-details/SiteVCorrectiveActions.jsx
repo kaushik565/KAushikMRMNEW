@@ -2,11 +2,11 @@ import { Line, Bar } from 'react-chartjs-2'
 
 export default function SiteVCorrectiveActions() {
   const periods = ['Jan-Jun', 'Jul-Nov']
-  const avgDaysMNC = [3, 6]
-  const avgDaysNC = [7, 2]
-  const mncCounts = [30, 20]
-  const ncCounts = [4, 3]
-  const totals = [34, 23]
+  const avgDaysMNC = [45, 49]
+  const avgDaysNC = [56, 27]
+  const mncCounts = [31, 30]
+  const ncCounts = [6, 3]
+  const totals = periods.map((_, i) => mncCounts[i] + ncCounts[i])
 
   const totalCA = totals.reduce((a, b) => a + b, 0)
   const weightedAvgMNC = totals.reduce((acc, t, i) => acc + t * avgDaysMNC[i], 0) / totalCA
@@ -28,16 +28,16 @@ export default function SiteVCorrectiveActions() {
   const caDataChart = [
     {
       period: 'JAN-JUNE',
-      'MNC Days': 3,
-      'NC Days': 7,
-      'MNC Count': 30,
-      'NC Count': 4,
+      'MNC Days': 45,
+      'NC Days': 56,
+      'MNC Count': 31,
+      'NC Count': 6,
     },
     {
       period: 'JULY-NOV',
-      'MNC Days': 6,
-      'NC Days': 2,
-      'MNC Count': 20,
+      'MNC Days': 49,
+      'NC Days': 27,
+      'MNC Count': 30,
       'NC Count': 3,
     },
   ];
@@ -146,7 +146,7 @@ export default function SiteVCorrectiveActions() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#7c3aed', fontWeight: '600', marginBottom: '8px' }}>Total CA Records</div>
           <div style={{ fontSize: '2em', fontWeight: '800', color: '#7c3aed' }}>{totalCA}</div>
-          <div style={{ fontSize: '0.75em', color: '#6b7280', marginTop: '4px' }}>Jan-Nov 2024</div>
+          <div style={{ fontSize: '0.75em', color: '#6b7280', marginTop: '4px' }}>Jan-Nov 2025</div>
         </div>
 
         {/* Card 2: Weighted Avg Days (MNC) - Green */}
@@ -252,7 +252,7 @@ export default function SiteVCorrectiveActions() {
             <div style={{ fontSize: '1.5em', marginBottom: '8px' }}>✅</div>
             <div style={{ fontWeight: '700', color: '#7c3aed', fontSize: '0.9em', marginBottom: '4px' }}>NC Cycle Time Improvement</div>
             <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-              NC closure reduced from 7 to 2 days (71% improvement)
+              NC closure reduced from 56 to 27 days (52% improvement)
             </div>
           </div>
 
@@ -267,7 +267,7 @@ export default function SiteVCorrectiveActions() {
             <div style={{ fontSize: '1.5em', marginBottom: '8px' }}>📈</div>
             <div style={{ fontWeight: '700', color: '#7c3aed', fontSize: '0.9em', marginBottom: '4px' }}>Volume Reduction</div>
             <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-              MNC count decreased 33% (30→20), NC count down 25% (4→3)
+              MNC count decreased 3% (31→30), NC count down 50% (6→3)
             </div>
           </div>
 
@@ -282,7 +282,7 @@ export default function SiteVCorrectiveActions() {
             <div style={{ fontSize: '1.5em', marginBottom: '8px' }}>⚠️</div>
             <div style={{ fontWeight: '700', color: '#7c3aed', fontSize: '0.9em', marginBottom: '4px' }}>MNC Cycle Time Watch</div>
             <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-              MNC closure doubled from 3 to 6 days - requires attention
+              MNC closure increased from 45 to 49 days (9% slower) - requires attention
             </div>
           </div>
 
@@ -297,7 +297,7 @@ export default function SiteVCorrectiveActions() {
             <div style={{ fontSize: '1.5em', marginBottom: '8px' }}>🎯</div>
             <div style={{ fontWeight: '700', color: '#7c3aed', fontSize: '0.9em', marginBottom: '4px' }}>Best Avg Days (MNC)</div>
             <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-              Best performance: {bestMNC} days ({improvementPctMNC}% vs initial)
+              Best performance: {bestMNC} days (baseline)
             </div>
           </div>
         </div>
@@ -329,19 +329,19 @@ export default function SiteVCorrectiveActions() {
           <tbody>
             <tr style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #e5e7eb' }}>
               <td style={{ padding: '14px 16px', color: '#0f172a', fontWeight: '600' }}>Jan-Jun</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '600' }}>3</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>30</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>7</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>4</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>34</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '600' }}>45</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>31</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>56</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>6</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>37</td>
             </tr>
             <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
               <td style={{ padding: '14px 16px', color: '#0f172a', fontWeight: '600' }}>Jul-Nov</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '600' }}>6</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>20</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>2</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '600' }}>49</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>30</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>27</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>3</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>23</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>33</td>
             </tr>
           </tbody>
         </table>

@@ -35,7 +35,7 @@ export default function SiteIIICorrectiveActions() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#6d28d9', fontWeight: '600', marginBottom: '8px' }}>Total CA Records</div>
           <div style={{ fontSize: '2em', fontWeight: '800', color: '#6d28d9' }}>{totalCA}</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jan-Nov 2024</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jan-Nov 2025</div>
         </div>
 
         <div style={{

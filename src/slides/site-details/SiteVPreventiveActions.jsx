@@ -2,13 +2,14 @@ import { Line, Bar } from 'react-chartjs-2'
 
 export default function SiteVPreventiveActions() {
   const periods = ['Jan-Jun', 'Jul-Nov']
-  const avgDays = [2, 3.7]
-  const counts = [10, 23]
+  const avgDays = [63, 29]
+  const counts = [10, 27]
 
   const totalCount = counts.reduce((a, b) => a + b, 0)
   const weightedAvgDays = counts.reduce((acc, c, i) => acc + c * avgDays[i], 0) / totalCount
   const bestAvgDays = Math.min(...avgDays)
   const improvementPct = Math.round(((avgDays[0] - bestAvgDays) / avgDays[0]) * 100)
+  const closureImprovementPct = Math.round(((avgDays[0] - avgDays[1]) / avgDays[0]) * 100)
   const volumeIncreasePct = Math.round(((counts[1] - counts[0]) / counts[0]) * 100)
 
   // KPI Improvements - Month over Month
@@ -19,8 +20,8 @@ export default function SiteVPreventiveActions() {
 
   // Chart data
   const paData = [
-    { period: 'JAN-JUNE', 'Avg Days': 2, 'PA Count': 10 },
-    { period: 'JULY-NOV', 'Avg Days': 3.7, 'PA Count': 23 }
+    { period: 'JAN-JUNE', 'Avg Days': 63, 'PA Count': 10 },
+    { period: 'JULY-NOV', 'Avg Days': 29, 'PA Count': 27 }
   ]
 
   // Metrics data
@@ -28,7 +29,7 @@ export default function SiteVPreventiveActions() {
     {
       label: 'Avg Days to Close',
       value: weightedAvgDays.toFixed(2),
-      change: `${volumeIncreasePct}%`,
+      change: `${closureImprovementPct}%`,
       trend: 'up',
     },
     {
@@ -39,14 +40,14 @@ export default function SiteVPreventiveActions() {
     },
     {
       label: 'JAN-JUNE Avg',
-      value: '2',
+      value: '63',
       change: 'baseline',
       trend: 'neutral',
     },
     {
       label: 'JULY-NOV Avg',
-      value: '3.7',
-      change: `+${volumeIncreasePct}%`,
+      value: '29',
+      change: `${closureImprovementPct}% faster`,
       trend: 'up',
     },
   ]
@@ -135,7 +136,7 @@ export default function SiteVPreventiveActions() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#7c3aed', fontWeight: '600', marginBottom: '8px' }}>Total PA Records</div>
           <div style={{ fontSize: '2em', fontWeight: '800', color: '#7c3aed' }}>{totalCount}</div>
-          <div style={{ fontSize: '0.75em', color: '#6b7280', marginTop: '4px' }}>Jan-Nov 2024</div>
+          <div style={{ fontSize: '0.75em', color: '#6b7280', marginTop: '4px' }}>Jan-Nov 2025</div>
         </div>
 
         {/* Card 2: Weighted Avg Days - Green */}
@@ -241,7 +242,7 @@ export default function SiteVPreventiveActions() {
             <div style={{ fontSize: '1.5em', marginBottom: '8px' }}>📈</div>
             <div style={{ fontWeight: '700', color: '#7c3aed', fontSize: '0.9em', marginBottom: '4px' }}>Volume Surge</div>
             <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-              PA count increased 130% (10→23), showing proactive quality initiatives
+              PA count increased 170% (10→27), showing proactive quality initiatives
             </div>
           </div>
 
@@ -254,9 +255,9 @@ export default function SiteVPreventiveActions() {
             boxShadow: '0 2px 8px rgba(139, 92, 246, 0.08)'
           }}>
             <div style={{ fontSize: '1.5em', marginBottom: '8px' }}>⏱️</div>
-            <div style={{ fontWeight: '700', color: '#7c3aed', fontSize: '0.9em', marginBottom: '4px' }}>Closure Time Increase</div>
+            <div style={{ fontWeight: '700', color: '#7c3aed', fontSize: '0.9em', marginBottom: '4px' }}>Closure Time Improvement</div>
             <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-              Avg days rose from 2 to 3.7 (85% increase) - review complexity
+              Avg days improved from 63 to 29 (54% faster) while volume grew
             </div>
           </div>
 
@@ -271,7 +272,7 @@ export default function SiteVPreventiveActions() {
             <div style={{ fontSize: '1.5em', marginBottom: '8px' }}>✅</div>
             <div style={{ fontWeight: '700', color: '#7c3aed', fontSize: '0.9em', marginBottom: '4px' }}>Efficient Execution</div>
             <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-              Overall weighted avg {weightedAvgDays.toFixed(1)} days remains efficient
+              Overall weighted avg {weightedAvgDays.toFixed(1)} days with improved throughput
             </div>
           </div>
 
@@ -286,7 +287,7 @@ export default function SiteVPreventiveActions() {
             <div style={{ fontSize: '1.5em', marginBottom: '8px' }}>🎯</div>
             <div style={{ fontWeight: '700', color: '#7c3aed', fontSize: '0.9em', marginBottom: '4px' }}>Best Performance</div>
             <div style={{ fontSize: '0.85em', color: '#6b7280' }}>
-              Best avg: {bestAvgDays} days (Jan-Jun baseline)
+              Best avg: {bestAvgDays} days (Jul-Nov)
             </div>
           </div>
         </div>
@@ -315,13 +316,13 @@ export default function SiteVPreventiveActions() {
           <tbody>
             <tr style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #e5e7eb' }}>
               <td style={{ padding: '14px 16px', color: '#0f172a', fontWeight: '600' }}>Jan-Jun</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>2</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>63</td>
               <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>10</td>
             </tr>
             <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
               <td style={{ padding: '14px 16px', color: '#0f172a', fontWeight: '600' }}>Jul-Nov</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>3.7</td>
-              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>23</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a' }}>29</td>
+              <td style={{ padding: '14px 16px', textAlign: 'center', color: '#0f172a', fontWeight: '700' }}>27</td>
             </tr>
           </tbody>
         </table>

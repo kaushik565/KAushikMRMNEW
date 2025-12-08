@@ -28,7 +28,7 @@ export default function SiteIIIChangeControls() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#1e40af', fontWeight: '600', marginBottom: '8px' }}>Total CC Raised</div>
           <div style={{ fontSize: '2em', fontWeight: '800', color: '#1d4ed8' }}>{totalCC}</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jan-Nov 2024</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jan-Nov 2025</div>
         </div>
 
         <div style={{

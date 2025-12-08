@@ -247,7 +247,7 @@ export default function SiteVOutOfSpecifications() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#7c3aed', fontWeight: '600', marginBottom: '8px' }}>Total OOS Items</div>
           <div style={{ fontSize: '2em', fontWeight: '800', color: '#7c3aed' }}>{totalOOS}</div>
-          <div style={{ fontSize: '0.75em', color: '#6b7280', marginTop: '4px' }}>Apr-Nov 2024</div>
+          <div style={{ fontSize: '0.75em', color: '#6b7280', marginTop: '4px' }}>Apr-Nov 2025</div>
         </div>
 
         {/* Card 2: Avg Days to Close - Green */}

@@ -102,7 +102,6 @@ export default function Presentation() {
       {/* React mounts into #root inside the Reveal structure defined in index.html */}
       <TitleSlide />
       <SiteOverview />
-      <QMSOverview />
       <IPQAOverview />
       <LabQAOverview />
       <ExecutiveSummary />

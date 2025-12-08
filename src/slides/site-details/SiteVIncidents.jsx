@@ -25,7 +25,7 @@ export default function SiteVIncidents() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#9f1239', fontWeight: '600', marginBottom: '8px' }}>Total IRs Initiated</div>
           <div style={{ fontSize: '2em', fontWeight: '800', color: '#e11d48' }}>{totalIRs}</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jan - Nov 2024</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Jan - Nov 2025</div>
         </div>
 
         <div style={{

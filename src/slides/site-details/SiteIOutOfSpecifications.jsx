@@ -35,7 +35,7 @@ export default function SiteIOutOfSpecifications() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#92400e', fontWeight: '600', marginBottom: '8px' }}>Total OOS Records</div>
           <div style={{ fontSize: '2em', fontWeight: '800', color: '#92400e' }}>{totalRecords}</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Apr-Nov 2024</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>Apr-Nov 2025</div>
         </div>
 
         <div style={{

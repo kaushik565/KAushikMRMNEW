@@ -17,30 +17,31 @@ import SiteVCorrectiveActions from './site-details/SiteVCorrectiveActions'
 import SiteVPreventiveActions from './site-details/SiteVPreventiveActions'
 import SiteVOutOfSpecifications from './site-details/SiteVOutOfSpecifications'
 import SiteVChangeControls from './site-details/SiteVChangeControls'
+import QMSOverview from './QMSOverview'
 
 // Key metrics data for each category - showing ONE main improvement metric highlighted
 // Data extracted from actual component calculations
 const metricsData = {
   'SITE-I': {
-    'Incidents': { total: 262, period: 'Jan-Nov 2024', improvement: '13%', from: 20, to: 17, label: 'Closure Days Reduced' },
-    'CA': { total: 89, period: 'Jan-Nov 2024', improvement: '-42%', from: 2, to: 4, label: 'Avg Days to Close Reduced' },
-    'PA': { total: 29, period: 'Jan-Nov 2024', improvement: '56%', from: 25, to: 11, label: 'Processing Time Reduced' },
-    'Out of Specifications': { total: 259, period: 'Apr-Nov 2024', improvement: '49%', avg: 21, latest: 17, label: 'Improvement' },
-    'Change Controls': { total: 492, period: 'Jan-Nov 2024', improvement: '13%', from: 46, to: 40, label: 'Closure Days Reduced' }
+    'Incidents': { total: 262, period: 'Jan-Nov 2025', improvement: '13%', from: 20, to: 17, label: 'Closure Days Reduced' },
+    'CA': { total: 89, period: 'Jan-Nov 2025', improvement: '-42%', from: 2, to: 4, label: 'Avg Days to Close Reduced' },
+    'PA': { total: 29, period: 'Jan-Nov 2025', improvement: '56%', from: 25, to: 11, label: 'Processing Time Reduced' },
+    'Out of Specifications': { total: 259, period: 'Apr-Nov 2025', improvement: '49%', avg: 21, latest: 17, label: 'Improvement' },
+    'Change Controls': { total: 492, period: 'Jan-Nov 2025', improvement: '13%', from: 46, to: 40, label: 'Closure Days Reduced' }
   },
   'SITE-III': {
-    'Incidents': { total: 82, period: 'Jan-Nov 2024', improvement: '42%', from: 24, to: 14, label: 'Closure Days Reduced' },
-    'CA': { total: 52, period: 'Jan-Nov 2024', improvement: '16%', from: 56, to: 47, label: 'Avg Days to Close Reduced' },
-    'PA': { total: 66, period: 'Jan-Nov 2024', improvement: '6%', from: 36, to: 34, label: 'Processing Time Reduced' },
-    'Out of Specifications': { total: 159, period: 'Apr-Nov 2024', improvement: '49%', avg: 14, latest: 9, label: 'Improvement' },
-    'Change Controls': { total: 261, period: 'Jan-Nov 2024', improvement: '61%', from: 41, to: 16, label: 'Closure Days Reduced' }
+    'Incidents': { total: 82, period: 'Jan-Nov 2025', improvement: '42%', from: 24, to: 14, label: 'Closure Days Reduced' },
+    'CA': { total: 52, period: 'Jan-Nov 2025', improvement: '16%', from: 56, to: 47, label: 'Avg Days to Close Reduced' },
+    'PA': { total: 66, period: 'Jan-Nov 2025', improvement: '6%', from: 36, to: 34, label: 'Processing Time Reduced' },
+    'Out of Specifications': { total: 159, period: 'Apr-Nov 2025', improvement: '49%', avg: 14, latest: 9, label: 'Improvement' },
+    'Change Controls': { total: 261, period: 'Jan-Nov 2025', improvement: '61%', from: 41, to: 16, label: 'Closure Days Reduced' }
   },
   'SITE-V': {
-    'Incidents': { total: 196, period: 'Jan-Nov 2024', improvement: '59%', from: 17, to: 7, label: 'Closure Days Reduced' },
-    'CA': { total: 57, period: 'Jan-Nov 2024', improvement: '71%', from: 5, to: 4, label: 'Avg Days to Close Reduced' },
-    'PA': { total: 41, period: 'Jan-Nov 2024', improvement: '20%', from: 40, to: 32, label: 'Processing Time Reduced' },
-    'Out of Specifications': { total: 89, period: 'Apr-Aug 2024', improvement: '59%', avg: 12, latest: 7, label: 'Improvement' },
-    'Change Controls': { total: 178, period: 'Jan-Nov 2024', improvement: '23%', from: 50, to: 39, label: 'Closure Days Reduced' }
+    'Incidents': { total: 196, period: 'Jan-Nov 2025', improvement: '59%', from: 17, to: 7, label: 'Closure Days Reduced' },
+    'CA': { total: 70, period: 'Jan-Nov 2025', improvement: '52%', from: 56, to: 27, label: 'NC Closure Days Reduced' },
+    'PA': { total: 37, period: 'Jan-Nov 2025', improvement: '54%', from: 63, to: 29, label: 'Processing Time Reduced' },
+    'Out of Specifications': { total: 89, period: 'Apr-Aug 2025', improvement: '59%', avg: 12, latest: 7, label: 'Improvement' },
+    'Change Controls': { total: 178, period: 'Jan-Nov 2025', improvement: '23%', from: 50, to: 39, label: 'Closure Days Reduced' }
   }
 }
 
@@ -62,8 +63,8 @@ const sitesData = {
   },
   'SITE-V': {
     Incidents: { total: 196, improvement: 59, from: 17, to: 7 },
-    CA: { total: 57, improvement: 71, from: 5, to: 4 },
-    PA: { total: 41, improvement: 20, from: 40, to: 32 },
+    CA: { total: 70, improvement: 52, from: 56, to: 27 },
+    PA: { total: 37, improvement: 54, from: 63, to: 29 },
     OOS: { total: 89, improvement: 59, avg: 12, latest: 7 },
     CC: { total: 178, improvement: 23, from: 50, to: 39 }
   }
@@ -217,9 +218,36 @@ function SiteComparisonGrid() {
               paddingTop: '8px',
               borderTop: `1px solid ${siteColors[site]}30`
             }}>
-              <div>✓ Incidents: {data.Incidents.improvement}%</div>
-              <div>✓ PA: {data.PA.improvement}%</div>
-              <div>✓ OOS: {data.OOS.improvement}%</div>
+              <div>
+                ✓ Incidents:{' '}
+                <span style={{ color: data.Incidents.improvement < 0 ? '#ef4444' : '#6b7280' }}>
+                  {data.Incidents.improvement}%
+                </span>
+              </div>
+              <div>
+                ✓ CA:{' '}
+                <span style={{ color: data.CA.improvement < 0 ? '#ef4444' : '#6b7280' }}>
+                  {data.CA.improvement}%
+                </span>
+              </div>
+              <div>
+                ✓ PA:{' '}
+                <span style={{ color: data.PA.improvement < 0 ? '#ef4444' : '#6b7280' }}>
+                  {data.PA.improvement}%
+                </span>
+              </div>
+              <div>
+                ✓ OOS:{' '}
+                <span style={{ color: data.OOS.improvement < 0 ? '#ef4444' : '#6b7280' }}>
+                  {data.OOS.improvement}%
+                </span>
+              </div>
+              <div>
+                ✓ CC:{' '}
+                <span style={{ color: data.CC.improvement < 0 ? '#ef4444' : '#6b7280' }}>
+                  {data.CC.improvement}%
+                </span>
+              </div>
             </div>
           </div>
         )
@@ -437,8 +465,8 @@ export default function SiteOverview() {
         <SiteComparisonGrid />
       </div>
 
-      {/* Home Button */}
-      {selectedCategory && (
+      {/* Home Button - Show when any category is selected (except overview) */}
+      {selectedCategory && selectedCategory !== 'overview' && (
         <div style={{
           display: 'flex',
           justifyContent: 'center',
@@ -474,12 +502,75 @@ export default function SiteOverview() {
         </div>
       )}
 
+      {/* Complete Overview Section - Show when overview button is clicked */}
+      {selectedCategory === 'overview' && (
+        <div style={{ marginTop: '20px', backgroundColor: '#ffffff', padding: '0', borderRadius: '0' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px' }}>
+            <button
+              onClick={() => { setSelectedCategory(null); setSelectedSite(null) }}
+              style={{
+                padding: '14px 28px',
+                fontSize: '1.1em',
+                fontWeight: '600',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                backgroundColor: '#b91c1c',
+                color: '#ffffff',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 12px rgba(185, 28, 28, 0.3)',
+                minWidth: '110px',
+                fontFamily: 'inherit'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#991b1b'
+                e.target.style.boxShadow = '0 6px 16px rgba(185, 28, 28, 0.4)'
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#b91c1c'
+                e.target.style.boxShadow = '0 4px 12px rgba(185, 28, 28, 0.3)'
+              }}
+            >
+              🏠 Home
+            </button>
+          </div>
+          <QMSOverview />
+        </div>
+      )}
+
       {/* Overview - Show when no category is selected */}
       {!selectedCategory && (
         <div style={{ marginTop: '20px' }}>
-          <h3 style={{ fontSize: '1.2em', color: '#0f172a', fontWeight: '700', marginBottom: '20px', paddingBottom: '10px', borderBottom: '2px solid #b91c1c' }}>
-            📈 Individual Site Key Metrics
-          </h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h3 style={{ fontSize: '1.2em', color: '#0f172a', fontWeight: '700', paddingBottom: '10px', borderBottom: '2px solid #b91c1c', margin: 0, flex: 1 }}>
+              📈 Individual Site Key Metrics
+            </h3>
+            <button
+              onClick={() => setSelectedCategory('overview')}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: '#0ea5e9',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '0.9em',
+                fontWeight: '600',
+                cursor: 'pointer',
+                marginLeft: '12px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#0284c7'
+                e.currentTarget.style.transform = 'scale(1.05)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#0ea5e9'
+                e.currentTarget.style.transform = 'scale(1)'
+              }}
+            >
+              Complete Overview
+            </button>
+          </div>
           {/* SITE-I Section */}
           <div style={{ marginBottom: '40px' }}>
             <h3 style={{ 
