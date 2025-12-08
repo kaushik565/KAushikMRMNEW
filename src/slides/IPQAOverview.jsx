@@ -2178,6 +2178,228 @@ export default function IPQAOverview() {
             </p>
           </div>
 
+          {/* Overall Quality Performance Section - MOVED TO TOP */}
+          <div style={{
+            padding: '20px',
+            background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)',
+            borderRadius: '16px',
+            marginBottom: '24px',
+            border: '3px solid #0ea5e9',
+            boxShadow: '0 8px 24px rgba(14, 165, 233, 0.15)'
+          }}>
+            <div style={{
+              fontSize: '1.1em',
+              fontWeight: '800',
+              color: '#0369a1',
+              marginBottom: '16px',
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              📊 Quality Assurance Compliance Across All Sites
+            </div>
+
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px'}}>
+              {/* SITE-I Overall Quality Performance */}
+              <div style={{
+                background: 'linear-gradient(135deg, #ffffff, #fef2f2)',
+                borderRadius: '14px',
+                padding: '20px',
+                border: '3px solid #dc2626',
+                boxShadow: '0 6px 20px rgba(220, 38, 38, 0.15)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+                <div style={{position: 'absolute', top: '-30px', right: '-30px', fontSize: '6em', opacity: '0.05'}}>🎯</div>
+                
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  marginBottom: '14px',
+                  paddingBottom: '10px',
+                  borderBottom: '2px solid #fecaca'
+                }}>
+                  <div style={{fontSize: '1.5em'}}>🎯</div>
+                  <div>
+                    <div style={{fontSize: '1.2em', fontWeight: '900', color: '#dc2626'}}>SITE-I</div>
+                    <div style={{fontSize: '0.7em', fontWeight: '600', color: '#7f1d1d'}}>Overall Quality Performance</div>
+                  </div>
+                </div>
+
+                <div style={{textAlign: 'center', marginBottom: '12px'}}>
+                  <div style={{fontSize: '2.8em', fontWeight: '900', color: '#dc2626', lineHeight: 1}}>99.6%</div>
+                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#991b1b', textTransform: 'uppercase'}}>Quality Score</div>
+                </div>
+
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '12px',
+                  marginBottom: '12px',
+                  padding: '10px',
+                  background: '#fee2e2',
+                  borderRadius: '8px'
+                }}>
+                  <div style={{textAlign: 'center'}}>
+                    <div style={{fontSize: '0.65em', fontWeight: '700', color: '#7f1d1d', marginBottom: '2px'}}>Before</div>
+                    <div style={{fontSize: '1.3em', fontWeight: '900', color: '#ef4444'}}>99.2%</div>
+                  </div>
+                  <div style={{fontSize: '1.2em', color: '#dc2626'}}>→</div>
+                  <div style={{textAlign: 'center'}}>
+                    <div style={{fontSize: '0.65em', fontWeight: '700', color: '#7f1d1d', marginBottom: '2px'}}>Now</div>
+                    <div style={{fontSize: '1.3em', fontWeight: '900', color: '#16a34a'}}>99.6%</div>
+                  </div>
+                </div>
+
+                <div style={{
+                  textAlign: 'center',
+                  padding: '10px',
+                  background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
+                  borderRadius: '8px',
+                  border: '2px solid #22c55e'
+                }}>
+                  <div style={{fontSize: '0.8em', fontWeight: '700', color: '#166534'}}>
+                    ↑ +0.4% improvement
+                  </div>
+                </div>
+              </div>
+
+              {/* SITE-III Overall Quality Performance */}
+              <div style={{
+                background: 'linear-gradient(135deg, #ffffff, #faf5ff)',
+                borderRadius: '14px',
+                padding: '20px',
+                border: '3px solid #8b5cf6',
+                boxShadow: '0 6px 20px rgba(139, 92, 246, 0.15)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+                <div style={{position: 'absolute', top: '-30px', right: '-30px', fontSize: '6em', opacity: '0.05'}}>🎯</div>
+                
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  marginBottom: '14px',
+                  paddingBottom: '10px',
+                  borderBottom: '2px solid #e9d5ff'
+                }}>
+                  <div style={{fontSize: '1.5em'}}>🎯</div>
+                  <div>
+                    <div style={{fontSize: '1.2em', fontWeight: '900', color: '#8b5cf6'}}>SITE-III</div>
+                    <div style={{fontSize: '0.7em', fontWeight: '600', color: '#6b21a8'}}>Overall Quality Performance</div>
+                  </div>
+                </div>
+
+                <div style={{textAlign: 'center', marginBottom: '12px'}}>
+                  <div style={{fontSize: '2.8em', fontWeight: '900', color: '#8b5cf6', lineHeight: 1}}>99.2%</div>
+                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#7c3aed', textTransform: 'uppercase'}}>Quality Score</div>
+                </div>
+
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '12px',
+                  marginBottom: '12px',
+                  padding: '10px',
+                  background: '#f3e8ff',
+                  borderRadius: '8px'
+                }}>
+                  <div style={{textAlign: 'center'}}>
+                    <div style={{fontSize: '0.65em', fontWeight: '700', color: '#6b21a8', marginBottom: '2px'}}>Before</div>
+                    <div style={{fontSize: '1.3em', fontWeight: '900', color: '#a78bfa'}}>98.9%</div>
+                  </div>
+                  <div style={{fontSize: '1.2em', color: '#8b5cf6'}}>→</div>
+                  <div style={{textAlign: 'center'}}>
+                    <div style={{fontSize: '0.65em', fontWeight: '700', color: '#6b21a8', marginBottom: '2px'}}>Now</div>
+                    <div style={{fontSize: '1.3em', fontWeight: '900', color: '#16a34a'}}>99.2%</div>
+                  </div>
+                </div>
+
+                <div style={{
+                  textAlign: 'center',
+                  padding: '10px',
+                  background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
+                  borderRadius: '8px',
+                  border: '2px solid #22c55e'
+                }}>
+                  <div style={{fontSize: '0.8em', fontWeight: '700', color: '#166534'}}>
+                    ↑ +0.3% improvement
+                  </div>
+                </div>
+              </div>
+
+              {/* SITE-V Overall Quality Performance */}
+              <div style={{
+                background: 'linear-gradient(135deg, #ffffff, #ecfeff)',
+                borderRadius: '14px',
+                padding: '20px',
+                border: '3px solid #0ea5e9',
+                boxShadow: '0 6px 20px rgba(14, 165, 233, 0.15)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+                <div style={{position: 'absolute', top: '-30px', right: '-30px', fontSize: '6em', opacity: '0.05'}}>🎯</div>
+                
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  marginBottom: '14px',
+                  paddingBottom: '10px',
+                  borderBottom: '2px solid #cffafe'
+                }}>
+                  <div style={{fontSize: '1.5em'}}>🎯</div>
+                  <div>
+                    <div style={{fontSize: '1.2em', fontWeight: '900', color: '#0ea5e9'}}>SITE-V</div>
+                    <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0c4a6e'}}>Overall Quality Performance</div>
+                  </div>
+                </div>
+
+                <div style={{textAlign: 'center', marginBottom: '12px'}}>
+                  <div style={{fontSize: '2.8em', fontWeight: '900', color: '#0ea5e9', lineHeight: 1}}>98.8%</div>
+                  <div style={{fontSize: '0.75em', fontWeight: '700', color: '#0369a1', textTransform: 'uppercase'}}>Quality Score</div>
+                </div>
+
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '12px',
+                  marginBottom: '12px',
+                  padding: '10px',
+                  background: '#e0f2fe',
+                  borderRadius: '8px'
+                }}>
+                  <div style={{textAlign: 'center'}}>
+                    <div style={{fontSize: '0.65em', fontWeight: '700', color: '#0c4a6e', marginBottom: '2px'}}>Before</div>
+                    <div style={{fontSize: '1.3em', fontWeight: '900', color: '#38bdf8'}}>98.3%</div>
+                  </div>
+                  <div style={{fontSize: '1.2em', color: '#0ea5e9'}}>→</div>
+                  <div style={{textAlign: 'center'}}>
+                    <div style={{fontSize: '0.65em', fontWeight: '700', color: '#0c4a6e', marginBottom: '2px'}}>Now</div>
+                    <div style={{fontSize: '1.3em', fontWeight: '900', color: '#16a34a'}}>98.8%</div>
+                  </div>
+                </div>
+
+                <div style={{
+                  textAlign: 'center',
+                  padding: '10px',
+                  background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
+                  borderRadius: '8px',
+                  border: '2px solid #22c55e'
+                }}>
+                  <div style={{fontSize: '0.8em', fontWeight: '700', color: '#166534'}}>
+                    ↑ +0.5% improvement
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Overall Performance Dashboard */}
           <IPQAOverallPerformance />
 
