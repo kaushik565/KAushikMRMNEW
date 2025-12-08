@@ -213,36 +213,36 @@ export default function QualityObjectives() {
   };
 
   const objective4Flow = [
-    { id: 'qi1', label: 'QI 1: Gap analysis', color: '#f59e0b' },
-    { id: 'qi2', label: 'QI 2: Implementation', color: '#3b82f6' },
-    { id: 'qi3', label: 'QI 3: Verification & effectiveness', color: '#10b981' },
-    { id: 'qi4', label: 'QI 4: Data need to add', color: '#ec4899' }
+    { id: 'qi1', label: 'Gap analysis', color: '#f59e0b' },
+    { id: 'qi2', label: 'Implementation', color: '#3b82f6' },
+    { id: 'qi3', label: 'Verification & effectiveness', color: '#10b981' },
+    { id: 'qi4', label: 'Data need to add', color: '#ec4899' }
   ];
 
   const objective7Flow = [
-    { id: 'qi1', label: 'QI 1: Gap analysis', color: '#f59e0b' },
-    { id: 'qi2', label: 'QI 2: Implementation', color: '#3b82f6' },
-    { id: 'qi3', label: 'QI 3: Skill Advancement', color: '#10b981' },
-    { id: 'qi4', label: 'QI 4: Data need to add', color: '#ec4899' }
+    { id: 'qi1', label: 'Gap analysis', color: '#f59e0b' },
+    { id: 'qi2', label: 'Implementation', color: '#3b82f6' },
+    { id: 'qi3', label: 'Skill Advancement', color: '#10b981' },
+    { id: 'qi4', label: 'Data need to add', color: '#ec4899' }
   ];
 
   const kpiCards = [
     {
       id: '04',
       title: '',
-      metrics: ['QI 1 100%', 'QI 2 100%', 'QI 3 50%', 'QI 4 10%']
+      metrics: []
     },
     {
       id: '07',
       title: '',
-      metrics: ['QI 1 100%', 'QI 2 100%', 'QI 3 50%', 'QI 4 10%']
+      metrics: []
     }
   ];
 
   const renderQIButton = (qiItem, index, objective) => {
     const isActive = objective === '04' ? activeQI === index : activeQI07 === index;
     const baseWidth = 250;
-    const baseHeight = 90;
+    const baseHeight = 110;
     const clipPathValue = 'polygon(0 0, calc(100% - 32px) 0, 100% 50%, calc(100% - 32px) 100%, 0 100%, 28px 50%)';
     
     return (
@@ -256,19 +256,26 @@ export default function QualityObjectives() {
           clipPath: clipPathValue,
           cursor: 'pointer',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           fontWeight: 700,
           color: isActive ? '#ffffff' : qiItem.color,
-          fontSize: '1rem',
           transition: 'all 200ms ease',
           transform: isActive ? 'scale(1.1)' : 'scale(1)',
           marginRight: index < 3 ? '-8px' : '0',
           zIndex: isActive ? 10 : 5 - index,
-          animation: isActive ? `slideIn 0.4s ease-out ${index * 0.1}s both` : 'none'
+          animation: `slideIn 0.4s ease-out ${0.4 + (index * 0.15)}s both`,
+          padding: '0 20px',
+          gap: '4px'
         }}
       >
-        {qiItem.label}
+        <div style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '0.5px' }}>
+          QI {index + 1}
+        </div>
+        <div style={{ fontSize: '1.15rem', fontWeight: 600, textAlign: 'center', lineHeight: '1.3' }}>
+          {qiItem.label}
+        </div>
       </div>
     );
   };
@@ -302,7 +309,7 @@ export default function QualityObjectives() {
               }}>
                 {/* Site Header */}
                 <div style={{ 
-                  fontSize: '1.1rem', 
+                  fontSize: '1.3rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '16px',
@@ -320,8 +327,8 @@ export default function QualityObjectives() {
                   borderRadius: '8px',
                   marginBottom: '20px'
                 }}>
-                  <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Total Employees: </span>
-                  <span style={{ fontSize: '1.2rem', fontWeight: 800, color: colors.primary }}>{item.totalEmployees}</span>
+                  <span style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600 }}>Total Employees: </span>
+                  <span style={{ fontSize: '1.4rem', fontWeight: 800, color: colors.primary }}>{item.totalEmployees}</span>
                 </div>
 
                 {/* Training Status Bars */}
@@ -331,14 +338,14 @@ export default function QualityObjectives() {
                     return (
                       <div key={catIdx}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0f172a' }}>
+                          <span style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>
                             {category.label}
                           </span>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span style={{ fontSize: '1rem', fontWeight: 800, color: category.color }}>
+                            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: category.color }}>
                               {category.value}
                             </span>
-                            <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>
+                            <span style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600 }}>
                               ({percentage}%)
                             </span>
                           </div>
@@ -371,7 +378,7 @@ export default function QualityObjectives() {
                   borderTop: `1px solid ${colors.primary}20`,
                   textAlign: 'center' 
                 }}>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
                     Latest Revision Coverage
                   </div>
                   <div style={{ 
@@ -394,7 +401,7 @@ export default function QualityObjectives() {
                       justifyContent: 'center',
                       flexDirection: 'column'
                     }}>
-                      <span style={{ fontSize: '1.4rem', fontWeight: 800, color: colors.primary }}>
+                      <span style={{ fontSize: '1.6rem', fontWeight: 800, color: colors.primary }}>
                         {((item.trainedLatestRevision / item.totalEmployees) * 100).toFixed(0)}%
                       </span>
                     </div>
@@ -430,7 +437,7 @@ export default function QualityObjectives() {
               }}>
                 {/* Site Header */}
                 <div style={{ 
-                  fontSize: '1.1rem', 
+                  fontSize: '1.3rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '20px',
@@ -462,10 +469,10 @@ export default function QualityObjectives() {
                         {stage.icon}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                        <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                           {stage.label}
                         </div>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 800, color: stage.color }}>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: stage.color }}>
                           {stage.value}
                         </div>
                       </div>
@@ -481,10 +488,10 @@ export default function QualityObjectives() {
                   border: `2px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
                     Implementation Success Rate
                   </div>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
+                  <div style={{ fontSize: '2.2rem', fontWeight: 800, color: colors.primary }}>
                     {successRate}%
                   </div>
                 </div>
@@ -509,7 +516,7 @@ export default function QualityObjectives() {
               }}>
                 {/* Site Header */}
                 <div style={{ 
-                  fontSize: '1.1rem', 
+                  fontSize: '1.3rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '16px',
@@ -528,7 +535,7 @@ export default function QualityObjectives() {
                   background: `${colors.primary}15`,
                   borderRadius: '8px'
                 }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: colors.primary }}>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: colors.primary }}>
                     📅 Biweekly Verification Checks
                   </div>
                 </div>
@@ -573,7 +580,7 @@ export default function QualityObjectives() {
                         border: '1px solid #86efac'
                       }}>
                         <div style={{ 
-                          fontSize: '0.8rem', 
+                          fontSize: '0.95rem', 
                           fontWeight: 700, 
                           color: colors.primary,
                           marginBottom: '4px'
@@ -581,7 +588,7 @@ export default function QualityObjectives() {
                           {check.date}
                         </div>
                         <div style={{ 
-                          fontSize: '0.75rem', 
+                          fontSize: '0.85rem', 
                           color: '#166534',
                           lineHeight: '1.4',
                           fontWeight: 600
@@ -602,10 +609,10 @@ export default function QualityObjectives() {
                   textAlign: 'center',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '0.75rem', marginBottom: '4px', opacity: 0.9 }}>
+                  <div style={{ fontSize: '0.9rem', marginBottom: '4px', opacity: 0.9 }}>
                     Verification Status
                   </div>
-                  <div style={{ fontSize: '1rem', fontWeight: 800 }}>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
                     ✓ All Checks Passed
                   </div>
                 </div>
@@ -628,7 +635,7 @@ export default function QualityObjectives() {
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
             }}>
               <div style={{ 
-                fontSize: '1.1rem', 
+                fontSize: '1.3rem', 
                 fontWeight: 800, 
                 color: colors.primary, 
                 marginBottom: '20px',
@@ -647,10 +654,10 @@ export default function QualityObjectives() {
                   border: `1px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
                     📋 Training Need Identification
                   </div>
-                  <div style={{ fontSize: '2.2rem', fontWeight: 800, color: colors.primary }}>
+                  <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
                     {item.trainingNeedIdentification}%
                   </div>
                 </div>
@@ -662,10 +669,10 @@ export default function QualityObjectives() {
                   border: `1px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
                     📅 Training Calendar
                   </div>
-                  <div style={{ fontSize: '2.2rem', fontWeight: 800, color: colors.primary }}>
+                  <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
                     {item.trainingCalendar}%
                   </div>
                 </div>
@@ -679,10 +686,10 @@ export default function QualityObjectives() {
                 textAlign: 'center',
                 color: '#ffffff'
               }}>
-                <div style={{ fontSize: '0.75rem', marginBottom: '4px', opacity: 0.9 }}>
+                <div style={{ fontSize: '0.9rem', marginBottom: '4px', opacity: 0.9 }}>
                   Gap Analysis Status
                 </div>
-                <div style={{ fontSize: '1rem', fontWeight: 800 }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
                   ✓ Completed
                 </div>
               </div>
@@ -711,7 +718,7 @@ export default function QualityObjectives() {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
               }}>
                 <div style={{ 
-                  fontSize: '1.1rem', 
+                  fontSize: '1.3rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '20px',
@@ -736,10 +743,10 @@ export default function QualityObjectives() {
                         {metric.icon}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>
+                        <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>
                           {metric.label}
                         </div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: metric.color }}>
+                        <div style={{ fontSize: '1.7rem', fontWeight: 800, color: metric.color }}>
                           {metric.value}%
                         </div>
                       </div>
@@ -765,7 +772,7 @@ export default function QualityObjectives() {
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
             }}>
               <div style={{ 
-                fontSize: '1.1rem', 
+                fontSize: '1.3rem', 
                 fontWeight: 800, 
                 color: colors.primary, 
                 marginBottom: '20px',
@@ -784,7 +791,7 @@ export default function QualityObjectives() {
                   borderRadius: '12px',
                   border: '2px solid #ef444420'
                 }}>
-                  <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
                     📉 Decrease in QA Process Errors
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
@@ -805,7 +812,7 @@ export default function QualityObjectives() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '1.5rem',
+                        fontSize: '1.7rem',
                         fontWeight: 800,
                         color: '#ef4444'
                       }}>
@@ -822,7 +829,7 @@ export default function QualityObjectives() {
                   borderRadius: '12px',
                   border: '2px solid #10b98120'
                 }}>
-                  <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
                     👥 QA Staff Involved in QMS, IPQA, Lab QA
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
@@ -843,7 +850,7 @@ export default function QualityObjectives() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '1.5rem',
+                        fontSize: '1.7rem',
                         fontWeight: 800,
                         color: '#10b981'
                       }}>
@@ -900,8 +907,9 @@ export default function QualityObjectives() {
     <section style={{ padding: '40px 24px', minHeight: '100vh', background: '#ffffff' }}>
       <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
         <header style={{ marginBottom: '18px' }}>
-          <div style={{ fontSize: '0.9em', color: '#ef4444', fontWeight: 700, letterSpacing: '0.05em' }}>QUALITY OBJECTIVES</div>
-          <div style={{ marginTop: '4px', fontSize: '0.95em', color: '#475569', fontWeight: 600 }}>Click a KPI card to expand its flow.</div>
+          <div style={{ fontSize: '0.9em', color: '#ef4444', fontWeight: 700, letterSpacing: '0.05em' }}>QUALITY OBJECTIVES - 2025</div>
+          <div style={{ height: '3px', width: '80px', background: '#ef4444', marginTop: '8px', marginBottom: '8px', borderRadius: '2px' }}></div>
+          <div style={{ marginTop: '4px', fontSize: '0.8em', color: '#94a3b8', fontWeight: 600 }}>Click a KPI card to expand its flow.</div>
         </header>
 
         <style>{`
@@ -933,41 +941,68 @@ export default function QualityObjectives() {
                   style={{
                     width: '280px',
                     padding: '24px',
-                    borderRadius: '16px',
-                    border: activeCard === card.id ? `2px solid ${cardColors.primary}` : '2px solid #e2e8f0',
-                    background: `linear-gradient(135deg, ${cardColors.light} 0%, #ffffff 100%)`,
-                    boxShadow: activeCard === card.id ? `0 12px 32px ${cardColors.primary}40` : '0 4px 12px rgba(0, 0, 0, 0.08)',
+                    borderRadius: '20px',
+                    border: activeCard === card.id ? `3px solid ${cardColors.primary}` : '3px solid transparent',
+                    background: activeCard === card.id 
+                      ? `linear-gradient(135deg, ${cardColors.primary} 0%, ${cardColors.accent} 100%)`
+                      : `linear-gradient(135deg, ${cardColors.light} 0%, #ffffff 100%)`,
+                    boxShadow: activeCard === card.id 
+                      ? `0 20px 40px ${cardColors.primary}50, 0 0 0 4px ${cardColors.primary}15` 
+                      : '0 8px 20px rgba(0, 0, 0, 0.12)',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '16px',
                     cursor: 'pointer',
-                    transition: 'all 200ms ease',
-                    transform: activeCard === card.id ? 'translateY(-4px)' : 'translateY(0)'
+                    transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+                    transform: activeCard === card.id ? 'translateY(-8px) scale(1.02)' : 'translateY(0) scale(1)',
+                    position: 'relative',
+                    overflow: 'hidden'
                   }}
                 >
+                  {/* Active Indicator */}
+                  {activeCard === card.id && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '12px',
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      background: 'rgba(255, 255, 255, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.2rem',
+                      animation: 'slideIn 0.3s ease-out'
+                    }}>
+                      ✓
+                    </div>
+                  )}
+
                   {/* Header */}
                   <div>
                     <div style={{
-                      background: `${cardColors.primary}20`,
-                      color: cardColors.primary,
+                      background: activeCard === card.id ? 'rgba(255, 255, 255, 0.25)' : `${cardColors.primary}20`,
+                      color: activeCard === card.id ? '#ffffff' : cardColors.primary,
                       borderRadius: '999px',
-                      fontWeight: 700,
-                      fontSize: '0.75em',
+                      fontWeight: 800,
+                      fontSize: '1.1rem',
                       marginBottom: '8px',
-                      padding: '4px 12px',
-                      display: 'inline-block'
+                      padding: '8px 16px',
+                      display: 'inline-block',
+                      letterSpacing: '0.5px'
                     }}>
-                      Objective {card.id}
+                      OBJECTIVE {card.id}
                     </div>
                     {card.title && (
-                      <div style={{ fontSize: '0.95em', fontWeight: 700, color: '#0f172a', lineHeight: 1.3 }}>
+                      <div style={{ fontSize: '0.95em', fontWeight: 700, color: activeCard === card.id ? '#ffffff' : '#0f172a', lineHeight: 1.3 }}>
                         {card.title}
                       </div>
                     )}
                   </div>
 
                   {/* Metrics */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {card.metrics.map((metric) => {
                       const parts = metric.split(' ');
                       const label = parts[0];
@@ -975,22 +1010,37 @@ export default function QualityObjectives() {
 
                       return (
                         <div key={metric}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                            <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0f172a' }}>{label}</span>
-                            <span style={{ fontSize: '0.85rem', fontWeight: 800, color: cardColors.primary }}>{percentage}%</span>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                            <span style={{ fontSize: '0.9rem', fontWeight: 800, color: activeCard === card.id ? '#ffffff' : '#0f172a' }}>
+                              {label}
+                            </span>
+                            <span style={{ 
+                              fontSize: '1rem', 
+                              fontWeight: 800, 
+                              color: activeCard === card.id ? '#ffffff' : cardColors.primary,
+                              padding: '2px 8px',
+                              borderRadius: '6px',
+                              background: activeCard === card.id ? 'rgba(255, 255, 255, 0.2)' : 'transparent'
+                            }}>
+                              {percentage}%
+                            </span>
                           </div>
                           <div style={{
-                            height: '8px',
-                            background: `${cardColors.light}`,
+                            height: '10px',
+                            background: activeCard === card.id ? 'rgba(255, 255, 255, 0.2)' : `${cardColors.primary}15`,
                             borderRadius: '999px',
                             overflow: 'hidden',
-                            border: `1px solid ${cardColors.primary}20`
+                            border: activeCard === card.id ? '1px solid rgba(255, 255, 255, 0.3)' : `1px solid ${cardColors.primary}20`,
+                            boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)'
                           }}>
                             <div style={{
                               height: '100%',
                               width: `${percentage}%`,
-                              background: `linear-gradient(90deg, ${cardColors.primary} 0%, ${cardColors.accent} 100%)`,
-                              transition: 'width 600ms ease'
+                              background: activeCard === card.id 
+                                ? 'linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.85) 100%)'
+                                : `linear-gradient(90deg, ${cardColors.primary} 0%, ${cardColors.accent} 100%)`,
+                              transition: 'width 800ms cubic-bezier(0.4, 0, 0.2, 1)',
+                              boxShadow: activeCard === card.id ? '0 2px 8px rgba(0, 0, 0, 0.2)' : 'none'
                             }}></div>
                           </div>
                         </div>
@@ -1000,18 +1050,69 @@ export default function QualityObjectives() {
 
                   {/* Objective 04 Site Snapshot */}
                   {card.id === '04' && (
-                    <div style={{ marginTop: '4px', padding: '10px 12px', background: `${cardColors.primary}0d`, borderRadius: '10px', border: `1px solid ${cardColors.primary}26`, display: 'grid', gap: '6px' }}>
+                    <div style={{ 
+                      marginTop: '4px', 
+                      padding: '12px', 
+                      background: activeCard === card.id ? 'rgba(255, 255, 255, 0.15)' : `${cardColors.primary}0d`, 
+                      borderRadius: '12px', 
+                      border: activeCard === card.id ? '1px solid rgba(255, 255, 255, 0.3)' : `1px solid ${cardColors.primary}26`,
+                      display: 'grid', 
+                      gap: '8px',
+                      backdropFilter: 'blur(10px)'
+                    }}>
                       {[
                         { site: 'Site I', qi1: 100, qi2: 100, qi3: 50, qi4: 10 },
                         { site: 'Site III', qi1: 100, qi2: 100, qi3: 50, qi4: 10 },
                         { site: 'Site V', qi1: 100, qi2: 100, qi3: 50, qi4: 10 }
                       ].map((row) => (
-                        <div key={row.site} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#0f172a', fontWeight: 600 }}>
-                          <span style={{ minWidth: '70px' }}>{row.site}</span>
-                          <span style={{ color: cardColors.primary }}>QI1 {row.qi1}%</span>
-                          <span style={{ color: cardColors.primary }}>QI2 {row.qi2}%</span>
-                          <span style={{ color: cardColors.primary }}>QI3 {row.qi3}%</span>
-                          <span style={{ color: cardColors.primary }}>QI4 {row.qi4}%</span>
+                        <div key={row.site} style={{ 
+                          display: 'flex', 
+                          justifyContent: 'space-between', 
+                          fontSize: '0.8rem', 
+                          color: activeCard === card.id ? '#ffffff' : '#0f172a', 
+                          fontWeight: 600,
+                          padding: '4px 0'
+                        }}>
+                          <span style={{ minWidth: '70px', fontWeight: 700 }}>{row.site}</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI1 {row.qi1}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI2 {row.qi2}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI3 {row.qi3}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI4 {row.qi4}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Objective 07 Site Snapshot */}
+                  {card.id === '07' && (
+                    <div style={{ 
+                      marginTop: '4px', 
+                      padding: '12px', 
+                      background: activeCard === card.id ? 'rgba(255, 255, 255, 0.15)' : `${cardColors.primary}0d`, 
+                      borderRadius: '12px', 
+                      border: activeCard === card.id ? '1px solid rgba(255, 255, 255, 0.3)' : `1px solid ${cardColors.primary}26`,
+                      display: 'grid', 
+                      gap: '8px',
+                      backdropFilter: 'blur(10px)'
+                    }}>
+                      {[
+                        { site: 'Site I', qi1: 100, qi2: 100, qi3: 50, qi4: 10 },
+                        { site: 'Site III', qi1: 100, qi2: 100, qi3: 50, qi4: 10 },
+                        { site: 'Site V', qi1: 100, qi2: 100, qi3: 50, qi4: 10 }
+                      ].map((row) => (
+                        <div key={row.site} style={{ 
+                          display: 'flex', 
+                          justifyContent: 'space-between', 
+                          fontSize: '0.8rem', 
+                          color: activeCard === card.id ? '#ffffff' : '#0f172a', 
+                          fontWeight: 600,
+                          padding: '4px 0'
+                        }}>
+                          <span style={{ minWidth: '70px', fontWeight: 700 }}>{row.site}</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI1 {row.qi1}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI2 {row.qi2}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI3 {row.qi3}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI4 {row.qi4}%</span>
                         </div>
                       ))}
                     </div>
@@ -1045,7 +1146,13 @@ export default function QualityObjectives() {
               </div>
             ) : activeCard === '04' ? (
               <>
-                <div style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '24px', borderRadius: '12px', marginBottom: '24px' }}>
+                <div style={{ 
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+                  padding: '24px', 
+                  borderRadius: '12px', 
+                  marginBottom: '24px',
+                  animation: 'slideIn 0.4s ease-out 0s both'
+                }}>
                   <div style={{ color: '#ffffff', fontSize: '1.45rem', fontWeight: 800 }}>Objective 04</div>
                   <div style={{ color: '#ffffff', opacity: 0.9, marginTop: '6px', fontSize: '2.1rem', fontWeight: 600 }}>
                     Reduce Good Documentation Practices (GDP) related Nonconformities and incidents by 50%
@@ -1053,7 +1160,7 @@ export default function QualityObjectives() {
                 </div>
 
                 {/* QI Buttons */}
-                <div style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <div key="qi-buttons-04" style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
                   {objective4Flow.map((qiItem, index) => renderQIButton(qiItem, index, '04'))}
                 </div>
 
@@ -1066,7 +1173,13 @@ export default function QualityObjectives() {
               </>
             ) : activeCard === '07' ? (
               <>
-                <div style={{ background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', padding: '24px', borderRadius: '12px', marginBottom: '24px' }}>
+                <div style={{ 
+                  background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', 
+                  padding: '24px', 
+                  borderRadius: '12px', 
+                  marginBottom: '24px',
+                  animation: 'slideIn 0.4s ease-out 0s both'
+                }}>
                   <div style={{ color: '#ffffff', fontSize: '1.45rem', fontWeight: 800 }}>Objective 07</div>
                   <div style={{ color: '#ffffff', opacity: 0.9, marginTop: '6px', fontSize: '2.1rem', fontWeight: 600 }}>
                     Enhance the competency autonomy and engagement of QA staff to improve overall quality system performance and compliance
@@ -1074,7 +1187,7 @@ export default function QualityObjectives() {
                 </div>
 
                 {/* QI Buttons */}
-                <div style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <div key="qi-buttons-07" style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
                   {objective7Flow.map((qiItem, index) => renderQIButton(qiItem, index, '07'))}
                 </div>
 
