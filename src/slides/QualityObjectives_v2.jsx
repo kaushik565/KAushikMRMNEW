@@ -50,10 +50,10 @@ export default function QualityObjectives() {
       site: 'Site I', 
       value: 100, 
       target: 100,
-      totalEmployees: 85,
-      noTraining: 20,
-      trainedOldRevision: 45,
-      trainedLatestRevision: 20
+      totalEmployees: 191,
+      noTraining: 99,
+      trainedOldRevision: 0,
+      trainedLatestRevision: 92
     },
     { 
       site: 'Site III', 
@@ -61,17 +61,17 @@ export default function QualityObjectives() {
       target: 100,
       totalEmployees: 103,
       noTraining: 30,
-      trainedOldRevision: 56,
-      trainedLatestRevision: 17
+      trainedOldRevision: 0,
+      trainedLatestRevision: 73
     },
     { 
       site: 'Site V', 
       value: 100, 
       target: 100,
-      totalEmployees: 92,
-      noTraining: 25,
-      trainedOldRevision: 50,
-      trainedLatestRevision: 17
+      totalEmployees: 280,
+      noTraining: 73,
+      trainedOldRevision: 0,
+      trainedLatestRevision: 207
     }
   ];
 
@@ -80,10 +80,10 @@ export default function QualityObjectives() {
       site: 'Site I', 
       value: 100, 
       target: 100,
-      trainedLatestSOP: 88,
-      evaluationPassed80: 82,
-      retrainingProvided: 6,
-      evaluation100Passed: 88
+      trainedLatestSOP: 176,
+      evaluationPassed80: 134,
+      retrainingProvided: 31,
+      evaluation100Passed: 29
     },
     { 
       site: 'Site III', 
@@ -98,10 +98,10 @@ export default function QualityObjectives() {
       site: 'Site V', 
       value: 100, 
       target: 100,
-      trainedLatestSOP: 95,
-      evaluationPassed80: 88,
-      retrainingProvided: 7,
-      evaluation100Passed: 95
+      trainedLatestSOP: 271,
+      evaluationPassed80: 230,
+      retrainingProvided: 41,
+      evaluation100Passed: 271
     }
   ];
 
@@ -111,10 +111,7 @@ export default function QualityObjectives() {
       value: 60, 
       target: 100,
       biweeklyChecks: [
-        { date: '31/10/2025', status: 'No GDP error found and no incident has been raised' },
-        { date: '15/11/2025', status: 'No GDP error found and no incident has been raised' },
-        { date: '29/11/2025', status: 'No GDP error found and no incidents were raised related to GDP' },
-        { date: '15/12/2025', status: 'No GDP error found and no incident has been raised' }
+        { date: 'Data', status: 'No data available' }
       ]
     },
     { 
@@ -124,8 +121,8 @@ export default function QualityObjectives() {
       biweeklyChecks: [
         { date: '31/10/2025', status: 'No GDP error found and no incident has been raised' },
         { date: '15/11/2025', status: 'No GDP error found and no incident has been raised' },
-        { date: '29/11/2025', status: 'No GDP error found and no incidents were raised related to GDP' },
-        { date: '15/12/2025', status: 'No GDP error found and no incident has been raised' }
+        { date: '29/11/2025', status: 'No GDP error found and no incident has been raised' },
+        { date: '15/12/2025', status: 'Need to check' }
       ]
     },
     { 
@@ -133,10 +130,8 @@ export default function QualityObjectives() {
       value: 40, 
       target: 100,
       biweeklyChecks: [
-        { date: '31/10/2025', status: 'No GDP error found and no incident has been raised' },
-        { date: '15/11/2025', status: 'No GDP error found and no incident has been raised' },
-        { date: '29/11/2025', status: 'No GDP error found and no incidents were raised related to GDP' },
-        { date: '15/12/2025', status: 'No GDP error found and no incident has been raised' }
+        { date: '14/11/2025', status: '08 Incidents related to GDP were initiated' },
+        { date: '05/12/2025', status: '03 Incidents related to GDP were initiated' }
       ]
     }
   ];
@@ -488,7 +483,7 @@ export default function QualityObjectives() {
         <div style={{ fontSize: '1.9rem', fontWeight: 800, letterSpacing: '0.5px', minWidth: '55px', textAlign: 'center', marginBottom: '6px' }}>
           QI {index + 1}
         </div>
-        <div style={{ fontSize: '1.1rem', fontWeight: 600, textAlign: 'center', lineHeight: '1.2', flex: 1, wordBreak: 'break-word' }}>
+        <div style={{ fontSize: '1.5rem', fontWeight: 600, textAlign: 'center', lineHeight: '1.2', flex: 1, wordBreak: 'break-word' }}>
           {qiItem.label}
         </div>
       </div>
@@ -538,7 +533,7 @@ export default function QualityObjectives() {
               }}>
                 {/* Site Header */}
                 <div style={{ 
-                  fontSize: '1.3rem', 
+                  fontSize: '1.5rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '16px',
@@ -556,7 +551,7 @@ export default function QualityObjectives() {
                   borderRadius: '10px',
                   marginBottom: '22px'
                 }}>
-                  <span style={{ fontSize: '1.15rem', color: '#64748b', fontWeight: 600 }}>Total Employees: </span>
+                  <span style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600 }}>Total Employees: </span>
                   <span style={{ fontSize: '1.6rem', fontWeight: 800, color: colors.primary }}>{item.totalEmployees}</span>
                 </div>
 
@@ -567,14 +562,14 @@ export default function QualityObjectives() {
                     return (
                       <div key={catIdx}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                          <span style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>
+                          <span style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>
                             {category.label}
                           </span>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: category.color }}>
+                            <span style={{ fontSize: '1.6rem', fontWeight: 800, color: category.color }}>
                               {category.value}
                             </span>
-                            <span style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600 }}>
+                            <span style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600 }}>
                               ({percentage}%)
                             </span>
                           </div>
@@ -607,7 +602,7 @@ export default function QualityObjectives() {
                   borderTop: `1px solid ${colors.primary}20`,
                   textAlign: 'center' 
                 }}>
-                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
                     Latest Revision Coverage
                   </div>
                   <div style={{ 
@@ -666,7 +661,7 @@ export default function QualityObjectives() {
               }}>
                 {/* Site Header */}
                 <div style={{ 
-                  fontSize: '1.3rem', 
+                  fontSize: '1.5rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '20px',
@@ -698,7 +693,7 @@ export default function QualityObjectives() {
                         {stage.icon}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                        <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                           {stage.label}
                         </div>
                         <div style={{ fontSize: '1.5rem', fontWeight: 800, color: stage.color }}>
@@ -717,7 +712,7 @@ export default function QualityObjectives() {
                   border: `2px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
                     Implementation Success Rate
                   </div>
                   <div style={{ fontSize: '2.2rem', fontWeight: 800, color: colors.primary }}>
@@ -745,7 +740,7 @@ export default function QualityObjectives() {
               }}>
                 {/* Site Header */}
                 <div style={{ 
-                  fontSize: '1.3rem', 
+                  fontSize: '1.5rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '16px',
@@ -764,7 +759,7 @@ export default function QualityObjectives() {
                   background: `${colors.primary}15`,
                   borderRadius: '8px'
                 }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, color: colors.primary }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: colors.primary }}>
                     📅 Biweekly Verification Checks
                   </div>
                 </div>
@@ -809,14 +804,14 @@ export default function QualityObjectives() {
                         border: '1px solid #86efac'
                       }}>
                         <div style={{ 
-                          fontSize: '0.95rem', 
+                            fontSize: '1.5rem', 
                           fontWeight: 700, 
                           color: colors.primary,
                         }}>
                           {check.date}
                         </div>
                         <div style={{ 
-                          fontSize: '0.85rem', 
+                            fontSize: '1.5rem', 
                           color: '#166534',
                           lineHeight: '1.4',
                           fontWeight: 600
@@ -837,10 +832,10 @@ export default function QualityObjectives() {
                   textAlign: 'center',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '0.9rem', marginBottom: '4px', opacity: 0.9 }}>
+                  <div style={{ fontSize: '1.5rem', marginBottom: '4px', opacity: 0.9 }}>
                     Verification Status
                   </div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>
                     ✓ All Checks Passed
                   </div>
                 </div>
@@ -904,7 +899,7 @@ export default function QualityObjectives() {
             borderBottom: `2px solid ${colors.primary}20`
           }}>
             <div>
-              <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>
+              <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>
                 {qiIcon} Implementation Phase
               </div>
               <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '12px' }}>
@@ -923,26 +918,26 @@ export default function QualityObjectives() {
                 textAlign: 'center'
               }}>
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                     Completed
                   </div>
-                  <div style={{ fontSize: '1.3rem', fontWeight: 900, color: colors.primary }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: colors.primary }}>
                     {completedSteps}/{steps.length}
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                     Scope
                   </div>
-                  <div style={{ fontSize: '1rem', fontWeight: 900, color: colors.primary }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: colors.primary }}>
                     I, III, IV, V
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                     Status
                   </div>
-                  <div style={{ fontSize: '1rem', fontWeight: 900, color: '#f59e0b' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#f59e0b' }}>
                     In Process
                   </div>
                 </div>
@@ -978,14 +973,18 @@ export default function QualityObjectives() {
                     stroke={colors.primary}
                     strokeWidth="8"
                     strokeDasharray={`${(overallProgress / 100) * 2 * 3.14159 * 54} ${2 * 3.14159 * 54}`}
-                    style={{ transition: 'stroke-dasharray 800ms ease' }}
+                    strokeDashoffset="var(--dash-total)"
+                    style={{
+                      '--dash-total': `${2 * 3.14159 * 54}`,
+                      animation: 'progressFill 1.5s ease-out forwards'
+                    }}
                   />
                 </svg>
                 <div style={{ textAlign: 'center', zIndex: 1 }}>
                   <div style={{ fontSize: '2rem', fontWeight: 900, color: colors.primary }}>
                     {overallProgress}%
                   </div>
-                  <div style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: 600 }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600 }}>
                     Complete
                   </div>
                 </div>
@@ -1005,7 +1004,7 @@ export default function QualityObjectives() {
                   border: `2px solid ${style.color}30`
                 }}>
                   <div style={{
-                    fontSize: '0.85rem',
+                    fontSize: '1.5rem',
                     fontWeight: 700,
                     color: style.color,
                     marginBottom: '12px',
@@ -1037,7 +1036,7 @@ export default function QualityObjectives() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '1.2rem',
+                            fontSize: '1.5rem',
                             color: style.color,
                             fontWeight: 800,
                             flexShrink: 0
@@ -1045,12 +1044,12 @@ export default function QualityObjectives() {
                             {isComplete ? '✓' : '○'}
                           </div>
                           <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ fontSize: '0.9rem', color: '#0f172a', fontWeight: 600 }}>
+                            <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600 }}>
                               {step.label}
                             </div>
                           </div>
                           <div style={{
-                            fontSize: '1.1rem',
+                            fontSize: '1.5rem',
                             fontWeight: 800,
                             color: isComplete ? style.color : '#94a3b8',
                             minWidth: '45px',
@@ -1082,7 +1081,7 @@ export default function QualityObjectives() {
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
             }}>
               <div style={{ 
-                fontSize: '1.3rem', 
+                fontSize: '1.5rem', 
                 fontWeight: 800, 
                 color: colors.primary, 
                 marginBottom: '20px',
@@ -1101,7 +1100,7 @@ export default function QualityObjectives() {
                   border: `1px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
                     📋 Training Need Identification
                   </div>
                   <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
@@ -1116,7 +1115,7 @@ export default function QualityObjectives() {
                   border: `1px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
                     📅 Training Calendar
                   </div>
                   <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
@@ -1133,10 +1132,10 @@ export default function QualityObjectives() {
                 textAlign: 'center',
                 color: '#ffffff'
               }}>
-                <div style={{ fontSize: '0.9rem', marginBottom: '4px', opacity: 0.9 }}>
+                <div style={{ fontSize: '1.5rem', marginBottom: '4px', opacity: 0.9 }}>
                   Gap Analysis Status
                 </div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>
                   ✓ Completed
                 </div>
               </div>
@@ -1165,7 +1164,7 @@ export default function QualityObjectives() {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
               }}>
                 <div style={{ 
-                  fontSize: '1.3rem', 
+                  fontSize: '1.5rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '20px',
@@ -1190,7 +1189,7 @@ export default function QualityObjectives() {
                         {metric.icon}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>
+                        <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>
                           {metric.label}
                         </div>
                         <div style={{ fontSize: '1.7rem', fontWeight: 800, color: metric.color }}>
@@ -1219,7 +1218,7 @@ export default function QualityObjectives() {
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
             }}>
               <div style={{ 
-                fontSize: '1.3rem', 
+                fontSize: '1.5rem', 
                 fontWeight: 800, 
                 color: colors.primary, 
                 marginBottom: '20px',
@@ -1238,7 +1237,7 @@ export default function QualityObjectives() {
                   borderRadius: '12px',
                   border: '2px solid #ef444420'
                 }}>
-                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
                     📉 Decrease in QA Process Errors
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
@@ -1276,7 +1275,7 @@ export default function QualityObjectives() {
                   borderRadius: '12px',
                   border: '2px solid #10b98120'
                 }}>
-                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
                     👥 QA Staff Involved in QMS, IPQA, Lab QA
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
@@ -1326,7 +1325,7 @@ export default function QualityObjectives() {
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
             }}>
               <div style={{ 
-                fontSize: '1.3rem', 
+                fontSize: '1.5rem', 
                 fontWeight: 800, 
                 color: colors.primary, 
                 marginBottom: '20px',
@@ -1345,7 +1344,7 @@ export default function QualityObjectives() {
                   border: `1px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
                     Identification of the risk cause more defects
                   </div>
                   <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
@@ -1360,7 +1359,7 @@ export default function QualityObjectives() {
                   border: `1px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
                     List of activities based on critical process
                   </div>
                   <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
@@ -1377,10 +1376,10 @@ export default function QualityObjectives() {
                 textAlign: 'center',
                 color: '#ffffff'
               }}>
-                <div style={{ fontSize: '0.9rem', marginBottom: '4px', opacity: 0.9 }}>
+                <div style={{ fontSize: '1.5rem', marginBottom: '4px', opacity: 0.9 }}>
                   Gap Assessment Status
                 </div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>
                   ✓ Completed
                 </div>
               </div>
@@ -1413,7 +1412,7 @@ export default function QualityObjectives() {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
               }}>
                 <div style={{ 
-                  fontSize: '1.3rem', 
+                  fontSize: '1.5rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '20px',
@@ -1443,10 +1442,10 @@ export default function QualityObjectives() {
                         {stage.icon}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                        <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                           {stage.label}
                         </div>
-                        <div style={{ fontSize: '1.4rem', fontWeight: 800, color: stage.color }}>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: stage.color }}>
                           {stage.value}%
                         </div>
                       </div>
@@ -1461,7 +1460,7 @@ export default function QualityObjectives() {
                   border: `2px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
                     Overall Compliance
                   </div>
                   <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
@@ -1497,7 +1496,7 @@ export default function QualityObjectives() {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
               }}>
                 <div style={{ 
-                  fontSize: '1.3rem', 
+                  fontSize: '1.5rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '20px',
@@ -1527,10 +1526,10 @@ export default function QualityObjectives() {
                         {step.icon}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                        <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                           {step.label}
                         </div>
-                        <div style={{ fontSize: '1.4rem', fontWeight: 800, color: step.color }}>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: step.color }}>
                           {step.value}%
                         </div>
                       </div>
@@ -1545,7 +1544,7 @@ export default function QualityObjectives() {
                   border: `2px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
                     Implementation Progress
                   </div>
                   <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
@@ -1582,7 +1581,7 @@ export default function QualityObjectives() {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
               }}>
                 <div style={{ 
-                  fontSize: '1.3rem', 
+                  fontSize: '1.5rem', 
                   fontWeight: 800, 
                   color: colors.primary, 
                   marginBottom: '20px',
@@ -1604,7 +1603,7 @@ export default function QualityObjectives() {
                       border: `1px solid ${metric.color}30`
                     }}>
                       <div style={{ 
-                        fontSize: '1.3rem', 
+                        fontSize: '1.5rem', 
                         marginRight: '10px',
                         width: '28px',
                         textAlign: 'center'
@@ -1612,10 +1611,10 @@ export default function QualityObjectives() {
                         {metric.icon}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>
+                        <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600 }}>
                           {metric.label}
                         </div>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 800, color: metric.color }}>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: metric.color }}>
                           {metric.value}%
                         </div>
                       </div>
@@ -1630,7 +1629,7 @@ export default function QualityObjectives() {
                   border: `2px solid ${colors.primary}30`,
                   textAlign: 'center'
                 }}>
-                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
                     Overall Effectiveness
                   </div>
                   <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
@@ -1654,12 +1653,12 @@ export default function QualityObjectives() {
             borderRadius: '12px',
             border: `1px solid ${colors.primary}20`
           }}>
-            <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a', marginBottom: '12px' }}>
+            <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a', marginBottom: '12px' }}>
               {item.site}
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-              <span style={{ fontSize: '0.85rem', color: '#64748b' }}>Performance</span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 800, color: colors.primary }}>{item.value}%</span>
+              <span style={{ fontSize: '1.5rem', color: '#64748b' }}>Performance</span>
+              <span style={{ fontSize: '1.5rem', fontWeight: 800, color: colors.primary }}>{item.value}%</span>
             </div>
             <div style={{
               height: '8px',
@@ -1705,6 +1704,14 @@ export default function QualityObjectives() {
           @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
+          }
+          @keyframes progressFill {
+            from {
+              stroke-dashoffset: var(--dash-total);
+            }
+            to {
+              stroke-dashoffset: 0;
+            }
           }
         `}</style>
 
@@ -1784,7 +1791,7 @@ export default function QualityObjectives() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '1.4rem',
+                  fontSize: '1.5rem',
                   fontWeight: 'bold',
                   color: '#ffffff',
                   animation: 'pulse 0.6s ease-in-out',
@@ -1800,7 +1807,7 @@ export default function QualityObjectives() {
                   <div style={{
                     padding: '8px 14px',
                     borderRadius: '14px',
-                    fontSize: '0.85em',
+                    fontSize: '1.5rem',
                     fontWeight: 800,
                     letterSpacing: '0.5px',
                     color: '#0f172a',
@@ -1823,7 +1830,7 @@ export default function QualityObjectives() {
 
               {/* Description */}
               <div style={{
-                fontSize: '0.75em',
+                fontSize: '1.5rem',
                 color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : '#475569',
                 fontWeight: '500',
                 lineHeight: '1.55',
@@ -1845,7 +1852,7 @@ export default function QualityObjectives() {
           <div style={{ fontSize: '2.1rem', fontWeight: 600, color: '#1e293b', marginBottom: '8px' }}>
             💡 Click a card to open the data
           </div>
-          <div style={{ fontSize: '1.05rem', color: '#64748b', fontWeight: 500 }}>
+          <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 500 }}>
             Select an Objective to view detailed QI flow and site-wise metrics
           </div>
         </div>
@@ -1903,7 +1910,9 @@ export default function QualityObjectives() {
             <div style={{
               maxWidth: '1200px',
               width: '100%',
-              margin: '0 auto'
+              margin: '0 auto',
+              fontSize: '1.5rem',
+              lineHeight: 1.5
             }}>
 
             {/* Modal Header */}
@@ -1916,8 +1925,8 @@ export default function QualityObjectives() {
                   marginBottom: '24px',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 04</div>
-                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.4 }}>Objective 04</div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
                     Reduce Good Documentation Practices (GDP) related Nonconformities and incidents by 50%
                   </div>
                 </div>
@@ -1947,8 +1956,8 @@ export default function QualityObjectives() {
                   marginBottom: '24px',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 05</div>
-                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.4 }}>Objective 05</div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
                     To reduce the number of In-process and final product defects through stringent IPQA verification and proactive defect prevention.
                   </div>
                 </div>
@@ -1978,8 +1987,8 @@ export default function QualityObjectives() {
                   marginBottom: '24px',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 06</div>
-                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.4 }}>Objective 06</div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
                     Digitalization of quality management system to improve efficiency, data integrity, traceability, real-time monitoring and compliance with regulatory
                   </div>
                 </div>
@@ -2009,8 +2018,8 @@ export default function QualityObjectives() {
                   marginBottom: '24px',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 07</div>
-                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.4 }}>Objective 07</div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
                     Enhance the competency autonomy and engagement of QA staff to improve overall quality system performance and compliance
                   </div>
                 </div>
@@ -2040,4 +2049,7 @@ export default function QualityObjectives() {
     </section>
   );
 }
+
+
+
 
