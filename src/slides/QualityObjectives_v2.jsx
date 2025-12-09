@@ -1691,6 +1691,7 @@ export default function QualityObjectives() {
         </header>
 
         <style>{`
+          ${activeCard ? '.corner-logo { display: none !important; }' : ''}
           @keyframes slideIn {
             from {
               opacity: 0;
