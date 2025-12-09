@@ -1033,10 +1033,9 @@ export default function QualityObjectives() {
               )}
 
               {/* Title Section */}
-              <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+              <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                 {['04', '05', '06', '07'].includes(card.id) && (
                   <div style={{
-                    alignSelf: 'center',
                     padding: '8px 14px',
                     borderRadius: '14px',
                     fontSize: '0.85em',
@@ -1067,7 +1066,8 @@ export default function QualityObjectives() {
                 fontWeight: '500',
                 lineHeight: '1.55',
                 position: 'relative',
-                zIndex: 1
+                zIndex: 1,
+                textAlign: 'left'
               }}>
                 {card.description}
               </div>
