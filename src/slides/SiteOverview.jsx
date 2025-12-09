@@ -325,6 +325,7 @@ function OverallPerformance({ onCompleteOverviewClick }) {
 // Site Comparison Grid Component
 function SiteComparisonGrid({ onSiteClick }) {
   const [selectedSiteInfo, setSelectedSiteInfo] = useState(null);
+  const [selectedSiteKeyImprovements, setSelectedSiteKeyImprovements] = useState(null);
 
   const SiteInfoModal = ({ site, onClose }) => {
     const data = sitesData[site];
@@ -406,6 +407,269 @@ function SiteComparisonGrid({ onSiteClick }) {
     );
   };
 
+  const KeyImprovementsModal = ({ site, onClose }) => {
+    const data = sitesData[site];
+    const metrics = [
+      { name: 'Incidents', ...data.Incidents },
+      { name: 'Corrective Actions (CA)', ...data.CA },
+      { name: 'Preventive Actions (PA)', ...data.PA },
+      { name: 'Out of Specifications (OOS)', ...data.OOS },
+      { name: 'Change Controls (CC)', ...data.CC },
+      { name: 'Investigation Time', ...data.Investigation }
+    ];
+
+    const collaborationMeetings = [
+      { month: 'July', meetings: 7, departments: ['QC', 'CA', 'MD', 'PU', 'HR', 'ST', 'DP', 'IT', 'MN', 'DI'] },
+      { month: 'August', meetings: 7, departments: ['QC', 'CA', 'MD', 'PU', 'HR', 'ST', 'IT', 'MN', 'DI'] },
+      { month: 'September', meetings: 7, departments: ['QC', 'CA', 'MD', 'PU', 'HR', 'ST', 'IT', 'MN', 'DI'] },
+      { month: 'October', meetings: 40, departments: ['QC', 'CA', 'MD', 'PU', 'HR', 'ST', 'DP', 'IT', 'MN', 'DI'] },
+      { month: 'November', meetings: 25, departments: ['QC', 'CA', 'MD', 'PU', 'HR', 'ST', 'DP', 'IT', 'MN', 'DI'] }
+    ];
+
+    const collaborationAgenda = [
+      {
+        month: 'July',
+        items: [
+          { title: 'Pending Entry Log Meeting', count: 3 },
+          { title: 'Discussion of Observations in Shop Floor', count: 2 },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2 }
+        ]
+      },
+      {
+        month: 'August',
+        items: [
+          { title: 'Pending Entry Log Meeting', count: 2 },
+          { title: 'Discussion of Observations in Shop Floor', count: 2 },
+          { title: 'Discussion on Minor Rejection Materials', count: 1 },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2 }
+        ]
+      },
+      {
+        month: 'September',
+        items: [
+          { title: 'Pending Entry Log Meeting', count: 2 },
+          { title: 'Discussion of Observations in Shop Floor', count: 2 },
+          { title: 'Discussion on Device Rejection and its Root Causes', count: 1 },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2 }
+        ]
+      },
+      {
+        month: 'October',
+        items: [
+          { title: 'Pending Entry Log Meeting', count: 2 },
+          { title: 'Discussion on Rejection with Visual Inspection Operators', count: 1 },
+          { title: 'Monthly Rejections Meeting', count: 1 },
+          { title: 'Operator-wise rejections, traceability, yield', count: 1 },
+          { title: 'Stage wise rejections meeting', count: 31 },
+          { title: 'Discussion of Observations in Shop Floor', count: 2 },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2 }
+        ]
+      },
+      {
+        month: 'November',
+        items: [
+          { title: 'Pending Entry Log Meeting', count: 2 },
+          { title: 'Stage wise rejections meeting', count: 15 },
+          { title: 'Discussion of Observations in Shop Floor', count: 2 },
+          { title: 'Operator-wise rejections, traceability, yield', count: 1 },
+          { title: 'Discussion on Rejection with Visual Inspection Operators', count: 3 },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2 }
+        ]
+      }
+    ];
+
+    const positiveGains = metrics
+      .filter((m) => m.improvement > 0)
+      .sort((a, b) => b.improvement - a.improvement);
+
+    // Calculate composite improvement score
+    const compositeImprovement = Math.round(positiveGains.reduce((sum, m) => sum + m.improvement, 0) / positiveGains.length);
+    const totalMeetings = collaborationMeetings.reduce((sum, m) => sum + m.meetings, 0);
+    const totalAgendaItems = collaborationAgenda.reduce((sum, m) => sum + m.items.length, 0);
+
+    // Key achievements
+    const achievements = [
+      { 
+        icon: '🤝', 
+        title: 'Collaboration Meetings', 
+        metric: totalMeetings,
+        unit: 'sessions',
+        desc: 'Cross-functional QA-led meetings',
+        color: '#3b82f6',
+        bgColor: '#eff6ff'
+      },
+      { 
+        icon: '📊', 
+        title: 'Pictorial Representation', 
+        metric: '100%',
+        unit: 'implemented',
+        desc: 'Visual dashboards & metrics',
+        color: '#8b5cf6',
+        bgColor: '#faf5ff'
+      },
+      { 
+        icon: '📋', 
+        title: 'Change Control Tracking', 
+        metric: 'Complete',
+        unit: 'system',
+        desc: 'Automated tracking sheet',
+        color: '#f59e0b',
+        bgColor: '#fffbeb'
+      },
+      { 
+        icon: '⏱️', 
+        title: 'Investigation Time', 
+        metric: '72%',
+        unit: 'reduction',
+        desc: 'Faster incident resolution',
+        color: '#10b981',
+        bgColor: '#ecfdf5'
+      },
+      { 
+        icon: '⚡', 
+        title: 'Impact Assessment Time', 
+        metric: '61%',
+        unit: 'improvement',
+        desc: 'Reduced CC impact time',
+        color: '#ef4444',
+        bgColor: '#fef2f2'
+      }
+    ];
+
+    return createPortal(
+      <div onClick={onClose} style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0, 0, 0, 0.7)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99999, padding: '20px'}}>
+        <div onClick={(e) => e.stopPropagation()} style={{background: 'linear-gradient(135deg, #ffffff, #f9fafb)', borderRadius: '16px', padding: 0, maxWidth: '1000px', width: '100%', maxHeight: '90vh', overflow: 'auto', boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)', border: `3px solid ${siteColors[site]}`, position: 'relative', display: 'flex', flexDirection: 'column'}}>
+          <button onClick={onClose} style={{position: 'absolute', top: '16px', right: '16px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '50%', width: '36px', height: '36px', fontSize: '1.2em', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s', zIndex: 10}}
+          onMouseEnter={(e) => {e.currentTarget.style.background = '#dc2626'; e.currentTarget.style.transform = 'scale(1.1)';}}
+          onMouseLeave={(e) => {e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.transform = 'scale(1)';}}>×</button>
+
+          {/* HERO SECTION - Main Message */}
+          <div style={{background: `linear-gradient(135deg, ${siteColors[site]}dd, ${siteColors[site]})`, padding: '40px 32px', textAlign: 'center', color: '#fff', position: 'relative', overflow: 'hidden'}}>
+            <div style={{position: 'absolute', top: '-40px', right: '-40px', fontSize: '200px', opacity: 0.1}}>🎯</div>
+            <div style={{position: 'relative', zIndex: 1}}>
+              <div style={{fontSize: '0.9em', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '2px', opacity: 0.95, marginBottom: '16px'}}>How SITE-III Achieved</div>
+              <div style={{fontSize: '3.5em', fontWeight: '900', marginBottom: '16px'}}>{compositeImprovement}%</div>
+              <div style={{fontSize: '1.1em', fontWeight: '700', lineHeight: '1.5', opacity: 0.95, marginBottom: '0'}}>
+                Through <strong>{totalMeetings} QA-led collaboration sessions</strong> + <strong>visual dashboards</strong> + <strong>change control automation</strong> = <strong>Faster decisions, reduced investigation time</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* CONTENT SECTION */}
+          <div style={{padding: '32px', overflow: 'auto', flex: 1}}>
+            {/* Key Achievements Grid */}
+            <div style={{marginBottom: '32px'}}>
+              <div style={{fontSize: '0.9em', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '16px'}}>🏆 Key Accomplishments</div>
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '14px'}}>
+                {achievements.map((ach, idx) => (
+                  <div key={idx} style={{padding: '16px', borderRadius: '12px', background: ach.bgColor, border: `2px solid ${ach.color}40`, textAlign: 'center', position: 'relative', overflow: 'hidden'}}>
+                    <div style={{position: 'absolute', top: '-10px', right: '-10px', fontSize: '80px', opacity: 0.05}}>{ach.icon}</div>
+                    <div style={{fontSize: '2.4em', marginBottom: '8px', position: 'relative', zIndex: 1}}>{ach.icon}</div>
+                    <div style={{fontSize: '0.75em', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px'}}>
+                      {ach.title}
+                    </div>
+                    <div style={{fontSize: '1.8em', fontWeight: '900', color: ach.color, marginBottom: '4px'}}>
+                      {ach.metric}
+                    </div>
+                    <div style={{fontSize: '0.75em', color: '#475569', fontWeight: '700', marginBottom: '8px'}}>
+                      {ach.unit}
+                    </div>
+                    <div style={{fontSize: '0.75em', color: '#64748b', lineHeight: '1.3'}}>
+                      {ach.desc}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Collaboration Meetings Deep Dive - THE STAR SECTION */}
+            <div style={{marginBottom: '28px', padding: '24px', borderRadius: '14px', background: 'linear-gradient(135deg, #eff6ff, #dbeafe)', border: '2px solid #0ea5e9'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px'}}>
+                <div style={{fontSize: '1.8em'}}>🤝</div>
+                <div>
+                  <div style={{fontSize: '1.1em', fontWeight: '800', color: '#0c4a6e'}}>Collaboration Meetings – The Driver</div>
+                  <div style={{fontSize: '0.85em', color: '#0369a1'}}>Foundation of all improvements across SITE-III</div>
+                </div>
+              </div>
+
+              {/* Monthly progression */}
+              <div style={{marginBottom: '18px'}}>
+                <div style={{fontSize: '0.85em', fontWeight: '700', color: '#0c4a6e', marginBottom: '10px', textTransform: 'uppercase'}}>📈 Meeting Growth Trend</div>
+                <div style={{display: 'flex', alignItems: 'flex-end', gap: '8px', height: '70px', justifyContent: 'space-around', background: '#fff', padding: '12px', borderRadius: '10px'}}>
+                  {collaborationMeetings.map((m, idx) => {
+                    const height = (m.meetings / 40) * 100;
+                    const nextMonth = collaborationMeetings[idx + 1];
+                    const growthRate = nextMonth ? Math.round(((nextMonth.meetings - m.meetings) / m.meetings) * 100) : 0;
+                    return (
+                      <div key={idx} style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px'}}>
+                        <div style={{fontSize: '0.7em', fontWeight: '700', color: '#0f172a'}}>{m.meetings}</div>
+                        <div style={{width: '100%', height: `${height}px`, background: '#0ea5e9', borderRadius: '4px 4px 0 0', position: 'relative'}}>
+                          {growthRate > 0 && (
+                            <div style={{position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.7em', fontWeight: '700', color: '#10b981'}}>↑{growthRate}%</div>
+                          )}
+                        </div>
+                        <div style={{fontSize: '0.7em', color: '#475569', fontWeight: '600'}}>{m.month.slice(0, 3)}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Agenda topics */}
+              <div style={{marginBottom: '14px'}}>
+                <div style={{fontSize: '0.85em', fontWeight: '700', color: '#0c4a6e', marginBottom: '10px', textTransform: 'uppercase'}}>📋 Agenda Topics Covered</div>
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '10px'}}>
+                  {collaborationAgenda.map((month) => {
+                    const total = month.items.reduce((sum, i) => sum + i.count, 0);
+                    const topItem = [...month.items].sort((a, b) => b.count - a.count)[0];
+                    return (
+                      <div key={month.month} style={{padding: '10px', borderRadius: '10px', background: '#fff', border: '1px solid #bae6fd', textAlign: 'center'}}>
+                        <div style={{fontSize: '0.8em', fontWeight: '700', color: '#0369a1', marginBottom: '6px'}}>{month.month}</div>
+                        <div style={{fontSize: '1.4em', fontWeight: '900', color: '#0ea5e9', marginBottom: '4px'}}>{total}</div>
+                        <div style={{fontSize: '0.7em', color: '#475569', lineHeight: '1.2'}}>
+                          {topItem.title.length > 25 ? topItem.title.slice(0, 25) + '...' : topItem.title}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Key stats */}
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px'}}>
+                {[
+                  { label: 'Total Sessions', value: totalMeetings, color: '#0ea5e9' },
+                  { label: 'Peak Month', value: 'Oct (40)', color: '#0369a1' },
+                  { label: 'Topics', value: totalAgendaItems, color: '#0c4a6e' },
+                  { label: 'Departments', value: '10+', color: '#164e63' }
+                ].map((stat, idx) => (
+                  <div key={idx} style={{padding: '10px', borderRadius: '10px', background: '#fff', border: '1px solid #bae6fd', textAlign: 'center'}}>
+                    <div style={{fontSize: '1.5em', fontWeight: '900', color: stat.color}}>{stat.value}</div>
+                    <div style={{fontSize: '0.7em', color: '#475569', fontWeight: '700', marginTop: '4px'}}>{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Supporting Metrics */}
+            <div>
+              <div style={{fontSize: '0.9em', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '16px'}}>📊 Key Performance Improvements</div>
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px'}}>
+                {positiveGains.slice(0, 6).map((metric, idx) => (
+                  <div key={idx} style={{padding: '14px', borderRadius: '10px', background: `${siteColors[site]}08`, border: `1.5px solid ${siteColors[site]}40`, textAlign: 'center'}}>
+                    <div style={{fontSize: '2em', fontWeight: '900', color: siteColors[site], marginBottom: '4px'}}>{metric.improvement}%</div>
+                    <div style={{fontSize: '0.75em', color: '#0f172a', fontWeight: '700', lineHeight: '1.3'}}>{metric.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
+  };
+
   return (
     <>
     <div style={{
@@ -441,43 +705,77 @@ function SiteComparisonGrid({ onSiteClick }) {
             e.currentTarget.style.boxShadow = 'none'
           }}
           >
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setSelectedSiteInfo(site);
-              }}
-              style={{
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
-                background: siteColors[site],
-                color: 'white',
-                border: 'none',
-                borderRadius: '50%',
-                width: '28px',
-                height: '28px',
-                fontSize: '0.85em',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s',
-                zIndex: 10,
-                boxShadow: `0 2px 8px ${siteColors[site]}60`
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.15)';
-                e.currentTarget.style.boxShadow = `0 4px 12px ${siteColors[site]}80`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = `0 2px 8px ${siteColors[site]}60`;
-              }}
-            >
-              ⓘ
-            </button>
+            <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '8px', zIndex: 10 }}>
+              {site === 'SITE-III' && (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSelectedSiteKeyImprovements(site);
+                  }}
+                  style={{
+                    background: 'linear-gradient(135deg, #f97316, #ea580c)',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '10px',
+                    padding: '5px 10px',
+                    fontSize: '0.7em',
+                    cursor: 'pointer',
+                    fontWeight: '700',
+                    boxShadow: '0 4px 12px rgba(249, 115, 22, 0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
+                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    whiteSpace: 'nowrap'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(249, 115, 22, 0.45), inset 0 1px 0 rgba(255,255,255,0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(249, 115, 22, 0.35), inset 0 1px 0 rgba(255,255,255,0.2)';
+                  }}
+                >
+                  <span style={{fontSize: '0.9em'}}>✨</span>
+                  Key Improvements
+                </button>
+              )}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setSelectedSiteInfo(site);
+                }}
+                style={{
+                  background: siteColors[site],
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '28px',
+                  height: '28px',
+                  fontSize: '0.85em',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s',
+                  boxShadow: `0 2px 8px ${siteColors[site]}60`
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.15)';
+                  e.currentTarget.style.boxShadow = `0 4px 12px ${siteColors[site]}80`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = `0 2px 8px ${siteColors[site]}60`;
+                }}
+              >
+                ⓘ
+              </button>
+            </div>
             <div style={{
               fontSize: '1em',
               fontWeight: '800',
@@ -573,6 +871,12 @@ function SiteComparisonGrid({ onSiteClick }) {
       <SiteInfoModal 
         site={selectedSiteInfo}
         onClose={() => setSelectedSiteInfo(null)}
+      />
+    )}
+    {selectedSiteKeyImprovements && (
+      <KeyImprovementsModal 
+        site={selectedSiteKeyImprovements}
+        onClose={() => setSelectedSiteKeyImprovements(null)}
       />
     )}
     </>
