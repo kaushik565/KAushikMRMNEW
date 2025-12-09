@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 export default function QualityObjectives() {
   const [activeCard, setActiveCard] = useState(null);
   const [activeQI, setActiveQI] = useState(null);
+  const [activeQI05, setActiveQI05] = useState(null);
   const [activeQI07, setActiveQI07] = useState(null);
 
   // Close all modals when slide changes
@@ -10,6 +11,7 @@ export default function QualityObjectives() {
     const handleCloseModals = () => {
       setActiveCard(null);
       setActiveQI(null);
+      setActiveQI05(null);
       setActiveQI07(null);
     };
 
@@ -22,12 +24,15 @@ export default function QualityObjectives() {
   const handleCardClick = (cardId) => {
     setActiveCard(activeCard === cardId ? null : cardId);
     setActiveQI(null);
+    setActiveQI05(null);
     setActiveQI07(null);
   };
 
   const handleQIClick = (qiIndex, objective) => {
     if (objective === '04') {
       setActiveQI(activeQI === qiIndex ? null : qiIndex);
+    } else if (objective === '05') {
+      setActiveQI05(activeQI05 === qiIndex ? null : qiIndex);
     } else {
       setActiveQI07(activeQI07 === qiIndex ? null : qiIndex);
     }
@@ -139,6 +144,132 @@ export default function QualityObjectives() {
     3: qi4Data
   };
 
+  // QI Data for Objective 05
+  const obj05_qi1Data = [
+    { 
+      site: 'Site I', 
+      value: 100, 
+      target: 100,
+      identificationOfRiskCauseMoreDefects: 100,
+      listOfActivitiesBasedOnCriticalProcess: 100
+    },
+    { 
+      site: 'Site III', 
+      value: 100, 
+      target: 100,
+      identificationOfRiskCauseMoreDefects: 100,
+      listOfActivitiesBasedOnCriticalProcess: 100
+    },
+    { 
+      site: 'Site V', 
+      value: 100, 
+      target: 100,
+      identificationOfRiskCauseMoreDefects: 100,
+      listOfActivitiesBasedOnCriticalProcess: 100
+    }
+  ];
+
+  const obj05_qi2Data = [
+    { 
+      site: 'Site I', 
+      value: 50, 
+      target: 100,
+      trainingPlannerAndExecution: 50,
+      trainingOfIPQAOnDefectRecognitionAndRCAnalysis: 100,
+      evaluationOfPostTraining: 100,
+      retrainingOrRefresherTrainingPlanner: 75
+    },
+    { 
+      site: 'Site III', 
+      value: 83, 
+      target: 100,
+      trainingPlannerAndExecution: 50,
+      trainingOfIPQAOnDefectRecognitionAndRCAnalysis: 100,
+      evaluationOfPostTraining: 100,
+      retrainingOrRefresherTrainingPlanner: 50
+    },
+    { 
+      site: 'Site V', 
+      value: 50, 
+      target: 100,
+      trainingPlannerAndExecution: 50,
+      trainingOfIPQAOnDefectRecognitionAndRCAnalysis: 100,
+      evaluationOfPostTraining: 100,
+      retrainingOrRefresherTrainingPlanner: 75
+    }
+  ];
+
+  const obj05_qi3Data = [
+    { 
+      site: 'Site I', 
+      value: 92, 
+      target: 100,
+      verificationFrequencyIncreased: 100,
+      stringentMonitoring: 75,
+      realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation: 100
+    },
+    { 
+      site: 'Site III', 
+      value: 92, 
+      target: 100,
+      verificationFrequencyIncreased: 100,
+      stringentMonitoring: 75,
+      realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation: 100
+    },
+    { 
+      site: 'Site V', 
+      value: 85, 
+      target: 100,
+      verificationFrequencyIncreased: 100,
+      stringentMonitoring: 75,
+      realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation: 100
+    }
+  ];
+
+  const obj05_qi4Data = [
+    { 
+      site: 'Site I', 
+      value: 50, 
+      target: 100,
+      percentageIncreaseInProactiveIdentification: 50,
+      percentageReductionInInProcessAndFinishedGoodsDefectRate: 50,
+      percentageReductionInReworkReprocessingRate: 50,
+      percentageReductionInAvgTimeToCloseInvestigationsAndCAPA: 72
+    },
+    { 
+      site: 'Site III', 
+      value: 58, 
+      target: 100,
+      percentageIncreaseInProactiveIdentification: 50,
+      percentageReductionInInProcessAndFinishedGoodsDefectRate: 50,
+      percentageReductionInReworkReprocessingRate: 50,
+      percentageReductionInAvgTimeToCloseInvestigationsAndCAPA: 72
+    },
+    { 
+      site: 'Site V', 
+      value: 50, 
+      target: 100,
+      percentageIncreaseInProactiveIdentification: 50,
+      percentageReductionInInProcessAndFinishedGoodsDefectRate: 50,
+      percentageReductionInReworkReprocessingRate: 50,
+      percentageReductionInAvgTimeToCloseInvestigationsAndCAPA: 72
+    }
+  ];
+
+  const obj05_qiDataMap = {
+    0: obj05_qi1Data,
+    1: obj05_qi2Data,
+    2: obj05_qi3Data,
+    3: obj05_qi4Data
+  };
+
+  const objective5Flow = [
+    { id: 'qi1', label: 'QI 1: Gap assessment', color: '#f59e0b' },
+    { id: 'qi2', label: 'QI 2: Training and evaluation', color: '#3b82f6' },
+    { id: 'qi3', label: 'QI 3: Implementation', color: '#10b981' },
+    { id: 'qi4', label: 'QI 4: Effectiveness', color: '#ec4899' }
+  ];
+
   // QI Data for Objective 07
   const obj07_qi1Data = [
     { 
@@ -249,7 +380,15 @@ export default function QualityObjectives() {
   ];
 
   const renderQIButton = (qiItem, index, objective) => {
-    const isActive = objective === '04' ? activeQI === index : activeQI07 === index;
+    let isActive;
+    if (objective === '04') {
+      isActive = activeQI === index;
+    } else if (objective === '05') {
+      isActive = activeQI05 === index;
+    } else {
+      isActive = activeQI07 === index;
+    }
+    
     const baseWidth = 260;
     const baseHeight = 110;
     const clipPathValue = 'polygon(0 0, calc(100% - 40px) 0, 100% 50%, calc(100% - 40px) 100%, 0 100%, 35px 50%)';
@@ -302,6 +441,10 @@ export default function QualityObjectives() {
     const isQI1 = data[0]?.totalEmployees !== undefined;
     const isQI2 = data[0]?.trainedLatestSOP !== undefined;
     const isQI3 = data[0]?.biweeklyChecks !== undefined;
+    const isObj05QI1 = data[0]?.identificationOfRiskCauseMoreDefects !== undefined;
+    const isObj05QI2 = data[0]?.trainingPlannerAndExecution !== undefined;
+    const isObj05QI3 = data[0]?.verificationFrequencyIncreased !== undefined;
+    const isObj05QI4 = data[0]?.percentageIncreaseInProactiveIdentification !== undefined;
     const isObj07QI1 = data[0]?.trainingNeedIdentification !== undefined;
     const isObj07QI2 = data[0]?.trainingCompletion !== undefined;
     const isObj07QI3 = data[0]?.errorDecrease !== undefined;
@@ -883,6 +1026,337 @@ export default function QualityObjectives() {
       );
     }
 
+    // Objective 05 QI1 - Gap Assessment
+    if (isObj05QI1) {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
+          {data.map((item, idx) => (
+            <div key={idx} style={{
+              padding: '24px',
+              background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
+              borderRadius: '16px',
+              border: `2px solid ${colors.primary}30`,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+            }}>
+              <div style={{ 
+                fontSize: '1.3rem', 
+                fontWeight: 800, 
+                color: colors.primary, 
+                marginBottom: '20px',
+                paddingBottom: '12px',
+                borderBottom: `2px solid ${colors.primary}20`,
+                textAlign: 'center'
+              }}>
+                {item.site}
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{
+                  padding: '18px',
+                  background: `${colors.primary}10`,
+                  borderRadius: '12px',
+                  border: `1px solid ${colors.primary}30`,
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                    Identification of the risk cause more defects
+                  </div>
+                  <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
+                    {item.identificationOfRiskCauseMoreDefects}%
+                  </div>
+                </div>
+
+                <div style={{
+                  padding: '18px',
+                  background: `${colors.primary}10`,
+                  borderRadius: '12px',
+                  border: `1px solid ${colors.primary}30`,
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
+                    List of activities based on critical process
+                  </div>
+                  <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
+                    {item.listOfActivitiesBasedOnCriticalProcess}%
+                  </div>
+                </div>
+              </div>
+
+              <div style={{
+                marginTop: '20px',
+                padding: '14px',
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                borderRadius: '12px',
+                textAlign: 'center',
+                color: '#ffffff'
+              }}>
+                <div style={{ fontSize: '0.9rem', marginBottom: '4px', opacity: 0.9 }}>
+                  Gap Assessment Status
+                </div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
+                  ✓ Completed
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // Objective 05 QI2 - Training and Evaluation
+    if (isObj05QI2) {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
+          {data.map((item, idx) => {
+            const trainingStages = [
+              { label: 'Training planner and execution', value: item.trainingPlannerAndExecution, icon: '📋', color: '#3b82f6' },
+              { label: 'Training of IPQA on defect recognition and RC analysis', value: item.trainingOfIPQAOnDefectRecognitionAndRCAnalysis, icon: '🔍', color: '#10b981' },
+              { label: 'Evaluation of post training', value: item.evaluationOfPostTraining, icon: '✓', color: '#10b981' },
+              { label: 'Retraining or refresher training planner', value: item.retrainingOrRefresherTrainingPlanner, icon: '🔄', color: '#f59e0b' }
+            ];
+
+            const avgCompliance = Math.round((item.trainingPlannerAndExecution + item.trainingOfIPQAOnDefectRecognitionAndRCAnalysis + item.evaluationOfPostTraining + item.retrainingOrRefresherTrainingPlanner) / 4);
+            
+            return (
+              <div key={idx} style={{
+                padding: '24px',
+                background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
+                borderRadius: '16px',
+                border: `2px solid ${colors.primary}30`,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+              }}>
+                <div style={{ 
+                  fontSize: '1.3rem', 
+                  fontWeight: 800, 
+                  color: colors.primary, 
+                  marginBottom: '20px',
+                  paddingBottom: '12px',
+                  borderBottom: `2px solid ${colors.primary}20`,
+                  textAlign: 'center'
+                }}>
+                  {item.site}
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+                  {trainingStages.map((stage, stageIdx) => (
+                    <div key={stageIdx} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '14px 16px',
+                      background: `${stage.color}10`,
+                      borderRadius: '10px',
+                      border: `1px solid ${stage.color}30`
+                    }}>
+                      <div style={{ 
+                        fontSize: '1.5rem', 
+                        marginRight: '12px',
+                        width: '32px',
+                        textAlign: 'center'
+                      }}>
+                        {stage.icon}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                          {stage.label}
+                        </div>
+                        <div style={{ fontSize: '1.4rem', fontWeight: 800, color: stage.color }}>
+                          {stage.value}%
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ 
+                  padding: '16px',
+                  background: `linear-gradient(135deg, ${colors.primary}15 0%, ${colors.primary}05 100%)`,
+                  borderRadius: '12px',
+                  border: `2px solid ${colors.primary}30`,
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                    Overall Compliance
+                  </div>
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
+                    {avgCompliance}%
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    // Objective 05 QI3 - Implementation
+    if (isObj05QI3) {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
+          {data.map((item, idx) => {
+            const implementationSteps = [
+              { label: 'Verification frequency increased', value: item.verificationFrequencyIncreased, icon: '📊', color: '#3b82f6' },
+              { label: 'Stringent monitoring', value: item.stringentMonitoring, icon: '🔍', color: '#10b981' },
+              { label: 'Real time containment and root cause analysis before batch continuation', value: item.realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation, icon: '⚡', color: '#ef4444' }
+            ];
+
+            const avgImplementation = Math.round((item.verificationFrequencyIncreased + item.stringentMonitoring + item.realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation) / 3);
+            
+            return (
+              <div key={idx} style={{
+                padding: '24px',
+                background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
+                borderRadius: '16px',
+                border: `2px solid ${colors.primary}30`,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+              }}>
+                <div style={{ 
+                  fontSize: '1.3rem', 
+                  fontWeight: 800, 
+                  color: colors.primary, 
+                  marginBottom: '20px',
+                  paddingBottom: '12px',
+                  borderBottom: `2px solid ${colors.primary}20`,
+                  textAlign: 'center'
+                }}>
+                  {item.site}
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+                  {implementationSteps.map((step, stepIdx) => (
+                    <div key={stepIdx} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '14px 16px',
+                      background: `${step.color}10`,
+                      borderRadius: '10px',
+                      border: `1px solid ${step.color}30`
+                    }}>
+                      <div style={{ 
+                        fontSize: '1.5rem', 
+                        marginRight: '12px',
+                        width: '32px',
+                        textAlign: 'center'
+                      }}>
+                        {step.icon}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                          {step.label}
+                        </div>
+                        <div style={{ fontSize: '1.4rem', fontWeight: 800, color: step.color }}>
+                          {step.value}%
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ 
+                  padding: '16px',
+                  background: `linear-gradient(135deg, ${colors.primary}15 0%, ${colors.primary}05 100%)`,
+                  borderRadius: '12px',
+                  border: `2px solid ${colors.primary}30`,
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                    Implementation Progress
+                  </div>
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
+                    {avgImplementation}%
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    // Objective 05 QI4 - Effectiveness
+    if (isObj05QI4) {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
+          {data.map((item, idx) => {
+            const effectivenessMetrics = [
+              { label: '% increase in proactive identifcation', value: item.percentageIncreaseInProactiveIdentification, icon: '📈', color: '#3b82f6' },
+              { label: '% Reduction in in-process and finished goods defect rate', value: item.percentageReductionInInProcessAndFinishedGoodsDefectRate, icon: '📉', color: '#10b981' },
+              { label: '% Reduction in rework/reprocessing rate', value: item.percentageReductionInReworkReprocessingRate, icon: '♻️', color: '#f59e0b' },
+              { label: '% reduction in avg time to close investigations and CAPA', value: item.percentageReductionInAvgTimeToCloseInvestigationsAndCAPA, icon: '⏱️', color: '#ec4899' }
+            ];
+
+            const avgEffectiveness = Math.round((item.percentageIncreaseInProactiveIdentification + item.percentageReductionInInProcessAndFinishedGoodsDefectRate + item.percentageReductionInReworkReprocessingRate + item.percentageReductionInAvgTimeToCloseInvestigationsAndCAPA) / 4);
+            
+            return (
+              <div key={idx} style={{
+                padding: '24px',
+                background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
+                borderRadius: '16px',
+                border: `2px solid ${colors.primary}30`,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+              }}>
+                <div style={{ 
+                  fontSize: '1.3rem', 
+                  fontWeight: 800, 
+                  color: colors.primary, 
+                  marginBottom: '20px',
+                  paddingBottom: '12px',
+                  borderBottom: `2px solid ${colors.primary}20`,
+                  textAlign: 'center'
+                }}>
+                  {item.site}
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+                  {effectivenessMetrics.map((metric, metricIdx) => (
+                    <div key={metricIdx} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '12px 14px',
+                      background: `${metric.color}10`,
+                      borderRadius: '8px',
+                      border: `1px solid ${metric.color}30`
+                    }}>
+                      <div style={{ 
+                        fontSize: '1.3rem', 
+                        marginRight: '10px',
+                        width: '28px',
+                        textAlign: 'center'
+                      }}>
+                        {metric.icon}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>
+                          {metric.label}
+                        </div>
+                        <div style={{ fontSize: '1.3rem', fontWeight: 800, color: metric.color }}>
+                          {metric.value}%
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ 
+                  padding: '16px',
+                  background: `linear-gradient(135deg, ${colors.primary}15 0%, ${colors.primary}05 100%)`,
+                  borderRadius: '12px',
+                  border: `2px solid ${colors.primary}30`,
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                    Overall Effectiveness
+                  </div>
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
+                    {avgEffectiveness}%
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
     // Default card view for other QIs
     return (
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '24px' }}>
@@ -1190,7 +1664,20 @@ export default function QualityObjectives() {
                     To reduce the number of In-process and final product defects through stringent IPQA verification and proactive defect prevention.
                   </div>
                 </div>
-                <div style={{ color: '#475569', fontSize: '0.95em', textAlign: 'center' }}>Data to be added.</div>
+
+                {/* QI Buttons */}
+                <div style={{ display: 'flex', gap: '14px', marginBottom: '24px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
+                  {objective5Flow.map((qiItem, index) => renderQIButton(qiItem, index, '05'))}
+                </div>
+
+                {/* Site Data Cards */}
+                {activeQI05 !== null ? (
+                  <div style={{ animation: 'slideIn 0.4s ease-out' }}>
+                    {renderSiteCards(obj05_qiDataMap[activeQI05], { primary: '#059669', accent: '#047857', light: '#ecfdf5' })}
+                  </div>
+                ) : (
+                  <div style={{ textAlign: 'center', color: '#475569', padding: '8px 0' }}>Select a QI to view site-wise details.</div>
+                )}
               </>
             )}
 
