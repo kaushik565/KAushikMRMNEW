@@ -5,15 +5,15 @@ export const IPQAOverallPerformance = () => {
   const [selectedSiteInfo, setSelectedSiteInfo] = useState(null);
 
   // Calculate overall metrics from all IPQA activities across all sites
-  // SITE-I: Line Clearance (99.89%), Line Closure (99.94%), Re-verification (99.46%), Sampling (100%), Calibration (98.2%)
+  // SITE-I: Line Clearance (99.89%), Line Closure (99.94%), Re-verification (99.46%), Sampling (100%), Calibration (100%)
   // SITE-III: Line Clearance (98.84%), Line Closure (98.84%), Line Reverification (99.24%), Line Verification (99.98%)
   // SITE-V: Incoming Sampling (+12%), In-Process Sampling (+18%), BMR Verification (+15%), Transfer Note (+8%), Destruction (-28%)
   
-  const overallApprovalRate = ((99.89 + 99.94 + 99.46 + 100 + 98.2 + 98.84 + 98.84 + 99.24 + 99.98) / 9).toFixed(1); // 99.6%
+  const overallApprovalRate = ((99.89 + 99.94 + 99.46 + 100 + 100 + 98.84 + 98.84 + 99.24 + 99.98) / 9).toFixed(1); // 99.7%
   const lineOperationsRate = ((99.89 + 99.94 + 98.84 + 98.84 + 99.24 + 99.98) / 6).toFixed(1); // 99.4%
   const verificationRate = ((99.46 + 99.24) / 2).toFixed(1); // 99.4%
   const samplingRate = 100; // Sampling at 100%
-  const calibrationRate = 98.2; // Calibration at 98.2%
+  const calibrationRate = 100; // Calibration at 100%
 
   const siteDetails = {
     'SITE-I': {
@@ -26,7 +26,7 @@ export const IPQAOverallPerformance = () => {
         { name: 'Line Closure', value: 54, calculation: '(6620 items with 4 not approved) → 99.94% approval → 54% improvement' },
         { name: 'Re-verification', value: 60, calculation: '(2203 items with 12 not approved) → 99.46% approval → 60% improvement' },
         { name: 'Sampling', value: 49, calculation: '(3056 items, Multi-type) → 100% approval → 49% improvement' },
-        { name: 'Calibration', value: 13, calculation: '(167 items with 3 overdue) → 98.2% compliance → 13% improvement' }
+        { name: 'Calibration', value: 13, calculation: '(167 items, all current) → 100% compliance → 13% improvement' }
       ],
       formula: 'Average = (15% + 54% + 60% + 49% + 13%) ÷ 5 = 191% ÷ 5 = 38.2% ≈ 38%'
     },
@@ -107,7 +107,7 @@ export const IPQAOverallPerformance = () => {
       {/* Overall Performance Dashboard */}
       <div style={{ marginBottom: "28px", padding: "24px", background: "linear-gradient(135deg, #f0f9ff, #f8fafc)", border: "3px solid #0ea5e9", borderRadius: "16px" }}>
         <div style={{ fontSize: "1.1em", fontWeight: "800", color: "#0f172a", marginBottom: "20px", display: "flex", alignItems: "center", gap: "8px" }}>
-          📊 Overall Performance (Quality Assurance Compliance Across All Sites)
+          📊 Overall Performance (IPQA Compliance Across All Sites)
         </div>
         
         {/* Overall Metrics Grid - IPQA Metrics */}

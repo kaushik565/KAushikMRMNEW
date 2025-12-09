@@ -24,6 +24,8 @@ export default function IPQAOverview() {
   const [selectedSiteIChart, setSelectedSiteIChart] = useState(null);
   const [selectedSite3KPIInfo, setSelectedSite3KPIInfo] = useState(null);
   const [selectedQualityScoreInfo, setSelectedQualityScoreInfo] = useState(null);
+  const [showSite3Improvements, setShowSite3Improvements] = useState(false);
+  const [showSiteVImprovements, setShowSiteVImprovements] = useState(false);
 
   // Lock background scroll while any overlay/modal is open to avoid slide jump
   const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart || selectedSiteIChart;
@@ -40,6 +42,8 @@ export default function IPQAOverview() {
       setSelectedSiteIChart(null);
       setSelectedSite3KPIInfo(null);
       setSelectedQualityScoreInfo(null);
+      setShowSite3Improvements(false);
+      setShowSiteVImprovements(false);
     };
 
     window.addEventListener('closeAllModals', handleCloseModals);
@@ -89,7 +93,7 @@ export default function IPQAOverview() {
         'Line Closure': { value: 6620, subtitle: '4 Not Approved', trend: '99.94%', status: 'Excellent' },
         'Re-verification': { value: 2203, subtitle: '12 Not Approved', trend: '99.46%', status: 'Excellent' },
         'Sampling Types': { value: 3056, subtitle: 'Multi-type', trend: '100%', status: 'Excellent' },
-        'Equipment Calibration': { value: 167, subtitle: '3 Overdue', trend: '98.2%', status: 'Good' }
+        'Equipment Calibration': { value: 167, subtitle: 'All Current', trend: '100%', status: 'Excellent' }
       }
     },
     'SITE-III': {
@@ -2422,9 +2426,6 @@ export default function IPQAOverview() {
               width: '200px',
               marginBottom: '12px'
             }}></div>
-            <p style={{ fontSize: '0.9em', color: '#4b5563', margin: '0px' }}>
-              In-Process Quality Assurance Performance Across Manufacturing Sites
-            </p>
           </div>
 
           {/* Overall Quality Performance Section - MOVED TO TOP */}
@@ -2445,7 +2446,7 @@ export default function IPQAOverview() {
               textTransform: 'uppercase',
               letterSpacing: '0.5px'
             }}>
-              📊 Quality Assurance Compliance Across All Sites
+              📊 In-Process Quality Assurance Compliance Across All Sites
             </div>
 
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px'}}>
@@ -2628,13 +2629,26 @@ export default function IPQAOverview() {
                   </div>
                 </div>
 
-                <div style={{
-                  textAlign: 'center',
-                  padding: '10px',
-                  background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
-                  borderRadius: '8px',
-                  border: '2px solid #22c55e'
-                }}>
+                <div 
+                  onClick={() => setShowSite3Improvements(true)}
+                  style={{
+                    textAlign: 'center',
+                    padding: '10px',
+                    background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
+                    borderRadius: '8px',
+                    border: '2px solid #22c55e',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
                   <div style={{fontSize: '0.8em', fontWeight: '700', color: '#166534'}}>
                     ↑ +0.3% improvement
                   </div>
@@ -2724,13 +2738,26 @@ export default function IPQAOverview() {
                   </div>
                 </div>
 
-                <div style={{
-                  textAlign: 'center',
-                  padding: '10px',
-                  background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
-                  borderRadius: '8px',
-                  border: '2px solid #22c55e'
-                }}>
+                <div 
+                  onClick={() => setShowSiteVImprovements(true)}
+                  style={{
+                    textAlign: 'center',
+                    padding: '10px',
+                    background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
+                    borderRadius: '8px',
+                    border: '2px solid #22c55e',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
                   <div style={{fontSize: '0.8em', fontWeight: '700', color: '#166534'}}>
                     ↑ +0.5% improvement
                   </div>
@@ -3440,6 +3467,406 @@ export default function IPQAOverview() {
           onClose={() => setSelectedQualityScoreInfo(null)}
         />
       )}
+
+      {/* SITE-III Improvements Modal */}
+      {showSite3Improvements && createPortal(
+        <div 
+          onClick={() => setShowSite3Improvements(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 999999,
+            padding: '20px'
+          }}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '16px',
+              maxWidth: '900px',
+              width: '100%',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              position: 'relative',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+            }}
+          >
+            <button
+              onClick={() => setShowSite3Improvements(false)}
+              style={{
+                position: 'sticky',
+                top: '20px',
+                float: 'right',
+                right: '20px',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                border: 'none',
+                backgroundColor: '#8b5cf6',
+                color: '#ffffff',
+                fontSize: '1.5em',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1000000,
+                fontWeight: 'bold'
+              }}
+            >
+              ✕
+            </button>
+            
+            <div style={{ padding: '40px' }}>
+              <h2 style={{ 
+                fontSize: '1.8em', 
+                fontWeight: '800', 
+                color: '#8b5cf6', 
+                marginBottom: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px'
+              }}>
+                ✨ KEY IMPROVEMENTS & INITIATIVES
+              </h2>
+
+              {/* Completed Initiatives */}
+              <div style={{
+                background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
+                borderRadius: '12px',
+                padding: '24px',
+                marginBottom: '24px',
+                border: '2px solid #22c55e'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  marginBottom: '16px'
+                }}>
+                  <div style={{
+                    fontSize: '2em',
+                    background: '#22c55e',
+                    color: 'white',
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 'bold'
+                  }}>✓</div>
+                  <div>
+                    <h3 style={{ margin: '0', fontSize: '1.3em', fontWeight: '700', color: '#166534' }}>
+                      Completed Initiatives
+                    </h3>
+                    <div style={{ fontSize: '0.9em', color: '#15803d', fontWeight: '600' }}>
+                      8 Achievements
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gap: '12px' }}>
+                  {[
+                    'Monthly meeting with MG & MN on rejections/challenges',
+                    'Observation meetings on shop floor (every 15 days)',
+                    'Work instructions in production floor',
+                    'Re-Work area implemented (Line-Wise)',
+                    'Particle count testing implementation',
+                    'QR pasting activity segregation',
+                    'Pictorial representation implemented',
+                    'Change control tracking sheet'
+                  ].map((item, idx) => (
+                    <div key={idx} style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '12px',
+                      padding: '12px',
+                      background: 'white',
+                      borderRadius: '8px',
+                      border: '1px solid #bbf7d0'
+                    }}>
+                      <div style={{
+                        fontSize: '1.2em',
+                        fontWeight: 'bold',
+                        color: '#166534',
+                        minWidth: '30px'
+                      }}>
+                        {idx + 1}.
+                      </div>
+                      <div style={{
+                        fontSize: '0.95em',
+                        color: '#166534',
+                        fontWeight: '500',
+                        lineHeight: '1.5'
+                      }}>
+                        {item}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* In Progress Initiatives */}
+              <div style={{
+                background: 'linear-gradient(135deg, #eff6ff, #dbeafe)',
+                borderRadius: '12px',
+                padding: '24px',
+                border: '2px solid #3b82f6'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  marginBottom: '16px'
+                }}>
+                  <div style={{
+                    fontSize: '2em',
+                    background: '#3b82f6',
+                    color: 'white',
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 'bold'
+                  }}>→</div>
+                  <div>
+                    <h3 style={{ margin: '0', fontSize: '1.3em', fontWeight: '700', color: '#1e40af' }}>
+                      In Progress
+                    </h3>
+                    <div style={{ fontSize: '0.9em', color: '#1d4ed8', fontWeight: '600' }}>
+                      3 In Progress
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gap: '16px' }}>
+                  {[
+                    { icon: '📊', name: 'Defect Rate Setting', progress: 65 },
+                    { icon: '📋', name: 'Limit Sample Register', progress: 45 },
+                    { icon: '📱', name: 'QR Scanning Software', progress: 50 }
+                  ].map((item, idx) => (
+                    <div key={idx} style={{
+                      padding: '16px',
+                      background: 'white',
+                      borderRadius: '8px',
+                      border: '1px solid #bfdbfe'
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: '8px'
+                      }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          fontSize: '1em',
+                          fontWeight: '700',
+                          color: '#1e40af'
+                        }}>
+                          <span style={{ fontSize: '1.3em' }}>{item.icon}</span>
+                          {item.name}
+                        </div>
+                        <div style={{
+                          fontSize: '1.1em',
+                          fontWeight: '800',
+                          color: '#3b82f6'
+                        }}>
+                          {item.progress}% Complete
+                        </div>
+                      </div>
+                      <div style={{
+                        width: '100%',
+                        height: '12px',
+                        background: '#e0e7ff',
+                        borderRadius: '6px',
+                        overflow: 'hidden'
+                      }}>
+                        <div style={{
+                          width: `${item.progress}%`,
+                          height: '100%',
+                          background: 'linear-gradient(90deg, #3b82f6, #2563eb)',
+                          borderRadius: '6px',
+                          transition: 'width 0.3s ease'
+                        }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* SITE-V Improvements Modal */}
+      {showSiteVImprovements && createPortal(
+        <div 
+          onClick={() => setShowSiteVImprovements(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 999999,
+            padding: '20px'
+          }}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '16px',
+              maxWidth: '900px',
+              width: '100%',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              position: 'relative',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+            }}
+          >
+            <button
+              onClick={() => setShowSiteVImprovements(false)}
+              style={{
+                position: 'sticky',
+                top: '20px',
+                float: 'right',
+                right: '20px',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                border: 'none',
+                backgroundColor: '#0ea5e9',
+                color: '#ffffff',
+                fontSize: '1.5em',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1000000,
+                fontWeight: 'bold'
+              }}
+            >
+              ✕
+            </button>
+            
+            <div style={{ padding: '40px' }}>
+              <h2 style={{ 
+                fontSize: '1.8em', 
+                fontWeight: '800', 
+                color: '#0ea5e9', 
+                marginBottom: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px'
+              }}>
+                ✨ KEY IMPROVEMENTS & ACTIONS TAKEN
+              </h2>
+
+              <div style={{ display: 'grid', gap: '16px' }}>
+                {[
+                  {
+                    icon: '🧪',
+                    title: 'QA-controlled primer probe sampling',
+                    desc: 'Sampling moved fully under QA oversight to tighten control.'
+                  },
+                  {
+                    icon: '🛡️',
+                    title: 'Stronger incoming gate',
+                    desc: 'Stringent incoming sampling now catches non-conformance at chip entry.'
+                  },
+                  {
+                    icon: '⚡',
+                    title: 'Flashwriting device learnings',
+                    desc: 'Repeated incidents surfaced weak pogo pins; verification now flags them early.'
+                  },
+                  {
+                    icon: '📦',
+                    title: 'Pouching mix-up prevention',
+                    desc: 'Tighter IPQA verification reduced pouch/chip mixups during pouching.'
+                  },
+                  {
+                    icon: '🏷️',
+                    title: 'Label verification at sleeves',
+                    desc: 'Checks added at chip insertion to stop misprints and mixed labels from user dept.'
+                  },
+                  {
+                    icon: '🛡️',
+                    title: 'Foil protection on trays',
+                    desc: 'Aluminium foil now shields trays from activated filter tip contamination.'
+                  },
+                  {
+                    icon: '✅',
+                    title: 'Broader in-process checks',
+                    desc: 'Covers arrangement, washing, volume checks (BSA/secondary coat), tube sorting, and MM filling.'
+                  }
+                ].map((item, idx) => (
+                  <div key={idx} style={{
+                    display: 'flex',
+                    gap: '16px',
+                    padding: '20px',
+                    background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)',
+                    borderRadius: '12px',
+                    border: '2px solid #0ea5e9',
+                    transition: 'all 0.2s'
+                  }}>
+                    <div style={{
+                      fontSize: '2.5em',
+                      minWidth: '60px',
+                      height: '60px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'white',
+                      borderRadius: '12px',
+                      boxShadow: '0 2px 8px rgba(14, 165, 233, 0.2)'
+                    }}>
+                      {item.icon}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <h3 style={{
+                        margin: '0 0 8px 0',
+                        fontSize: '1.1em',
+                        fontWeight: '700',
+                        color: '#0369a1'
+                      }}>
+                        {item.title}
+                      </h3>
+                      <p style={{
+                        margin: 0,
+                        fontSize: '0.95em',
+                        color: '#0c4a6e',
+                        lineHeight: '1.6'
+                      }}>
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </>
-  )
+  );
 }
+
