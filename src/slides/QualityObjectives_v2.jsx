@@ -966,27 +966,27 @@ export default function QualityObjectives() {
               bgColor: '#ecfdf5'
             },
             {
+              id: '06',
+              title: '',
+              subtitle: '',
+              description: 'Digitalization of quality management system to improve efficiency, data integrity, traceability, real-time monitoring and compliance with regulatory',
+              color: '#0ea5e9',
+              bgColor: '#e0f2fe'
+            },
+            {
               id: '07',
               title: '',
               subtitle: '',
               description: 'Enhance the competency autonomy and engagement of QA staff to improve overall quality system performance and compliance',
               color: '#f59e0b',
               bgColor: '#fffbeb'
-            },
-            {
-              id: 'EQ',
-              title: '',
-              subtitle: '',
-              description: '',
-              color: '#0ea5e9',
-              bgColor: '#e0f2fe'
             }
           ].map((card, idx) => (
             <div
               key={card.id}
               onClick={() => handleCardClick(card.id)}
               style={{
-                padding: '28px',
+                padding: '20px',
                 borderRadius: '18px',
                 border: activeCard === card.id ? `2px solid ${card.color}` : '1.5px solid #e2e8f0',
                 background: activeCard === card.id 
@@ -1005,7 +1005,7 @@ export default function QualityObjectives() {
                 gap: '14px',
                 animation: `slideIn 0.5s ease-out ${idx * 0.1}s both`,
                 aspectRatio: '1 / 1',
-                minHeight: '600px',
+                minHeight: '700px',
                 height: '100%'
               }}
             >
@@ -1034,7 +1034,7 @@ export default function QualityObjectives() {
 
               {/* Title Section */}
               <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-                {['04', '05', '07', 'EQ'].includes(card.id) && (
+                {['04', '05', '06', '07'].includes(card.id) && (
                   <div style={{
                     alignSelf: 'center',
                     padding: '8px 14px',
@@ -1055,7 +1055,7 @@ export default function QualityObjectives() {
                     textTransform: 'uppercase',
                     textAlign: 'center'
                   }}>
-                    {card.id === 'EQ' ? 'E-QMS' : `Objective ${card.id}`}
+                    {`Objective ${card.id}`}
                   </div>
                 )}
               </div>
@@ -1154,8 +1154,8 @@ export default function QualityObjectives() {
                   marginBottom: '24px',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '1.05em', fontWeight: 700, lineHeight: 1.4 }}>Objective 04</div>
-                  <div style={{ fontSize: '1.15em', fontWeight: 800, marginTop: '6px', lineHeight: 1.45 }}>
+                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 04</div>
+                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
                     Reduce Good Documentation Practices (GDP) related Nonconformities and incidents by 50%
                   </div>
                 </div>
@@ -1185,8 +1185,8 @@ export default function QualityObjectives() {
                   marginBottom: '24px',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '1.05em', fontWeight: 700, lineHeight: 1.4 }}>Objective 05</div>
-                  <div style={{ fontSize: '1.15em', fontWeight: 800, marginTop: '6px', lineHeight: 1.45 }}>
+                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 05</div>
+                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
                     To reduce the number of In-process and final product defects through stringent IPQA verification and proactive defect prevention.
                   </div>
                 </div>
@@ -1203,8 +1203,8 @@ export default function QualityObjectives() {
                   marginBottom: '24px',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '1.05em', fontWeight: 700, lineHeight: 1.4 }}>Objective 07</div>
-                  <div style={{ fontSize: '1.15em', fontWeight: 800, marginTop: '6px', lineHeight: 1.45 }}>
+                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 07</div>
+                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
                     Enhance the competency autonomy and engagement of QA staff to improve overall quality system performance and compliance
                   </div>
                 </div>
@@ -1225,7 +1225,7 @@ export default function QualityObjectives() {
               </>
             )}
 
-            {activeCard === 'EQ' && (
+            {activeCard === '06' && (
               <>
                 <div style={{ 
                   background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', 
@@ -1234,9 +1234,9 @@ export default function QualityObjectives() {
                   marginBottom: '24px',
                   color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '1.05em', fontWeight: 700, lineHeight: 1.4 }}>E-QMS</div>
-                  <div style={{ fontSize: '1.15em', fontWeight: 800, marginTop: '6px', lineHeight: 1.45 }}>
-                    Data to be added
+                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 06</div>
+                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
+                    Digitalization of quality management system to improve efficiency, data integrity, traceability, real-time monitoring and compliance with regulatory
                   </div>
                 </div>
                 <div style={{ color: '#475569', fontSize: '0.95em', textAlign: 'center' }}>Data to be added.</div>
