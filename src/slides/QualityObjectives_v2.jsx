@@ -925,7 +925,7 @@ export default function QualityObjectives() {
       <div style={{ maxWidth: '1150px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '28px' }}>
         {/* Header */}
         <header style={{ marginBottom: '40px', textAlign: 'center' }}>
-          <div style={{ fontSize: '0.9em', color: '#ef4444', fontWeight: 700, letterSpacing: '0.05em' }}>QUALITY OBJECTIVES - 2025</div>
+          <div style={{ fontSize: '1.5em', color: '#ef4444', fontWeight: 700, letterSpacing: '0.05em' }}>QUALITY OBJECTIVES - 2025</div>
           <div style={{ height: '3px', width: '60px', background: '#ef4444', marginTop: '8px', marginBottom: '14px', borderRadius: '999px', margin: '8px auto 14px' }}></div>
         </header>
 
@@ -1080,10 +1080,10 @@ export default function QualityObjectives() {
 
         {/* Hint Text */}
         <div style={{ textAlign: 'center', marginTop: '32px', animation: 'slideIn 0.6s ease-out 0.5s both' }}>
-          <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1e293b', marginBottom: '8px' }}>
+          <div style={{ fontSize: '2.1rem', fontWeight: 600, color: '#1e293b', marginBottom: '8px' }}>
             💡 Click a card to open the data
           </div>
-          <div style={{ fontSize: '0.95rem', color: '#64748b', fontWeight: 500 }}>
+          <div style={{ fontSize: '1.05rem', color: '#64748b', fontWeight: 500 }}>
             Select an Objective to view detailed QI flow and site-wise metrics
           </div>
         </div>
