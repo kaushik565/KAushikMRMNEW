@@ -1105,13 +1105,13 @@ export default function SiteOverview() {
                 <div style={{ background: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #86efac' }}>
                   <div style={{ fontSize: '0.9em', color: '#111827', lineHeight: '1.7' }}>
                     <div style={{ marginBottom: '8px' }}>
-                      <strong style={{ color: '#047857' }}>SITE-I</strong> handles <strong>HIGHEST volume</strong> (1,131 events) but maintains <strong>GOOD quality</strong> (38% improvement)
+                      <strong style={{ color: '#047857' }}>SITE-I</strong> handles <strong>HIGHEST volume</strong> (1,131 events) with <strong>GOOD quality</strong> (31% improvement)
                     </div>
                     <div style={{ marginBottom: '8px' }}>
-                      <strong style={{ color: '#047857' }}>SITE-III</strong> handles <strong>MEDIUM volume</strong> (620 events) with <strong>EXCELLENT quality</strong> (35% improvement)
+                      <strong style={{ color: '#047857' }}>SITE-III</strong> handles <strong>MEDIUM volume</strong> (620 events) with <strong>EXCELLENT quality</strong> (41% improvement)
                     </div>
                     <div>
-                      <strong style={{ color: '#047857' }}>SITE-V</strong> handles <strong>LOWEST volume</strong> (570 events) with <strong>EXCEPTIONAL quality</strong> (49% improvement)
+                      <strong style={{ color: '#047857' }}>SITE-V</strong> handles <strong>LOWEST volume</strong> (570 events) with <strong>EXCELLENT quality</strong> (40% improvement)
                     </div>
                   </div>
                 </div>
