@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function QualityObjectives() {
   const [activeCard, setActiveCard] = useState(null);
   const [activeQI, setActiveQI] = useState(null);
   const [activeQI07, setActiveQI07] = useState(null);
+
+  // Close all modals when slide changes
+  useEffect(() => {
+    const handleCloseModals = () => {
+      setActiveCard(null);
+      setActiveQI(null);
+      setActiveQI07(null);
+    };
+
+    window.addEventListener('closeAllModals', handleCloseModals);
+    return () => {
+      window.removeEventListener('closeAllModals', handleCloseModals);
+    };
+  }, []);
 
   const handleCardClick = (cardId) => {
     setActiveCard(activeCard === cardId ? null : cardId);

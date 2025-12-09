@@ -66,6 +66,9 @@ export default function Presentation() {
           const isClosing = current?.classList?.contains('closing-slide')
           document.body.classList.toggle('hide-corner-logo', !!(isTitle || isClosing))
           
+          // Dispatch custom event to close all modals
+          window.dispatchEvent(new CustomEvent('closeAllModals'))
+          
           // Scroll to top when slide changes - reset all scrollable elements
           if (current) {
             // Reset main slide scroll

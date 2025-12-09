@@ -1,8 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ComposedChart, Bar, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function LabQAOverview() {
   const [selectedSite, setSelectedSite] = useState(null);
+
+  // Close modal when slide changes
+  useEffect(() => {
+    const handleCloseModals = () => {
+      setSelectedSite(null);
+    };
+
+    window.addEventListener('closeAllModals', handleCloseModals);
+    return () => {
+      window.removeEventListener('closeAllModals', handleCloseModals);
+    };
+  }, []);
 
   const COLORS = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b'];
 

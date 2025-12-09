@@ -28,6 +28,26 @@ export default function IPQAOverview() {
   // Lock background scroll while any overlay/modal is open to avoid slide jump
   const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart || selectedSiteIChart;
 
+  // Close all modals when slide changes
+  useEffect(() => {
+    const handleCloseModals = () => {
+      setSelectedDetail(null);
+      setExpandedActivity(null);
+      setSelectedDeptChart(null);
+      setSelectedCartridgeChart(null);
+      setSelectedManufacturingChart(null);
+      setSelectedSite3Chart(null);
+      setSelectedSiteIChart(null);
+      setSelectedSite3KPIInfo(null);
+      setSelectedQualityScoreInfo(null);
+    };
+
+    window.addEventListener('closeAllModals', handleCloseModals);
+    return () => {
+      window.removeEventListener('closeAllModals', handleCloseModals);
+    };
+  }, []);
+
   useEffect(() => {
     if (hasOverlayOpen) {
       const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
