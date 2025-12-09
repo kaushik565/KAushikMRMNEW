@@ -961,7 +961,7 @@ export default function QualityObjectives() {
               id: '05',
               title: '',
               subtitle: '',
-              description: '',
+              description: 'To reduce the number of In-process and final product defects through stringent IPQA verification and proactive defect prevention.',
               color: '#059669',
               bgColor: '#ecfdf5'
             },
@@ -1187,7 +1187,7 @@ export default function QualityObjectives() {
                 }}>
                   <div style={{ fontSize: '1.05em', fontWeight: 700, lineHeight: 1.4 }}>Objective 05</div>
                   <div style={{ fontSize: '1.15em', fontWeight: 800, marginTop: '6px', lineHeight: 1.45 }}>
-                    Details to be added
+                    To reduce the number of In-process and final product defects through stringent IPQA verification and proactive defect prevention.
                   </div>
                 </div>
                 <div style={{ color: '#475569', fontSize: '0.95em', textAlign: 'center' }}>Data to be added.</div>
