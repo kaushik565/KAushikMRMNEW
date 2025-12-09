@@ -5,7 +5,7 @@ import QMSOverview from './slides/QMSOverview'
 import SiteOverview from './slides/SiteOverview'
 import IPQAOverview from './slides/IPQAOverview'
 import LabQAOverview from './slides/LabQAOverview'
-import QualityObjectives from './slides/QualityObjectives'
+import QualityObjectivesV2 from './slides/QualityObjectives_v2'
 import ClosingSlide from './slides/ClosingSlide'
 const primaryLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
 const fallbackLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
@@ -125,7 +125,7 @@ export default function Presentation() {
       <SiteOverview />
       <IPQAOverview />
       <LabQAOverview />
-      <QualityObjectives />
+      <QualityObjectivesV2 />
       <ClosingSlide />
     </>
   )
