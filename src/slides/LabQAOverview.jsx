@@ -47,21 +47,22 @@ export default function LabQAOverview() {
       color: '#3b82f6',
       icon: '🏢',
       metrics: [
-        { label: 'Reports Verified', value: 4005 },
-        { label: 'Logbooks Verified', value: 1304 },
-        { label: 'Equipment Calibration', value: 92 }
+        { label: 'Total Reports Verified', value: 4005 },
+        { label: 'Reports Passed', value: 3949 },
+        { label: 'Reports Failed', value: 56 },
+        { label: 'Pass Rate', value: '98.6%' }
       ],
       monthlyData: [
-        { month: 'Jul', reports: 1054, logbooks: 190, calibration: 7 },
-        { month: 'Aug', reports: 809, logbooks: 268, calibration: 22 },
-        { month: 'Sep', reports: 672, logbooks: 268, calibration: 18 },
-        { month: 'Oct', reports: 658, logbooks: 289, calibration: 26 },
-        { month: 'Nov', reports: 812, logbooks: 289, calibration: 19 }
+        { month: 'Jul', total: 1054, passed: 1042, failed: 12 },
+        { month: 'Aug', total: 809, passed: 799, failed: 10 },
+        { month: 'Sep', total: 672, passed: 663, failed: 9 },
+        { month: 'Oct', total: 658, passed: 647, failed: 11 },
+        { month: 'Nov', total: 812, passed: 798, failed: 14 }
       ],
       series: [
-        { key: 'reports', name: 'Reports Verified', color: COLORS[0], type: 'bar' },
-        { key: 'logbooks', name: 'Logbooks Verified', color: COLORS[1], type: 'bar' },
-        { key: 'calibration', name: 'Equipment Calibration', color: COLORS[2], type: 'bar' }
+        { key: 'passed', name: 'Reports Passed', color: COLORS[0], type: 'bar' },
+        { key: 'failed', name: 'Reports Failed', color: '#ef4444', type: 'bar' },
+        { key: 'total', name: 'Total Reports Verified', color: COLORS[3], type: 'line' }
       ],
       testTypes: [
         { name: 'Truenat In-process', value: 565, percentage: 14 },
@@ -116,9 +117,9 @@ export default function LabQAOverview() {
       icon: '🔬',
       metrics: [
         { label: 'Total Reports Verified', value: 7518 },
-        { label: 'Approved', value: 7374 },
-        { label: 'Out of Specification (OOS)', value: 144 },
-        { label: 'Approval Rate', value: '98.1%' }
+        { label: 'Reports Passed', value: 7374 },
+        { label: 'Reports Failed', value: 144 },
+        { label: 'Pass Rate', value: '98.1%' }
       ],
       monthlyData: [
         { month: 'Jul', incomingMaterials: 559, stability: 196, rawMaterials: 257, truenat: 314, trueprep: 83, approvedTotal: 1409, oosTotal: 29 },
@@ -133,8 +134,8 @@ export default function LabQAOverview() {
         { key: 'rawMaterials', name: 'Raw Materials', color: COLORS[2], type: 'bar' },
         { key: 'truenat', name: 'Truenat®', color: '#8b5cf6', type: 'bar' },
         { key: 'trueprep', name: 'Trueprep®', color: '#ec4899', type: 'bar' },
-        { key: 'approvedTotal', name: 'Approved', color: COLORS[3], type: 'line' },
-        { key: 'oosTotal', name: 'OOS', color: '#ef4444', type: 'line' }
+        { key: 'approvedTotal', name: 'Reports Passed', color: COLORS[3], type: 'line' },
+        { key: 'oosTotal', name: 'Reports Failed', color: '#ef4444', type: 'line' }
       ],
       testTypes: [
         { name: 'Incoming Materials', value: 2826, percentage: 37.6 },
@@ -142,7 +143,7 @@ export default function LabQAOverview() {
         { name: 'Raw Materials', value: 1356, percentage: 18.0 },
         { name: 'Truenat®', value: 1672, percentage: 22.2 },
         { name: 'Trueprep®', value: 466, percentage: 6.2 },
-        { name: 'Out of Spec', value: 144, percentage: 1.9 }
+        { name: 'Reports Failed', value: 144, percentage: 1.9 }
       ]
     }
   ];
@@ -243,7 +244,7 @@ export default function LabQAOverview() {
                     padding: '12px',
                     borderRadius: '8px',
                     borderLeft: `4px solid ${site.color}`,
-                    gridColumn: (site.name === 'SITE-I' && mIdx === 2) ? 'span 2' : 'auto'
+                    gridColumn: 'auto'
                   }}
                 >
                   <div style={{
