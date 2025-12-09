@@ -223,18 +223,18 @@ function OverallPerformance({ onCompleteOverviewClick }) {
   return (
     <>
     <div style={{
-      padding: '14px',
+      padding: '28px',
       backgroundColor: '#f0f9ff',
       border: '2px solid #0ea5e9',
       borderRadius: '8px',
       marginBottom: '14px'
     }}>
-      <div style={{ marginBottom: '12px' }}>
-        <h3 style={{ fontSize: '0.95em', fontWeight: '700', color: '#0ea5e9', margin: '0' }}>
+      <div style={{ marginBottom: '20px' }}>
+        <h3 style={{ fontSize: '1.1em', fontWeight: '700', color: '#0ea5e9', margin: '0' }}>
           📊 Overall Performance (Average Improvement Across All Sites)
         </h3>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '18px' }}>
         {categories.map((cat, idx) => (
           <div key={cat} style={{ textAlign: 'center', position: 'relative' }}>
             <button
@@ -251,9 +251,9 @@ function OverallPerformance({ onCompleteOverviewClick }) {
                 color: 'white',
                 border: 'none',
                 borderRadius: '50%',
-                width: '24px',
-                height: '24px',
-                fontSize: '0.75em',
+                width: '30px',
+                height: '30px',
+                fontSize: '0.9em',
                 cursor: 'pointer',
                 fontWeight: 'bold',
                 display: 'flex',
@@ -276,18 +276,18 @@ function OverallPerformance({ onCompleteOverviewClick }) {
             </button>
             <div style={{
               width: '100%',
-              height: '100px',
+              height: '170px',
               backgroundColor: '#e0f2fe',
               borderRadius: '6px',
               display: 'flex',
               alignItems: 'flex-end',
               justifyContent: 'center',
-              marginBottom: '8px',
+              marginBottom: '14px',
               position: 'relative'
             }}>
               <div style={{
                 width: '60%',
-                height: `${Math.min(Math.abs(improvements[idx]), 100)}px`,
+                height: `${Math.min(Math.abs(improvements[idx]), 100) * 1.5}px`,
                 backgroundColor: improvements[idx] < 0 ? '#ef4444' : categoryColors[cat],
                 borderRadius: '4px',
                 display: 'flex',
@@ -295,15 +295,15 @@ function OverallPerformance({ onCompleteOverviewClick }) {
                 justifyContent: 'center',
                 color: '#ffffff',
                 fontWeight: '800',
-                fontSize: '1em'
+                fontSize: '1.2em'
               }}>
                 {Math.abs(improvements[idx])}%
               </div>
             </div>
-            <div style={{ fontSize: '0.8em', fontWeight: '700', color: '#111827' }}>
+            <div style={{ fontSize: '0.9em', fontWeight: '700', color: '#111827' }}>
               {cat}
             </div>
-            <div style={{ fontSize: '0.7em', color: '#6b7280', marginTop: '4px' }}>
+            <div style={{ fontSize: '0.76em', color: '#6b7280', marginTop: '6px' }}>
               Avg Improvement
             </div>
           </div>
@@ -519,38 +519,47 @@ function SiteComparisonGrid({ onSiteClick }) {
             <div style={{
               fontSize: '0.75em',
               color: '#6b7280',
-              lineHeight: '1.4',
+              lineHeight: '1.6',
               paddingTop: '8px',
-              borderTop: `1px solid ${siteColors[site]}30`
+              borderTop: `1px solid ${siteColors[site]}30`,
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '6px 12px'
             }}>
               <div>
                 ✓ Incidents:{' '}
-                <span style={{ color: data.Incidents.improvement < 0 ? '#ef4444' : '#6b7280' }}>
+                <span style={{ color: data.Incidents.improvement < 0 ? '#ef4444' : '#6b7280', fontWeight: '600' }}>
                   {data.Incidents.improvement}%
                 </span>
               </div>
               <div>
-                ✓ CA:{' '}
-                <span style={{ color: data.CA.improvement < 0 ? '#ef4444' : '#6b7280' }}>
-                  {data.CA.improvement}%
-                </span>
-              </div>
-              <div>
-                ✓ PA:{' '}
-                <span style={{ color: data.PA.improvement < 0 ? '#ef4444' : '#6b7280' }}>
-                  {data.PA.improvement}%
-                </span>
-              </div>
-              <div>
                 ✓ OOS:{' '}
-                <span style={{ color: data.OOS.improvement < 0 ? '#ef4444' : '#6b7280' }}>
+                <span style={{ color: data.OOS.improvement < 0 ? '#ef4444' : '#6b7280', fontWeight: '600' }}>
                   {data.OOS.improvement}%
                 </span>
               </div>
               <div>
+                ✓ CA:{' '}
+                <span style={{ color: data.CA.improvement < 0 ? '#ef4444' : '#6b7280', fontWeight: '600' }}>
+                  {data.CA.improvement}%
+                </span>
+              </div>
+              <div>
                 ✓ CC:{' '}
-                <span style={{ color: data.CC.improvement < 0 ? '#ef4444' : '#6b7280' }}>
+                <span style={{ color: data.CC.improvement < 0 ? '#ef4444' : '#6b7280', fontWeight: '600' }}>
                   {data.CC.improvement}%
+                </span>
+              </div>
+              <div>
+                ✓ PA:{' '}
+                <span style={{ color: data.PA.improvement < 0 ? '#ef4444' : '#6b7280', fontWeight: '600' }}>
+                  {data.PA.improvement}%
+                </span>
+              </div>
+              <div>
+                ✓ Investigation:{' '}
+                <span style={{ color: data.Investigation.improvement < 0 ? '#ef4444' : '#6b7280', fontWeight: '600' }}>
+                  {data.Investigation.improvement}%
                 </span>
               </div>
             </div>
