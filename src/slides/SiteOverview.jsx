@@ -229,35 +229,10 @@ function OverallPerformance({ onCompleteOverviewClick }) {
       borderRadius: '8px',
       marginBottom: '14px'
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+      <div style={{ marginBottom: '12px' }}>
         <h3 style={{ fontSize: '0.95em', fontWeight: '700', color: '#0ea5e9', margin: '0' }}>
           📊 Overall Performance (Average Improvement Across All Sites)
         </h3>
-        <button
-          onClick={onCompleteOverviewClick}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: '#0ea5e9',
-            color: '#ffffff',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '0.85em',
-            fontWeight: '600',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            whiteSpace: 'nowrap'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#0284c7'
-            e.currentTarget.style.transform = 'scale(1.05)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#0ea5e9'
-            e.currentTarget.style.transform = 'scale(1)'
-          }}
-        >
-          Complete Overview
-        </button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px' }}>
         {categories.map((cat, idx) => (
