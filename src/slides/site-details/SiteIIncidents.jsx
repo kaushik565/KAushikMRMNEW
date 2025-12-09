@@ -6,17 +6,17 @@ export default function SiteIIncidents() {
   const avgInvestigationDays = [6.1, 5.8]
   const irCounts = [181, 81]
 
-  // Jan-May vs Jun-Nov comparison
+  // Jan-Aug vs Sep-Nov comparison
   const janMayAvgClosure = 19.9
   const junNovAvgClosure = 15.6
-  const janMayAvgInvestigation = 6.1
-  const junNovAvgInvestigation = 5.7
+  const janAugAvgInvestigation = 5.65
+  const sepNovAvgInvestigation = 6.1
   const janMayIRCount = 130
   const junNovIRCount = 81
 
-  // Calculate improvement percentages (based on Jan-May vs Jun-Nov)
+  // Calculate improvement percentages (based on Jan-Aug vs Sep-Nov for investigation)
   const closureImprovement = 15
-  const investigationImprovement = Math.round(((janMayAvgInvestigation - junNovAvgInvestigation) / janMayAvgInvestigation) * 100)
+  const investigationImprovement = Math.round(((janAugAvgInvestigation - sepNovAvgInvestigation) / janAugAvgInvestigation) * 100)
 
   const totalIRs = irCounts.reduce((a, b) => a + b, 0)
 
@@ -60,9 +60,9 @@ export default function SiteIIncidents() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#1e40af', fontWeight: '600', marginBottom: '8px' }}>Investigation Time Improvement</div>
           <div style={{ fontSize: '1.8em', fontWeight: '800', color: '#3b82f6' }}>{investigationImprovement}% ↓</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>{janMayAvgInvestigation} → {junNovAvgInvestigation} days</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>{janAugAvgInvestigation} → {sepNovAvgInvestigation} days</div>
           <div style={{ fontSize: '0.7em', color: '#64748b', marginTop: '2px', paddingTop: '6px', borderTop: '1px solid #dbeafe' }}>
-            Jan-May: {janMayAvgInvestigation} | Jun-Nov: {junNovAvgInvestigation}
+            Jan-Aug: {janAugAvgInvestigation} | Sep-Nov: {sepNovAvgInvestigation}
           </div>
         </div>
       </div>
@@ -267,7 +267,7 @@ export default function SiteIIncidents() {
             <div>
               <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Investigation Efficiency</div>
               <div style={{ fontSize: '0.85em', color: '#475569', lineHeight: '1.5' }}>
-                Investigation time reduced from <strong>6.1 to 5.7 days</strong>, showing improved root cause analysis
+                Investigation time increased from <strong>5.65 to 6.1 days</strong> (Sep-Nov vs Jan-Aug), indicating need for process review
               </div>
             </div>
           </div>

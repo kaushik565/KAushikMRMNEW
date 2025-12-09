@@ -58,13 +58,11 @@ const allClosureDaysData = {
   }
 }
 
-const investigationDaysData = {
-  'SITE-I': { before: 6.1, after: 5.8, improvement: 6, total: 262 },
-  'SITE-III': { before: 5.4, after: 5.4, improvement: 0, total: 82 },
-  'SITE-V': { before: 6.5, after: 5.0, improvement: 23, total: 196 }
-}
-
-// Helper component for before/after comparison chart
+  const investigationDaysData = {
+    'SITE-I': { janAug: 5.65, sepNov: 6.1, improvement: -8, total: 262 },
+    'SITE-III': { janAug: 14.3, sepNov: 4.0, improvement: 72, total: 82 },
+    'SITE-V': { janAug: 3.5, sepNov: 3.7, improvement: -6, total: 196 }
+  }// Helper component for before/after comparison chart
 function BeforeAfterChart({ title, data, unit, color }) {
   const canvasRef = useRef(null)
   const chartRef = useRef(null)
@@ -79,8 +77,8 @@ function BeforeAfterChart({ title, data, unit, color }) {
     }
 
     const sites = Object.keys(data)
-    const beforeValues = sites.map(site => Math.round(data[site].before))
-    const afterValues = sites.map(site => Math.round(data[site].after))
+    const janAugValues = sites.map(site => Math.round(data[site].janAug))
+    const sepNovValues = sites.map(site => Math.round(data[site].sepNov))
 
     chartRef.current = new Chart(ctx, {
       type: 'bar',
@@ -88,15 +86,15 @@ function BeforeAfterChart({ title, data, unit, color }) {
         labels: sites,
         datasets: [
           {
-            label: 'Jan-Jun 2025 (Before)',
-            data: beforeValues,
+            label: 'Jan-Aug 2025',
+            data: janAugValues,
             backgroundColor: 'rgba(239, 68, 68, 0.7)',
             borderColor: '#ef4444',
             borderWidth: 2
           },
           {
-            label: 'Jul-Nov 2025 (After)',
-            data: afterValues,
+            label: 'Sep-Nov 2025',
+            data: sepNovValues,
             backgroundColor: color || 'rgba(34, 197, 94, 0.7)',
             borderColor: color?.replace('0.7', '1') || '#22c55e',
             borderWidth: 2

@@ -53,21 +53,24 @@ const sitesData = {
     CA: { total: 89, improvement: 54, from: 91, to: 42 },
     PA: { total: 29, improvement: 60, from: 135, to: 54 },
     OOS: { total: 259, improvement: 49, avg: 21, latest: 17 },
-    CC: { total: 492, improvement: 13, from: 46, to: 40 }
+    CC: { total: 492, improvement: 13, from: 46, to: 40 },
+    Investigation: { total: 262, improvement: -8, from: 5.65, to: 6.1 }
   },
   'SITE-III': {
     Incidents: { total: 82, improvement: 42, from: 24, to: 14 },
     CA: { total: 52, improvement: 16, from: 56, to: 47 },
     PA: { total: 66, improvement: 6, from: 36, to: 34 },
     OOS: { total: 159, improvement: 49, avg: 14, latest: 9 },
-    CC: { total: 261, improvement: 61, from: 41, to: 16 }
+    CC: { total: 261, improvement: 61, from: 41, to: 16 },
+    Investigation: { total: 82, improvement: 72, from: 14.3, to: 4.0 }
   },
   'SITE-V': {
     Incidents: { total: 196, improvement: 59, from: 17, to: 7 },
     CA: { total: 70, improvement: 52, from: 56, to: 27 },
     PA: { total: 37, improvement: 54, from: 63, to: 29 },
     OOS: { total: 89, improvement: 59, avg: 12, latest: 7 },
-    CC: { total: 178, improvement: 23, from: 50, to: 39 }
+    CC: { total: 178, improvement: 23, from: 50, to: 39 },
+    Investigation: { total: 196, improvement: -6, from: 3.5, to: 3.7 }
   }
 }
 
@@ -76,7 +79,8 @@ const categoryColors = {
   CA: '#8b5cf6',
   PA: '#f59e0b',
   OOS: '#f97316',
-  CC: '#3b82f6'
+  CC: '#3b82f6',
+  Investigation: '#10b981'
 }
 
 const siteColors = {
@@ -89,7 +93,7 @@ const siteColors = {
 function OverallPerformance({ onCompleteOverviewClick }) {
   const [selectedCategoryInfo, setSelectedCategoryInfo] = useState(null);
   
-  const categories = ['Incidents', 'CA', 'PA', 'OOS', 'CC']
+  const categories = ['Incidents', 'CA', 'PA', 'OOS', 'CC', 'Investigation']
   const improvements = categories.map(cat => {
     let sum = 0, count = 0
     Object.values(sitesData).forEach(site => {
@@ -156,6 +160,17 @@ function OverallPerformance({ onCompleteOverviewClick }) {
         { name: 'SITE-V', improvement: 23, from: '50 days', to: '39 days', total: 178 }
       ],
       description: 'Change control closure time reduction across all sites'
+    },
+    'Investigation': {
+      title: 'Investigation Time - Average Improvement Calculation',
+      avgImprovement: improvements[5],
+      calculation: `(SITE-I: -8% + SITE-III: 72% + SITE-V: -6%) ÷ 3 = ${improvements[5]}%`,
+      sites: [
+        { name: 'SITE-I', improvement: -8, from: '5.65 days', to: '6.1 days', total: 262 },
+        { name: 'SITE-III', improvement: 72, from: '14.3 days', to: '4.0 days', total: 82 },
+        { name: 'SITE-V', improvement: -6, from: '3.5 days', to: '3.7 days', total: 196 }
+      ],
+      description: 'Investigation time reduction (Jan-Aug avg vs Sep-Nov avg) across sites'
     }
   };
 
@@ -244,7 +259,7 @@ function OverallPerformance({ onCompleteOverviewClick }) {
           Complete Overview
         </button>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px' }}>
         {categories.map((cat, idx) => (
           <div key={cat} style={{ textAlign: 'center', position: 'relative' }}>
             <button
@@ -338,7 +353,8 @@ function SiteComparisonGrid({ onSiteClick }) {
 
   const SiteInfoModal = ({ site, onClose }) => {
     const data = sitesData[site];
-    const totalItems = Object.values(data).reduce((sum, m) => sum + m.total, 0);
+    // Exclude Investigation from total since it's the same incidents counted twice
+    const totalItems = data.Incidents.total + data.CA.total + data.PA.total + data.OOS.total + data.CC.total;
     const avgImprovement = Math.round(
       Object.values(data).reduce((sum, m) => sum + m.improvement, 0) / Object.values(data).length
     );
@@ -348,7 +364,8 @@ function SiteComparisonGrid({ onSiteClick }) {
       { name: 'Corrective Actions (CA)', ...data.CA, color: categoryColors.CA },
       { name: 'Preventive Actions (PA)', ...data.PA, color: categoryColors.PA },
       { name: 'Out of Specifications (OOS)', ...data.OOS, color: categoryColors.OOS },
-      { name: 'Change Controls (CC)', ...data.CC, color: categoryColors.CC }
+      { name: 'Change Controls (CC)', ...data.CC, color: categoryColors.CC },
+      { name: 'Investigation Time', ...data.Investigation, color: categoryColors.Investigation }
     ];
 
     return createPortal(
@@ -375,10 +392,19 @@ function SiteComparisonGrid({ onSiteClick }) {
           </div>
 
           <div style={{background: '#f0f9ff', borderLeft: `4px solid ${siteColors[site]}`, padding: '16px', borderRadius: '8px', marginBottom: '20px'}}>
-            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '8px'}}>Calculation Formula</div>
-            <div style={{fontSize: '0.9em', fontFamily: 'monospace', color: '#1f2937', background: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #cbd5e1'}}>
-              ({metricsBreakdown.map(m => `${m.improvement}%`).join(' + ')}) ÷ 5 = {avgImprovement}%
+            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '8px'}}>Average Improvement Calculation</div>
+            <div style={{fontSize: '0.9em', fontFamily: 'monospace', color: '#1f2937', background: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #cbd5e1', marginBottom: '8px'}}>
+              ({metricsBreakdown.map(m => `${m.improvement}%`).join(' + ')}) ÷ 6 = {avgImprovement}%
             </div>
+            <div style={{fontSize: '0.7em', color: '#64748b', fontStyle: 'italic'}}>Average of all 6 metrics (Incidents, CA, PA, OOS, CC, Investigation)</div>
+          </div>
+
+          <div style={{background: '#fef3c7', borderLeft: '4px solid #f59e0b', padding: '16px', borderRadius: '8px', marginBottom: '20px'}}>
+            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '8px'}}>Total Items Calculation</div>
+            <div style={{fontSize: '0.9em', fontFamily: 'monospace', color: '#1f2937', background: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #cbd5e1', marginBottom: '8px'}}>
+              {data.Incidents.total} + {data.CA.total} + {data.PA.total} + {data.OOS.total} + {data.CC.total} = {totalItems.toLocaleString()}
+            </div>
+            <div style={{fontSize: '0.7em', color: '#92400e', fontStyle: 'italic'}}>Note: Investigation Time is NOT included in total count as it uses the same incident records already counted in "Incidents"</div>
           </div>
 
           <div>
@@ -414,7 +440,8 @@ function SiteComparisonGrid({ onSiteClick }) {
       marginBottom: '14px'
     }}>
       {Object.entries(sitesData).map(([site, data]) => {
-        const totalItems = Object.values(data).reduce((sum, m) => sum + m.total, 0)
+        // Exclude Investigation from total since it's the same incidents counted twice
+        const totalItems = data.Incidents.total + data.CA.total + data.PA.total + data.OOS.total + data.CC.total;
         const avgImprovement = Math.round(
           Object.values(data).reduce((sum, m) => sum + m.improvement, 0) / Object.values(data).length
         )

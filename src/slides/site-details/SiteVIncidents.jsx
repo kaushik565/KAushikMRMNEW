@@ -20,10 +20,10 @@ export default function SiteVIncidents() {
 
   const closureImprovement = 59
 
-  // For investigation
-  const janMayAvgInvestigation = 5
-  const junNovAvgInvestigation = (15 * 5 + 11 * 3 + 17 * 3) / (15 + 11 + 17)
-  const investigationImprovement = Math.round(((janMayAvgInvestigation - junNovAvgInvestigation) / janMayAvgInvestigation) * 100)
+  // For investigation - Jan-Aug vs Sep-Nov
+  const janAugAvgInvestigation = 3.5
+  const sepNovAvgInvestigation = 3.7
+  const investigationImprovement = Math.round(((janAugAvgInvestigation - sepNovAvgInvestigation) / janAugAvgInvestigation) * 100)
 
   return (
     <div style={{ marginTop: '20px' }}>
@@ -65,9 +65,9 @@ export default function SiteVIncidents() {
         }}>
           <div style={{ fontSize: '0.85em', color: '#1e40af', fontWeight: '600', marginBottom: '8px' }}>Investigation Time Improvement</div>
           <div style={{ fontSize: '1.8em', fontWeight: '800', color: '#3b82f6' }}>{investigationImprovement}% ↓</div>
-          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>{janMayAvgInvestigation} → {junNovAvgInvestigation.toFixed(1)} days</div>
+          <div style={{ fontSize: '0.75em', color: '#64748b', marginTop: '4px' }}>{janAugAvgInvestigation} → {sepNovAvgInvestigation} days</div>
           <div style={{ fontSize: '0.7em', color: '#64748b', marginTop: '2px', paddingTop: '6px', borderTop: '1px solid #dbeafe' }}>
-            Jan-May: {janMayAvgInvestigation} | Jun-Nov: {junNovAvgInvestigation.toFixed(1)}
+            Jan-Aug: {janAugAvgInvestigation} | Sep-Nov: {sepNovAvgInvestigation}
           </div>
         </div>
       </div>
@@ -256,7 +256,7 @@ export default function SiteVIncidents() {
             <div>
               <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '0.9em', marginBottom: '4px' }}>Investigation Efficiency</div>
               <div style={{ fontSize: '0.85em', color: '#475569', lineHeight: '1.5' }}>
-                Investigation avg improved to 2 days (Jun-Aug), showing faster root cause analysis.
+                Investigation time increased from <strong>3.5 to 3.7 days</strong> (Sep-Nov vs Jan-Aug), though still maintaining good performance.
               </div>
             </div>
           </div>
