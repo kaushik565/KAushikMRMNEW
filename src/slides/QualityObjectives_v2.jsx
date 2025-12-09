@@ -264,10 +264,10 @@ export default function QualityObjectives() {
   };
 
   const objective5Flow = [
-    { id: 'qi1', label: 'QI 1: Gap assessment', color: '#f59e0b' },
-    { id: 'qi2', label: 'QI 2: Training and evaluation', color: '#3b82f6' },
-    { id: 'qi3', label: 'QI 3: Implementation', color: '#10b981' },
-    { id: 'qi4', label: 'QI 4: Effectiveness', color: '#ec4899' }
+    { id: 'qi1', label: 'Gap assessment', color: '#f59e0b' },
+    { id: 'qi2', label: 'Training and evaluation', color: '#3b82f6' },
+    { id: 'qi3', label: 'Implementation', color: '#10b981' },
+    { id: 'qi4', label: 'Effectiveness', color: '#ec4899' }
   ];
 
   // QI Data for Objective 07
