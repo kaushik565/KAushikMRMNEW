@@ -255,9 +255,9 @@ export default function QualityObjectives() {
 
   const renderQIButton = (qiItem, index, objective) => {
     const isActive = objective === '04' ? activeQI === index : activeQI07 === index;
-    const baseWidth = 250;
+    const baseWidth = 260;
     const baseHeight = 110;
-    const clipPathValue = 'polygon(0 0, calc(100% - 32px) 0, 100% 50%, calc(100% - 32px) 100%, 0 100%, 28px 50%)';
+    const clipPathValue = 'polygon(0 0, calc(100% - 40px) 0, 100% 50%, calc(100% - 40px) 100%, 0 100%, 35px 50%)';
     
     return (
       <div
@@ -277,17 +277,17 @@ export default function QualityObjectives() {
           color: isActive ? '#ffffff' : qiItem.color,
           transition: 'all 200ms ease',
           transform: isActive ? 'scale(1.1)' : 'scale(1)',
-          marginRight: index < 3 ? '-8px' : '0',
           zIndex: isActive ? 10 : 5 - index,
           animation: `slideIn 0.4s ease-out ${0.4 + (index * 0.15)}s both`,
-          padding: '0 20px',
-          gap: '4px'
+          padding: '8px 14px',
+          gap: '4px',
+          overflow: 'hidden'
         }}
       >
-        <div style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '0.5px' }}>
+        <div style={{ fontSize: '1.9rem', fontWeight: 800, letterSpacing: '0.5px', minWidth: '55px', textAlign: 'center', marginBottom: '6px' }}>
           QI {index + 1}
         </div>
-        <div style={{ fontSize: '1.15rem', fontWeight: 600, textAlign: 'center', lineHeight: '1.3' }}>
+        <div style={{ fontSize: '1.1rem', fontWeight: 600, textAlign: 'center', lineHeight: '1.2', flex: 1, wordBreak: 'break-word' }}>
           {qiItem.label}
         </div>
       </div>
@@ -336,13 +336,13 @@ export default function QualityObjectives() {
                 {/* Total Employees Badge */}
                 <div style={{ 
                   display: 'inline-block',
-                  padding: '8px 16px',
+                  padding: '10px 18px',
                   background: `${colors.primary}15`,
-                  borderRadius: '8px',
-                  marginBottom: '20px'
+                  borderRadius: '10px',
+                  marginBottom: '22px'
                 }}>
-                  <span style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600 }}>Total Employees: </span>
-                  <span style={{ fontSize: '1.4rem', fontWeight: 800, color: colors.primary }}>{item.totalEmployees}</span>
+                  <span style={{ fontSize: '1.15rem', color: '#64748b', fontWeight: 600 }}>Total Employees: </span>
+                  <span style={{ fontSize: '1.6rem', fontWeight: 800, color: colors.primary }}>{item.totalEmployees}</span>
                 </div>
 
                 {/* Training Status Bars */}
@@ -953,8 +953,8 @@ export default function QualityObjectives() {
                   key={card.id}
                   onClick={() => handleCardClick(card.id)}
                   style={{
-                    width: '280px',
-                    padding: '24px',
+                    width: '340px',
+                    padding: '28px',
                     borderRadius: '20px',
                     border: activeCard === card.id ? `3px solid ${cardColors.primary}` : '3px solid transparent',
                     background: activeCard === card.id 
@@ -1000,9 +1000,9 @@ export default function QualityObjectives() {
                       color: activeCard === card.id ? '#ffffff' : cardColors.primary,
                       borderRadius: '999px',
                       fontWeight: 800,
-                      fontSize: '1.1rem',
-                      marginBottom: '8px',
-                      padding: '8px 16px',
+                      fontSize: '1.3rem',
+                      marginBottom: '10px',
+                      padding: '10px 20px',
                       display: 'inline-block',
                       letterSpacing: '0.5px'
                     }}>
@@ -1024,12 +1024,12 @@ export default function QualityObjectives() {
 
                       return (
                         <div key={metric}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                            <span style={{ fontSize: '0.9rem', fontWeight: 800, color: activeCard === card.id ? '#ffffff' : '#0f172a' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                            <span style={{ fontSize: '1.05rem', fontWeight: 800, color: activeCard === card.id ? '#ffffff' : '#0f172a' }}>
                               {label}
                             </span>
                             <span style={{ 
-                              fontSize: '1rem', 
+                              fontSize: '1.2rem', 
                               fontWeight: 800, 
                               color: activeCard === card.id ? '#ffffff' : cardColors.primary,
                               padding: '2px 8px',
@@ -1040,7 +1040,7 @@ export default function QualityObjectives() {
                             </span>
                           </div>
                           <div style={{
-                            height: '10px',
+                            height: '12px',
                             background: activeCard === card.id ? 'rgba(255, 255, 255, 0.2)' : `${cardColors.primary}15`,
                             borderRadius: '999px',
                             overflow: 'hidden',
@@ -1066,32 +1066,37 @@ export default function QualityObjectives() {
                   {card.id === '04' && (
                     <div style={{ 
                       marginTop: '4px', 
-                      padding: '12px', 
-                      background: activeCard === card.id ? 'rgba(255, 255, 255, 0.15)' : `${cardColors.primary}0d`, 
-                      borderRadius: '12px', 
-                      border: activeCard === card.id ? '1px solid rgba(255, 255, 255, 0.3)' : `1px solid ${cardColors.primary}26`,
+                      padding: '18px 22px', 
+                      background: activeCard === card.id ? 'rgba(255, 255, 255, 0.18)' : `${cardColors.primary}12`, 
+                      borderRadius: '14px', 
+                      border: activeCard === card.id ? '1px solid rgba(255, 255, 255, 0.35)' : `1px solid ${cardColors.primary}30`,
                       display: 'grid', 
-                      gap: '8px',
-                      backdropFilter: 'blur(10px)'
+                      gap: '12px',
+                      backdropFilter: 'blur(12px)',
+                      width: '100%',
+                      minWidth: '360px',
+                      boxShadow: activeCard === card.id ? '0 10px 24px rgba(0,0,0,0.15)' : 'inset 0 1px 0 rgba(255,255,255,0.4)'
                     }}>
-                      {[
+                      {[ 
                         { site: 'Site I', qi1: 100, qi2: 100, qi3: 50, qi4: 10 },
                         { site: 'Site III', qi1: 100, qi2: 100, qi3: 50, qi4: 10 },
                         { site: 'Site V', qi1: 100, qi2: 100, qi3: 50, qi4: 10 }
                       ].map((row) => (
                         <div key={row.site} style={{ 
-                          display: 'flex', 
-                          justifyContent: 'space-between', 
-                          fontSize: '0.8rem', 
+                          display: 'grid', 
+                          gridTemplateColumns: '80px repeat(4, 1fr)',
+                          columnGap: '10px',
+                          rowGap: '4px',
+                          fontSize: '1.08rem', 
                           color: activeCard === card.id ? '#ffffff' : '#0f172a', 
-                          fontWeight: 600,
-                          padding: '4px 0'
+                          fontWeight: 700,
+                          padding: '6px 0'
                         }}>
-                          <span style={{ minWidth: '70px', fontWeight: 700 }}>{row.site}</span>
-                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI1 {row.qi1}%</span>
-                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI2 {row.qi2}%</span>
-                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI3 {row.qi3}%</span>
-                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI4 {row.qi4}%</span>
+                          <span style={{ minWidth: '80px' }}>{row.site}</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : cardColors.primary }}>QI1 {row.qi1}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : cardColors.primary }}>QI2 {row.qi2}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : cardColors.primary }}>QI3 {row.qi3}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : cardColors.primary }}>QI4 {row.qi4}%</span>
                         </div>
                       ))}
                     </div>
@@ -1101,32 +1106,37 @@ export default function QualityObjectives() {
                   {card.id === '07' && (
                     <div style={{ 
                       marginTop: '4px', 
-                      padding: '12px', 
-                      background: activeCard === card.id ? 'rgba(255, 255, 255, 0.15)' : `${cardColors.primary}0d`, 
-                      borderRadius: '12px', 
-                      border: activeCard === card.id ? '1px solid rgba(255, 255, 255, 0.3)' : `1px solid ${cardColors.primary}26`,
+                      padding: '18px 22px', 
+                      background: activeCard === card.id ? 'rgba(255, 255, 255, 0.18)' : `${cardColors.primary}12`, 
+                      borderRadius: '14px', 
+                      border: activeCard === card.id ? '1px solid rgba(255, 255, 255, 0.35)' : `1px solid ${cardColors.primary}30`,
                       display: 'grid', 
-                      gap: '8px',
-                      backdropFilter: 'blur(10px)'
+                      gap: '12px',
+                      backdropFilter: 'blur(12px)',
+                      width: '100%',
+                      minWidth: '360px',
+                      boxShadow: activeCard === card.id ? '0 10px 24px rgba(0,0,0,0.15)' : 'inset 0 1px 0 rgba(255,255,255,0.4)'
                     }}>
-                      {[
+                      {[ 
                         { site: 'Site I', qi1: 100, qi2: 100, qi3: 50, qi4: 10 },
                         { site: 'Site III', qi1: 100, qi2: 100, qi3: 50, qi4: 10 },
                         { site: 'Site V', qi1: 100, qi2: 100, qi3: 50, qi4: 10 }
                       ].map((row) => (
                         <div key={row.site} style={{ 
-                          display: 'flex', 
-                          justifyContent: 'space-between', 
-                          fontSize: '0.8rem', 
+                          display: 'grid', 
+                          gridTemplateColumns: '80px repeat(4, 1fr)',
+                          columnGap: '10px',
+                          rowGap: '4px',
+                          fontSize: '1.08rem', 
                           color: activeCard === card.id ? '#ffffff' : '#0f172a', 
-                          fontWeight: 600,
-                          padding: '4px 0'
+                          fontWeight: 700,
+                          padding: '6px 0'
                         }}>
-                          <span style={{ minWidth: '70px', fontWeight: 700 }}>{row.site}</span>
-                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI1 {row.qi1}%</span>
-                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI2 {row.qi2}%</span>
-                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI3 {row.qi3}%</span>
-                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.9)' : cardColors.primary }}>QI4 {row.qi4}%</span>
+                          <span style={{ minWidth: '80px' }}>{row.site}</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : cardColors.primary }}>QI1 {row.qi1}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : cardColors.primary }}>QI2 {row.qi2}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : cardColors.primary }}>QI3 {row.qi3}%</span>
+                          <span style={{ color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : cardColors.primary }}>QI4 {row.qi4}%</span>
                         </div>
                       ))}
                     </div>
@@ -1134,10 +1144,9 @@ export default function QualityObjectives() {
 
                   {/* Status Indicator */}
                   <div style={{
-                    paddingTop: '12px',
+                    paddingTop: '14px',
                     borderTop: `1px solid ${cardColors.primary}20`,
-                    fontSize: '0.8rem',
-                    fontSize: '1rem',
+                    fontSize: '1.05rem',
                     fontWeight: 600,
                     textAlign: 'center'
                   }}>
@@ -1162,19 +1171,19 @@ export default function QualityObjectives() {
               <>
                 <div style={{ 
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-                  padding: '24px', 
-                  borderRadius: '12px', 
-                  marginBottom: '24px',
+                  padding: '28px', 
+                  borderRadius: '14px', 
+                  marginBottom: '28px',
                   animation: 'slideIn 0.4s ease-out 0s both'
                 }}>
-                  <div style={{ color: '#ffffff', fontSize: '1.45rem', fontWeight: 800 }}>Objective 04</div>
-                  <div style={{ color: '#ffffff', opacity: 0.9, marginTop: '6px', fontSize: '2.1rem', fontWeight: 600 }}>
+                  <div style={{ color: '#ffffff', fontSize: '1.7rem', fontWeight: 800 }}>Objective 04</div>
+                  <div style={{ color: '#ffffff', opacity: 0.9, marginTop: '8px', fontSize: '1.3rem', fontWeight: 600 }}>
                     Reduce Good Documentation Practices (GDP) related Nonconformities and incidents by 50%
                   </div>
                 </div>
 
                 {/* QI Buttons */}
-                <div key="qi-buttons-04" style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
+                <div key="qi-buttons-04" style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', paddingLeft: '60px' }}>
                   {objective4Flow.map((qiItem, index) => renderQIButton(qiItem, index, '04'))}
                 </div>
 
@@ -1189,19 +1198,19 @@ export default function QualityObjectives() {
               <>
                 <div style={{ 
                   background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', 
-                  padding: '24px', 
-                  borderRadius: '12px', 
-                  marginBottom: '24px',
+                  padding: '28px', 
+                  borderRadius: '14px', 
+                  marginBottom: '28px',
                   animation: 'slideIn 0.4s ease-out 0s both'
                 }}>
-                  <div style={{ color: '#ffffff', fontSize: '1.45rem', fontWeight: 800 }}>Objective 07</div>
-                  <div style={{ color: '#ffffff', opacity: 0.9, marginTop: '6px', fontSize: '2.1rem', fontWeight: 600 }}>
+                  <div style={{ color: '#ffffff', fontSize: '1.7rem', fontWeight: 800 }}>Objective 07</div>
+                  <div style={{ color: '#ffffff', opacity: 0.9, marginTop: '8px', fontSize: '1.3rem', fontWeight: 600 }}>
                     Enhance the competency autonomy and engagement of QA staff to improve overall quality system performance and compliance
                   </div>
                 </div>
 
                 {/* QI Buttons */}
-                <div key="qi-buttons-07" style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
+                <div key="qi-buttons-07" style={{ display: 'flex', gap: '16px', marginBottom: '32px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', paddingLeft: '60px' }}>
                   {objective7Flow.map((qiItem, index) => renderQIButton(qiItem, index, '07'))}
                 </div>
 
