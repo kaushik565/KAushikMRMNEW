@@ -1617,45 +1617,6 @@ export default function IPQAOverview() {
                 </div>
               </div>
             </div>
-
-            {/* KEY IMPROVEMENTS & ACTIONS TAKEN - Moved to end */}
-            <div style={{marginTop: '28px', marginBottom: '28px'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px'}}>
-                <div style={{background: 'linear-gradient(135deg, #0ea5e9, #0284c7)', color: 'white', borderRadius: '10px', padding: '10px 14px', fontWeight: '800', fontSize: '1em', letterSpacing: '0.5px', boxShadow: '0 4px 12px rgba(14, 165, 233, 0.3)'}}>
-                  ✨ KEY IMPROVEMENTS & ACTIONS TAKEN
-                </div>
-              </div>
-              <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px'}}>
-                {siteVImprovements.map((improvement, idx) => (
-                  <div key={idx} style={{
-                    background: 'linear-gradient(135deg, #ffffff, #f0f9ff)',
-                    border: '2px solid #bae6fd',
-                    borderRadius: '12px',
-                    padding: '16px',
-                    display: 'flex',
-                    gap: '12px',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(14, 165, 233, 0.25)';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.borderColor = '#0ea5e9';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.borderColor = '#bae6fd';
-                  }}>
-                    <div style={{fontSize: '2em', flexShrink: 0}}>{improvement.icon}</div>
-                    <div>
-                      <div style={{fontSize: '0.85em', fontWeight: '800', color: '#0f172a', marginBottom: '4px'}}>{improvement.title}</div>
-                      <div style={{fontSize: '0.75em', color: '#475569', lineHeight: '1.4'}}>{improvement.detail}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         )}
 
@@ -2297,87 +2258,6 @@ export default function IPQAOverview() {
                   <div style={{background: '#f0fdf4', border: '2px solid #22c55e', borderRadius: '12px', padding: '14px', textAlign: 'center'}}>
                     <div style={{fontSize: '0.75em', fontWeight: '700', color: '#15803d', marginBottom: '6px', textTransform: 'uppercase'}}>Combined Time</div>
                     <div style={{fontSize: '1.5em', fontWeight: '900', color: '#22c55e'}}>1773:24</div>
-                  </div>
-                </div>
-
-                {/* ===== KEY IMPROVEMENTS SECTION ===== */}
-                <div style={{marginTop: '40px', paddingTop: '28px', borderTop: `3px solid ${siteData.color}40`}}>
-                  <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px'}}>
-                    <div style={{background: `linear-gradient(135deg, #10b981, #059669)`, color: 'white', borderRadius: '10px', padding: '8px 12px', fontWeight: '800', fontSize: '0.95em', letterSpacing: '0.5px', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'}}>
-                      ✨ KEY IMPROVEMENTS & INITIATIVES
-                    </div>
-                  </div>
-
-                  {/* Completed Initiatives */}
-                  <div style={{marginBottom: '28px'}}>
-                    <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px'}}>
-                      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', background: 'linear-gradient(135deg, #10b981, #059669)', borderRadius: '8px', color: 'white', fontWeight: '900', fontSize: '1.1em', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'}}>✓</div>
-                      <span>Completed Initiatives</span>
-                      <span style={{fontSize: '0.7em', fontWeight: '600', color: '#065f46', marginLeft: 'auto', background: '#d1fae5', padding: '4px 10px', borderRadius: '20px'}}>8 Achievements</span>
-                    </div>
-                    <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                      {[
-                        'Monthly meeting with MG & MN on rejections/challenges',
-                        'Observation meetings on shop floor (every 15 days)',
-                        'Work instructions in production floor',
-                        'Re-Work area implemented (Line-Wise)',
-                        'Particle count testing implementation',
-                        'QR pasting activity segregation',
-                        'Pictorial representation implemented',
-                        'Change control tracking sheet'
-                      ].map((item, idx) => (
-                        <div key={idx} style={{background: '#f0fdf4', border: '2px solid #10b981', borderRadius: '8px', padding: '12px 14px', fontSize: '0.8em', color: '#166534', lineHeight: '1.5', cursor: 'pointer', transition: 'all 0.3s ease', display: 'flex', alignItems: 'center', gap: '10px'}} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateX(4px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.2)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateX(0)'; e.currentTarget.style.boxShadow = 'none';}}>
-                          <span style={{fontWeight: '800', color: '#10b981', fontSize: '0.9em'}}>{idx + 1}.</span>
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* In Progress Section */}
-                  <div style={{marginBottom: '24px'}}>
-                    <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px'}}>
-                      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', background: '#fbbf24', borderRadius: '8px', color: '#78350f', fontWeight: '900', fontSize: '1.1em', boxShadow: '0 4px 12px rgba(251, 191, 36, 0.3)'}}>→</div>
-                      <span>In Progress</span>
-                      <span style={{fontSize: '0.7em', fontWeight: '600', color: '#92400e', marginLeft: 'auto', background: '#fef3c7', padding: '4px 10px', borderRadius: '20px'}}>3 In Progress</span>
-                    </div>
-                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px'}}>
-                      {[
-                        {emoji: '📊', title: 'Defect Rate Setting', progress: 65},
-                        {emoji: '📋', title: 'Limit Sample Register', progress: 45},
-                        {emoji: '📱', title: 'QR Scanning Software', progress: 50}
-                      ].map((item, idx) => (
-                        <div key={idx} style={{background: 'linear-gradient(135deg, #fffbeb, #fef3c7)', border: '2px solid #fbbf24', borderRadius: '8px', padding: '14px', cursor: 'pointer', transition: 'all 0.3s ease'}} onMouseEnter={(e) => {e.currentTarget.style.boxShadow = '0 6px 16px rgba(251, 191, 36, 0.3)'; e.currentTarget.style.transform = 'translateY(-3px)';}} onMouseLeave={(e) => {e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)';}}>
-                          <div style={{display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px'}}>
-                            <div style={{fontSize: '1.4em'}}>{item.emoji}</div>
-                            <div style={{fontSize: '0.8em', fontWeight: '800', color: '#b45309', textTransform: 'uppercase', flex: 1}}>{item.title}</div>
-                          </div>
-                          <div style={{background: '#ffe4b5', borderRadius: '4px', height: '8px', marginBottom: '8px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(251, 191, 36, 0.2)'}}>
-                            <div style={{background: 'linear-gradient(90deg, #fbbf24, #f59e0b)', height: '100%', width: `${item.progress}%`, transition: 'width 0.5s ease'}}></div>
-                          </div>
-                          <div style={{fontSize: '0.7em', fontWeight: '700', color: '#b45309', textAlign: 'right'}}>{item.progress}% Complete</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Impact Metrics */}
-                  <div style={{background: 'linear-gradient(135deg, #dbeafe, #e0f2fe)', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '14px', marginTop: '16px'}}>
-                    <div style={{fontSize: '0.8em', fontWeight: '800', color: '#0369a1', marginBottom: '12px', textTransform: 'uppercase'}}>📊 Business Impact</div>
-                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px'}}>
-                      <div style={{textAlign: 'center', padding: '8px'}}>
-                        <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0369a1', marginBottom: '4px'}}>Rejection Rate</div>
-                        <div style={{fontSize: '1.1em', fontWeight: '800', color: '#0369a1'}}>4% → 2.5%</div>
-                      </div>
-                      <div style={{textAlign: 'center', padding: '8px'}}>
-                        <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0369a1', marginBottom: '4px'}}>NC Reduction</div>
-                        <div style={{fontSize: '1.1em', fontWeight: '800', color: '#0369a1'}}>↓50%</div>
-                      </div>
-                      <div style={{textAlign: 'center', padding: '8px'}}>
-                        <div style={{fontSize: '0.7em', fontWeight: '600', color: '#0369a1', marginBottom: '4px'}}>Issue Prevention</div>
-                        <div style={{fontSize: '1.1em', fontWeight: '800', color: '#0369a1'}}>100%</div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
