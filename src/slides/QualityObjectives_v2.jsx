@@ -953,7 +953,7 @@ export default function QualityObjectives() {
               id: '04',
               title: 'Reduce Good Documentation Practices (GDP) related Nonconformities',
               subtitle: '',
-              description: '',
+              description: 'Reduce Good Documentation Practices (GDP) related Nonconformities and incidents by 50%',
               color: '#667eea',
               bgColor: '#f3f0ff'
             },
@@ -969,7 +969,7 @@ export default function QualityObjectives() {
               id: '07',
               title: '',
               subtitle: '',
-              description: '',
+              description: 'Enhance the competency autonomy and engagement of QA staff to improve overall quality system performance and compliance',
               color: '#f59e0b',
               bgColor: '#fffbeb'
             },
@@ -1005,7 +1005,7 @@ export default function QualityObjectives() {
                 gap: '14px',
                 animation: `slideIn 0.5s ease-out ${idx * 0.1}s both`,
                 aspectRatio: '1 / 1',
-                minHeight: '380px',
+                minHeight: '600px',
                 height: '100%'
               }}
             >
@@ -1062,7 +1062,7 @@ export default function QualityObjectives() {
 
               {/* Description */}
               <div style={{
-                fontSize: '0.92em',
+                fontSize: '0.75em',
                 color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : '#475569',
                 fontWeight: '500',
                 lineHeight: '1.55',
