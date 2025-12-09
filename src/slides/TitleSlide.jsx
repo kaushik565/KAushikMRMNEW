@@ -14,6 +14,7 @@ export default function TitleSlide() {
         <div className="title-company">Molbio Diagnostics Limited</div>
         <h1>Management Review Meeting</h1>
         <div className="date">December 15-16, 2025</div>
+        <div className="department">Department: Quality Assurance</div>
       </div>
     </section>
   )

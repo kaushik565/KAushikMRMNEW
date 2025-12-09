@@ -52,6 +52,15 @@ export default function ClosingSlide() {
         marginBottom: '48px',
         borderRadius: '2px'
       }}></div>
+
+      {/* Team attribution */}
+      <div style={{
+        fontSize: '1.4em',
+        fontWeight: '800',
+        color: '#b91c1c'
+      }}>
+        Team QA
+      </div>
     </section>
   )
 }
