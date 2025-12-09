@@ -65,6 +65,24 @@ export default function Presentation() {
           const isTitle = current?.dataset?.state === 'title-slide'
           const isClosing = current?.classList?.contains('closing-slide')
           document.body.classList.toggle('hide-corner-logo', !!(isTitle || isClosing))
+          
+          // Scroll to top when slide changes - reset all scrollable elements
+          if (current) {
+            // Reset main slide scroll
+            current.scrollTop = 0
+            
+            // Reset all scrollable containers within the slide
+            const scrollableElements = current.querySelectorAll('div[style*="overflow"], div[style*="scroll"]')
+            scrollableElements.forEach(el => {
+              el.scrollTop = 0
+            })
+            
+            // Reset common content wrappers
+            const contentWrappers = current.querySelectorAll('.slide-content, section, [class*="container"]')
+            contentWrappers.forEach(el => {
+              el.scrollTop = 0
+            })
+          }
         }
 
         deck.on('ready', handleSlideState)
