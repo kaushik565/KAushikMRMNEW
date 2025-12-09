@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import FullScreenChartModal from '../../components/FullScreenChartModal';
 
 export default function QualityObjectives() {
   const [activeCard, setActiveCard] = useState(null);
   const [activeQI, setActiveQI] = useState(null);
   const [activeQI05, setActiveQI05] = useState(null);
+  const [activeQI06, setActiveQI06] = useState(null);
   const [activeQI07, setActiveQI07] = useState(null);
 
   // Close all modals when slide changes
@@ -12,6 +14,7 @@ export default function QualityObjectives() {
       setActiveCard(null);
       setActiveQI(null);
       setActiveQI05(null);
+      setActiveQI06(null);
       setActiveQI07(null);
     };
 
@@ -25,6 +28,7 @@ export default function QualityObjectives() {
     setActiveCard(activeCard === cardId ? null : cardId);
     setActiveQI(null);
     setActiveQI05(null);
+    setActiveQI06(null);
     setActiveQI07(null);
   };
 
@@ -33,6 +37,8 @@ export default function QualityObjectives() {
       setActiveQI(activeQI === qiIndex ? null : qiIndex);
     } else if (objective === '05') {
       setActiveQI05(activeQI05 === qiIndex ? null : qiIndex);
+    } else if (objective === '06') {
+      setActiveQI06(activeQI06 === qiIndex ? null : qiIndex);
     } else {
       setActiveQI07(activeQI07 === qiIndex ? null : qiIndex);
     }
@@ -270,6 +276,65 @@ export default function QualityObjectives() {
     { id: 'qi4', label: 'Effectiveness', color: '#ec4899' }
   ];
 
+  // QI Data for Objective 06 (Combined across all sites - I, III, IV, V)
+  const obj06_qi1Data = [
+    { 
+      allSites: true,
+      sites: 'I, III, IV, V', 
+      value: 31, 
+      target: 100,
+      projectInitiation: 100,
+      defineScopeAndObjective: 100,
+      crossFunctionalCoreTeamFormation: 100,
+      preparationAndApprovalsOfURS: 40,
+      timelinessMillestonesApprovalFromProjectLeadAndTopManagement: 0,
+      systemConfigurationAndValidation: 0,
+      dataMigration: 0,
+      trainingAndEvaluation: 0,
+      goLive: 0,
+      postImplementationReview: 0,
+      verifyTheComplianceThroughUserFeedbackInternalExternalAudit: 0
+    }
+  ];
+
+  const obj06_qi2Data = [
+    { 
+      allSites: true,
+      sites: 'I, III, IV, V', 
+      value: 29, 
+      target: 100,
+      projectInitiation: 100,
+      defineScopeAndObjective: 100,
+      crossFunctionalCoreTeamFormation: 100,
+      preparationAndApprovalsOfURS: 20,
+      timelinessMillestonesApprovalFromProjectLeadAndTopManagement: 0,
+      systemConfigurationAndValidation: 0,
+      dataMigration: 0,
+      trainingAndEvaluation: 0,
+      goLive: 0,
+      postImplementationReview: 0,
+      verifyTheComplianceThroughUserFeedbackRightAtFirstTimeBatchRecordAccuracyRate: 0
+    }
+  ];
+
+  const obj06_qi3Data = [];
+
+  const obj06_qi4Data = [];
+
+  const obj06_qiDataMap = {
+    0: obj06_qi1Data,
+    1: obj06_qi2Data,
+    2: obj06_qi3Data,
+    3: obj06_qi4Data
+  };
+
+  const objective6Flow = [
+    { id: 'qi1', label: 'Electronic Quality Management system (eQMS)', color: '#0ea5e9' },
+    { id: 'qi2', label: 'Electronic batch manufacturing records (eBMR)', color: '#06b6d4' },
+    { id: 'qi3', label: 'Need to add', color: '#00d9ff' },
+    { id: 'qi4', label: 'Need to add', color: '#06d6a6' }
+  ];
+
   // QI Data for Objective 07
   const obj07_qi1Data = [
     { 
@@ -385,6 +450,8 @@ export default function QualityObjectives() {
       isActive = activeQI === index;
     } else if (objective === '05') {
       isActive = activeQI05 === index;
+    } else if (objective === '06') {
+      isActive = activeQI06 === index;
     } else {
       isActive = activeQI07 === index;
     }
@@ -445,6 +512,8 @@ export default function QualityObjectives() {
     const isObj05QI2 = data[0]?.trainingPlannerAndExecution !== undefined;
     const isObj05QI3 = data[0]?.verificationFrequencyIncreased !== undefined;
     const isObj05QI4 = data[0]?.percentageIncreaseInProactiveIdentification !== undefined;
+    const isObj06QI1 = data[0]?.verifyTheComplianceThroughUserFeedbackInternalExternalAudit !== undefined && data[0]?.verifyTheComplianceThroughUserFeedbackRightAtFirstTimeBatchRecordAccuracyRate === undefined;
+    const isObj06QI2 = data[0]?.verifyTheComplianceThroughUserFeedbackRightAtFirstTimeBatchRecordAccuracyRate !== undefined;
     const isObj07QI1 = data[0]?.trainingNeedIdentification !== undefined;
     const isObj07QI2 = data[0]?.trainingCompletion !== undefined;
     const isObj07QI3 = data[0]?.errorDecrease !== undefined;
@@ -743,7 +812,6 @@ export default function QualityObjectives() {
                           fontSize: '0.95rem', 
                           fontWeight: 700, 
                           color: colors.primary,
-                          marginBottom: '4px'
                         }}>
                           {check.date}
                         </div>
@@ -779,6 +847,225 @@ export default function QualityObjectives() {
               </div>
             );
           })}
+        </div>
+      );
+    }
+
+    // Objective 06 QI1 & QI2 - Combined for all sites
+    if (isObj06QI1 || isObj06QI2) {
+      const qiLabel = isObj06QI1 ? 'Electronic Quality Management system (eQMS)' : 'Electronic batch manufacturing records (eBMR)';
+      const qiIcon = isObj06QI1 ? '📋' : '📄';
+      const steps = isObj06QI1 ? [
+        { label: 'Project initiation', key: 'projectInitiation', phase: 'Planning' },
+        { label: 'Define Scope and objective', key: 'defineScopeAndObjective', phase: 'Planning' },
+        { label: 'Cross functional core team formation', key: 'crossFunctionalCoreTeamFormation', phase: 'Planning' },
+        { label: 'Preparation and approvals of URS', key: 'preparationAndApprovalsOfURS', phase: 'Planning' },
+        { label: 'Timeliness/Milestones approval', key: 'timelinessMillestonesApprovalFromProjectLeadAndTopManagement', phase: 'Approval' },
+        { label: 'System configuration and validation', key: 'systemConfigurationAndValidation', phase: 'Setup' },
+        { label: 'Data migration', key: 'dataMigration', phase: 'Setup' },
+        { label: 'Training and evaluation', key: 'trainingAndEvaluation', phase: 'Implementation' },
+        { label: 'Go live', key: 'goLive', phase: 'Implementation' },
+        { label: 'Post implementation review', key: 'postImplementationReview', phase: 'Implementation' },
+        { label: 'Compliance verification & audit', key: 'verifyTheComplianceThroughUserFeedbackInternalExternalAudit', phase: 'Verification' }
+      ] : [
+        { label: 'Project initiation', key: 'projectInitiation', phase: 'Planning' },
+        { label: 'Define Scope and objective', key: 'defineScopeAndObjective', phase: 'Planning' },
+        { label: 'Cross functional core team formation', key: 'crossFunctionalCoreTeamFormation', phase: 'Planning' },
+        { label: 'Preparation and approvals of URS', key: 'preparationAndApprovalsOfURS', phase: 'Planning' },
+        { label: 'Timeliness/Milestones approval', key: 'timelinessMillestonesApprovalFromProjectLeadAndTopManagement', phase: 'Approval' },
+        { label: 'System configuration and validation', key: 'systemConfigurationAndValidation', phase: 'Setup' },
+        { label: 'Data migration', key: 'dataMigration', phase: 'Setup' },
+        { label: 'Training and evaluation', key: 'trainingAndEvaluation', phase: 'Implementation' },
+        { label: 'Go live', key: 'goLive', phase: 'Implementation' },
+        { label: 'Post implementation review', key: 'postImplementationReview', phase: 'Implementation' },
+        { label: 'Record accuracy & compliance', key: 'verifyTheComplianceThroughUserFeedbackRightAtFirstTimeBatchRecordAccuracyRate', phase: 'Verification' }
+      ];
+
+      const phaseGroups = {
+        'Planning': { color: '#f59e0b', bgColor: '#fef3c708' },
+        'Approval': { color: '#3b82f6', bgColor: '#dbeafe08' },
+        'Setup': { color: '#8b5cf6', bgColor: '#ede9fe08' },
+        'Implementation': { color: '#10b981', bgColor: '#dcfce708' },
+        'Verification': { color: '#ec4899', bgColor: '#fce7f308' }
+      };
+
+      const overallProgress = data[0]?.value || 0;
+      const completedSteps = steps.filter(s => parseInt(data[0]?.[s.key] || 0) > 0).length;
+
+      return (
+        <div style={{ padding: '28px', background: '#ffffff', borderRadius: '16px', border: `3px solid ${colors.primary}`, boxShadow: '0 8px 24px rgba(0,0,0,0.1)' }}>
+          {/* Header with Overall Progress */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr',
+            gap: '24px',
+            marginBottom: '32px',
+            paddingBottom: '24px',
+            borderBottom: `2px solid ${colors.primary}20`
+          }}>
+            <div>
+              <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600, marginBottom: '4px' }}>
+                {qiIcon} Implementation Phase
+              </div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '12px' }}>
+                {qiLabel}
+              </div>
+
+              {/* Summary Stats - Inline */}
+              <div style={{
+                padding: '12px',
+                background: `linear-gradient(135deg, ${colors.primary}12 0%, ${colors.primary}06 100%)`,
+                borderRadius: '10px',
+                border: `1px solid ${colors.primary}30`,
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '12px',
+                textAlign: 'center'
+              }}>
+                <div>
+                  <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                    Completed
+                  </div>
+                  <div style={{ fontSize: '1.3rem', fontWeight: 900, color: colors.primary }}>
+                    {completedSteps}/{steps.length}
+                  </div>
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                    Scope
+                  </div>
+                  <div style={{ fontSize: '1rem', fontWeight: 900, color: colors.primary }}>
+                    I, III, IV, V
+                  </div>
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
+                    Status
+                  </div>
+                  <div style={{ fontSize: '1rem', fontWeight: 900, color: '#f59e0b' }}>
+                    In Process
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Overall Progress Circle */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: `${colors.primary}08`,
+              borderRadius: '14px',
+              padding: '16px'
+            }}>
+              <div style={{
+                position: 'relative',
+                width: '120px',
+                height: '120px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '8px'
+              }}>
+                <svg width="120" height="120" style={{ transform: 'rotate(-90deg)', position: 'absolute' }}>
+                  <circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" strokeWidth="8"/>
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="54"
+                    fill="none"
+                    stroke={colors.primary}
+                    strokeWidth="8"
+                    strokeDasharray={`${(overallProgress / 100) * 2 * 3.14159 * 54} ${2 * 3.14159 * 54}`}
+                    style={{ transition: 'stroke-dasharray 800ms ease' }}
+                  />
+                </svg>
+                <div style={{ textAlign: 'center', zIndex: 1 }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 900, color: colors.primary }}>
+                    {overallProgress}%
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: 600 }}>
+                    Complete
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Phase-grouped Steps */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            {Object.entries(phaseGroups).map(([phase, style]) => {
+              const phaseSteps = steps.filter(s => s.phase === phase);
+              return (
+                <div key={phase} style={{
+                  padding: '16px',
+                  background: style.bgColor,
+                  borderRadius: '12px',
+                  border: `2px solid ${style.color}30`
+                }}>
+                  <div style={{
+                    fontSize: '0.85rem',
+                    fontWeight: 700,
+                    color: style.color,
+                    marginBottom: '12px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    {phase}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {phaseSteps.map((step, idx) => {
+                      const value = parseInt(data[0]?.[step.key] || 0);
+                      const isComplete = value > 0;
+                      return (
+                        <div key={idx} style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          padding: '10px 12px',
+                          background: isComplete ? '#ffffff' : '#f8fafc',
+                          borderRadius: '8px',
+                          border: `1px solid ${isComplete ? style.color + '40' : '#e2e8f0'}`,
+                          transition: 'all 200ms'
+                        }}>
+                          <div style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            background: isComplete ? `${style.color}20` : '#e2e8f0',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '1.2rem',
+                            color: style.color,
+                            fontWeight: 800,
+                            flexShrink: 0
+                          }}>
+                            {isComplete ? '✓' : '○'}
+                          </div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontSize: '0.9rem', color: '#0f172a', fontWeight: 600 }}>
+                              {step.label}
+                            </div>
+                          </div>
+                          <div style={{
+                            fontSize: '1.1rem',
+                            fontWeight: 800,
+                            color: isComplete ? style.color : '#94a3b8',
+                            minWidth: '45px',
+                            textAlign: 'right'
+                          }}>
+                            {value}%
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       );
     }
@@ -1681,7 +1968,38 @@ export default function QualityObjectives() {
               </>
             )}
 
-            {activeCard === '07' && (
+            {activeCard === '06' && (
+              <>
+                <div style={{ 
+                  background: 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)', 
+                  padding: '28px', 
+                  borderRadius: '12px', 
+                  marginBottom: '24px',
+                  color: '#ffffff'
+                }}>
+                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 06</div>
+                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
+                    Digitalization of quality management system to improve efficiency, data integrity, traceability, real-time monitoring and compliance with regulatory
+                  </div>
+                </div>
+
+                {/* QI Buttons */}
+                <div style={{ display: 'flex', gap: '14px', marginBottom: '24px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
+                  {objective6Flow.map((qiItem, index) => renderQIButton(qiItem, index, '06'))}
+                </div>
+
+                {/* Site Data Cards */}
+                {activeQI06 !== null ? (
+                  <div style={{ animation: 'slideIn 0.4s ease-out' }}>
+                    {renderSiteCards(obj06_qiDataMap[activeQI06], { primary: '#0ea5e9', accent: '#06b6d4', light: '#ecf0ff' })}
+                  </div>
+                ) : (
+                  <div style={{ textAlign: 'center', color: '#475569', padding: '8px 0' }}>Select a QI to view details.</div>
+                )}
+              </>
+            )}
+
+      {activeCard === '07' && (
               <>
                 <div style={{ 
                   background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', 
@@ -1712,23 +2030,7 @@ export default function QualityObjectives() {
               </>
             )}
 
-            {activeCard === '06' && (
-              <>
-                <div style={{ 
-                  background: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', 
-                  padding: '28px', 
-                  borderRadius: '12px', 
-                  marginBottom: '24px',
-                  color: '#ffffff'
-                }}>
-                  <div style={{ fontSize: '1.00em', fontWeight: 700, lineHeight: 1.4 }}>Objective 06</div>
-                  <div style={{ fontSize: '0.9em', fontWeight: 300, marginTop: '6px', lineHeight: 1.45 }}>
-                    Digitalization of quality management system to improve efficiency, data integrity, traceability, real-time monitoring and compliance with regulatory
-                  </div>
-                </div>
-                <div style={{ color: '#475569', fontSize: '0.95em', textAlign: 'center' }}>Data to be added.</div>
-              </>
-            )}
+
             </div>
           </div>
         )}
