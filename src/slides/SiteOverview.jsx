@@ -334,7 +334,79 @@ function OverallPerformance({ onCompleteOverviewClick }) {
 
 // Site Comparison Grid Component
 function SiteComparisonGrid({ onSiteClick }) {
+  const [selectedSiteInfo, setSelectedSiteInfo] = useState(null);
+
+  const SiteInfoModal = ({ site, onClose }) => {
+    const data = sitesData[site];
+    const totalItems = Object.values(data).reduce((sum, m) => sum + m.total, 0);
+    const avgImprovement = Math.round(
+      Object.values(data).reduce((sum, m) => sum + m.improvement, 0) / Object.values(data).length
+    );
+
+    const metricsBreakdown = [
+      { name: 'Incidents', ...data.Incidents, color: categoryColors.Incidents },
+      { name: 'Corrective Actions (CA)', ...data.CA, color: categoryColors.CA },
+      { name: 'Preventive Actions (PA)', ...data.PA, color: categoryColors.PA },
+      { name: 'Out of Specifications (OOS)', ...data.OOS, color: categoryColors.OOS },
+      { name: 'Change Controls (CC)', ...data.CC, color: categoryColors.CC }
+    ];
+
+    return createPortal(
+      <div onClick={onClose} style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0, 0, 0, 0.7)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99999, padding: '20px'}}>
+        <div onClick={(e) => e.stopPropagation()} style={{background: 'linear-gradient(135deg, #ffffff, #f9fafb)', borderRadius: '16px', padding: '32px', maxWidth: '750px', width: '100%', maxHeight: '85vh', overflow: 'auto', boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)', border: `3px solid ${siteColors[site]}`, position: 'relative'}}>
+          <button onClick={onClose} style={{position: 'absolute', top: '16px', right: '16px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '50%', width: '36px', height: '36px', fontSize: '1.2em', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s'}}
+          onMouseEnter={(e) => {e.currentTarget.style.background = '#dc2626'; e.currentTarget.style.transform = 'scale(1.1)';}}
+          onMouseLeave={(e) => {e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.transform = 'scale(1)';}}>×</button>
+
+          <div style={{marginBottom: '24px'}}>
+            <h3 style={{fontSize: '1.6em', fontWeight: '800', color: siteColors[site], marginBottom: '8px', marginTop: 0}}>{site} - Performance Breakdown</h3>
+            <div style={{height: '3px', background: `linear-gradient(90deg, ${siteColors[site]}, ${siteColors[site]}dd)`, width: '120px', borderRadius: '2px'}}></div>
+          </div>
+
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '24px'}}>
+            <div style={{textAlign: 'center', padding: '20px', background: `${siteColors[site]}10`, borderRadius: '12px', border: `2px solid ${siteColors[site]}`}}>
+              <div style={{fontSize: '0.8em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '8px'}}>Average Improvement</div>
+              <div style={{fontSize: '3em', fontWeight: '900', color: siteColors[site]}}>{avgImprovement}%</div>
+            </div>
+            <div style={{textAlign: 'center', padding: '20px', background: '#f8fafc', borderRadius: '12px', border: '2px solid #cbd5e1'}}>
+              <div style={{fontSize: '0.8em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '8px'}}>Total Items</div>
+              <div style={{fontSize: '3em', fontWeight: '900', color: '#1e293b'}}>{totalItems.toLocaleString()}</div>
+            </div>
+          </div>
+
+          <div style={{background: '#f0f9ff', borderLeft: `4px solid ${siteColors[site]}`, padding: '16px', borderRadius: '8px', marginBottom: '20px'}}>
+            <div style={{fontSize: '0.75em', fontWeight: '700', color: '#334155', textTransform: 'uppercase', marginBottom: '8px'}}>Calculation Formula</div>
+            <div style={{fontSize: '0.9em', fontFamily: 'monospace', color: '#1f2937', background: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #cbd5e1'}}>
+              ({metricsBreakdown.map(m => `${m.improvement}%`).join(' + ')}) ÷ 5 = {avgImprovement}%
+            </div>
+          </div>
+
+          <div>
+            <div style={{fontSize: '1em', fontWeight: '700', color: '#0f172a', marginBottom: '12px'}}>📊 Metrics Breakdown:</div>
+            {metricsBreakdown.map((metric, idx) => (
+              <div key={idx} style={{marginBottom: '12px', padding: '14px', background: '#f8fafc', borderLeft: `4px solid ${metric.color}`, borderRadius: '8px'}}>
+                <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '6px'}}>
+                  <div style={{fontSize: '1em', fontWeight: '800', color: metric.color}}>{metric.name}</div>
+                  <div style={{fontSize: '1.4em', fontWeight: '900', color: metric.color}}>{metric.improvement}%</div>
+                </div>
+                <div style={{fontSize: '0.85em', color: '#475569', lineHeight: '1.5'}}>
+                  {metric.from !== undefined ? (
+                    <div>Before: {metric.from} days → After: {metric.to} days | Total: {metric.total}</div>
+                  ) : (
+                    <div>Before: {metric.avg} days → After: {metric.latest} days | Total: {metric.total}</div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
+  };
+
   return (
+    <>
     <div style={{
       display: 'grid',
       gridTemplateColumns: 'repeat(3, 1fr)',
@@ -355,7 +427,8 @@ function SiteComparisonGrid({ onSiteClick }) {
             borderRadius: '8px',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
-            transform: 'scale(1)'
+            transform: 'scale(1)',
+            position: 'relative'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'scale(1.05)'
@@ -366,6 +439,43 @@ function SiteComparisonGrid({ onSiteClick }) {
             e.currentTarget.style.boxShadow = 'none'
           }}
           >
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setSelectedSiteInfo(site);
+              }}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: siteColors[site],
+                color: 'white',
+                border: 'none',
+                borderRadius: '50%',
+                width: '28px',
+                height: '28px',
+                fontSize: '0.85em',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+                zIndex: 10,
+                boxShadow: `0 2px 8px ${siteColors[site]}60`
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.15)';
+                e.currentTarget.style.boxShadow = `0 4px 12px ${siteColors[site]}80`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = `0 2px 8px ${siteColors[site]}60`;
+              }}
+            >
+              ⓘ
+            </button>
             <div style={{
               fontSize: '1em',
               fontWeight: '800',
@@ -446,6 +556,15 @@ function SiteComparisonGrid({ onSiteClick }) {
         )
       })}
     </div>
+
+    {/* Site Info Modal */}
+    {selectedSiteInfo && (
+      <SiteInfoModal 
+        site={selectedSiteInfo}
+        onClose={() => setSelectedSiteInfo(null)}
+      />
+    )}
+    </>
   )
 }
 
@@ -1112,3 +1231,5 @@ export default function SiteOverview() {
     </section>
   )
 }
+
+
