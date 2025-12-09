@@ -1372,77 +1372,7 @@ export default function SiteOverview() {
             </div>
           </div>
 
-          {/* RANKING SUMMARY SECTION - MOVED HERE AFTER ALL SITE METRICS */}
-          <div style={{ marginTop: '50px', marginBottom: '40px', paddingTop: '30px', borderTop: '3px solid #e5e7eb' }}>
-            {/* Key Insights */}
-            <div style={{
-              background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
-              padding: '28px',
-              borderRadius: '16px',
-              border: '2px solid #10b981',
-              boxShadow: '0 8px 24px rgba(16, 185, 129, 0.15)'
-            }}>
-              <h3 style={{ margin: '0 0 20px 0', color: '#065f46', fontWeight: '700', fontSize: '1.3em', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                💡 KEY INSIGHTS
-              </h3>
-              
-              <div style={{ marginBottom: '20px' }}>
-                <h4 style={{ margin: '0 0 12px 0', color: '#047857', fontWeight: '700', fontSize: '1.05em' }}>
-                  1️⃣ Volume vs Quality Trade-off Analysis
-                </h4>
-                <div style={{ background: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #86efac' }}>
-                  <div style={{ fontSize: '0.9em', color: '#111827', lineHeight: '1.7' }}>
-                    <div style={{ marginBottom: '8px' }}>
-                      <strong style={{ color: '#047857' }}>SITE-I</strong> handles <strong>HIGHEST volume</strong> (1,131 events) with <strong>GOOD quality</strong> (31% improvement)
-                    </div>
-                    <div style={{ marginBottom: '8px' }}>
-                      <strong style={{ color: '#047857' }}>SITE-III</strong> handles <strong>MEDIUM volume</strong> (620 events) with <strong>EXCELLENT quality</strong> (41% improvement)
-                    </div>
-                    <div>
-                      <strong style={{ color: '#047857' }}>SITE-V</strong> handles <strong>LOWEST volume</strong> (570 events) with <strong>EXCELLENT quality</strong> (40% improvement)
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <div>
-                <h4 style={{ margin: '0 0 12px 0', color: '#047857', fontWeight: '700', fontSize: '1.05em' }}>
-                  2️⃣ Closure Time Trends
-                </h4>
-                <div style={{ background: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #86efac' }}>
-                  <div style={{ fontSize: '0.9em', color: '#111827', lineHeight: '1.7' }}>
-                    <strong style={{ color: '#047857' }}>✓ All sites show IMPROVEMENT</strong> in closure times Jul-Nov vs Jan-Jun<br/>
-                    <strong style={{ color: '#047857' }}>✓ Consistent improvement across</strong> all 5 QMS categories
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Conclusion */}
-            <div style={{
-              background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
-              padding: '28px',
-              borderRadius: '16px',
-              border: '2px solid #3b82f6',
-              boxShadow: '0 8px 24px rgba(59, 130, 246, 0.15)',
-              marginTop: '24px'
-            }}>
-              <h3 style={{ margin: '0 0 16px 0', color: '#1e40af', fontWeight: '700', fontSize: '1.3em' }}>
-                ✨ CONCLUSION
-              </h3>
-              <div style={{ background: '#ffffff', padding: '20px', borderRadius: '8px', border: '1px solid #93c5fd' }}>
-                <p style={{ margin: '0 0 12px 0', fontSize: '0.95em', color: '#111827', lineHeight: '1.8' }}>
-                  <strong style={{ color: '#1e40af' }}>All sites demonstrate:</strong>
-                </p>
-                <ul style={{ margin: '0', paddingLeft: '20px', fontSize: '0.9em', color: '#111827', lineHeight: '1.8' }}>
-                  <li>✓ Consistent improvement over time</li>
-                  <li>✓ Strong process controls</li>
-                  <li>✓ Effective incident management</li>
-                  <li>✓ Reduced closure times across all categories</li>
-                </ul>
-              </div>
-            </div>
-          </div>
         </div>
       )}
 
