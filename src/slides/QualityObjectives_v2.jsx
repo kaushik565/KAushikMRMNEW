@@ -49,6 +49,8 @@ export default function QualityObjectives() {
     qi07: null
   });
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [obj05Qi1InfoSite, setObj05Qi1InfoSite] = useState(null);
+  const [obj05Qi1InfoModal, setObj05Qi1InfoModal] = useState(null);
 
   // Close all modals when slide changes
   useEffect(() => {
@@ -243,7 +245,25 @@ export default function QualityObjectives() {
       value: 100, 
       target: 100,
       identificationOfRiskCauseMoreDefects: 100,
-      listOfActivitiesBasedOnCriticalProcess: 100
+      listOfActivitiesBasedOnCriticalProcess: 100,
+      infoRows: [
+        { process: 'Cartridge Assembly and process', product: 'Cartridge Assembly', stage: 'Laser Welding process' },
+        { process: 'Device assembly and process', product: 'ASED', stage: 'Manifold' },
+        { process: 'Device assembly and process', product: 'ASED', stage: 'Testing and Heater testing stage' },
+        { process: 'Device assembly and process', product: 'ASED', stage: 'Design was updated' },
+        { process: 'Device assembly and process', product: 'ASED', stage: 'Bottom cover' },
+        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Bottom cover' },
+        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Bottom cover' },
+        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'IPQC' },
+        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Testing' },
+        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Testing' },
+        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Testing' },
+        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'Testing' },
+        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'IPQC' },
+        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'IPQC' },
+        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'Testing' },
+        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'Testing' }
+      ]
     },
     { 
       site: 'Site V', 
@@ -1964,75 +1984,247 @@ export default function QualityObjectives() {
     if (isObj05QI1) {
       return (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
-          {data.map((item, idx) => (
-            <div key={idx} style={{
-              padding: '24px',
-              background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
-              borderRadius: '16px',
-              border: `2px solid ${colors.primary}30`,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
-            }}>
-              <div style={{ 
-                fontSize: '1.5rem', 
-                fontWeight: 800, 
-                color: colors.primary, 
-                marginBottom: '20px',
-                paddingBottom: '12px',
-                borderBottom: `2px solid ${colors.primary}20`,
-                textAlign: 'center'
+          {data.map((item, idx) => {
+            const isInfoOpen = item.site === 'Site III' && obj05Qi1InfoSite === item.site;
+
+            return (
+              <div key={idx} style={{
+                padding: '24px',
+                background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
+                borderRadius: '16px',
+                border: `2px solid ${colors.primary}30`,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                position: 'relative'
               }}>
-                {item.site}
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{
-                  padding: '18px',
-                  background: `${colors.primary}10`,
-                  borderRadius: '12px',
-                  border: `1px solid ${colors.primary}30`,
-                  textAlign: 'center'
+                <div style={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '12px',
+                  fontSize: '1.5rem', 
+                  fontWeight: 800, 
+                  color: colors.primary, 
+                  marginBottom: '20px',
+                  paddingBottom: '12px',
+                  borderBottom: `2px solid ${colors.primary}20`
                 }}>
-                  <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600, marginBottom: '8px' }}>
-                    Identification of the risk cause more defects
+                  <span style={{ flex: 1, textAlign: 'center' }}>{item.site}</span>
+                  {item.site === 'Site III' && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setObj05Qi1InfoSite(isInfoOpen ? null : item.site);
+                        if (item.infoRows) {
+                          setObj05Qi1InfoModal(isInfoOpen ? null : { site: item.site, rows: item.infoRows });
+                        }
+                      }}
+                      style={{
+                        minWidth: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        border: `2px solid ${colors.primary}50`,
+                        background: isInfoOpen ? `${colors.primary}15` : '#ffffff',
+                        color: colors.primary,
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+                        transition: 'all 0.2s ease'
+                      }}
+                      aria-label="Show process details"
+                    >
+                      i
+                    </button>
+                  )}
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{
+                    padding: '18px',
+                    background: `${colors.primary}10`,
+                    borderRadius: '12px',
+                    border: `1px solid ${colors.primary}30`,
+                    textAlign: 'center'
+                  }}>
+                    <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600, marginBottom: '8px' }}>
+                      Identification of the risk cause more defects
+                    </div>
+                    <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
+                      {item.identificationOfRiskCauseMoreDefects}%
+                    </div>
                   </div>
-                  <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
-                    {item.identificationOfRiskCauseMoreDefects}%
+
+                  <div style={{
+                    padding: '18px',
+                    background: `${colors.primary}10`,
+                    borderRadius: '12px',
+                    border: `1px solid ${colors.primary}30`,
+                    textAlign: 'center'
+                  }}>
+                    <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600, marginBottom: '8px' }}>
+                      List of activities based on critical process
+                    </div>
+                    <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
+                      {item.listOfActivitiesBasedOnCriticalProcess}%
+                    </div>
                   </div>
                 </div>
 
                 <div style={{
-                  padding: '18px',
-                  background: `${colors.primary}10`,
+                  marginTop: '20px',
+                  padding: '14px',
+                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                   borderRadius: '12px',
-                  border: `1px solid ${colors.primary}30`,
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  color: '#ffffff'
                 }}>
-                  <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600, marginBottom: '8px' }}>
-                    List of activities based on critical process
+                  <div style={{ fontSize: '1.5rem', marginBottom: '4px', opacity: 0.9 }}>
+                    Gap Assessment Status
                   </div>
-                  <div style={{ fontSize: '2.4rem', fontWeight: 800, color: colors.primary }}>
-                    {item.listOfActivitiesBasedOnCriticalProcess}%
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>
+                    ✓ Completed
                   </div>
                 </div>
-              </div>
 
-              <div style={{
-                marginTop: '20px',
-                padding: '14px',
-                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                borderRadius: '12px',
-                textAlign: 'center',
-                color: '#ffffff'
-              }}>
-                <div style={{ fontSize: '1.5rem', marginBottom: '4px', opacity: 0.9 }}>
-                  Gap Assessment Status
+                {/* Info shown via modal only */}
+
+              </div>
+            );
+          })}
+          {obj05Qi1InfoModal && (
+            <div
+              onClick={() => {
+                setObj05Qi1InfoModal(null);
+                setObj05Qi1InfoSite(null);
+              }}
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                background: 'rgba(15, 23, 42, 0.65)',
+                backdropFilter: 'blur(6px)',
+                zIndex: 2000,
+                display: 'flex',
+                alignItems: 'stretch',
+                justifyContent: 'stretch',
+                padding: 0,
+                margin: 0
+              }}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, #ffffffcc 0%, #f8fafc 50%, #ffffffcc 100%)',
+                  borderRadius: '0',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
+                  border: '1px solid rgba(59,130,246,0.15)',
+                  position: 'relative'
+                }}
+              >
+                <div style={{
+                  padding: '22px 32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderBottom: '1px solid rgba(148,163,184,0.35)',
+                  background: 'linear-gradient(90deg, rgba(59,130,246,0.15) 0%, rgba(14,165,233,0.08) 100%)'
+                }}>
+                  <div>
+                    <div style={{ fontSize: '1.4rem', color: '#0f172a', fontWeight: 700, opacity: 0.8 }}>Objective 05 · QI1</div>
+                    <div style={{ fontSize: '2rem', fontWeight: 900, color: '#0f172a', letterSpacing: '0.4px' }}>
+                      {obj05Qi1InfoModal.site} · Process Details
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setObj05Qi1InfoModal(null);
+                      setObj05Qi1InfoSite(null);
+                    }}
+                    style={{
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(15,23,42,0.1)',
+                      background: '#ffffff',
+                      color: '#0f172a',
+                      fontWeight: 900,
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    aria-label="Close"
+                  >
+                    ✕
+                  </button>
                 </div>
-                <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>
-                  ✓ Completed
+
+                <div style={{ padding: '24px 32px 28px', overflow: 'auto', height: 'calc(100vh - 90px)', boxSizing: 'border-box' }}>
+                  <div style={{
+                    marginBottom: '16px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>
+                      Process-to-Stage Mapping
+                    </div>
+                    <div style={{
+                      padding: '10px 16px',
+                      borderRadius: '12px',
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%)',
+                      color: '#ffffff',
+                      fontWeight: 800,
+                      boxShadow: '0 6px 16px rgba(59,130,246,0.35)'
+                    }}>
+                      {obj05Qi1InfoModal.rows.length} entries
+                    </div>
+                  </div>
+
+                  <div style={{
+                    borderRadius: '14px',
+                    overflow: 'hidden',
+                    border: '1px solid rgba(59,130,246,0.25)',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.12)'
+                  }}>
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1.2fr 1.1fr 1fr',
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%)',
+                      color: '#ffffff',
+                      fontWeight: 800,
+                      fontSize: '1.4rem'
+                    }}>
+                      <div style={{ padding: '14px 16px', letterSpacing: '0.3px' }}>Identification of processes</div>
+                      <div style={{ padding: '14px 16px', letterSpacing: '0.3px' }}>Product</div>
+                      <div style={{ padding: '14px 16px', letterSpacing: '0.3px' }}>Stage</div>
+                    </div>
+
+                    <div>
+                      {obj05Qi1InfoModal.rows.map((row, rowIdx) => (
+                        <div
+                          key={rowIdx}
+                          style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1.2fr 1.1fr 1fr',
+                            background: rowIdx % 2 === 0 ? '#f8fafc' : '#ffffff',
+                            borderBottom: '1px solid rgba(148,163,184,0.25)'
+                          }}
+                        >
+                          <div style={{ padding: '12px 16px', fontSize: '1.35rem', color: '#0f172a', fontWeight: 600 }}>{row.process}</div>
+                          <div style={{ padding: '12px 16px', fontSize: '1.35rem', color: '#0f172a', fontWeight: 600 }}>{row.product || '—'}</div>
+                          <div style={{ padding: '12px 16px', fontSize: '1.35rem', color: '#0f172a', fontWeight: 600 }}>{row.stage}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
+          )}
         </div>
       );
     }
