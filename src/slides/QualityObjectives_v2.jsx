@@ -1,6 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import FullScreenChartModal from '../../components/FullScreenChartModal';
 
+const styles = `
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`;
+
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = styles;
+  document.head.appendChild(styleSheet);
+}
+
 export default function QualityObjectives() {
   const [activeModals, setActiveModals] = useState({
     card: null,
@@ -327,10 +366,10 @@ export default function QualityObjectives() {
   };
 
   const objective6Flow = [
-    { id: 'qi1', label: 'Electronic Quality Management system (eQMS)', color: '#0ea5e9' },
+    { id: 'qi1', label: 'Electronic Quality Management system (eQMS)', color: '#8b5cf6' },
     { id: 'qi2', label: 'Electronic batch manufacturing records (eBMR)', color: '#06b6d4' },
-    { id: 'qi3', label: 'Need to add', color: '#00d9ff' },
-    { id: 'qi4', label: 'Need to add', color: '#06d6a6' }
+    { id: 'qi3', label: 'Need to add', color: '#ec4899' },
+    { id: 'qi4', label: 'Need to add', color: '#eab308' }
   ];
 
   // QI Data for Objective 07
@@ -469,13 +508,14 @@ export default function QualityObjectives() {
           justifyContent: 'center',
           fontWeight: 700,
           color: isActive ? '#ffffff' : qiItem.color,
-          transition: 'all 200ms ease',
+          transition: 'all 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
           transform: isActive ? 'scale(1.1)' : 'scale(1)',
           zIndex: isActive ? 10 : 5 - index,
           animation: `slideIn 0.4s ease-out ${0.4 + (index * 0.15)}s both`,
           padding: '8px 14px',
           gap: '4px',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          boxShadow: isActive ? `0 8px 24px ${qiItem.color}40` : 'none'
         }}
       >
         <div style={{ fontSize: '1.9rem', fontWeight: 800, letterSpacing: '0.5px', minWidth: '55px', textAlign: 'center', marginBottom: '6px' }}>
@@ -513,11 +553,10 @@ export default function QualityObjectives() {
 
     if (isQI1) {
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px', animation: 'fadeInUp 0.5s ease-out' }}>
           {data.map((item, idx) => {
             const trainingCategories = [
-              { label: 'No Training', value: item.noTraining, color: '#ef4444' },
-              { label: 'Latest Revision', value: item.trainedLatestRevision, color: '#10b981' }
+              { label: 'No Training', value: item.noTraining, color: '#ef4444' }
             ];
             
             return (
@@ -592,42 +631,6 @@ export default function QualityObjectives() {
                   })}
                 </div>
 
-                {/* Completion Rate Circle */}
-                <div style={{ 
-                  marginTop: '20px', 
-                  paddingTop: '20px', 
-                  borderTop: `1px solid ${colors.primary}20`,
-                  textAlign: 'center' 
-                }}>
-                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '8px' }}>
-                    Latest Revision Coverage
-                  </div>
-                  <div style={{ 
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '50%',
-                    background: `conic-gradient(${colors.primary} ${(item.trainedLatestRevision / item.totalEmployees) * 360}deg, #e2e8f0 0deg)`,
-                    position: 'relative'
-                  }}>
-                    <div style={{
-                      width: '64px',
-                      height: '64px',
-                      borderRadius: '50%',
-                      background: '#ffffff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexDirection: 'column'
-                    }}>
-                      <span style={{ fontSize: '1.6rem', fontWeight: 800, color: colors.primary }}>
-                        {((item.trainedLatestRevision / item.totalEmployees) * 100).toFixed(0)}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
               </div>
             );
           })}
@@ -637,7 +640,7 @@ export default function QualityObjectives() {
 
     if (isQI2) {
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px', animation: 'fadeInUp 0.5s ease-out' }}>
           {data.map((item, idx) => {
             const implementationStages = [
               { label: 'Trained on Latest SOP', value: item.trainedLatestSOP, icon: '📚', color: '#3b82f6' },
@@ -693,7 +696,7 @@ export default function QualityObjectives() {
                         <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                           {stage.label}
                         </div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: stage.color }}>
+                        <div style={{ fontSize: '2rem', fontWeight: 900, color: stage.color }}>
                           {stage.value}
                         </div>
                       </div>
@@ -704,15 +707,16 @@ export default function QualityObjectives() {
                 {/* Success Rate Badge */}
                 <div style={{ 
                   padding: '16px',
-                  background: `linear-gradient(135deg, ${colors.primary}15 0%, ${colors.primary}05 100%)`,
+                  background: `linear-gradient(135deg, #10b981 0%, #059669 100%)`,
                   borderRadius: '12px',
-                  border: `2px solid ${colors.primary}30`,
-                  textAlign: 'center'
+                  border: `2px solid #10b981`,
+                  textAlign: 'center',
+                  boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
                 }}>
-                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#ffffff', fontWeight: 600, marginBottom: '6px' }}>
                     Implementation Success Rate
                   </div>
-                  <div style={{ fontSize: '2.2rem', fontWeight: 800, color: colors.primary }}>
+                  <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#ffffff' }}>
                     {successRate}%
                   </div>
                 </div>
@@ -901,11 +905,11 @@ export default function QualityObjectives() {
       ];
 
       const phaseGroups = {
-        'Planning': { color: '#f59e0b', bgColor: '#fef3c708' },
-        'Approval': { color: '#3b82f6', bgColor: '#dbeafe08' },
-        'Setup': { color: '#8b5cf6', bgColor: '#ede9fe08' },
-        'Implementation': { color: '#10b981', bgColor: '#dcfce708' },
-        'Verification': { color: '#ec4899', bgColor: '#fce7f308' }
+        'Planning': { color: '#f59e0b', bgColor: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', icon: '📝' },
+        'Approval': { color: '#3b82f6', bgColor: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)', icon: '✅' },
+        'Setup': { color: '#8b5cf6', bgColor: 'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)', icon: '⚙️' },
+        'Implementation': { color: '#10b981', bgColor: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)', icon: '🚀' },
+        'Verification': { color: '#ec4899', bgColor: 'linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%)', icon: '🔍' }
       };
 
       const overallProgress = data[0]?.value || 0;
@@ -932,36 +936,52 @@ export default function QualityObjectives() {
 
               {/* Summary Stats - Inline */}
               <div style={{
-                padding: '12px',
-                background: `linear-gradient(135deg, ${colors.primary}12 0%, ${colors.primary}06 100%)`,
-                borderRadius: '10px',
-                border: `1px solid ${colors.primary}30`,
+                padding: '16px',
+                background: '#ffffff',
+                borderRadius: '14px',
+                border: `2px solid #e2e8f0`,
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '12px',
-                textAlign: 'center'
+                gap: '16px',
+                textAlign: 'center',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
               }}>
-                <div>
-                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
-                    Completed
+                <div style={{
+                  padding: '14px',
+                  background: 'linear-gradient(135deg, #10b98120 0%, #059669 100%)',
+                  borderRadius: '12px',
+                  border: '2px solid #10b981'
+                }}>
+                  <div style={{ fontSize: '1.5rem', color: '#065f46', fontWeight: 700, marginBottom: '6px' }}>
+                    ✓ Completed
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: colors.primary }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 900, color: '#047857' }}>
                     {completedSteps}/{steps.length}
                   </div>
                 </div>
-                <div>
-                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
-                    Scope
+                <div style={{
+                  padding: '14px',
+                  background: 'linear-gradient(135deg, #3b82f620 0%, #2563eb 100%)',
+                  borderRadius: '12px',
+                  border: '2px solid #3b82f6'
+                }}>
+                  <div style={{ fontSize: '1.5rem', color: '#0c2d6b', fontWeight: 700, marginBottom: '6px' }}>
+                    📍 Scope
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: colors.primary }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 900, color: '#1e40af' }}>
                     I, III, IV, V
                   </div>
                 </div>
-                <div>
-                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
-                    Status
+                <div style={{
+                  padding: '14px',
+                  background: 'linear-gradient(135deg, #f59e0b20 0%, #d97706 100%)',
+                  borderRadius: '12px',
+                  border: '2px solid #f59e0b'
+                }}>
+                  <div style={{ fontSize: '1.5rem', color: '#92400e', fontWeight: 700, marginBottom: '6px' }}>
+                    ⏳ Status
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#f59e0b' }}>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#b45309' }}>
                     In Process
                   </div>
                 </div>
@@ -1022,22 +1042,28 @@ export default function QualityObjectives() {
               const phaseSteps = steps.filter(s => s.phase === phase);
               return (
                 <div key={phase} style={{
-                  padding: '16px',
+                  padding: '18px',
                   background: style.bgColor,
-                  borderRadius: '12px',
-                  border: `2px solid ${style.color}30`
+                  borderRadius: '14px',
+                  border: `3px solid ${style.color}`,
+                  boxShadow: `0 8px 16px ${style.color}20`,
+                  transition: 'transform 200ms'
                 }}>
                   <div style={{
-                    fontSize: '1.5rem',
-                    fontWeight: 700,
+                    fontSize: '1.6rem',
+                    fontWeight: 800,
                     color: style.color,
-                    marginBottom: '12px',
+                    marginBottom: '14px',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.5px'
+                    letterSpacing: '1px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
                   }}>
+                    <span style={{ fontSize: '1.8rem' }}>{style.icon}</span>
                     {phase}
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {phaseSteps.map((step, idx) => {
                       const value = parseInt(data[0]?.[step.key] || 0);
                       const isComplete = value > 0;
@@ -1045,39 +1071,44 @@ export default function QualityObjectives() {
                         <div key={idx} style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '10px',
-                          padding: '10px 12px',
+                          gap: '12px',
+                          padding: '12px 14px',
                           background: isComplete ? '#ffffff' : '#f8fafc',
-                          borderRadius: '8px',
-                          border: `1px solid ${isComplete ? style.color + '40' : '#e2e8f0'}`,
+                          borderRadius: '10px',
+                          border: `2px solid ${isComplete ? style.color + '60' : '#e2e8f0'}`,
+                          boxShadow: isComplete ? `0 4px 8px ${style.color}15` : 'none',
                           transition: 'all 200ms'
                         }}>
                           <div style={{
-                            width: '32px',
-                            height: '32px',
+                            width: '36px',
+                            height: '36px',
                             borderRadius: '50%',
-                            background: isComplete ? `${style.color}20` : '#e2e8f0',
+                            background: isComplete ? `${style.color}25` : '#e2e8f0',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '1.5rem',
+                            fontSize: '1.6rem',
                             color: style.color,
-                            fontWeight: 800,
-                            flexShrink: 0
+                            fontWeight: 900,
+                            flexShrink: 0,
+                            border: `2px solid ${isComplete ? style.color : '#d1d5db'}`
                           }}>
                             {isComplete ? '✓' : '○'}
                           </div>
                           <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600 }}>
+                            <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 700 }}>
                               {step.label}
                             </div>
                           </div>
                           <div style={{
-                            fontSize: '1.5rem',
-                            fontWeight: 800,
+                            fontSize: '1.8rem',
+                            fontWeight: 900,
                             color: isComplete ? style.color : '#94a3b8',
-                            minWidth: '45px',
-                            textAlign: 'right'
+                            minWidth: '50px',
+                            textAlign: 'right',
+                            padding: '6px 12px',
+                            background: isComplete ? `${style.color}12` : 'transparent',
+                            borderRadius: '6px'
                           }}>
                             {value}%
                           </div>
@@ -1469,7 +1500,7 @@ export default function QualityObjectives() {
                         <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                           {stage.label}
                         </div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: stage.color }}>
+                        <div style={{ fontSize: '2rem', fontWeight: 900, color: stage.color }}>
                           {stage.value}%
                         </div>
                       </div>
@@ -1479,15 +1510,16 @@ export default function QualityObjectives() {
 
                 <div style={{ 
                   padding: '16px',
-                  background: `linear-gradient(135deg, ${colors.primary}15 0%, ${colors.primary}05 100%)`,
+                  background: `linear-gradient(135deg, #10b981 0%, #059669 100%)`,
                   borderRadius: '12px',
-                  border: `2px solid ${colors.primary}30`,
-                  textAlign: 'center'
+                  border: `2px solid #10b981`,
+                  textAlign: 'center',
+                  boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
                 }}>
-                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#ffffff', fontWeight: 600, marginBottom: '6px' }}>
                     Overall Compliance
                   </div>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 900, color: '#ffffff' }}>
                     {avgCompliance}%
                   </div>
                 </div>
@@ -1553,7 +1585,7 @@ export default function QualityObjectives() {
                         <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
                           {step.label}
                         </div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: step.color }}>
+                        <div style={{ fontSize: '2rem', fontWeight: 900, color: step.color }}>
                           {step.value}%
                         </div>
                       </div>
@@ -1563,15 +1595,16 @@ export default function QualityObjectives() {
 
                 <div style={{ 
                   padding: '16px',
-                  background: `linear-gradient(135deg, ${colors.primary}15 0%, ${colors.primary}05 100%)`,
+                  background: `linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)`,
                   borderRadius: '12px',
-                  border: `2px solid ${colors.primary}30`,
-                  textAlign: 'center'
+                  border: `2px solid #3b82f6`,
+                  textAlign: 'center',
+                  boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
                 }}>
-                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#ffffff', fontWeight: 600, marginBottom: '6px' }}>
                     Implementation Progress
                   </div>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 900, color: '#ffffff' }}>
                     {avgImplementation}%
                   </div>
                 </div>
@@ -1638,7 +1671,7 @@ export default function QualityObjectives() {
                         <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600 }}>
                           {metric.label}
                         </div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: metric.color }}>
+                        <div style={{ fontSize: '2rem', fontWeight: 900, color: metric.color }}>
                           {metric.value}%
                         </div>
                       </div>
@@ -1648,15 +1681,16 @@ export default function QualityObjectives() {
 
                 <div style={{ 
                   padding: '16px',
-                  background: `linear-gradient(135deg, ${colors.primary}15 0%, ${colors.primary}05 100%)`,
+                  background: `linear-gradient(135deg, #f59e0b 0%, #d97706 100%)`,
                   borderRadius: '12px',
-                  border: `2px solid ${colors.primary}30`,
-                  textAlign: 'center'
+                  border: `2px solid #f59e0b`,
+                  textAlign: 'center',
+                  boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)'
                 }}>
-                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600, marginBottom: '6px' }}>
+                  <div style={{ fontSize: '1.5rem', color: '#ffffff', fontWeight: 600, marginBottom: '6px' }}>
                     Overall Effectiveness
                   </div>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: colors.primary }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 900, color: '#ffffff' }}>
                     {avgEffectiveness}%
                   </div>
                 </div>
@@ -1682,7 +1716,7 @@ export default function QualityObjectives() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
               <span style={{ fontSize: '1.5rem', color: '#64748b' }}>Performance</span>
-              <span style={{ fontSize: '1.5rem', fontWeight: 800, color: colors.primary }}>{item.value}%</span>
+              <span style={{ fontSize: '2rem', fontWeight: 900, color: colors.primary }}>{item.value}%</span>
             </div>
             <div style={{
               height: '8px',
@@ -1705,12 +1739,17 @@ export default function QualityObjectives() {
   };
 
   return (
-    <section style={{ padding: '60px 24px', minHeight: '100vh', background: '#ffffff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', boxSizing: 'border-box', overflowY: 'hidden', overflowX: 'hidden' }}>
-      <div style={{ maxWidth: '1400px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '28px' }}>
+    <section style={{ padding: '60px 24px', minHeight: '100vh', background: 'linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 25%, #fef3c7 50%, #fef2f2 75%, #f0f9ff 100%)', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', boxSizing: 'border-box', overflowY: 'hidden', overflowX: 'hidden' }}>
+      {/* Decorative Elements */}
+      <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(30, 144, 255, 0.1) 0%, transparent 70%)', pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', bottom: '-80px', left: '-80px', width: '350px', height: '350px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%)', pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', top: '50%', left: '5%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%)', pointerEvents: 'none' }}></div>
+      
+      <div style={{ maxWidth: '1400px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '28px', position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <header style={{ marginBottom: '40px', textAlign: 'center' }}>
           <div style={{ fontSize: '1.5em', color: '#ef4444', fontWeight: 700, letterSpacing: '0.05em' }}>QUALITY OBJECTIVES - 2025</div>
-          <div style={{ height: '3px', width: '60px', background: '#ef4444', marginTop: '8px', marginBottom: '14px', borderRadius: '999px', margin: '8px auto 14px' }}></div>
+          <div style={{ height: '4px', width: '80px', background: 'linear-gradient(90deg, #ef4444 0%, #f59e0b 50%, #10b981 100%)', marginTop: '8px', marginBottom: '14px', borderRadius: '999px', margin: '8px auto 14px' }}></div>
         </header>
 
         <style>{`
@@ -1842,23 +1881,24 @@ export default function QualityObjectives() {
                 {['04', '05', '06', '07'].includes(card.id) && (
                   <div style={{
                     width: '100%',
-                    padding: '12px 20px',
+                    padding: '14px 24px',
                     borderRadius: '18px',
                     fontSize: '2.4rem',
                     fontWeight: 850,
-                    letterSpacing: '0.8px',
-                    color: '#0f172a',
-                    background: activeModals.card === card.id 
-                      ? 'rgba(255, 255, 255, 0.45)' 
-                      : `linear-gradient(135deg, ${card.color}24 0%, ${card.color}34 100%)`,
-                    border: activeModals.card === card.id 
-                      ? '1px solid rgba(15, 23, 42, 0.25)' 
-                      : `1px solid ${card.color}30`,
-                    boxShadow: activeModals.card === card.id 
-                      ? '0 10px 22px rgba(0,0,0,0.14)' 
-                      : '0 8px 16px rgba(0,0,0,0.1)',
+                    letterSpacing: '1px',
+                    color: '#ffffff',
+                    background: hoveredCard === card.id 
+                      ? `linear-gradient(135deg, ${card.color}88 0%, ${card.color}66 100%)` 
+                      : `linear-gradient(135deg, ${card.color}dd 0%, ${card.color}cc 100%)`,
+                    border: hoveredCard === card.id 
+                      ? `2px solid ${card.color}` 
+                      : `2px solid ${card.color}aa`,
+                    boxShadow: hoveredCard === card.id 
+                      ? `0 12px 28px ${card.color}35` 
+                      : `0 8px 20px ${card.color}25`,
                     textTransform: 'uppercase',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    transition: 'all 300ms cubic-bezier(0.34, 1.56, 0.64, 1)'
                   }}>
                     {`Objective ${card.id}`}
                   </div>
