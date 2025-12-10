@@ -1706,7 +1706,7 @@ export default function QualityObjectives() {
 
   return (
     <section style={{ padding: '60px 24px', minHeight: '100vh', background: '#ffffff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', boxSizing: 'border-box', overflowY: 'hidden', overflowX: 'hidden' }}>
-      <div style={{ maxWidth: '1150px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '28px' }}>
+      <div style={{ maxWidth: '1400px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '28px' }}>
         {/* Header */}
         <header style={{ marginBottom: '40px', textAlign: 'center' }}>
           <div style={{ fontSize: '1.5em', color: '#ef4444', fontWeight: 700, letterSpacing: '0.05em' }}>QUALITY OBJECTIVES - 2025</div>
@@ -1740,7 +1740,7 @@ export default function QualityObjectives() {
         `}</style>
 
         {/* 4-Card Grid - Centered */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(240px, 1fr))', gap: '18px', margin: '0 auto 48px', justifyContent: 'center', justifyItems: 'stretch', maxWidth: '1440px', width: '100%' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(400px, 1fr))', gap: '24px', margin: '0 auto 52px', justifyContent: 'center', justifyItems: 'stretch', maxWidth: '1580px', width: '100%' }}>
           {[
             {
               id: '04',
@@ -1781,8 +1781,8 @@ export default function QualityObjectives() {
               onMouseEnter={() => setHoveredCard(card.id)}
               onMouseLeave={() => setHoveredCard(null)}
               style={{
-                padding: '26px',
-                borderRadius: '18px',
+                padding: '30px',
+                borderRadius: '20px',
                 border: activeModals.card === card.id
                   ? `2px solid ${card.color}`
                   : hoveredCard === card.id
@@ -1809,9 +1809,9 @@ export default function QualityObjectives() {
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '18px',
+                gap: '20px',
                 animation: `slideIn 0.5s ease-out ${idx * 0.1}s both`,
-                minHeight: '320px'
+                minHeight: '380px'
               }}
             >
               {/* Active Indicator */}
@@ -1841,21 +1841,22 @@ export default function QualityObjectives() {
               <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
                 {['04', '05', '06', '07'].includes(card.id) && (
                   <div style={{
-                    padding: '8px 14px',
-                    borderRadius: '14px',
-                    fontSize: '2.0rem',
-                    fontWeight: 800,
-                    letterSpacing: '0.5px',
+                    width: '100%',
+                    padding: '12px 20px',
+                    borderRadius: '18px',
+                    fontSize: '2.4rem',
+                    fontWeight: 850,
+                    letterSpacing: '0.8px',
                     color: '#0f172a',
                     background: activeModals.card === card.id 
-                      ? 'rgba(255, 255, 255, 0.35)' 
-                      : `linear-gradient(135deg, ${card.color}18 0%, ${card.color}28 100%)`,
+                      ? 'rgba(255, 255, 255, 0.45)' 
+                      : `linear-gradient(135deg, ${card.color}24 0%, ${card.color}34 100%)`,
                     border: activeModals.card === card.id 
                       ? '1px solid rgba(15, 23, 42, 0.25)' 
                       : `1px solid ${card.color}30`,
                     boxShadow: activeModals.card === card.id 
-                      ? '0 6px 16px rgba(0,0,0,0.12)' 
-                      : '0 4px 12px rgba(0,0,0,0.08)',
+                      ? '0 10px 22px rgba(0,0,0,0.14)' 
+                      : '0 8px 16px rgba(0,0,0,0.1)',
                     textTransform: 'uppercase',
                     textAlign: 'center'
                   }}>
@@ -1867,7 +1868,7 @@ export default function QualityObjectives() {
               {/* Description */}
               <div style={{
                 fontSize: '2.0rem',
-                color: activeModals.card === card.id ? 'rgba(255, 255, 255, 0.95)' : '#475569',
+                color: '#0f172a',
                 fontWeight: '600',
                 lineHeight: '1.6',
                 position: 'relative',
