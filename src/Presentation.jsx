@@ -8,6 +8,7 @@ import IPQAOverview from './slides/IPQAOverview'
 import LabQAOverview from './slides/LabQAOverview'
 import QualityObjectivesV2 from './slides/QualityObjectives_v2'
 import ClosingSlide from './slides/ClosingSlide'
+import QualityWeekPlaceholder from './slides/QualityWeekPlaceholder'
 const primaryLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
 const fallbackLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
 
@@ -142,6 +143,7 @@ export default function Presentation() {
       <ErrorBoundary><LabQAOverview /></ErrorBoundary>
       <ErrorBoundary><QualityObjectivesV2 /></ErrorBoundary>
       <ErrorBoundary><ClosingSlide /></ErrorBoundary>
+      <ErrorBoundary><QualityWeekPlaceholder /></ErrorBoundary>
     </>
   )
 }

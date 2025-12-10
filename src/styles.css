@@ -82,6 +82,26 @@ body {
     padding-left: 96px;
 }
 
+.reveal section[data-state="quality-week-placeholder"] {
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+}
+
+.reveal section[data-state="quality-week"] {
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+}
+
 .reveal .slide-background {
     background-color: #ffffff;
 }
