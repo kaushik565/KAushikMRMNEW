@@ -85,10 +85,10 @@ export default function QualityWeek() {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{ fontSize: '1.5rem', minWidth: '36px' }}>{activity.icon}</div>
+                  <div style={{ fontSize: '1.8rem', minWidth: '40px' }}>{activity.icon}</div>
                   <div style={{ flex: 1 }}>
                     <div style={{
-                      fontSize: '1rem',
+                      fontSize: '1.2rem',
                       fontWeight: 800,
                       color: activity.textColor
                     }}>
