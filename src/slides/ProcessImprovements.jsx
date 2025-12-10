@@ -1,11 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { processImplementations } from '../data'
 
 export default function ProcessImprovements() {
-  const doneImprovements = processImplementations.filter(p => p.status === 'done')
-  const inProgressImprovements = processImplementations.filter(p => p.status === 'in-progress')
   const [expandedDone, setExpandedDone] = useState(null)
   const [expandedProgress, setExpandedProgress] = useState(null)
+
+  // Memoize filtered data to prevent recalculation on every render
+  const doneImprovements = useMemo(
+    () => processImplementations.filter(p => p.status === 'done'),
+    []
+  )
+  const inProgressImprovements = useMemo(
+    () => processImplementations.filter(p => p.status === 'in-progress'),
+    []
+  )
+
+  // Close modals when slide changes
+  useEffect(() => {
+    const handleCloseModals = () => {
+      setExpandedDone(null)
+      setExpandedProgress(null)
+    }
+
+    window.addEventListener('closeAllModals', handleCloseModals)
+    return () => {
+      window.removeEventListener('closeAllModals', handleCloseModals)
+    }
+  }, [])
 
   return (
     <section className="content-slide">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { ComposedChart, Bar, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -18,7 +18,7 @@ export default function LabQAOverview() {
     };
   }, []);
 
-  const COLORS = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b'];
+  const COLORS = useMemo(() => ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b'], []);
 
   // Smaller pie labels to keep long names readable
   const renderTestTypeLabel = ({ cx, cy, midAngle, outerRadius, percent, name, index }) => {
@@ -43,7 +43,7 @@ export default function LabQAOverview() {
     );
   };
 
-  const sitesData = [
+  const sitesData = useMemo(() => [
     {
       name: 'SITE-I',
       color: '#3b82f6',
@@ -148,7 +148,7 @@ export default function LabQAOverview() {
         { name: 'Reports Failed', value: 144, percentage: 1.9 }
       ]
     }
-  ];
+  ], [COLORS]);
 
   // Site IV Device Verification Data
   const siteIVData = [

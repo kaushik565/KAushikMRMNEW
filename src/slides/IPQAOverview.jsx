@@ -572,7 +572,7 @@ export default function IPQAOverview() {
         if (onClick) {
           e.preventDefault();
           e.stopPropagation();
-          console.log('MetricTile clicked:', label);
+          if (import.meta.env?.DEV) console.log('MetricTile clicked:', label);
           onClick();
         }
       }}
@@ -712,7 +712,7 @@ export default function IPQAOverview() {
   const SiteCard = ({ siteName, siteData }) => {
     
     const handleMetricClick = (metricName) => {
-      console.log('Card clicked:', siteName, metricName);
+      if (import.meta.env?.DEV) console.log('Card clicked:', siteName, metricName);
       
       // Only SITE-V and SITE-III have modal detailed views
       if (siteName !== 'SITE-V' && siteName !== 'SITE-III') {
@@ -720,7 +720,7 @@ export default function IPQAOverview() {
         return;
       }
 
-      console.log('Setting selected detail:', { site: siteName, metric: metricName });
+      if (import.meta.env?.DEV) console.log('Setting selected detail:', { site: siteName, metric: metricName });
       setSelectedDetail({ site: siteName, metric: metricName });
     };
 
@@ -3121,7 +3121,7 @@ export default function IPQAOverview() {
             {/* Detail Content */}
             <div style={{ height: '100%', overflow: 'auto', backgroundColor: '#f0f9ff' }}>
               {(() => {
-                console.log('Rendering detail for:', selectedDetail?.metric);
+                if (import.meta.env?.DEV) console.log('Rendering detail for:', selectedDetail?.metric);
                 
                 if (!selectedDetail || !selectedDetail.metric) {
                   return <div style={{ padding: '40px', textAlign: 'center' }}>No metric selected</div>;
@@ -3358,102 +3358,220 @@ export default function IPQAOverview() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.15))',
+            backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 999999,
-            padding: '20px'
+            padding: '20px',
+            animation: 'fadeIn 0.3s ease-out'
           }}
         >
           <div 
             onClick={(e) => e.stopPropagation()}
             style={{
-              backgroundColor: '#ffffff',
-              borderRadius: '16px',
-              maxWidth: '900px',
+              background: 'linear-gradient(to bottom, #ffffff, #fefefe)',
+              borderRadius: '24px',
+              maxWidth: '1000px',
               width: '100%',
-              maxHeight: '90vh',
-              overflow: 'auto',
+              maxHeight: '92vh',
+              overflow: 'hidden',
               position: 'relative',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(139, 92, 246, 0.1)',
+              animation: 'slideUp 0.4s ease-out'
             }}
           >
-            <button
-              onClick={() => setShowSite3Improvements(false)}
-              style={{
-                position: 'sticky',
-                top: '20px',
-                float: 'right',
-                right: '20px',
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                border: 'none',
-                backgroundColor: '#8b5cf6',
-                color: '#ffffff',
-                fontSize: '1.5em',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 1000000,
-                fontWeight: 'bold'
-              }}
-            >
-              ✕
-            </button>
-            
-            <div style={{ padding: '40px' }}>
-              <h2 style={{ 
-                fontSize: '1.8em', 
-                fontWeight: '800', 
-                color: '#8b5cf6', 
-                marginBottom: '24px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px'
+            {/* Header with gradient background */}
+            <div style={{
+              background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%)',
+              padding: '32px 40px',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+                opacity: 0.4
+              }} />
+              
+              <button
+                onClick={() => setShowSite3Improvements(false)}
+                style={{
+                  position: 'absolute',
+                  top: '20px',
+                  right: '20px',
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(10px)',
+                  color: '#ffffff',
+                  fontSize: '1.4em',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 'bold',
+                  transition: 'all 0.2s ease',
+                  zIndex: 10
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'
+                  e.currentTarget.style.transform = 'scale(1.05)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'
+                  e.currentTarget.style.transform = 'scale(1)'
+                }}
+              >
+                ✕
+              </button>
+
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '8px 16px',
+                  borderRadius: '20px',
+                  marginBottom: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}>
+                  <span style={{ fontSize: '1.3em' }}>✨</span>
+                  <span style={{ fontSize: '0.85em', fontWeight: '600', color: '#ffffff', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                    Site III IPQA
+                  </span>
+                </div>
+                
+                <h2 style={{ 
+                  fontSize: '2.2em', 
+                  fontWeight: '900', 
+                  color: '#ffffff', 
+                  margin: '0',
+                  lineHeight: '1.2',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+                }}>
+                  Key Improvements & Initiatives
+                </h2>
+              </div>
+            </div>
+
+            {/* Scrollable Content */}
+            <div style={{ 
+              padding: '32px 40px', 
+              maxHeight: 'calc(92vh - 150px)', 
+              overflowY: 'auto',
+              overflowX: 'hidden'
+            }}>
+              {/* Stats Overview */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '16px',
+                marginBottom: '32px'
               }}>
-                ✨ KEY IMPROVEMENTS & INITIATIVES
-              </h2>
+                <div style={{
+                  background: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  border: '2px solid #10b981',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{
+                    position: 'absolute',
+                    top: '-10px',
+                    right: '-10px',
+                    fontSize: '5em',
+                    opacity: 0.1,
+                    fontWeight: 'bold'
+                  }}>✓</div>
+                  <div style={{ position: 'relative', zIndex: 1 }}>
+                    <div style={{ fontSize: '3em', fontWeight: '900', color: '#059669', marginBottom: '4px' }}>8</div>
+                    <div style={{ fontSize: '0.95em', fontWeight: '700', color: '#047857', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      Completed
+                    </div>
+                    <div style={{ fontSize: '0.8em', color: '#065f46', marginTop: '4px', fontWeight: '500' }}>
+                      Successfully Implemented
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{
+                  background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  border: '2px solid #3b82f6',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{
+                    position: 'absolute',
+                    top: '-10px',
+                    right: '-10px',
+                    fontSize: '5em',
+                    opacity: 0.1,
+                    fontWeight: 'bold'
+                  }}>→</div>
+                  <div style={{ position: 'relative', zIndex: 1 }}>
+                    <div style={{ fontSize: '3em', fontWeight: '900', color: '#2563eb', marginBottom: '4px' }}>3</div>
+                    <div style={{ fontSize: '0.95em', fontWeight: '700', color: '#1d4ed8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      In Progress
+                    </div>
+                    <div style={{ fontSize: '0.8em', color: '#1e40af', marginTop: '4px', fontWeight: '500' }}>
+                      Active Development
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               {/* Completed Initiatives */}
               <div style={{
-                background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
-                borderRadius: '12px',
-                padding: '24px',
-                marginBottom: '24px',
-                border: '2px solid #22c55e'
+                marginBottom: '32px'
               }}>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
-                  marginBottom: '16px'
+                  marginBottom: '20px'
                 }}>
                   <div style={{
-                    fontSize: '2em',
-                    background: '#22c55e',
-                    color: 'white',
-                    width: '50px',
-                    height: '50px',
-                    borderRadius: '50%',
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '14px',
+                    background: 'linear-gradient(135deg, #10b981, #059669)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontWeight: 'bold'
+                    fontSize: '1.5em',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
                   }}>✓</div>
-                  <div>
-                    <h3 style={{ margin: '0', fontSize: '1.3em', fontWeight: '700', color: '#166534' }}>
-                      Completed Initiatives
-                    </h3>
-                    <div style={{ fontSize: '0.9em', color: '#15803d', fontWeight: '600' }}>
-                      8 Achievements
-                    </div>
-                  </div>
+                  <h3 style={{ 
+                    margin: '0', 
+                    fontSize: '1.4em', 
+                    fontWeight: '800', 
+                    color: '#047857',
+                    letterSpacing: '-0.5px'
+                  }}>
+                    Completed Initiatives
+                  </h3>
                 </div>
 
-                <div style={{ display: 'grid', gap: '12px' }}>
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '12px' 
+                }}>
                   {[
                     'Monthly meeting with MG & MN on rejections/challenges',
                     'Observation meetings on shop floor (every 15 days)',
@@ -3465,121 +3583,205 @@ export default function IPQAOverview() {
                     'Change control tracking sheet'
                   ].map((item, idx) => (
                     <div key={idx} style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '12px',
-                      padding: '12px',
-                      background: 'white',
-                      borderRadius: '8px',
-                      border: '1px solid #bbf7d0'
+                      background: '#ffffff',
+                      border: '2px solid #d1fae5',
+                      borderRadius: '12px',
+                      padding: '14px',
+                      transition: 'all 0.2s ease',
+                      cursor: 'default',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 8px 16px rgba(16, 185, 129, 0.15)'
+                      e.currentTarget.style.borderColor = '#10b981'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = 'none'
+                      e.currentTarget.style.borderColor = '#d1fae5'
                     }}>
                       <div style={{
-                        fontSize: '1.2em',
-                        fontWeight: 'bold',
-                        color: '#166534',
-                        minWidth: '30px'
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '10px'
                       }}>
-                        {idx + 1}.
+                        <div style={{
+                          minWidth: '28px',
+                          height: '28px',
+                          borderRadius: '8px',
+                          background: 'linear-gradient(135deg, #d1fae5, #a7f3d0)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.85em',
+                          fontWeight: '800',
+                          color: '#047857'
+                        }}>
+                          {idx + 1}
+                        </div>
+                        <div style={{
+                          fontSize: '0.88em',
+                          color: '#065f46',
+                          fontWeight: '600',
+                          lineHeight: '1.5',
+                          flex: 1
+                        }}>
+                          {item}
+                        </div>
                       </div>
                       <div style={{
-                        fontSize: '0.95em',
-                        color: '#166534',
-                        fontWeight: '500',
-                        lineHeight: '1.5'
-                      }}>
-                        {item}
-                      </div>
+                        position: 'absolute',
+                        top: '8px',
+                        right: '8px',
+                        fontSize: '1.2em',
+                        color: '#10b981',
+                        opacity: 0.3
+                      }}>✓</div>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* In Progress Initiatives */}
-              <div style={{
-                background: 'linear-gradient(135deg, #eff6ff, #dbeafe)',
-                borderRadius: '12px',
-                padding: '24px',
-                border: '2px solid #3b82f6'
-              }}>
+              <div>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
-                  marginBottom: '16px'
+                  marginBottom: '20px'
                 }}>
                   <div style={{
-                    fontSize: '2em',
-                    background: '#3b82f6',
-                    color: 'white',
-                    width: '50px',
-                    height: '50px',
-                    borderRadius: '50%',
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '14px',
+                    background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontWeight: 'bold'
+                    fontSize: '1.5em',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
                   }}>→</div>
-                  <div>
-                    <h3 style={{ margin: '0', fontSize: '1.3em', fontWeight: '700', color: '#1e40af' }}>
-                      In Progress
-                    </h3>
-                    <div style={{ fontSize: '0.9em', color: '#1d4ed8', fontWeight: '600' }}>
-                      3 In Progress
-                    </div>
-                  </div>
+                  <h3 style={{ 
+                    margin: '0', 
+                    fontSize: '1.4em', 
+                    fontWeight: '800', 
+                    color: '#1e40af',
+                    letterSpacing: '-0.5px'
+                  }}>
+                    In Progress Initiatives
+                  </h3>
                 </div>
 
                 <div style={{ display: 'grid', gap: '16px' }}>
                   {[
-                    { icon: '📊', name: 'Defect Rate Setting', progress: 65 },
-                    { icon: '📋', name: 'Limit Sample Register', progress: 45 },
-                    { icon: '📱', name: 'QR Scanning Software', progress: 50 }
+                    { icon: '📊', name: 'Defect Rate Setting', progress: 65, color: '#3b82f6' },
+                    { icon: '📋', name: 'Limit Sample Register', progress: 45, color: '#8b5cf6' },
+                    { icon: '📱', name: 'QR Scanning Software', progress: 50, color: '#06b6d4' }
                   ].map((item, idx) => (
                     <div key={idx} style={{
-                      padding: '16px',
-                      background: 'white',
-                      borderRadius: '8px',
-                      border: '1px solid #bfdbfe'
+                      background: '#ffffff',
+                      border: '2px solid #dbeafe',
+                      borderRadius: '16px',
+                      padding: '20px',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateX(4px)'
+                      e.currentTarget.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.15)'
+                      e.currentTarget.style.borderColor = item.color
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateX(0)'
+                      e.currentTarget.style.boxShadow = 'none'
+                      e.currentTarget.style.borderColor = '#dbeafe'
                     }}>
                       <div style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        marginBottom: '8px'
+                        marginBottom: '14px'
                       }}>
                         <div style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px',
-                          fontSize: '1em',
-                          fontWeight: '700',
-                          color: '#1e40af'
+                          gap: '12px'
                         }}>
-                          <span style={{ fontSize: '1.3em' }}>{item.icon}</span>
-                          {item.name}
+                          <div style={{
+                            width: '44px',
+                            height: '44px',
+                            borderRadius: '12px',
+                            background: `linear-gradient(135deg, ${item.color}15, ${item.color}08)`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '1.5em'
+                          }}>
+                            {item.icon}
+                          </div>
+                          <div style={{
+                            fontSize: '1.05em',
+                            fontWeight: '700',
+                            color: '#1e293b'
+                          }}>
+                            {item.name}
+                          </div>
                         </div>
                         <div style={{
-                          fontSize: '1.1em',
-                          fontWeight: '800',
-                          color: '#3b82f6'
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-end'
                         }}>
-                          {item.progress}% Complete
+                          <div style={{
+                            fontSize: '1.8em',
+                            fontWeight: '900',
+                            color: item.color,
+                            lineHeight: '1'
+                          }}>
+                            {item.progress}%
+                          </div>
+                          <div style={{
+                            fontSize: '0.7em',
+                            color: '#64748b',
+                            fontWeight: '600',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.5px'
+                          }}>
+                            Complete
+                          </div>
                         </div>
                       </div>
+                      
                       <div style={{
                         width: '100%',
-                        height: '12px',
-                        background: '#e0e7ff',
-                        borderRadius: '6px',
-                        overflow: 'hidden'
+                        height: '10px',
+                        background: `${item.color}15`,
+                        borderRadius: '10px',
+                        overflow: 'hidden',
+                        position: 'relative'
                       }}>
                         <div style={{
                           width: `${item.progress}%`,
                           height: '100%',
-                          background: 'linear-gradient(90deg, #3b82f6, #2563eb)',
-                          borderRadius: '6px',
-                          transition: 'width 0.3s ease'
-                        }} />
+                          background: `linear-gradient(90deg, ${item.color}, ${item.color}dd)`,
+                          borderRadius: '10px',
+                          transition: 'width 0.6s cubic-bezier(0.65, 0, 0.35, 1)',
+                          position: 'relative',
+                          overflow: 'hidden'
+                        }}>
+                          <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                            animation: 'shimmer 2s infinite'
+                          }} />
+                        </div>
                       </div>
                     </div>
                   ))}

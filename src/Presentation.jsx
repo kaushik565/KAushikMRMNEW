@@ -1,5 +1,6 @@
-﻿import { useEffect } from 'react'
+﻿import { useEffect, useRef } from 'react'
 import Reveal from 'reveal.js'
+import ErrorBoundary from './ErrorBoundary'
 import TitleSlide from './slides/TitleSlide'
 import QMSOverview from './slides/QMSOverview'
 import SiteOverview from './slides/SiteOverview'
@@ -11,16 +12,54 @@ const primaryLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/
 const fallbackLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
 
 export default function Presentation() {
+  const deckRef = useRef(null)
+  const timerRef = useRef(null)
+
   useEffect(() => {
-    let deck = null
-    let timer = null
+    const handleSlideState = () => {
+      const deck = deckRef.current
+      const current = deck?.getCurrentSlide()
+      const isTitle = current?.dataset?.state === 'title-slide'
+      const isClosing = current?.classList?.contains('closing-slide')
+      document.body.classList.toggle('hide-corner-logo', !!(isTitle || isClosing))
+
+      // Dispatch custom event to close all modals
+      window.dispatchEvent(new CustomEvent('closeAllModals'))
+
+      // Scroll to top when slide changes - reset all scrollable elements
+      if (current) {
+        current.scrollTop = 0
+
+        const scrollableElements = current.querySelectorAll('div[style*="overflow"], div[style*="scroll"]')
+        scrollableElements.forEach(el => { el.scrollTop = 0 })
+
+        const contentWrappers = current.querySelectorAll('.slide-content, section, [class*="container"]')
+        contentWrappers.forEach(el => { el.scrollTop = 0 })
+      }
+    }
+
+    const handleKeydown = (e) => {
+      const deck = deckRef.current
+      if (!deck) return
+      if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        deck.right()
+        // Force layout recalculation after navigation
+        setTimeout(() => deck.layout?.(), 50)
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        deck.left()
+        // Force layout recalculation after navigation
+        setTimeout(() => deck.layout?.(), 50)
+      }
+    }
 
     // Small delay to ensure all sections are rendered
-    timer = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       const revealElement = document.querySelector('.reveal')
-      
+
       if (revealElement) {
-        deck = new Reveal(revealElement, {
+        const deck = new Reveal(revealElement, {
           embedded: false,
           progress: true,
           history: true,
@@ -52,62 +91,38 @@ export default function Presentation() {
           margin: 0.04,
           minScale: 0.2,
           maxScale: 2.0,
-          viewDistance: 2,
-          mobileViewDistance: 1,
+          viewDistance: 3,
+          mobileViewDistance: 2,
           pdfMaxPagesPerSlide: 1, // Ensure one slide per PDF page
           pdfPageHeightOffset: 0,
         })
 
+        deckRef.current = deck
+
         deck.initialize()
-
-        const handleSlideState = () => {
-          const current = deck?.getCurrentSlide()
-          const isTitle = current?.dataset?.state === 'title-slide'
-          const isClosing = current?.classList?.contains('closing-slide')
-          document.body.classList.toggle('hide-corner-logo', !!(isTitle || isClosing))
-          
-          // Dispatch custom event to close all modals
-          window.dispatchEvent(new CustomEvent('closeAllModals'))
-          
-          // Scroll to top when slide changes - reset all scrollable elements
-          if (current) {
-            // Reset main slide scroll
-            current.scrollTop = 0
-            
-            // Reset all scrollable containers within the slide
-            const scrollableElements = current.querySelectorAll('div[style*="overflow"], div[style*="scroll"]')
-            scrollableElements.forEach(el => {
-              el.scrollTop = 0
-            })
-            
-            // Reset common content wrappers
-            const contentWrappers = current.querySelectorAll('.slide-content, section, [class*="container"]')
-            contentWrappers.forEach(el => {
-              el.scrollTop = 0
-            })
-          }
-        }
-
         deck.on('ready', handleSlideState)
         deck.on('slidechanged', handleSlideState)
 
-        // Custom keyboard controls for arrow keys (left/right only to avoid auto-scrolling)
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'ArrowRight') {
-            e.preventDefault()
-            deck.right()
-          } else if (e.key === 'ArrowLeft') {
-            e.preventDefault()
-            deck.left()
-          }
+        document.addEventListener('keydown', handleKeydown)
+
+        deck.on('destroy', () => {
+          document.removeEventListener('keydown', handleKeydown)
         })
       }
     }, 150)
 
     return () => {
-      if (timer) clearTimeout(timer)
+      if (timerRef.current) clearTimeout(timerRef.current)
       document.body.classList.remove('hide-corner-logo')
-      if (deck) deck.destroy()
+      document.removeEventListener('keydown', handleKeydown)
+
+      const deck = deckRef.current
+      if (deck) {
+        deck.off('ready', handleSlideState)
+        deck.off('slidechanged', handleSlideState)
+        deck.destroy()
+        deckRef.current = null
+      }
     }
   }, [])
 
@@ -121,12 +136,12 @@ export default function Presentation() {
         />
       </div>
       {/* React mounts into #root inside the Reveal structure defined in index.html */}
-      <TitleSlide />
-      <SiteOverview />
-      <IPQAOverview />
-      <LabQAOverview />
-      <QualityObjectivesV2 />
-      <ClosingSlide />
+      <ErrorBoundary><TitleSlide /></ErrorBoundary>
+      <ErrorBoundary><SiteOverview /></ErrorBoundary>
+      <ErrorBoundary><IPQAOverview /></ErrorBoundary>
+      <ErrorBoundary><LabQAOverview /></ErrorBoundary>
+      <ErrorBoundary><QualityObjectivesV2 /></ErrorBoundary>
+      <ErrorBoundary><ClosingSlide /></ErrorBoundary>
     </>
   )
 }

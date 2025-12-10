@@ -2,20 +2,24 @@ import React, { useState, useEffect } from 'react';
 import FullScreenChartModal from '../../components/FullScreenChartModal';
 
 export default function QualityObjectives() {
-  const [activeCard, setActiveCard] = useState(null);
-  const [activeQI, setActiveQI] = useState(null);
-  const [activeQI05, setActiveQI05] = useState(null);
-  const [activeQI06, setActiveQI06] = useState(null);
-  const [activeQI07, setActiveQI07] = useState(null);
+  const [activeModals, setActiveModals] = useState({
+    card: null,
+    qi04: null,
+    qi05: null,
+    qi06: null,
+    qi07: null
+  });
 
   // Close all modals when slide changes
   useEffect(() => {
     const handleCloseModals = () => {
-      setActiveCard(null);
-      setActiveQI(null);
-      setActiveQI05(null);
-      setActiveQI06(null);
-      setActiveQI07(null);
+      setActiveModals({
+        card: null,
+        qi04: null,
+        qi05: null,
+        qi06: null,
+        qi07: null
+      });
     };
 
     window.addEventListener('closeAllModals', handleCloseModals);
@@ -25,23 +29,21 @@ export default function QualityObjectives() {
   }, []);
 
   const handleCardClick = (cardId) => {
-    setActiveCard(activeCard === cardId ? null : cardId);
-    setActiveQI(null);
-    setActiveQI05(null);
-    setActiveQI06(null);
-    setActiveQI07(null);
+    setActiveModals({
+      card: activeModals.card === cardId ? null : cardId,
+      qi04: null,
+      qi05: null,
+      qi06: null,
+      qi07: null
+    });
   };
 
   const handleQIClick = (qiIndex, objective) => {
-    if (objective === '04') {
-      setActiveQI(activeQI === qiIndex ? null : qiIndex);
-    } else if (objective === '05') {
-      setActiveQI05(activeQI05 === qiIndex ? null : qiIndex);
-    } else if (objective === '06') {
-      setActiveQI06(activeQI06 === qiIndex ? null : qiIndex);
-    } else {
-      setActiveQI07(activeQI07 === qiIndex ? null : qiIndex);
-    }
+    const key = `qi${objective}`;
+    setActiveModals(prev => ({
+      ...prev,
+      [key]: prev[key] === qiIndex ? null : qiIndex
+    }));
   };
 
   // QI Data for Objective 04
@@ -440,16 +442,11 @@ export default function QualityObjectives() {
   ];
 
   const renderQIButton = (qiItem, index, objective) => {
-    let isActive;
-    if (objective === '04') {
-      isActive = activeQI === index;
-    } else if (objective === '05') {
-      isActive = activeQI05 === index;
-    } else if (objective === '06') {
-      isActive = activeQI06 === index;
-    } else {
-      isActive = activeQI07 === index;
-    }
+    const key = `qi${objective}`;
+    const isActive = activeModals[key] === index;
+    const isObj06 = objective === '06';
+    const labelFontSize = isObj06 ? '1.15rem' : '1.5rem';
+    const labelLineHeight = isObj06 ? '1.3' : '1.2';
     
     const baseWidth = 260;
     const baseHeight = 110;
@@ -483,7 +480,7 @@ export default function QualityObjectives() {
         <div style={{ fontSize: '1.9rem', fontWeight: 800, letterSpacing: '0.5px', minWidth: '55px', textAlign: 'center', marginBottom: '6px' }}>
           QI {index + 1}
         </div>
-        <div style={{ fontSize: '1.5rem', fontWeight: 600, textAlign: 'center', lineHeight: '1.2', flex: 1, wordBreak: 'break-word' }}>
+        <div style={{ fontSize: labelFontSize, fontWeight: 600, textAlign: 'center', lineHeight: labelLineHeight, flex: 1, wordBreak: 'break-word' }}>
           {qiItem.label}
         </div>
       </div>
@@ -952,39 +949,39 @@ export default function QualityObjectives() {
               justifyContent: 'center',
               background: `${colors.primary}08`,
               borderRadius: '14px',
-              padding: '16px'
+              padding: '18px'
             }}>
               <div style={{
                 position: 'relative',
-                width: '120px',
-                height: '120px',
+                width: '150px',
+                height: '150px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginBottom: '8px'
               }}>
-                <svg width="120" height="120" style={{ transform: 'rotate(-90deg)', position: 'absolute' }}>
-                  <circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" strokeWidth="8"/>
+                <svg width="150" height="150" style={{ transform: 'rotate(-90deg)', position: 'absolute' }}>
+                  <circle cx="75" cy="75" r="66" fill="none" stroke="#e2e8f0" strokeWidth="8"/>
                   <circle
-                    cx="60"
-                    cy="60"
-                    r="54"
+                    cx="75"
+                    cy="75"
+                    r="66"
                     fill="none"
                     stroke={colors.primary}
                     strokeWidth="8"
-                    strokeDasharray={`${(overallProgress / 100) * 2 * 3.14159 * 54} ${2 * 3.14159 * 54}`}
+                    strokeDasharray={`${(overallProgress / 100) * 2 * 3.14159 * 66} ${2 * 3.14159 * 66}`}
                     strokeDashoffset="var(--dash-total)"
                     style={{
-                      '--dash-total': `${2 * 3.14159 * 54}`,
+                      '--dash-total': `${2 * 3.14159 * 66}`,
                       animation: 'progressFill 1.5s ease-out forwards'
                     }}
                   />
                 </svg>
                 <div style={{ textAlign: 'center', zIndex: 1 }}>
-                  <div style={{ fontSize: '2rem', fontWeight: 900, color: colors.primary }}>
+                  <div style={{ fontSize: '2.2rem', fontWeight: 900, color: colors.primary }}>
                     {overallProgress}%
                   </div>
-                  <div style={{ fontSize: '1.5rem', color: '#64748b', fontWeight: 600 }}>
+                  <div style={{ fontSize: '1.4rem', color: '#64748b', fontWeight: 600 }}>
                     Complete
                   </div>
                 </div>
@@ -1681,7 +1678,7 @@ export default function QualityObjectives() {
   };
 
   return (
-    <section style={{ padding: '60px 24px', minHeight: '100vh', background: '#ffffff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', boxSizing: 'border-box', overflowY: 'auto', overflowX: 'hidden' }}>
+    <section style={{ padding: '60px 24px', minHeight: '100vh', background: '#ffffff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', boxSizing: 'border-box', overflowY: 'hidden', overflowX: 'hidden' }}>
       <div style={{ maxWidth: '1150px', width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '28px' }}>
         {/* Header */}
         <header style={{ marginBottom: '40px', textAlign: 'center' }}>
@@ -1690,7 +1687,7 @@ export default function QualityObjectives() {
         </header>
 
         <style>{`
-          ${activeCard ? '.corner-logo { display: none !important; }' : ''}
+          ${activeModals.card ? '.corner-logo { display: none !important; }' : ''}
           @keyframes slideIn {
             from {
               opacity: 0;
@@ -1757,29 +1754,27 @@ export default function QualityObjectives() {
               style={{
                 padding: '20px',
                 borderRadius: '18px',
-                border: activeCard === card.id ? `2px solid ${card.color}` : '1.5px solid #e2e8f0',
-                background: activeCard === card.id 
+                border: activeModals.card === card.id ? `2px solid ${card.color}` : '1.5px solid #e2e8f0',
+                background: activeModals.card === card.id 
                   ? `linear-gradient(145deg, ${card.color} 0%, ${card.color}d0 100%)`
                   : `linear-gradient(145deg, ${card.bgColor} 0%, #ffffff 100%)`,
-                boxShadow: activeCard === card.id 
+                boxShadow: activeModals.card === card.id 
                   ? `0 14px 36px ${card.color}30`
                   : '0 10px 26px rgba(15, 23, 42, 0.08)',
                 cursor: 'pointer',
                 transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                transform: activeCard === card.id ? 'translateY(-8px)' : 'translateY(0)',
+                transform: activeModals.card === card.id ? 'translateY(-8px)' : 'translateY(0)',
                 position: 'relative',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
                 animation: `slideIn 0.5s ease-out ${idx * 0.1}s both`,
-                aspectRatio: '1 / 1',
-                minHeight: '700px',
                 height: '100%'
               }}
             >
               {/* Active Indicator */}
-              {activeCard === card.id && (
+              {activeModals.card === card.id && (
                 <div style={{
                   position: 'absolute',
                   top: '16px',
@@ -1802,7 +1797,7 @@ export default function QualityObjectives() {
               )}
 
               {/* Title Section */}
-              <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+              <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
                 {['04', '05', '06', '07'].includes(card.id) && (
                   <div style={{
                     padding: '8px 14px',
@@ -1811,13 +1806,13 @@ export default function QualityObjectives() {
                     fontWeight: 800,
                     letterSpacing: '0.5px',
                     color: '#0f172a',
-                    background: activeCard === card.id 
+                    background: activeModals.card === card.id 
                       ? 'rgba(255, 255, 255, 0.35)' 
                       : `linear-gradient(135deg, ${card.color}18 0%, ${card.color}28 100%)`,
-                    border: activeCard === card.id 
+                    border: activeModals.card === card.id 
                       ? '1px solid rgba(15, 23, 42, 0.25)' 
                       : `1px solid ${card.color}30`,
-                    boxShadow: activeCard === card.id 
+                    boxShadow: activeModals.card === card.id 
                       ? '0 6px 16px rgba(0,0,0,0.12)' 
                       : '0 4px 12px rgba(0,0,0,0.08)',
                     textTransform: 'uppercase',
@@ -1831,7 +1826,7 @@ export default function QualityObjectives() {
               {/* Description */}
               <div style={{
                 fontSize: '1.5rem',
-                color: activeCard === card.id ? 'rgba(255, 255, 255, 0.95)' : '#475569',
+                color: activeModals.card === card.id ? 'rgba(255, 255, 255, 0.95)' : '#475569',
                 fontWeight: '500',
                 lineHeight: '1.55',
                 position: 'relative',
@@ -1857,7 +1852,7 @@ export default function QualityObjectives() {
           </div>
         </div>
         {/* Full Screen Modal/Details Section */}
-        {activeCard && (
+        {activeModals.card && (
           <div style={{
             position: 'fixed',
             top: 0,
@@ -1873,7 +1868,7 @@ export default function QualityObjectives() {
           }}>
             {/* Close Button */}
             <button
-              onClick={() => setActiveCard(null)}
+              onClick={() => setActiveModals({ card: null, qi04: null, qi05: null, qi06: null, qi07: null })}
               style={{
                 position: 'fixed',
                 top: '24px',
@@ -1916,7 +1911,7 @@ export default function QualityObjectives() {
             }}>
 
             {/* Modal Header */}
-            {activeCard === '04' && (
+            {activeModals.card === '04' && (
               <>
                 <div style={{ 
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
@@ -1937,9 +1932,9 @@ export default function QualityObjectives() {
                 </div>
 
                 {/* Site Data Cards */}
-                {activeQI !== null ? (
+                {activeModals.qi04 !== null ? (
                   <div style={{ animation: 'slideIn 0.4s ease-out' }}>
-                    {renderSiteCards(qiDataMap[activeQI], { primary: '#667eea', accent: '#764ba2', light: '#f3f0ff' })}
+                    {renderSiteCards(qiDataMap[activeModals.qi04], { primary: '#667eea', accent: '#764ba2', light: '#f3f0ff' })}
                   </div>
                 ) : (
                   <div style={{ textAlign: 'center', color: '#475569', padding: '8px 0' }}>Select a QI to view site-wise details.</div>
@@ -1947,7 +1942,7 @@ export default function QualityObjectives() {
               </>
             )}
 
-            {activeCard === '05' && (
+            {activeModals.card === '05' && (
               <>
                 <div style={{ 
                   background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', 
@@ -1968,9 +1963,9 @@ export default function QualityObjectives() {
                 </div>
 
                 {/* Site Data Cards */}
-                {activeQI05 !== null ? (
+                {activeModals.qi05 !== null ? (
                   <div style={{ animation: 'slideIn 0.4s ease-out' }}>
-                    {renderSiteCards(obj05_qiDataMap[activeQI05], { primary: '#059669', accent: '#047857', light: '#ecfdf5' })}
+                    {renderSiteCards(obj05_qiDataMap[activeModals.qi05], { primary: '#059669', accent: '#047857', light: '#ecfdf5' })}
                   </div>
                 ) : (
                   <div style={{ textAlign: 'center', color: '#475569', padding: '8px 0' }}>Select a QI to view site-wise details.</div>
@@ -1978,7 +1973,7 @@ export default function QualityObjectives() {
               </>
             )}
 
-            {activeCard === '06' && (
+            {activeModals.card === '06' && (
               <>
                 <div style={{ 
                   background: 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)', 
@@ -1999,9 +1994,9 @@ export default function QualityObjectives() {
                 </div>
 
                 {/* Site Data Cards */}
-                {activeQI06 !== null ? (
+                {activeModals.qi06 !== null ? (
                   <div style={{ animation: 'slideIn 0.4s ease-out' }}>
-                    {renderSiteCards(obj06_qiDataMap[activeQI06], { primary: '#0ea5e9', accent: '#06b6d4', light: '#ecf0ff' })}
+                    {renderSiteCards(obj06_qiDataMap[activeModals.qi06], { primary: '#0ea5e9', accent: '#06b6d4', light: '#ecf0ff' })}
                   </div>
                 ) : (
                   <div style={{ textAlign: 'center', color: '#475569', padding: '8px 0' }}>Select a QI to view details.</div>
@@ -2009,7 +2004,7 @@ export default function QualityObjectives() {
               </>
             )}
 
-      {activeCard === '07' && (
+      {activeModals.card === '07' && (
               <>
                 <div style={{ 
                   background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', 
@@ -2030,9 +2025,9 @@ export default function QualityObjectives() {
                 </div>
 
                 {/* Site Data Cards */}
-                {activeQI07 !== null ? (
+                {activeModals.qi07 !== null ? (
                   <div style={{ animation: 'slideIn 0.4s ease-out' }}>
-                    {renderSiteCards(obj07_qiDataMap[activeQI07], { primary: '#f59e0b', accent: '#d97706', light: '#fff7ed' })}
+                    {renderSiteCards(obj07_qiDataMap[activeModals.qi07], { primary: '#f59e0b', accent: '#d97706', light: '#fff7ed' })}
                   </div>
                 ) : (
                   <div style={{ textAlign: 'center', color: '#475569', padding: '8px 0' }}>Select a QI to view site-wise details.</div>

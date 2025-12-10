@@ -478,6 +478,60 @@ function SiteComparisonGrid({ onSiteClick }) {
       }
     ];
 
+    const departmentsList = ['CA', 'MD', 'QC', 'PU', 'HR', 'DI', 'MN', 'IT', 'ST', 'DP'];
+
+    const departmentParticipation = [
+      {
+        month: 'July',
+        agendas: [
+          { title: 'Pending Entry Log Meeting', count: 3, attendees: ['CA', 'MD', 'QC', 'PU', 'HR', 'DI', 'MN', 'IT', 'ST', 'DP'] },
+          { title: 'Discussion of Observations in Shop Floor', count: 2, attendees: ['CA', 'MD', 'QC'] },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2, attendees: ['CA', 'MD', 'QC', 'MN'] }
+        ]
+      },
+      {
+        month: 'August',
+        agendas: [
+          { title: 'Pending Entry Log Meeting', count: 2, attendees: ['CA', 'MD', 'QC', 'PU', 'HR', 'DI', 'MN', 'IT', 'ST'] },
+          { title: 'Discussion of Observations in Shop Floor', count: 2, attendees: ['CA', 'MD', 'QC'] },
+          { title: 'Discussion on Minor Rejection Materials', count: 1, attendees: ['CA'] },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2, attendees: ['CA', 'MD', 'QC', 'DI', 'MN'] }
+        ]
+      },
+      {
+        month: 'September',
+        agendas: [
+          { title: 'Pending Entry Log Meeting', count: 2, attendees: ['CA', 'MD', 'QC', 'PU', 'HR', 'DI', 'MN', 'IT', 'ST'] },
+          { title: 'Discussion of Observations in Shop Floor', count: 2, attendees: ['CA', 'MD', 'QC'] },
+          { title: 'Discussion on Device Rejection and its Root Causes', count: 1, attendees: ['MD', 'QC'] },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2, attendees: ['CA', 'MD', 'QC', 'DI', 'MN'] }
+        ]
+      },
+      {
+        month: 'October',
+        agendas: [
+          { title: 'Pending Entry Log Meeting', count: 2, attendees: ['CA', 'MD', 'QC', 'PU', 'HR', 'DI', 'MN', 'IT', 'ST', 'DP'] },
+          { title: 'Discussion on Rejection with Visual Inspection Operators', count: 1, attendees: ['CA'] },
+          { title: 'Monthly Rejections Meeting', count: 1, attendees: ['CA', 'QC', 'MN'] },
+          { title: 'Operator-wise rejections, traceability, yield', count: 1, attendees: ['CA'] },
+          { title: 'Stage wise rejections meeting', count: 31, attendees: ['CA'] },
+          { title: 'Discussion of Observations in Shop Floor', count: 2, attendees: ['CA', 'MD'] },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2, attendees: ['CA', 'MD', 'QC'] }
+        ]
+      },
+      {
+        month: 'November',
+        agendas: [
+          { title: 'Pending Entry Log Meeting', count: 2, attendees: ['CA', 'MD', 'QC', 'PU', 'HR', 'DI', 'MN', 'IT', 'ST', 'DP'] },
+          { title: 'Stage wise rejections meeting', count: 15, attendees: ['CA'] },
+          { title: 'Discussion of Observations in Shop Floor', count: 2, attendees: ['CA', 'MD'] },
+          { title: 'Operator-wise rejections, traceability, yield', count: 1, attendees: ['CA'] },
+          { title: 'Discussion on Rejection with Visual Inspection Operators', count: 3, attendees: ['CA'] },
+          { title: 'Monthly meeting with MG (Device and Cartridge)', count: 2, attendees: ['CA', 'MD', 'QC'] }
+        ]
+      }
+    ];
+
     const positiveGains = metrics
       .filter((m) => m.improvement > 0)
       .sort((a, b) => b.improvement - a.improvement);
@@ -486,17 +540,59 @@ function SiteComparisonGrid({ onSiteClick }) {
     const compositeImprovement = Math.round(positiveGains.reduce((sum, m) => sum + m.improvement, 0) / positiveGains.length);
     const totalMeetings = collaborationMeetings.reduce((sum, m) => sum + m.meetings, 0);
     const totalAgendaItems = collaborationAgenda.reduce((sum, m) => sum + m.items.length, 0);
+    const totalDepartmentsInvolved = new Set(departmentParticipation.flatMap((m) => m.agendas.flatMap((a) => a.attendees))).size;
+
+    const agendaTotals = departmentParticipation.reduce((acc, month) => {
+      month.agendas.forEach((a) => {
+        acc[a.title] = (acc[a.title] || 0) + a.count;
+      });
+      return acc;
+    }, {});
+
+    const topAgendaItems = Object.entries(agendaTotals)
+      .map(([title, count]) => ({ title, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 4);
+
+    const agendaParticipationDetails = Object.values(
+      departmentParticipation.reduce((acc, month) => {
+        month.agendas.forEach((a) => {
+          if (!acc[a.title]) {
+            acc[a.title] = {
+              title: a.title,
+              totalSessions: 0,
+              departments: new Set(),
+              months: new Set()
+            };
+          }
+          acc[a.title].totalSessions += a.count;
+          a.attendees.forEach((d) => acc[a.title].departments.add(d));
+          acc[a.title].months.add(month.month);
+        });
+        return acc;
+      }, {})
+    )
+      .map((item) => ({
+        title: item.title,
+        totalSessions: item.totalSessions,
+        departments: Array.from(item.departments),
+        months: Array.from(item.months)
+      }))
+      .sort((a, b) => b.totalSessions - a.totalSessions);
+
+    const maxMeetings = Math.max(...collaborationMeetings.map((m) => m.meetings));
+    const avgMeetings = Math.round(totalMeetings / collaborationMeetings.length);
 
     // Key achievements
     const achievements = [
       { 
-        icon: '🤝', 
-        title: 'Collaboration Meetings', 
-        metric: totalMeetings,
-        unit: 'sessions',
-        desc: 'Cross-functional QA-led meetings',
-        color: '#3b82f6',
-        bgColor: '#eff6ff'
+        icon: '⚡', 
+        title: 'Impact Assessment Time', 
+        metric: '61%',
+        unit: 'improvement',
+        desc: 'Reduced CC impact time',
+        color: '#ef4444',
+        bgColor: '#fef2f2'
       },
       { 
         icon: '📊', 
@@ -524,15 +620,6 @@ function SiteComparisonGrid({ onSiteClick }) {
         desc: 'Faster incident resolution',
         color: '#10b981',
         bgColor: '#ecfdf5'
-      },
-      { 
-        icon: '⚡', 
-        title: 'Impact Assessment Time', 
-        metric: '61%',
-        unit: 'improvement',
-        desc: 'Reduced CC impact time',
-        color: '#ef4444',
-        bgColor: '#fef2f2'
       }
     ];
 
@@ -583,71 +670,136 @@ function SiteComparisonGrid({ onSiteClick }) {
             </div>
 
             {/* Collaboration Meetings Deep Dive - THE STAR SECTION */}
-            <div style={{marginBottom: '28px', padding: '24px', borderRadius: '14px', background: 'linear-gradient(135deg, #eff6ff, #dbeafe)', border: '2px solid #0ea5e9'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px'}}>
-                <div style={{fontSize: '1.8em'}}>🤝</div>
-                <div>
-                  <div style={{fontSize: '1.1em', fontWeight: '800', color: '#0c4a6e'}}>Collaboration Meetings – The Driver</div>
-                  <div style={{fontSize: '0.85em', color: '#0369a1'}}>Foundation of all improvements across SITE-III</div>
+            <div style={{marginBottom: '28px', padding: '24px', borderRadius: '14px', background: '#ffffff', color: '#0f172a', border: '1px solid #e2e8f0', boxShadow: '0 14px 32px rgba(15, 23, 42, 0.08)'}}>
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px', marginBottom: '16px'}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                  <div style={{fontSize: '1.8em'}}>🤝</div>
+                  <div>
+                    <div style={{fontSize: '1.05em', fontWeight: '800', letterSpacing: '-0.2px', color: '#0f172a'}}>Collaboration Meetings – The Driver</div>
+                    <div style={{fontSize: '0.85em', color: '#475569'}}>Foundation of all improvements across SITE-III</div>
+                  </div>
+                </div>
+                <div style={{display: 'flex', gap: '8px'}}>
+                  <div style={{fontSize: '0.75em', fontWeight: '800', color: '#0ea5e9', background: '#e0f2fe', border: '1px solid #bae6fd', padding: '6px 10px', borderRadius: '10px'}}>Jul–Nov</div>
+                  <div style={{fontSize: '0.75em', fontWeight: '800', color: '#15803d', background: '#dcfce7', border: '1px solid #bbf7d0', padding: '6px 10px', borderRadius: '10px'}}>Peak: Oct</div>
                 </div>
               </div>
 
-              {/* Monthly progression */}
-              <div style={{marginBottom: '18px'}}>
-                <div style={{fontSize: '0.85em', fontWeight: '700', color: '#0c4a6e', marginBottom: '10px', textTransform: 'uppercase'}}>📈 Meeting Growth Trend</div>
-                <div style={{display: 'flex', alignItems: 'flex-end', gap: '8px', height: '70px', justifyContent: 'space-around', background: '#fff', padding: '12px', borderRadius: '10px'}}>
-                  {collaborationMeetings.map((m, idx) => {
-                    const height = (m.meetings / 40) * 100;
-                    const nextMonth = collaborationMeetings[idx + 1];
-                    const growthRate = nextMonth ? Math.round(((nextMonth.meetings - m.meetings) / m.meetings) * 100) : 0;
-                    return (
-                      <div key={idx} style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px'}}>
-                        <div style={{fontSize: '0.7em', fontWeight: '700', color: '#0f172a'}}>{m.meetings}</div>
-                        <div style={{width: '100%', height: `${height}px`, background: '#0ea5e9', borderRadius: '4px 4px 0 0', position: 'relative'}}>
-                          {growthRate > 0 && (
-                            <div style={{position: 'absolute', top: '-20px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.7em', fontWeight: '700', color: '#10b981'}}>↑{growthRate}%</div>
-                          )}
-                        </div>
-                        <div style={{fontSize: '0.7em', color: '#475569', fontWeight: '600'}}>{m.month.slice(0, 3)}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Agenda topics */}
-              <div style={{marginBottom: '14px'}}>
-                <div style={{fontSize: '0.85em', fontWeight: '700', color: '#0c4a6e', marginBottom: '10px', textTransform: 'uppercase'}}>📋 Agenda Topics Covered</div>
-                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '10px'}}>
-                  {collaborationAgenda.map((month) => {
-                    const total = month.items.reduce((sum, i) => sum + i.count, 0);
-                    const topItem = [...month.items].sort((a, b) => b.count - a.count)[0];
-                    return (
-                      <div key={month.month} style={{padding: '10px', borderRadius: '10px', background: '#fff', border: '1px solid #bae6fd', textAlign: 'center'}}>
-                        <div style={{fontSize: '0.8em', fontWeight: '700', color: '#0369a1', marginBottom: '6px'}}>{month.month}</div>
-                        <div style={{fontSize: '1.4em', fontWeight: '900', color: '#0ea5e9', marginBottom: '4px'}}>{total}</div>
-                        <div style={{fontSize: '0.7em', color: '#475569', lineHeight: '1.2'}}>
-                          {topItem.title.length > 25 ? topItem.title.slice(0, 25) + '...' : topItem.title}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Key stats */}
-              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px'}}>
-                {[
-                  { label: 'Total Sessions', value: totalMeetings, color: '#0ea5e9' },
-                  { label: 'Peak Month', value: 'Oct (40)', color: '#0369a1' },
-                  { label: 'Topics', value: totalAgendaItems, color: '#0c4a6e' },
-                  { label: 'Departments', value: '10+', color: '#164e63' }
+              {/* Top strip */}
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px', marginBottom: '16px'}}>
+                {[ 
+                  { label: 'Total Sessions', value: totalMeetings, color: '#0284c7', bg: '#e0f2fe' },
+                  { label: 'Avg / Month', value: Math.round(totalMeetings / collaborationMeetings.length), color: '#7c3aed', bg: '#f3e8ff' },
+                  { label: 'Departments', value: totalDepartmentsInvolved, color: '#059669', bg: '#dcfce7' },
+                  { label: 'Topics', value: totalAgendaItems, color: '#d97706', bg: '#fef3c7' }
                 ].map((stat, idx) => (
-                  <div key={idx} style={{padding: '10px', borderRadius: '10px', background: '#fff', border: '1px solid #bae6fd', textAlign: 'center'}}>
-                    <div style={{fontSize: '1.5em', fontWeight: '900', color: stat.color}}>{stat.value}</div>
-                    <div style={{fontSize: '0.7em', color: '#475569', fontWeight: '700', marginTop: '4px'}}>{stat.label}</div>
+                  <div key={idx} style={{padding: '12px', borderRadius: '12px', background: stat.bg, border: `1px solid ${stat.color}30`, display: 'flex', flexDirection: 'column', gap: '6px'}}>
+                    <div style={{fontSize: '0.75em', fontWeight: '800', color: '#0f172a', letterSpacing: '0.3px'}}>{stat.label}</div>
+                    <div style={{fontSize: '1.8em', fontWeight: '900', color: stat.color}}>{stat.value}</div>
                   </div>
                 ))}
+              </div>
+
+              {/* Mid row: growth + agenda mix */}
+              <div style={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '12px', marginBottom: '16px'}}>
+                <div style={{background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '12px'}}>
+                  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px'}}>
+                    <div style={{fontSize: '0.8em', fontWeight: '800', color: '#0f172a'}}>📈 Growth Trend</div>
+                    <div style={{display: 'flex', gap: '6px'}}>
+                      <div style={{fontSize: '0.7em', fontWeight: '800', color: '#0ea5e9', background: '#e0f2fe', borderRadius: '8px', padding: '4px 8px'}}>Total {totalMeetings}</div>
+                      <div style={{fontSize: '0.7em', fontWeight: '800', color: '#15803d', background: '#dcfce7', borderRadius: '8px', padding: '4px 8px'}}>Peak {maxMeetings}</div>
+                    </div>
+                  </div>
+                  <div style={{position: 'relative', height: '190px', padding: '12px 12px 18px 12px', background: '#f8fafc', borderRadius: '10px', border: '1px dashed #cbd5e1', overflow: 'hidden'}}>
+                    <div style={{position: 'absolute', inset: '10px 12px 14px 12px', display: 'grid', gridTemplateColumns: `repeat(${collaborationMeetings.length}, 1fr)`, gap: '10px', alignItems: 'end'}}>
+                      {collaborationMeetings.map((m, idx) => {
+                        const heightPct = Math.round((m.meetings / maxMeetings) * 100);
+                        const delta = idx === 0 ? 0 : m.meetings - collaborationMeetings[idx - 1].meetings;
+                        const badgeColor = delta > 0 ? '#15803d' : delta < 0 ? '#dc2626' : '#475569';
+                        const badgeText = idx === 0 ? 'start' : delta > 0 ? `+${delta}` : delta < 0 ? `${delta}` : 'flat';
+                        return (
+                          <div key={m.month} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', height: '100%'}}>
+                            <div style={{fontSize: '0.62em', fontWeight: '800', color: badgeColor, background: '#ffffff', border: `1px solid ${badgeColor}33`, borderRadius: '8px', padding: '3px 8px', textTransform: 'uppercase'}}>
+                              {badgeText}
+                            </div>
+                            <div style={{width: '100%', height: '100%', display: 'flex', alignItems: 'flex-end'}}>
+                              <div style={{width: '100%', height: `${heightPct}%`, background: 'linear-gradient(180deg, #0ea5e9 0%, #0369a1 100%)', borderRadius: '10px', border: '1px solid #bae6fd', boxShadow: '0 10px 20px rgba(14, 165, 233, 0.2)', position: 'relative', overflow: 'hidden'}}>
+                                <div style={{position: 'absolute', inset: '6px', borderRadius: '8px', background: 'linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0))', opacity: 0.8}}></div>
+                                <div style={{position: 'absolute', bottom: '6px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.8em', fontWeight: '900', color: '#ffffff'}}>{m.meetings}</div>
+                              </div>
+                            </div>
+                            <div style={{fontSize: '0.72em', fontWeight: '800', color: '#0f172a'}}>{m.month.slice(0, 3)}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div style={{position: 'absolute', left: '12px', right: '12px', bottom: `${Math.round((avgMeetings / maxMeetings) * 100)}%`, borderTop: '1px dashed #94a3b8', pointerEvents: 'none'}}>
+                      <div style={{position: 'absolute', right: '0', transform: 'translateY(-8px)', background: '#0f172a', color: '#fff', fontSize: '0.65em', fontWeight: '800', borderRadius: '6px', padding: '3px 8px', boxShadow: '0 4px 10px rgba(15, 23, 42, 0.2)'}}>Avg {avgMeetings}/mo</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                  <div style={{fontSize: '0.8em', fontWeight: '800', color: '#0f172a'}}>📋 Top Agendas</div>
+                  {topAgendaItems.map((item, idx) => (
+                    <div key={idx} style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f8fafc', padding: '8px 10px', borderRadius: '10px', border: '1px solid #e2e8f0'}}>
+                      <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                        <div style={{width: '8px', height: '8px', borderRadius: '50%', background: ['#0ea5e9','#7c3aed','#15803d','#d97706'][idx % 4]}}></div>
+                        <div style={{fontSize: '0.8em', fontWeight: '800', color: '#0f172a'}}>{item.title.length > 36 ? item.title.slice(0, 36) + '…' : item.title}</div>
+                      </div>
+                      <div style={{fontSize: '0.9em', fontWeight: '900', color: '#0f172a'}}>{item.count}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Agenda participation detail (topic x departments) */}
+              <div style={{background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '12px'}}>
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                  <div>
+                    <div style={{fontSize: '0.9em', fontWeight: '800', color: '#0f172a'}}>Agenda Participation Details</div>
+                    <div style={{fontSize: '0.8em', color: '#475569', fontWeight: '600'}}>Which departments joined each topic</div>
+                  </div>
+                  <div style={{fontSize: '0.75em', fontWeight: '800', color: '#0ea5e9', background: '#e0f2fe', border: '1px solid #bae6fd', padding: '6px 10px', borderRadius: '10px'}}>
+                    Topics: {agendaParticipationDetails.length}
+                  </div>
+                </div>
+
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '10px'}}>
+                  {agendaParticipationDetails.map((agenda, idx) => (
+                    <div key={idx} style={{background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px'}}>
+                        <div style={{fontSize: '0.85em', fontWeight: '800', color: '#0f172a', lineHeight: '1.3'}}>
+                          {agenda.title.length > 44 ? agenda.title.slice(0, 44) + '…' : agenda.title}
+                        </div>
+                        <div style={{fontSize: '0.75em', fontWeight: '900', color: '#0ea5e9', background: '#e0f2fe', padding: '3px 8px', borderRadius: '8px'}}>{agenda.totalSessions}</div>
+                      </div>
+                      <div style={{display: 'flex', gap: '6px', flexWrap: 'wrap'}}>
+                        {agenda.months.map((m) => (
+                          <div key={m} style={{fontSize: '0.65em', fontWeight: '800', color: '#0f172a', background: '#fff', border: '1px solid #e2e8f0', padding: '3px 6px', borderRadius: '6px'}}>{m.slice(0,3)}</div>
+                        ))}
+                      </div>
+                      <div style={{display: 'flex', flexWrap: 'wrap', gap: '4px'}}>
+                        {departmentsList.map((dept) => {
+                          const active = agenda.departments.includes(dept);
+                          return (
+                            <div key={dept} style={{
+                              fontSize: '0.65em',
+                              fontWeight: '800',
+                              padding: '3px 6px',
+                              borderRadius: '6px',
+                              border: active ? '1px solid #0ea5e9' : '1px solid #e2e8f0',
+                              background: active ? '#e0f2fe' : '#ffffff',
+                              color: active ? '#075985' : '#94a3b8'
+                            }}>
+                              {dept}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
