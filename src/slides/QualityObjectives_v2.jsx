@@ -32,242 +32,111 @@ const styles = `
       transform: scale(1);
     }
   }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes modalSlideIn {
+    from {
+      opacity: 0;
+      transform: scale(0.92) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-20px) scale(1.05);
+    }
+  }
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 10px 30px rgba(59,130,246,0.35), 0 0 0 3px rgba(59,130,246,0.1);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(59,130,246,0.45), 0 0 0 6px rgba(59,130,246,0.2);
+    }
+  }
 `;
 
-if (typeof document !== 'undefined') {
-  const styleSheet = document.createElement('style');
-  styleSheet.textContent = styles;
-  document.head.appendChild(styleSheet);
-}
-
-export default function QualityObjectives() {
-  const [activeModals, setActiveModals] = useState({
-    card: null,
-    qi04: null,
-    qi05: null,
-    qi06: null,
-    qi07: null
-  });
+const QualityObjectives_v2 = () => {
+  const [activeModals, setActiveModals] = useState({ card: null, qi04: null, qi05: null, qi06: null, qi07: null });
   const [hoveredCard, setHoveredCard] = useState(null);
   const [obj05Qi1InfoSite, setObj05Qi1InfoSite] = useState(null);
   const [obj05Qi1InfoModal, setObj05Qi1InfoModal] = useState(null);
+  const [obj05Qi2InfoSite, setObj05Qi2InfoSite] = useState(null);
+  const [obj05Qi2InfoModal, setObj05Qi2InfoModal] = useState(null);
+  const [obj07Qi2InfoSite, setObj07Qi2InfoSite] = useState(null);
+  const [obj07Qi2InfoModal, setObj07Qi2InfoModal] = useState(null);
 
-  // Close all modals when slide changes
   useEffect(() => {
-    const handleCloseModals = () => {
-      setActiveModals({
-        card: null,
-        qi04: null,
-        qi05: null,
-        qi06: null,
-        qi07: null
-      });
-    };
-
-    window.addEventListener('closeAllModals', handleCloseModals);
-    return () => {
-      window.removeEventListener('closeAllModals', handleCloseModals);
-    };
+    const closeAll = () => setActiveModals({ card: null, qi04: null, qi05: null, qi06: null, qi07: null });
+    window.addEventListener('closeAllModals', closeAll);
+    return () => window.removeEventListener('closeAllModals', closeAll);
   }, []);
 
   const handleCardClick = (cardId) => {
-    setActiveModals({
-      card: activeModals.card === cardId ? null : cardId,
+    setActiveModals((prev) => ({
+      card: prev.card === cardId ? null : cardId,
       qi04: null,
       qi05: null,
       qi06: null,
       qi07: null
-    });
-  };
-
-  const handleQIClick = (qiIndex, objective) => {
-    const key = `qi${objective}`;
-    setActiveModals(prev => ({
-      ...prev,
-      [key]: prev[key] === qiIndex ? null : qiIndex
     }));
   };
 
-  // QI Data for Objective 04
-  const qi1Data = [
-    { 
-      site: 'Site I', 
-      value: 100, 
-      target: 100,
-      totalEmployees: 191,
-      noTraining: 99,
-      trainedOldRevision: 0,
-      trainedLatestRevision: 92,
-      topErrors: [
-        { error: 'More than Three cut sign', percentage: '24%' },
-        { error: 'Wrong entries', percentage: '17%' },
-        { error: 'Contemporaneous data', percentage: '13%' }
-      ]
-    },
-    { 
-      site: 'Site III', 
-      value: 100, 
-      target: 100,
-      totalEmployees: 103,
-      noTraining: 30,
-      trainedOldRevision: 0,
-      trainedLatestRevision: 73,
-      topErrors: [
-        { error: 'Not Accurate', percentage: '37%' },
-        { error: 'More than Three cut sign', percentage: '26%' },
-        { error: 'Not Original', percentage: '16%' }
-      ]
-    },
-    { 
-      site: 'Site V', 
-      value: 100, 
-      target: 100,
-      totalEmployees: 280,
-      noTraining: 73,
-      trainedOldRevision: 0,
-      trainedLatestRevision: 207,
-      topErrors: [
-        { error: 'More than Three cut sign', percentage: '27%' },
-        { error: 'Wrong entries', percentage: '18%' },
-        { error: 'Contemporaneous data', percentage: '14%' }
-      ]
-    }
-  ];
+  const handleQIClick = (qiIndex, objective) => {
+    const keyMap = { '04': 'qi04', '05': 'qi05', '06': 'qi06', '07': 'qi07' };
+    const key = keyMap[objective];
 
-  const qi2Data = [
-    { 
-      site: 'Site I', 
-      value: 100, 
-      target: 100,
-      trainedLatestSOP: 176,
-      evaluationPassed80: 134,
-      retrainingProvided: 31,
-      evaluation100Passed: 163
-    },
-    { 
-      site: 'Site III', 
-      value: 100, 
-      target: 100,
-      trainedLatestSOP: 103,
-      evaluationPassed80: 98,
-      retrainingProvided: 5,
-      evaluation100Passed: 103
-    },
-    { 
-      site: 'Site V', 
-      value: 100, 
-      target: 100,
-      trainedLatestSOP: 271,
-      evaluationPassed80: 230,
-      retrainingProvided: 41,
-      evaluation100Passed: 271
-    }
-  ];
+    setActiveModals((prev) => {
+      const next = { card: objective, qi04: null, qi05: null, qi06: null, qi07: null };
+      if (key) {
+        next[key] = prev.card === objective && prev[key] === qiIndex ? null : qiIndex;
+      }
+      return next;
+    });
+  };
 
-  const qi3Data = [
-    { 
-      site: 'Site I', 
-      value: 60, 
-      target: 100,
-      biweeklyChecks: [
-        { date: 'Data', status: 'No data available' }
-      ]
-    },
-    { 
-      site: 'Site III', 
-      value: 50, 
-      target: 100,
-      biweeklyChecks: [
-        { date: '31/10/2025', status: 'No GDP error found and no incident has been raised' },
-        { date: '15/11/2025', status: 'No GDP error found and no incident has been raised' },
-        { date: '29/11/2025', status: 'No GDP error found and no incident has been raised' },
-        { date: '15/12/2025', status: 'Need to check' }
-      ]
-    },
-    { 
-      site: 'Site V', 
-      value: 40, 
-      target: 100,
-      biweeklyChecks: [
-        { date: '14/11/2025', status: '08 Incidents related to GDP were initiated' },
-        { date: '05/12/2025', status: '03 Incidents related to GDP were initiated' }
-      ]
-    }
-  ];
-
-  const qi4Data = [
+  const obj05_qi1Data = [
     {
       site: 'Site I',
-      value: 0,
+      value: 100,
       target: 100,
-      status: 'Data need to add',
-      metrics: []
+      identificationOfRiskCauseMoreDefects: 100,
+      listOfActivitiesBasedOnCriticalProcess: 100
     },
     {
       site: 'Site III',
       value: 100,
       target: 100,
-      status: 'All metrics achieved',
-      metrics: [
-        { name: '50% reduction in number of GDP related incidents reported per month', achievement: '100%' },
-        { name: '100% staff trained in GDP', achievement: '100%' },
-        { name: '0% Number of GDP related audit findings in internal or external audit', achievement: '100%' },
-        { name: 'Average time taken to correct GDP related non-conformity less than 48 working Hrs', achievement: '100%' }
-      ]
-    },
-    {
-      site: 'Site V',
-      value: 0,
-      target: 100,
-      status: 'Data need to add',
-      metrics: []
-    }
-  ];
-
-  const qiDataMap = {
-    0: qi1Data,
-    1: qi2Data,
-    2: qi3Data,
-    3: qi4Data
-  };
-
-  // QI Data for Objective 05
-  const obj05_qi1Data = [
-    { 
-      site: 'Site I', 
-      value: 100, 
-      target: 100,
       identificationOfRiskCauseMoreDefects: 100,
       listOfActivitiesBasedOnCriticalProcess: 100
     },
-    { 
-      site: 'Site III', 
-      value: 100, 
-      target: 100,
-      identificationOfRiskCauseMoreDefects: 100,
-      listOfActivitiesBasedOnCriticalProcess: 100,
-      infoRows: [
-        { process: 'Cartridge Assembly and process', product: 'Cartridge Assembly', stage: 'Laser Welding process' },
-        { process: 'Device assembly and process', product: 'ASED', stage: 'Manifold' },
-        { process: 'Device assembly and process', product: 'ASED', stage: 'Testing and Heater testing stage' },
-        { process: 'Device assembly and process', product: 'ASED', stage: 'Design was updated' },
-        { process: 'Device assembly and process', product: 'ASED', stage: 'Bottom cover' },
-        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Bottom cover' },
-        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Bottom cover' },
-        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'IPQC' },
-        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Testing' },
-        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Testing' },
-        { process: 'FOUR BAY PCR Machine', product: 'FOUR BAY PCR Machine', stage: 'Testing' },
-        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'Testing' },
-        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'IPQC' },
-        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'IPQC' },
-        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'Testing' },
-        { process: 'TWO Bay PCR Machine', product: 'TWO Bay PCR Machine', stage: 'Testing' }
-      ]
-    },
-    { 
-      site: 'Site V', 
-      value: 100, 
+    {
+      site: 'Site V',
+      value: 100,
       target: 100,
       identificationOfRiskCauseMoreDefects: 100,
       listOfActivitiesBasedOnCriticalProcess: 100
@@ -275,59 +144,59 @@ export default function QualityObjectives() {
   ];
 
   const obj05_qi2Data = [
-    { 
-      site: 'Site I', 
-      value: 50, 
+    {
+      site: 'Site I',
+      value: 81,
       target: 100,
       trainingPlannerAndExecution: 50,
       trainingOfIPQAOnDefectRecognitionAndRCAnalysis: 100,
       evaluationOfPostTraining: 100,
       retrainingOrRefresherTrainingPlanner: 75
     },
-    { 
-      site: 'Site III', 
-      value: 83, 
+    {
+      site: 'Site III',
+      value: 75,
       target: 100,
       trainingPlannerAndExecution: 50,
       trainingOfIPQAOnDefectRecognitionAndRCAnalysis: 100,
       evaluationOfPostTraining: 100,
       retrainingOrRefresherTrainingPlanner: 50
     },
-    { 
-      site: 'Site V', 
-      value: 50, 
+    {
+      site: 'Site V',
+      value: 50,
       target: 100,
       trainingPlannerAndExecution: 50,
-      trainingOfIPQAOnDefectRecognitionAndRCAnalysis: 100,
-      evaluationOfPostTraining: 100,
-      retrainingOrRefresherTrainingPlanner: 75
+      trainingOfIPQAOnDefectRecognitionAndRCAnalysis: 50,
+      evaluationOfPostTraining: 50,
+      retrainingOrRefresherTrainingPlanner: 50
     }
   ];
 
   const obj05_qi3Data = [
-    { 
-      site: 'Site I', 
-      value: 92, 
+    {
+      site: 'Site I',
+      value: 100,
       target: 100,
       verificationFrequencyIncreased: 100,
-      stringentMonitoring: 75,
+      stringentMonitoring: 100,
       realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation: 100
     },
-    { 
-      site: 'Site III', 
-      value: 92, 
+    {
+      site: 'Site III',
+      value: 80,
       target: 100,
-      verificationFrequencyIncreased: 100,
+      verificationFrequencyIncreased: 80,
       stringentMonitoring: 75,
-      realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation: 100
+      realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation: 85
     },
-    { 
-      site: 'Site V', 
-      value: 85, 
+    {
+      site: 'Site V',
+      value: 70,
       target: 100,
-      verificationFrequencyIncreased: 100,
-      stringentMonitoring: 75,
-      realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation: 100
+      verificationFrequencyIncreased: 70,
+      stringentMonitoring: 65,
+      realtimeContainmentAndRootCauseAnalysisBeforeBatchContinuation: 75
     }
   ];
 
@@ -473,7 +342,21 @@ export default function QualityObjectives() {
       target: 100,
       trainingCompletion: 90,
       evaluation100: 90,
-      retrainingEvaluation: 100
+      retrainingEvaluation: 100,
+      infoRows: [
+        { training: 'Basic IPQA Training', duration: '3 Days', participants: '25', status: 'Completed', date: 'Jan 2024' },
+        { training: 'Defect Recognition Workshop', duration: '2 Days', participants: '25', status: 'Completed', date: 'Feb 2024' },
+        { training: 'Root Cause Analysis Training', duration: '2 Days', participants: '22', status: 'Completed', date: 'Feb 2024' },
+        { training: 'Statistical Process Control', duration: '3 Days', participants: '20', status: 'Completed', date: 'Mar 2024' },
+        { training: 'Post-Training Evaluation - Batch 1', duration: '1 Day', participants: '25', status: 'Completed', date: 'Mar 2024' },
+        { training: 'Post-Training Evaluation - Batch 2', duration: '1 Day', participants: '22', status: 'Completed', date: 'Apr 2024' },
+        { training: 'Advanced Defect Analysis', duration: '2 Days', participants: '18', status: 'Completed', date: 'May 2024' },
+        { training: 'Refresher Training - Q2', duration: '1 Day', participants: '25', status: 'Completed', date: 'Jun 2024' },
+        { training: 'Quality Standards Update', duration: '1 Day', participants: '25', status: 'Completed', date: 'Jul 2024' },
+        { training: 'Hands-on Defect Identification', duration: '2 Days', participants: '20', status: 'In Progress', date: 'Aug 2024' },
+        { training: 'Refresher Training - Q3', duration: '1 Day', participants: '23', status: 'Scheduled', date: 'Sep 2024' },
+        { training: 'Annual Competency Assessment', duration: '1 Day', participants: '25', status: 'Scheduled', date: 'Oct 2024' }
+      ]
     },
     { 
       site: 'Site V', 
@@ -522,6 +405,147 @@ export default function QualityObjectives() {
     { id: 'qi3', label: 'Verification', color: '#10b981' },
     { id: 'qi4', label: 'Effectiveness', color: '#ec4899' }
   ];
+
+  // Objective 04 QI data mapping
+  const obj04_qi1Data = [
+    { 
+      site: 'Site I', 
+      value: 48, 
+      target: 100,
+      totalEmployees: 191,
+      noTraining: 99,
+      trainedOldRevision: 0,
+      trainedLatestRevision: 92,
+      topErrors: [
+        { error: 'More than Three cut sign', percentage: 24 },
+        { error: 'Wrong entries', percentage: 17 },
+        { error: 'Contemporaneous data', percentage: 13 }
+      ]
+    },
+    { 
+      site: 'Site III', 
+      value: 71, 
+      target: 100,
+      totalEmployees: 103,
+      noTraining: 30,
+      trainedOldRevision: 0,
+      trainedLatestRevision: 73,
+      topErrors: [
+        { error: 'Not Accurate', percentage: 37 },
+        { error: 'More than Three cut sign', percentage: 26 },
+        { error: 'Not Original', percentage: 16 }
+      ]
+    },
+    { 
+      site: 'Site V', 
+      value: 74, 
+      target: 100,
+      totalEmployees: 280,
+      noTraining: 73,
+      trainedOldRevision: 0,
+      trainedLatestRevision: 207,
+      topErrors: [
+        { error: 'More than Three cut sign', percentage: 27 },
+        { error: 'Wrong entries', percentage: 18 },
+        { error: 'Contemporaneous data', percentage: 14 }
+      ]
+    }
+  ];
+
+  const obj04_qi2Data = [
+    { 
+      site: 'Site I', 
+      value: 93, 
+      target: 100,
+      trainedLatestSOP: 176,
+      evaluationPassed80: 134,
+      retrainingProvided: 31,
+      evaluation100Passed: 163
+    },
+    { 
+      site: 'Site III', 
+      value: 100, 
+      target: 100,
+      trainedLatestSOP: 103,
+      evaluationPassed80: 98,
+      retrainingProvided: 5,
+      evaluation100Passed: 103
+    },
+    { 
+      site: 'Site V', 
+      value: 100, 
+      target: 100,
+      trainedLatestSOP: 271,
+      evaluationPassed80: 230,
+      retrainingProvided: 41,
+      evaluation100Passed: 271
+    }
+  ];
+
+  const obj04_qi3Data = [
+    { 
+      site: 'Site I', 
+      value: 0, 
+      target: 100,
+      biweeklyChecks: []
+    },
+    { 
+      site: 'Site III', 
+      value: 75, 
+      target: 100,
+      biweeklyChecks: [
+        { date: '31/10/2025', status: 'No GDP error found and no incident has been raised' },
+        { date: '15/11/2025', status: 'No GDP error found and no incident has been raised' },
+        { date: '29/11/2025', status: 'No GDP error found and no incident has been raised' },
+        { date: '15/12/2025', status: 'Need to check' }
+      ]
+    },
+    { 
+      site: 'Site V', 
+      value: 50, 
+      target: 100,
+      biweeklyChecks: [
+        { date: '14/11/2025', status: '08 Incidents related to GDP were initiated' },
+        { date: '05/12/2025', status: '03 Incidents related to GDP were initiated' }
+      ]
+    }
+  ];
+
+  const obj04_qi4Data = [
+    {
+      site: 'Site I',
+      value: 0,
+      target: 100,
+      status: 'Data not available',
+      metrics: []
+    },
+    {
+      site: 'Site III',
+      value: 100,
+      target: 100,
+      status: 'Completed ✓',
+      metrics: [
+        { label: '50% reduction in number of GDP related incidents reported per month', value: 100, icon: '📉', color: '#10b981' },
+        { label: '100% staff trained in GDP', value: 100, icon: '👥', color: '#3b82f6' },
+        { label: '0% Number of GDP related audit findings in internal or external audit', value: 100, icon: '✓', color: '#059669' },
+        { label: 'Average time taken to correct GDP related non-conformity less than 48 working Hrs', value: 100, icon: '⏱️', color: '#f59e0b' }
+      ]
+    },
+    {
+      site: 'Site V',
+      value: 0,
+      target: 100,
+      status: 'Data not available',
+      metrics: []
+    }
+  ];
+
+  const qiDataMap = {
+    0: obj04_qi1Data,
+    1: obj04_qi2Data,
+    2: obj04_qi3Data,
+    3: obj04_qi4Data
+  };
 
   const objective7Flow = [
     { id: 'qi1', label: 'Gap analysis', color: '#f59e0b' },
@@ -850,7 +874,7 @@ export default function QualityObjectives() {
                             minWidth: '60px',
                             textAlign: 'right'
                           }}>
-                            {errorItem.percentage}
+                            {errorItem.percentage}%
                           </span>
                         </div>
                       ))}
@@ -1410,51 +1434,53 @@ export default function QualityObjectives() {
                           padding: '16px',
                           background: '#ffffff',
                           borderRadius: '12px',
-                          border: `2px solid ${gradient.from}20`,
+                          border: `2px solid ${metric.color}40`,
                           boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
                           transition: 'all 0.2s ease'
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.transform = 'translateX(4px)';
                           e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.12)';
-                          e.currentTarget.style.borderColor = gradient.from;
+                          e.currentTarget.style.borderColor = metric.color;
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.transform = 'translateX(0)';
                           e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
-                          e.currentTarget.style.borderColor = `${gradient.from}20`;
+                          e.currentTarget.style.borderColor = `${metric.color}40`;
                         }}
                       >
                         <div style={{
-                          fontSize: '1.5rem',
-                          fontWeight: 700,
-                          color: '#1e293b',
-                          lineHeight: '1.6',
-                          marginBottom: '10px'
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '12px',
+                          marginBottom: '12px'
                         }}>
-                          {metric.name}
+                          <span style={{ fontSize: '2rem' }}>{metric.icon}</span>
+                          <div style={{
+                            fontSize: '1.4rem',
+                            fontWeight: 700,
+                            color: '#1e293b',
+                            lineHeight: '1.5',
+                            flex: 1
+                          }}>
+                            {metric.label}
+                          </div>
                         </div>
                         <div style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px'
+                          justifyContent: 'center',
+                          gap: '8px',
+                          padding: '10px',
+                          background: `${metric.color}15`,
+                          borderRadius: '8px'
                         }}>
                           <span style={{
-                            fontSize: '1.4rem',
-                            color: gradient.from,
-                            fontWeight: 700
-                          }}>
-                            ✓
-                          </span>
-                          <span style={{
-                            fontSize: '1.8rem',
+                            fontSize: '2.2rem',
                             fontWeight: 900,
-                            background: `linear-gradient(135deg, ${gradient.from} 0%, ${gradient.to} 100%)`,
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text'
+                            color: metric.color
                           }}>
-                            {metric.achievement}
+                            {metric.value}%
                           </span>
                         </div>
                       </div>
@@ -1815,62 +1841,433 @@ export default function QualityObjectives() {
 
     if (isObj07QI2) {
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
-          {data.map((item, idx) => {
-            const metrics = [
-              { label: '% Completion of Training', value: item.trainingCompletion, icon: '📚', color: '#3b82f6' },
-              { label: '100% Evaluation of All Trainings', value: item.evaluation100, icon: '✓', color: '#10b981' },
-              { label: 'Retraining & Evaluation', value: item.retrainingEvaluation, icon: '🔄', color: '#059669' }
-            ];
+        <>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
+            {data.map((item, idx) => {
+              const metrics = [
+                { label: '% Completion of Training', value: item.trainingCompletion, icon: '📚', color: '#3b82f6' },
+                { label: '100% Evaluation of All Trainings', value: item.evaluation100, icon: '✓', color: '#10b981' },
+                { label: 'Retraining & Evaluation', value: item.retrainingEvaluation, icon: '🔄', color: '#059669' }
+              ];
 
-            return (
-              <div key={idx} style={{
-                padding: '24px',
-                background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
-                borderRadius: '16px',
-                border: `2px solid ${colors.primary}30`,
-                boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
-              }}>
-                <div style={{ 
-                  fontSize: '1.5rem', 
-                  fontWeight: 800, 
-                  color: colors.primary, 
-                  marginBottom: '20px',
-                  paddingBottom: '12px',
-                  borderBottom: `2px solid ${colors.primary}20`,
-                  textAlign: 'center'
+              const isInfoOpen = item.site === 'Site III' && obj07Qi2InfoSite === item.site;
+              const hasInfoData = item.site === 'Site III' && item.infoRows;
+
+              return (
+                <div key={idx} style={{
+                  padding: '24px',
+                  background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
+                  borderRadius: '16px',
+                  border: `2px solid ${colors.primary}30`,
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                  position: 'relative'
                 }}>
-                  {item.site}
-                </div>
+                  <div style={{ 
+                    fontSize: '1.5rem', 
+                    fontWeight: 800, 
+                    color: colors.primary, 
+                    marginBottom: '20px',
+                    paddingBottom: '12px',
+                    borderBottom: `2px solid ${colors.primary}20`,
+                    textAlign: 'center',
+                    position: 'relative'
+                  }}>
+                    {item.site}
+                    {hasInfoData && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setObj07Qi2InfoSite(isInfoOpen ? null : item.site);
+                          setObj07Qi2InfoModal(isInfoOpen ? null : { site: item.site, rows: item.infoRows });
+                        }}
+                        style={{
+                          position: 'absolute',
+                          top: '-6px',
+                          right: '-6px',
+                          width: '34px',
+                          height: '34px',
+                          borderRadius: '50%',
+                          border: `2px solid ${colors.primary}`,
+                          background: isInfoOpen ? colors.primary : '#ffffff',
+                          color: isInfoOpen ? '#ffffff' : colors.primary,
+                          fontSize: '1.3rem',
+                          fontWeight: 900,
+                          cursor: 'pointer',
+                          boxShadow: isInfoOpen ? `0 4px 12px ${colors.primary}35` : '0 2px 8px rgba(0,0,0,0.1)',
+                          transition: 'all 0.2s ease',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontFamily: 'serif'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isInfoOpen) {
+                            e.currentTarget.style.background = colors.primary;
+                            e.currentTarget.style.color = '#ffffff';
+                            e.currentTarget.style.transform = 'scale(1.08)';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isInfoOpen) {
+                            e.currentTarget.style.background = '#ffffff';
+                            e.currentTarget.style.color = colors.primary;
+                            e.currentTarget.style.transform = 'scale(1)';
+                          }
+                        }}
+                        title="View Site III training details"
+                      >
+                        i
+                      </button>
+                    )}
+                  </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  {metrics.map((metric, metricIdx) => (
-                    <div key={metricIdx} style={{
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                    {metrics.map((metric, metricIdx) => (
+                      <div key={metricIdx} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '16px',
+                        background: `${metric.color}10`,
+                        borderRadius: '10px',
+                        border: `1px solid ${metric.color}30`
+                      }}>
+                        <div style={{ fontSize: '1.8rem', marginRight: '14px' }}>
+                          {metric.icon}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600, marginBottom: '4px' }}>
+                            {metric.label}
+                          </div>
+                          <div style={{ fontSize: '1.7rem', fontWeight: 800, color: metric.color }}>
+                            {metric.value}%
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {obj07Qi2InfoModal && (
+            <div
+              onClick={() => {
+                setObj07Qi2InfoModal(null);
+                setObj07Qi2InfoSite(null);
+              }}
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.95) 100%)',
+                backdropFilter: 'blur(12px)',
+                zIndex: 2000,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 0,
+                margin: 0,
+                animation: 'fadeIn 0.3s ease-out'
+              }}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: '95vw',
+                  height: '95vh',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%)',
+                  borderRadius: '24px',
+                  boxShadow: '0 25px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset',
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  animation: 'modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                }}
+              >
+                {/* Decorative Background */}
+                <div style={{
+                  position: 'absolute',
+                  top: '-100px',
+                  right: '-100px',
+                  width: '400px',
+                  height: '400px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)',
+                  pointerEvents: 'none',
+                  animation: 'float 6s ease-in-out infinite'
+                }}></div>
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-150px',
+                  left: '-150px',
+                  width: '500px',
+                  height: '500px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)',
+                  pointerEvents: 'none',
+                  animation: 'float 8s ease-in-out infinite reverse'
+                }}></div>
+
+                {/* Header */}
+                <div style={{
+                  padding: '32px 40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderBottom: '2px solid rgba(148,163,184,0.2)',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.8) 100%)',
+                  backdropFilter: 'blur(20px)',
+                  position: 'relative',
+                  zIndex: 10
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <div style={{
+                      width: '70px',
+                      height: '70px',
+                      borderRadius: '18px',
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                       display: 'flex',
                       alignItems: 'center',
-                      padding: '16px',
-                      background: `${metric.color}10`,
-                      borderRadius: '10px',
-                      border: `1px solid ${metric.color}30`
+                      justifyContent: 'center',
+                      fontSize: '2rem',
+                      boxShadow: '0 10px 30px rgba(59,130,246,0.35), 0 0 0 3px rgba(59,130,246,0.1)',
+                      animation: 'pulse 2s ease-in-out infinite'
                     }}>
-                      <div style={{ fontSize: '1.8rem', marginRight: '14px' }}>
-                        {metric.icon}
+                      🎓
+                    </div>
+                    <div>
+                      <div style={{ 
+                        fontSize: '1.3rem', 
+                        color: '#64748b', 
+                        fontWeight: 700, 
+                        letterSpacing: '1.5px',
+                        textTransform: 'uppercase',
+                        marginBottom: '4px'
+                      }}>
+                        Objective 07 • QI 2
                       </div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600, marginBottom: '4px' }}>
-                          {metric.label}
-                        </div>
-                        <div style={{ fontSize: '1.7rem', fontWeight: 800, color: metric.color }}>
-                          {metric.value}%
-                        </div>
+                      <div style={{ 
+                        fontSize: '2.5rem', 
+                        fontWeight: 900, 
+                        background: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        letterSpacing: '0.5px'
+                      }}>
+                        {obj07Qi2InfoModal.site} Training Details
                       </div>
                     </div>
-                  ))}
+                  </div>
+                  
+                  <button
+                    onClick={() => {
+                      setObj07Qi2InfoModal(null);
+                      setObj07Qi2InfoSite(null);
+                    }}
+                    style={{
+                      width: '56px',
+                      height: '56px',
+                      borderRadius: '16px',
+                      border: 'none',
+                      background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                      color: '#ffffff',
+                      fontSize: '1.8rem',
+                      fontWeight: 900,
+                      cursor: 'pointer',
+                      boxShadow: '0 8px 20px rgba(239,68,68,0.35)',
+                      transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.08) rotate(90deg)';
+                      e.currentTarget.style.boxShadow = '0 12px 30px rgba(239,68,68,0.5)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
+                      e.currentTarget.style.boxShadow = '0 8px 20px rgba(239,68,68,0.35)';
+                    }}
+                    aria-label="Close"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Content */}
+                <div style={{ 
+                  flex: 1,
+                  overflow: 'auto', 
+                  padding: '40px', 
+                  position: 'relative',
+                  zIndex: 5
+                }}>
+                  {/* Stats Banner */}
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(4, 1fr)',
+                    gap: '20px',
+                    marginBottom: '36px',
+                    animation: 'slideUp 0.5s ease-out'
+                  }}>
+                    <div style={{
+                      padding: '24px',
+                      borderRadius: '18px',
+                      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                      boxShadow: '0 10px 30px rgba(16,185,129,0.3)',
+                      color: '#ffffff'
+                    }}>
+                      <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Total Sessions</div>
+                      <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.length}</div>
+                    </div>
+                    <div style={{
+                      padding: '24px',
+                      borderRadius: '18px',
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                      boxShadow: '0 10px 30px rgba(59,130,246,0.3)',
+                      color: '#ffffff'
+                    }}>
+                      <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Completed</div>
+                      <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.filter(r => r.status === 'Completed').length}</div>
+                    </div>
+                    <div style={{
+                      padding: '24px',
+                      borderRadius: '18px',
+                      background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                      boxShadow: '0 10px 30px rgba(245,158,11,0.3)',
+                      color: '#ffffff'
+                    }}>
+                      <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>In Progress</div>
+                      <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.filter(r => r.status === 'In Progress').length}</div>
+                    </div>
+                    <div style={{
+                      padding: '24px',
+                      borderRadius: '18px',
+                      background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                      boxShadow: '0 10px 30px rgba(139,92,246,0.3)',
+                      color: '#ffffff'
+                    }}>
+                      <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Scheduled</div>
+                      <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.filter(r => r.status === 'Scheduled').length}</div>
+                    </div>
+                  </div>
+
+                  {/* Training Cards */}
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(450px, 1fr))',
+                    gap: '20px'
+                  }}>
+                    {obj07Qi2InfoModal.rows.map((row, idx) => {
+                      const statusColors = {
+                        'Completed': { bg: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)', border: '#10b981', text: '#065f46', badge: '#10b981' },
+                        'In Progress': { bg: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', border: '#f59e0b', text: '#92400e', badge: '#f59e0b' },
+                        'Scheduled': { bg: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)', border: '#6366f1', text: '#3730a3', badge: '#6366f1' }
+                      };
+                      const scheme = statusColors[row.status];
+                      
+                      return (
+                        <div
+                          key={idx}
+                          style={{
+                            padding: '24px',
+                            borderRadius: '16px',
+                            background: scheme.bg,
+                            border: `3px solid ${scheme.border}`,
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                            transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                            cursor: 'pointer',
+                            position: 'relative',
+                            animation: `slideUp 0.5s ease-out ${idx * 0.05}s both`
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)';
+                            e.currentTarget.style.boxShadow = `0 12px 30px ${scheme.border}30`;
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                          }}
+                        >
+                          {/* Status Badge */}
+                          <div style={{
+                            position: 'absolute',
+                            top: '16px',
+                            right: '16px',
+                            padding: '8px 14px',
+                            borderRadius: '10px',
+                            background: scheme.badge,
+                            color: '#ffffff',
+                            fontSize: '1.1rem',
+                            fontWeight: 800,
+                            boxShadow: `0 4px 10px ${scheme.badge}40`
+                          }}>
+                            {row.status}
+                          </div>
+
+                          <div style={{
+                            fontSize: '1.9rem',
+                            fontWeight: 900,
+                            color: scheme.text,
+                            marginBottom: '16px',
+                            lineHeight: '1.3',
+                            paddingRight: '120px'
+                          }}>
+                            {row.training}
+                          </div>
+
+                          <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(2, 1fr)',
+                            gap: '12px',
+                            marginTop: '16px'
+                          }}>
+                            <div style={{
+                              padding: '12px 16px',
+                              borderRadius: '10px',
+                              background: '#ffffff',
+                              border: `2px solid ${scheme.border}30`
+                            }}>
+                              <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Duration</div>
+                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>📅 {row.duration}</div>
+                            </div>
+                            <div style={{
+                              padding: '12px 16px',
+                              borderRadius: '10px',
+                              background: '#ffffff',
+                              border: `2px solid ${scheme.border}30`
+                            }}>
+                              <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Participants</div>
+                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>👥 {row.participants}</div>
+                            </div>
+                            <div style={{
+                              padding: '12px 16px',
+                              borderRadius: '10px',
+                              background: scheme.badge,
+                              gridColumn: 'span 2',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: '8px'
+                            }}>
+                              <div style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: 700 }}>📆 Scheduled:</div>
+                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#ffffff' }}>{row.date}</div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          )}
+        </>
       );
     }
 
@@ -2102,59 +2499,136 @@ export default function QualityObjectives() {
                 left: 0,
                 width: '100vw',
                 height: '100vh',
-                background: 'rgba(15, 23, 42, 0.65)',
-                backdropFilter: 'blur(6px)',
+                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.95) 100%)',
+                backdropFilter: 'blur(12px)',
                 zIndex: 2000,
                 display: 'flex',
-                alignItems: 'stretch',
-                justifyContent: 'stretch',
+                alignItems: 'center',
+                justifyContent: 'center',
                 padding: 0,
-                margin: 0
+                margin: 0,
+                animation: 'fadeIn 0.3s ease-out'
               }}
             >
               <div
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  width: '100%',
-                  height: '100%',
+                  width: '95vw',
+                  height: '95vh',
                   overflow: 'hidden',
-                  background: 'linear-gradient(135deg, #ffffffcc 0%, #f8fafc 50%, #ffffffcc 100%)',
-                  borderRadius: '0',
-                  boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
-                  border: '1px solid rgba(59,130,246,0.15)',
-                  position: 'relative'
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%)',
+                  borderRadius: '24px',
+                  boxShadow: '0 25px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset',
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  animation: 'modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
                 }}
               >
+                {/* Decorative Background Elements */}
                 <div style={{
-                  padding: '22px 32px',
+                  position: 'absolute',
+                  top: '-100px',
+                  right: '-100px',
+                  width: '400px',
+                  height: '400px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)',
+                  pointerEvents: 'none',
+                  animation: 'float 6s ease-in-out infinite'
+                }}></div>
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-150px',
+                  left: '-150px',
+                  width: '500px',
+                  height: '500px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)',
+                  pointerEvents: 'none',
+                  animation: 'float 8s ease-in-out infinite reverse'
+                }}></div>
+
+                {/* Glassmorphic Header */}
+                <div style={{
+                  padding: '32px 40px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  borderBottom: '1px solid rgba(148,163,184,0.35)',
-                  background: 'linear-gradient(90deg, rgba(59,130,246,0.15) 0%, rgba(14,165,233,0.08) 100%)'
+                  borderBottom: '2px solid rgba(148,163,184,0.2)',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.8) 100%)',
+                  backdropFilter: 'blur(20px)',
+                  position: 'relative',
+                  zIndex: 10
                 }}>
-                  <div>
-                    <div style={{ fontSize: '1.4rem', color: '#0f172a', fontWeight: 700, opacity: 0.8 }}>Objective 05 · QI1</div>
-                    <div style={{ fontSize: '2rem', fontWeight: 900, color: '#0f172a', letterSpacing: '0.4px' }}>
-                      {obj05Qi1InfoModal.site} · Process Details
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <div style={{
+                      width: '70px',
+                      height: '70px',
+                      borderRadius: '18px',
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '2rem',
+                      boxShadow: '0 10px 30px rgba(59,130,246,0.35), 0 0 0 3px rgba(59,130,246,0.1)',
+                      animation: 'pulse 2s ease-in-out infinite'
+                    }}>
+                      🔍
+                    </div>
+                    <div>
+                      <div style={{ 
+                        fontSize: '1.3rem', 
+                        color: '#64748b', 
+                        fontWeight: 700, 
+                        letterSpacing: '1.5px',
+                        textTransform: 'uppercase',
+                        marginBottom: '4px'
+                      }}>
+                        Objective 05 • QI 1
+                      </div>
+                      <div style={{ 
+                        fontSize: '2.5rem', 
+                        fontWeight: 900, 
+                        background: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        letterSpacing: '0.5px'
+                      }}>
+                        {obj05Qi1InfoModal.site} Process Mapping
+                      </div>
                     </div>
                   </div>
+                  
                   <button
                     onClick={() => {
                       setObj05Qi1InfoModal(null);
                       setObj05Qi1InfoSite(null);
                     }}
                     style={{
-                      width: '44px',
-                      height: '44px',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(15,23,42,0.1)',
-                      background: '#ffffff',
-                      color: '#0f172a',
+                      width: '56px',
+                      height: '56px',
+                      borderRadius: '16px',
+                      border: 'none',
+                      background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                      color: '#ffffff',
+                      fontSize: '1.8rem',
                       fontWeight: 900,
                       cursor: 'pointer',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                      transition: 'all 0.2s ease'
+                      boxShadow: '0 8px 20px rgba(239,68,68,0.35)',
+                      transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.08) rotate(90deg)';
+                      e.currentTarget.style.boxShadow = '0 12px 30px rgba(239,68,68,0.5)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
+                      e.currentTarget.style.boxShadow = '0 8px 20px rgba(239,68,68,0.35)';
                     }}
                     aria-label="Close"
                   >
@@ -2162,65 +2636,283 @@ export default function QualityObjectives() {
                   </button>
                 </div>
 
-                <div style={{ padding: '24px 32px 28px', overflow: 'auto', height: 'calc(100vh - 90px)', boxSizing: 'border-box' }}>
+                {/* Scrollable Content */}
+                <div style={{ 
+                  flex: 1,
+                  overflow: 'auto', 
+                  padding: '40px', 
+                  position: 'relative',
+                  zIndex: 5
+                }}>
+                  {/* Stats Banner */}
                   <div style={{
-                    marginBottom: '16px',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '20px',
+                    marginBottom: '36px',
+                    animation: 'slideUp 0.5s ease-out'
                   }}>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>
-                      Process-to-Stage Mapping
-                    </div>
                     <div style={{
-                      padding: '10px 16px',
-                      borderRadius: '12px',
-                      background: 'linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%)',
-                      color: '#ffffff',
-                      fontWeight: 800,
-                      boxShadow: '0 6px 16px rgba(59,130,246,0.35)'
+                      padding: '24px',
+                      borderRadius: '18px',
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                      boxShadow: '0 10px 30px rgba(59,130,246,0.3)',
+                      position: 'relative',
+                      overflow: 'hidden'
                     }}>
-                      {obj05Qi1InfoModal.rows.length} entries
+                      <div style={{
+                        position: 'absolute',
+                        top: '-20px',
+                        right: '-20px',
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        background: 'rgba(255,255,255,0.15)',
+                        pointerEvents: 'none'
+                      }}></div>
+                      <div style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.9)', fontWeight: 700, marginBottom: '8px' }}>
+                        Total Processes
+                      </div>
+                      <div style={{ fontSize: '3.5rem', fontWeight: 900, color: '#ffffff', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        {obj05Qi1InfoModal.rows.length}
+                        <span style={{ fontSize: '2rem', opacity: 0.8 }}>📊</span>
+                      </div>
+                    </div>
+                    
+                    <div style={{
+                      padding: '24px',
+                      borderRadius: '18px',
+                      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                      boxShadow: '0 10px 30px rgba(16,185,129,0.3)',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: '-20px',
+                        right: '-20px',
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        background: 'rgba(255,255,255,0.15)',
+                        pointerEvents: 'none'
+                      }}></div>
+                      <div style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.9)', fontWeight: 700, marginBottom: '8px' }}>
+                        Unique Products
+                      </div>
+                      <div style={{ fontSize: '3.5rem', fontWeight: 900, color: '#ffffff', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        {[...new Set(obj05Qi1InfoModal.rows.map(r => r.product))].length}
+                        <span style={{ fontSize: '2rem', opacity: 0.8 }}>🏭</span>
+                      </div>
+                    </div>
+                    
+                    <div style={{
+                      padding: '24px',
+                      borderRadius: '18px',
+                      background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                      boxShadow: '0 10px 30px rgba(245,158,11,0.3)',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: '-20px',
+                        right: '-20px',
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        background: 'rgba(255,255,255,0.15)',
+                        pointerEvents: 'none'
+                      }}></div>
+                      <div style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.9)', fontWeight: 700, marginBottom: '8px' }}>
+                        Production Stages
+                      </div>
+                      <div style={{ fontSize: '3.5rem', fontWeight: 900, color: '#ffffff', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        {[...new Set(obj05Qi1InfoModal.rows.map(r => r.stage))].length}
+                        <span style={{ fontSize: '2rem', opacity: 0.8 }}>⚙️</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div style={{
-                    borderRadius: '14px',
-                    overflow: 'hidden',
-                    border: '1px solid rgba(59,130,246,0.25)',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.12)'
-                  }}>
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateColumns: '1.2fr 1.1fr 1fr',
-                      background: 'linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%)',
-                      color: '#ffffff',
-                      fontWeight: 800,
-                      fontSize: '1.4rem'
-                    }}>
-                      <div style={{ padding: '14px 16px', letterSpacing: '0.3px' }}>Identification of processes</div>
-                      <div style={{ padding: '14px 16px', letterSpacing: '0.3px' }}>Product</div>
-                      <div style={{ padding: '14px 16px', letterSpacing: '0.3px' }}>Stage</div>
-                    </div>
+                  {/* Process Groups with Cards */}
+                  {(() => {
+                    const processGroups = {};
+                    obj05Qi1InfoModal.rows.forEach(row => {
+                      if (!processGroups[row.process]) {
+                        processGroups[row.process] = [];
+                      }
+                      processGroups[row.process].push(row);
+                    });
 
-                    <div>
-                      {obj05Qi1InfoModal.rows.map((row, rowIdx) => (
-                        <div
-                          key={rowIdx}
+                    const groupColors = [
+                      { bg: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)', border: '#3b82f6', text: '#1e40af', icon: '🔧' },
+                      { bg: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)', border: '#10b981', text: '#065f46', icon: '⚡' },
+                      { bg: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', border: '#f59e0b', text: '#92400e', icon: '🎯' },
+                      { bg: 'linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%)', border: '#ec4899', text: '#9f1239', icon: '🚀' },
+                      { bg: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)', border: '#6366f1', text: '#3730a3', icon: '💎' }
+                    ];
+
+                    return Object.entries(processGroups).map(([process, items], groupIdx) => {
+                      const colorScheme = groupColors[groupIdx % groupColors.length];
+                      
+                      return (
+                        <div 
+                          key={groupIdx} 
                           style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1.2fr 1.1fr 1fr',
-                            background: rowIdx % 2 === 0 ? '#f8fafc' : '#ffffff',
-                            borderBottom: '1px solid rgba(148,163,184,0.25)'
+                            marginBottom: '32px',
+                            animation: `slideUp 0.5s ease-out ${groupIdx * 0.1}s both`
                           }}
                         >
-                          <div style={{ padding: '12px 16px', fontSize: '1.35rem', color: '#0f172a', fontWeight: 600 }}>{row.process}</div>
-                          <div style={{ padding: '12px 16px', fontSize: '1.35rem', color: '#0f172a', fontWeight: 600 }}>{row.product || '—'}</div>
-                          <div style={{ padding: '12px 16px', fontSize: '1.35rem', color: '#0f172a', fontWeight: 600 }}>{row.stage}</div>
+                          {/* Group Header */}
+                          <div style={{
+                            padding: '20px 28px',
+                            borderRadius: '16px 16px 0 0',
+                            background: colorScheme.bg,
+                            border: `3px solid ${colorScheme.border}`,
+                            borderBottom: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            boxShadow: `0 4px 12px ${colorScheme.border}20`
+                          }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                              <div style={{
+                                width: '48px',
+                                height: '48px',
+                                borderRadius: '12px',
+                                background: '#ffffff',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '1.8rem',
+                                boxShadow: `0 4px 12px ${colorScheme.border}30`,
+                                border: `2px solid ${colorScheme.border}`
+                              }}>
+                                {colorScheme.icon}
+                              </div>
+                              <div>
+                                <div style={{ 
+                                  fontSize: '1.9rem', 
+                                  fontWeight: 900, 
+                                  color: colorScheme.text,
+                                  letterSpacing: '0.3px'
+                                }}>
+                                  {process}
+                                </div>
+                                <div style={{ fontSize: '1.2rem', color: colorScheme.text, opacity: 0.75, fontWeight: 700, marginTop: '2px' }}>
+                                  {items.length} stage{items.length !== 1 ? 's' : ''} identified
+                                </div>
+                              </div>
+                            </div>
+                            <div style={{
+                              padding: '10px 18px',
+                              borderRadius: '12px',
+                              background: '#ffffff',
+                              border: `2px solid ${colorScheme.border}`,
+                              fontWeight: 900,
+                              fontSize: '1.3rem',
+                              color: colorScheme.text,
+                              boxShadow: `0 4px 12px ${colorScheme.border}25`
+                            }}>
+                              {items.length} ITEMS
+                            </div>
+                          </div>
+
+                          {/* Group Cards */}
+                          <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))',
+                            gap: '16px',
+                            padding: '24px',
+                            background: '#ffffff',
+                            borderRadius: '0 0 16px 16px',
+                            border: `3px solid ${colorScheme.border}`,
+                            borderTop: 'none',
+                            boxShadow: `0 10px 30px ${colorScheme.border}15`
+                          }}>
+                            {items.map((item, itemIdx) => (
+                              <div
+                                key={itemIdx}
+                                style={{
+                                  padding: '20px',
+                                  borderRadius: '14px',
+                                  background: colorScheme.bg,
+                                  border: `2px solid ${colorScheme.border}40`,
+                                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                                  transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                  cursor: 'pointer',
+                                  position: 'relative',
+                                  overflow: 'hidden'
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)';
+                                  e.currentTarget.style.boxShadow = `0 12px 30px ${colorScheme.border}30`;
+                                  e.currentTarget.style.borderColor = colorScheme.border;
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                                  e.currentTarget.style.borderColor = `${colorScheme.border}40`;
+                                }}
+                              >
+                                <div style={{
+                                  position: 'absolute',
+                                  top: '8px',
+                                  right: '8px',
+                                  width: '32px',
+                                  height: '32px',
+                                  borderRadius: '8px',
+                                  background: colorScheme.border,
+                                  color: '#ffffff',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  fontSize: '1rem',
+                                  fontWeight: 900,
+                                  boxShadow: `0 4px 10px ${colorScheme.border}40`
+                                }}>
+                                  {itemIdx + 1}
+                                </div>
+                                
+                                <div style={{ marginBottom: '12px' }}>
+                                  <div style={{ fontSize: '1.1rem', color: colorScheme.text, fontWeight: 700, opacity: 0.7, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+                                    Product Line
+                                  </div>
+                                  <div style={{ fontSize: '1.6rem', fontWeight: 900, color: colorScheme.text, lineHeight: '1.4' }}>
+                                    {item.product}
+                                  </div>
+                                </div>
+                                
+                                <div style={{
+                                  padding: '14px 16px',
+                                  borderRadius: '10px',
+                                  background: '#ffffff',
+                                  border: `2px solid ${colorScheme.border}30`,
+                                  marginTop: '12px'
+                                }}>
+                                  <div style={{ fontSize: '1rem', color: colorScheme.text, fontWeight: 700, opacity: 0.7, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+                                    Manufacturing Stage
+                                  </div>
+                                  <div style={{ 
+                                    fontSize: '1.45rem', 
+                                    fontWeight: 800, 
+                                    color: colorScheme.text,
+                                    lineHeight: '1.4',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px'
+                                  }}>
+                                    <span style={{ color: colorScheme.border, fontSize: '1.2rem' }}>▸</span>
+                                    {item.stage}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                      );
+                    });
+                  })()}
                 </div>
               </div>
             </div>
@@ -2232,6 +2924,7 @@ export default function QualityObjectives() {
     // Objective 05 QI2 - Training and Evaluation
     if (isObj05QI2) {
       return (
+        <div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
           {data.map((item, idx) => {
             const trainingStages = [
@@ -2242,6 +2935,8 @@ export default function QualityObjectives() {
             ];
 
             const avgCompliance = Math.round((item.trainingPlannerAndExecution + item.trainingOfIPQAOnDefectRecognitionAndRCAnalysis + item.evaluationOfPostTraining + item.retrainingOrRefresherTrainingPlanner) / 4);
+            const isInfoOpen = item.site === 'Site III' && obj05Qi2InfoSite === item.site;
+            const hasInfoData = item.site === 'Site III' && item.infoRows;
             
             return (
               <div key={idx} style={{
@@ -2249,7 +2944,8 @@ export default function QualityObjectives() {
                 background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
                 borderRadius: '16px',
                 border: `2px solid ${colors.primary}30`,
-                boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                position: 'relative'
               }}>
                 <div style={{ 
                   fontSize: '1.5rem', 
@@ -2258,9 +2954,55 @@ export default function QualityObjectives() {
                   marginBottom: '20px',
                   paddingBottom: '12px',
                   borderBottom: `2px solid ${colors.primary}20`,
-                  textAlign: 'center'
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '12px'
                 }}>
                   {item.site}
+                  {hasInfoData && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setObj05Qi2InfoSite(isInfoOpen ? null : item.site);
+                        setObj05Qi2InfoModal(isInfoOpen ? null : { site: item.site, rows: item.infoRows });
+                      }}
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        border: `2px solid ${colors.primary}`,
+                        background: isInfoOpen ? colors.primary : '#ffffff',
+                        color: isInfoOpen ? '#ffffff' : colors.primary,
+                        fontSize: '1.4rem',
+                        fontWeight: 900,
+                        cursor: 'pointer',
+                        boxShadow: isInfoOpen ? `0 4px 12px ${colors.primary}40` : '0 2px 8px rgba(0,0,0,0.1)',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontFamily: 'serif'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isInfoOpen) {
+                          e.currentTarget.style.background = colors.primary;
+                          e.currentTarget.style.color = '#ffffff';
+                          e.currentTarget.style.transform = 'scale(1.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isInfoOpen) {
+                          e.currentTarget.style.background = '#ffffff';
+                          e.currentTarget.style.color = colors.primary;
+                          e.currentTarget.style.transform = 'scale(1)';
+                        }
+                      }}
+                      title="View training schedule & details"
+                    >
+                      i
+                    </button>
+                  )}
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
@@ -2311,6 +3053,323 @@ export default function QualityObjectives() {
               </div>
             );
           })}
+        </div>
+        {obj05Qi2InfoModal && (
+          <div
+            onClick={() => {
+              setObj05Qi2InfoModal(null);
+              setObj05Qi2InfoSite(null);
+            }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.95) 100%)',
+              backdropFilter: 'blur(12px)',
+              zIndex: 2000,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+              margin: 0,
+              animation: 'fadeIn 0.3s ease-out'
+            }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: '95vw',
+                height: '95vh',
+                overflow: 'hidden',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%)',
+                borderRadius: '24px',
+                boxShadow: '0 25px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                animation: 'modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              }}
+            >
+              {/* Decorative Background */}
+              <div style={{
+                position: 'absolute',
+                top: '-100px',
+                right: '-100px',
+                width: '400px',
+                height: '400px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%)',
+                pointerEvents: 'none',
+                animation: 'float 6s ease-in-out infinite'
+              }}></div>
+              <div style={{
+                position: 'absolute',
+                bottom: '-150px',
+                left: '-150px',
+                width: '500px',
+                height: '500px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)',
+                pointerEvents: 'none',
+                animation: 'float 8s ease-in-out infinite reverse'
+              }}></div>
+
+              {/* Header */}
+              <div style={{
+                padding: '32px 40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottom: '2px solid rgba(148,163,184,0.2)',
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.8) 100%)',
+                backdropFilter: 'blur(20px)',
+                position: 'relative',
+                zIndex: 10
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                  <div style={{
+                    width: '70px',
+                    height: '70px',
+                    borderRadius: '18px',
+                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '2rem',
+                    boxShadow: '0 10px 30px rgba(16,185,129,0.35), 0 0 0 3px rgba(16,185,129,0.1)',
+                    animation: 'pulse 2s ease-in-out infinite'
+                  }}>
+                    📚
+                  </div>
+                  <div>
+                    <div style={{ 
+                      fontSize: '1.3rem', 
+                      color: '#64748b', 
+                      fontWeight: 700, 
+                      letterSpacing: '1.5px',
+                      textTransform: 'uppercase',
+                      marginBottom: '4px'
+                    }}>
+                      Objective 05 • QI 2
+                    </div>
+                    <div style={{ 
+                      fontSize: '2.5rem', 
+                      fontWeight: 900, 
+                      background: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      letterSpacing: '0.5px'
+                    }}>
+                      {obj05Qi2InfoModal.site} Training Schedule
+                    </div>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => {
+                    setObj05Qi2InfoModal(null);
+                    setObj05Qi2InfoSite(null);
+                  }}
+                  style={{
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: '16px',
+                    border: 'none',
+                    background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                    color: '#ffffff',
+                    fontSize: '1.8rem',
+                    fontWeight: 900,
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 20px rgba(239,68,68,0.35)',
+                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.08) rotate(90deg)';
+                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(239,68,68,0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(239,68,68,0.35)';
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Content */}
+              <div style={{ 
+                flex: 1,
+                overflow: 'auto', 
+                padding: '40px', 
+                position: 'relative',
+                zIndex: 5
+              }}>
+                {/* Stats Banner */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(4, 1fr)',
+                  gap: '20px',
+                  marginBottom: '36px',
+                  animation: 'slideUp 0.5s ease-out'
+                }}>
+                  <div style={{
+                    padding: '24px',
+                    borderRadius: '18px',
+                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    boxShadow: '0 10px 30px rgba(16,185,129,0.3)',
+                    color: '#ffffff'
+                  }}>
+                    <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Total Sessions</div>
+                    <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj05Qi2InfoModal.rows.length}</div>
+                  </div>
+                  <div style={{
+                    padding: '24px',
+                    borderRadius: '18px',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                    boxShadow: '0 10px 30px rgba(59,130,246,0.3)',
+                    color: '#ffffff'
+                  }}>
+                    <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Completed</div>
+                    <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj05Qi2InfoModal.rows.filter(r => r.status === 'Completed').length}</div>
+                  </div>
+                  <div style={{
+                    padding: '24px',
+                    borderRadius: '18px',
+                    background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                    boxShadow: '0 10px 30px rgba(245,158,11,0.3)',
+                    color: '#ffffff'
+                  }}>
+                    <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>In Progress</div>
+                    <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj05Qi2InfoModal.rows.filter(r => r.status === 'In Progress').length}</div>
+                  </div>
+                  <div style={{
+                    padding: '24px',
+                    borderRadius: '18px',
+                    background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                    boxShadow: '0 10px 30px rgba(139,92,246,0.3)',
+                    color: '#ffffff'
+                  }}>
+                    <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Scheduled</div>
+                    <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj05Qi2InfoModal.rows.filter(r => r.status === 'Scheduled').length}</div>
+                  </div>
+                </div>
+
+                {/* Training Cards */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(450px, 1fr))',
+                  gap: '20px'
+                }}>
+                  {obj05Qi2InfoModal.rows.map((row, idx) => {
+                    const statusColors = {
+                      'Completed': { bg: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)', border: '#10b981', text: '#065f46', badge: '#10b981' },
+                      'In Progress': { bg: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', border: '#f59e0b', text: '#92400e', badge: '#f59e0b' },
+                      'Scheduled': { bg: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)', border: '#6366f1', text: '#3730a3', badge: '#6366f1' }
+                    };
+                    const scheme = statusColors[row.status];
+                    
+                    return (
+                      <div
+                        key={idx}
+                        style={{
+                          padding: '24px',
+                          borderRadius: '16px',
+                          background: scheme.bg,
+                          border: `3px solid ${scheme.border}`,
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                          transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                          cursor: 'pointer',
+                          position: 'relative',
+                          animation: `slideUp 0.5s ease-out ${idx * 0.05}s both`
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)';
+                          e.currentTarget.style.boxShadow = `0 12px 30px ${scheme.border}30`;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                        }}
+                      >
+                        {/* Status Badge */}
+                        <div style={{
+                          position: 'absolute',
+                          top: '16px',
+                          right: '16px',
+                          padding: '8px 14px',
+                          borderRadius: '10px',
+                          background: scheme.badge,
+                          color: '#ffffff',
+                          fontSize: '1.1rem',
+                          fontWeight: 800,
+                          boxShadow: `0 4px 10px ${scheme.badge}40`
+                        }}>
+                          {row.status}
+                        </div>
+
+                        <div style={{
+                          fontSize: '1.9rem',
+                          fontWeight: 900,
+                          color: scheme.text,
+                          marginBottom: '16px',
+                          lineHeight: '1.3',
+                          paddingRight: '120px'
+                        }}>
+                          {row.training}
+                        </div>
+
+                        <div style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(2, 1fr)',
+                          gap: '12px',
+                          marginTop: '16px'
+                        }}>
+                          <div style={{
+                            padding: '12px 16px',
+                            borderRadius: '10px',
+                            background: '#ffffff',
+                            border: `2px solid ${scheme.border}30`
+                          }}>
+                            <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Duration</div>
+                            <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>📅 {row.duration}</div>
+                          </div>
+                          <div style={{
+                            padding: '12px 16px',
+                            borderRadius: '10px',
+                            background: '#ffffff',
+                            border: `2px solid ${scheme.border}30`
+                          }}>
+                            <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Participants</div>
+                            <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>👥 {row.participants}</div>
+                          </div>
+                          <div style={{
+                            padding: '12px 16px',
+                            borderRadius: '10px',
+                            background: scheme.badge,
+                            gridColumn: 'span 2',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '8px'
+                          }}>
+                            <div style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: 700 }}>📆 Scheduled:</div>
+                            <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#ffffff' }}>{row.date}</div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         </div>
       );
     }
@@ -2918,7 +3977,10 @@ export default function QualityObjectives() {
       </div>
     </section>
   );
-}
+};
+
+export default QualityObjectives_v2;
+
 
 
 
