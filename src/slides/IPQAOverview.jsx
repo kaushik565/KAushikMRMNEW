@@ -3570,31 +3570,31 @@ export default function IPQAOverview() {
                 <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '12px' 
+                  gap: '14px' 
                 }}>
                   {[
-                    'Monthly meeting with MG & MN on rejections/challenges',
-                    'Observation meetings on shop floor (every 15 days)',
-                    'Work instructions in production floor',
-                    'Re-Work area implemented (Line-Wise)',
-                    'Particle count testing implementation',
-                    'QR pasting activity segregation',
-                    'Pictorial representation implemented',
-                    'Change control tracking sheet'
+                    { icon: '🤝', title: 'Monthly huddles with MG & MN', desc: 'Review rejections/challenges with actions locked each month.' },
+                    { icon: '👀', title: 'Shopfloor observation loop', desc: 'Every 15 days: on-floor walks to surface issues early.' },
+                    { icon: '📄', title: 'On-floor work instructions', desc: 'Live, visual SOPs at point-of-use to reduce ambiguity.' },
+                    { icon: '♻️', title: 'Line-wise rework bays', desc: 'Dedicated rework space to contain and correct defects.' },
+                    { icon: '🧪', title: 'Particle count checks', desc: 'Routine counts to keep contamination tightly controlled.' },
+                    { icon: '🏷️', title: 'QR pasting segregation', desc: 'Separated QR activities to prevent label mix-ups.' },
+                    { icon: '🖼️', title: 'Pictorial job aids', desc: 'Step visuals at stations for faster, error-proof execution.' },
+                    { icon: '📊', title: 'Change control tracker', desc: 'Single tracker for visibility on all change controls.' }
                   ].map((item, idx) => (
                     <div key={idx} style={{
                       background: '#ffffff',
                       border: '2px solid #d1fae5',
-                      borderRadius: '12px',
-                      padding: '14px',
-                      transition: 'all 0.2s ease',
+                      borderRadius: '14px',
+                      padding: '16px',
+                      transition: 'all 0.25s ease',
                       cursor: 'default',
                       position: 'relative',
                       overflow: 'hidden'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)'
-                      e.currentTarget.style.boxShadow = '0 8px 16px rgba(16, 185, 129, 0.15)'
+                      e.currentTarget.style.transform = 'translateY(-3px)'
+                      e.currentTarget.style.boxShadow = '0 10px 20px rgba(16, 185, 129, 0.15)'
                       e.currentTarget.style.borderColor = '#10b981'
                     }}
                     onMouseLeave={(e) => {
@@ -3604,41 +3604,52 @@ export default function IPQAOverview() {
                     }}>
                       <div style={{
                         display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '10px'
+                        gap: '12px'
                       }}>
                         <div style={{
-                          minWidth: '28px',
-                          height: '28px',
-                          borderRadius: '8px',
-                          background: 'linear-gradient(135deg, #d1fae5, #a7f3d0)',
+                          width: '42px',
+                          height: '42px',
+                          borderRadius: '12px',
+                          background: 'linear-gradient(135deg, #ecfdf5, #a7f3d0)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '0.85em',
-                          fontWeight: '800',
-                          color: '#047857'
+                          fontSize: '1.4em'
                         }}>
-                          {idx + 1}
+                          {item.icon}
                         </div>
-                        <div style={{
-                          fontSize: '0.88em',
-                          color: '#065f46',
-                          fontWeight: '600',
-                          lineHeight: '1.5',
-                          flex: 1
-                        }}>
-                          {item}
+                        <div style={{ flex: 1 }}>
+                          <div style={{
+                            fontSize: '0.98em',
+                            fontWeight: '800',
+                            color: '#065f46',
+                            marginBottom: '6px'
+                          }}>
+                            {idx + 1}. {item.title}
+                          </div>
+                          <div style={{
+                            fontSize: '0.9em',
+                            color: '#0f172a',
+                            lineHeight: '1.5',
+                            fontWeight: '600'
+                          }}>
+                            {item.desc}
+                          </div>
                         </div>
                       </div>
                       <div style={{
                         position: 'absolute',
-                        top: '8px',
-                        right: '8px',
-                        fontSize: '1.2em',
-                        color: '#10b981',
-                        opacity: 0.3
-                      }}>✓</div>
+                        top: '10px',
+                        right: '10px',
+                        padding: '6px 10px',
+                        borderRadius: '999px',
+                        background: 'rgba(16, 185, 129, 0.12)',
+                        color: '#047857',
+                        fontWeight: 800,
+                        fontSize: '0.8em'
+                      }}>
+                        ✓ Done
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -3678,9 +3689,9 @@ export default function IPQAOverview() {
 
                 <div style={{ display: 'grid', gap: '16px' }}>
                   {[
-                    { icon: '📊', name: 'Defect Rate Setting', progress: 65, color: '#3b82f6' },
-                    { icon: '📋', name: 'Limit Sample Register', progress: 45, color: '#8b5cf6' },
-                    { icon: '📱', name: 'QR Scanning Software', progress: 50, color: '#06b6d4' }
+                    { icon: '📊', name: 'Defect Rate Setting', progress: 65, color: '#3b82f6', note: 'Aligning limits to recent defect learnings.' },
+                    { icon: '📋', name: 'Limit Sample Register', progress: 45, color: '#8b5cf6', note: 'Digital log to tighten sampling traceability.' },
+                    { icon: '📱', name: 'QR Scanning Software', progress: 50, color: '#06b6d4', note: 'App build to reduce manual QR errors.' }
                   ].map((item, idx) => (
                     <div key={idx} style={{
                       background: '#ffffff',
@@ -3754,7 +3765,15 @@ export default function IPQAOverview() {
                           </div>
                         </div>
                       </div>
-                      
+                      <div style={{
+                        fontSize: '0.9em',
+                        color: '#475569',
+                        fontWeight: 600,
+                        marginBottom: '10px'
+                      }}>
+                        {item.note}
+                      </div>
+
                       <div style={{
                         width: '100%',
                         height: '10px',
