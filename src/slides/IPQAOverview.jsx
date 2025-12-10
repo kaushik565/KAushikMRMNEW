@@ -1,5 +1,5 @@
 // IPQA Key Metrics Overview - Modern Horizontal Layout
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { BarChart, Bar, LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import SiteVIncomingSampling from './ipqa-details/SiteVIncomingSampling';
@@ -26,6 +26,21 @@ export default function IPQAOverview() {
   const [selectedQualityScoreInfo, setSelectedQualityScoreInfo] = useState(null);
   const [showSite3Improvements, setShowSite3Improvements] = useState(false);
   const [showSiteVImprovements, setShowSiteVImprovements] = useState(false);
+  const siteIRef = useRef(null);
+  const siteIIIRef = useRef(null);
+  const siteVRef = useRef(null);
+  const siteSectionRefs = {
+    'SITE-I': siteIRef,
+    'SITE-III': siteIIIRef,
+    'SITE-V': siteVRef
+  };
+
+  const scrollToSiteSection = (siteKey) => {
+    const target = siteSectionRefs[siteKey]?.current;
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   // Lock background scroll while any overlay/modal is open to avoid slide jump
   const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart || selectedSiteIChart;
@@ -2331,15 +2346,21 @@ export default function IPQAOverview() {
 
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px'}}>
               {/* SITE-I Overall Quality Performance */}
-              <div style={{
-                background: 'linear-gradient(135deg, #ffffff, #fef2f2)',
-                borderRadius: '14px',
-                padding: '20px',
-                border: '3px solid #dc2626',
-                boxShadow: '0 6px 20px rgba(220, 38, 38, 0.15)',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
+              <div
+                onClick={() => scrollToSiteSection('SITE-I')}
+                style={{
+                  background: 'linear-gradient(135deg, #ffffff, #fef2f2)',
+                  borderRadius: '14px',
+                  padding: '20px',
+                  border: '3px solid #dc2626',
+                  boxShadow: '0 6px 20px rgba(220, 38, 38, 0.15)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  cursor: 'pointer'
+                }}
+                role="button"
+                aria-label="Scroll to SITE-I section"
+              >
                 <div style={{position: 'absolute', top: '-30px', right: '-30px', fontSize: '6em', opacity: '0.05'}}>🎯</div>
                 
                 <div style={{
@@ -2427,15 +2448,21 @@ export default function IPQAOverview() {
               </div>
 
               {/* SITE-III Overall Quality Performance */}
-              <div style={{
-                background: 'linear-gradient(135deg, #ffffff, #faf5ff)',
-                borderRadius: '14px',
-                padding: '20px',
-                border: '3px solid #8b5cf6',
-                boxShadow: '0 6px 20px rgba(139, 92, 246, 0.15)',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
+              <div
+                onClick={() => scrollToSiteSection('SITE-III')}
+                style={{
+                  background: 'linear-gradient(135deg, #ffffff, #faf5ff)',
+                  borderRadius: '14px',
+                  padding: '20px',
+                  border: '3px solid #8b5cf6',
+                  boxShadow: '0 6px 20px rgba(139, 92, 246, 0.15)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  cursor: 'pointer'
+                }}
+                role="button"
+                aria-label="Scroll to SITE-III section"
+              >
                 <div style={{position: 'absolute', top: '-30px', right: '-30px', fontSize: '6em', opacity: '0.05'}}>🎯</div>
                 
                 <div style={{
@@ -2536,15 +2563,21 @@ export default function IPQAOverview() {
               </div>
 
               {/* SITE-V Overall Quality Performance */}
-              <div style={{
-                background: 'linear-gradient(135deg, #ffffff, #ecfeff)',
-                borderRadius: '14px',
-                padding: '20px',
-                border: '3px solid #0ea5e9',
-                boxShadow: '0 6px 20px rgba(14, 165, 233, 0.15)',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
+              <div
+                onClick={() => scrollToSiteSection('SITE-V')}
+                style={{
+                  background: 'linear-gradient(135deg, #ffffff, #ecfeff)',
+                  borderRadius: '14px',
+                  padding: '20px',
+                  border: '3px solid #0ea5e9',
+                  boxShadow: '0 6px 20px rgba(14, 165, 233, 0.15)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  cursor: 'pointer'
+                }}
+                role="button"
+                aria-label="Scroll to SITE-V section"
+              >
                 <div style={{position: 'absolute', top: '-30px', right: '-30px', fontSize: '6em', opacity: '0.05'}}>🎯</div>
                 
                 <div style={{
@@ -2649,9 +2682,11 @@ export default function IPQAOverview() {
           {/* Overall Performance Dashboard */}
           <IPQAOverallPerformance />
 
-          {/* Site Cards */}
+          {/* Site Cards with scroll targets */}
           {Object.entries(metricsData).map(([siteName, siteData]) => (
-            <SiteCard key={siteName} siteName={siteName} siteData={siteData} />
+            <div key={siteName} ref={siteSectionRefs[siteName] || null}>
+              <SiteCard siteName={siteName} siteData={siteData} />
+            </div>
           ))}
 
           {/* Department Chart Detail Modal */}

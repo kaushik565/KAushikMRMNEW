@@ -89,6 +89,8 @@ const QualityObjectives_v2 = () => {
   const [obj05Qi2InfoModal, setObj05Qi2InfoModal] = useState(null);
   const [obj07Qi2InfoSite, setObj07Qi2InfoSite] = useState(null);
   const [obj07Qi2InfoModal, setObj07Qi2InfoModal] = useState(null);
+  const [obj07Qi3InfoSite, setObj07Qi3InfoSite] = useState(null);
+  const [obj07Qi3InfoModal, setObj07Qi3InfoModal] = useState(null);
 
   useEffect(() => {
     const closeAll = () => setActiveModals({ card: null, qi04: null, qi05: null, qi06: null, qi07: null });
@@ -132,7 +134,25 @@ const QualityObjectives_v2 = () => {
       value: 100,
       target: 100,
       identificationOfRiskCauseMoreDefects: 100,
-      listOfActivitiesBasedOnCriticalProcess: 100
+      listOfActivitiesBasedOnCriticalProcess: 100,
+      infoRows: [
+        { process: 'Cartridge Assembly and process', product: 'Cartridge Assembly', stage: 'Laser Welding process' },
+        { process: 'Device assembly and process', product: 'ASED', stage: 'Manifold' },
+        { process: 'Device assembly and process', product: 'ASED', stage: 'Testing and Heater testing stage' },
+        { process: 'Device assembly and process', product: 'ASED', stage: 'Design was updated' },
+        { process: 'Device assembly and process', product: 'ASED', stage: 'Bottom cover' },
+        { process: 'Device assembly and process', product: 'FOUR BAY PCR Machine', stage: 'Bottom cover' },
+        { process: 'Device assembly and process', product: 'FOUR BAY PCR Machine', stage: 'Bottom cover' },
+        { process: 'Device assembly and process', product: 'FOUR BAY PCR Machine', stage: 'IPQC' },
+        { process: 'Device assembly and process', product: 'FOUR BAY PCR Machine', stage: 'Testing' },
+        { process: 'Device assembly and process', product: 'FOUR BAY PCR Machine', stage: 'Testing' },
+        { process: 'Device assembly and process', product: 'FOUR BAY PCR Machine', stage: 'Testing' },
+        { process: 'Device assembly and process', product: 'TWO Bay PCR Machine', stage: 'Testing' },
+        { process: 'Device assembly and process', product: 'TWO Bay PCR Machine', stage: 'IPQC' },
+        { process: 'Device assembly and process', product: 'TWO Bay PCR Machine', stage: 'IPQC' },
+        { process: 'Device assembly and process', product: 'TWO Bay PCR Machine', stage: 'Testing' },
+        { process: 'Device assembly and process', product: 'TWO Bay PCR Machine', stage: 'Testing' }
+      ]
     },
     {
       site: 'Site V',
@@ -344,18 +364,36 @@ const QualityObjectives_v2 = () => {
       evaluation100: 90,
       retrainingEvaluation: 100,
       infoRows: [
-        { training: 'Basic IPQA Training', duration: '3 Days', participants: '25', status: 'Completed', date: 'Jan 2024' },
-        { training: 'Defect Recognition Workshop', duration: '2 Days', participants: '25', status: 'Completed', date: 'Feb 2024' },
-        { training: 'Root Cause Analysis Training', duration: '2 Days', participants: '22', status: 'Completed', date: 'Feb 2024' },
-        { training: 'Statistical Process Control', duration: '3 Days', participants: '20', status: 'Completed', date: 'Mar 2024' },
-        { training: 'Post-Training Evaluation - Batch 1', duration: '1 Day', participants: '25', status: 'Completed', date: 'Mar 2024' },
-        { training: 'Post-Training Evaluation - Batch 2', duration: '1 Day', participants: '22', status: 'Completed', date: 'Apr 2024' },
-        { training: 'Advanced Defect Analysis', duration: '2 Days', participants: '18', status: 'Completed', date: 'May 2024' },
-        { training: 'Refresher Training - Q2', duration: '1 Day', participants: '25', status: 'Completed', date: 'Jun 2024' },
-        { training: 'Quality Standards Update', duration: '1 Day', participants: '25', status: 'Completed', date: 'Jul 2024' },
-        { training: 'Hands-on Defect Identification', duration: '2 Days', participants: '20', status: 'In Progress', date: 'Aug 2024' },
-        { training: 'Refresher Training - Q3', duration: '1 Day', participants: '23', status: 'Scheduled', date: 'Sep 2024' },
-        { training: 'Annual Competency Assessment', duration: '1 Day', participants: '25', status: 'Scheduled', date: 'Oct 2024' }
+        { srNo: 1, sopNumber: 'SOP/QA/III/001', sopName: 'Preparation of Device master file', revisionNumber: '03', trainerName: 'Praneet', date: '01/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 2, sopNumber: 'SOP/QA/III/002', sopName: 'In Process Quality Assurance Activities', revisionNumber: '03', trainerName: 'L R Naidu', date: '02/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 3, sopNumber: 'SOP/QA/III/003', sopName: 'Sampling Procedure for Incoming, In-Process materials and Finished products', revisionNumber: '05', trainerName: 'Naveen', date: '03/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 4, sopNumber: 'SOP/QA/III/024', sopName: 'Batch Release/Product Release of finished products', revisionNumber: '06', trainerName: 'Praneet', date: '04/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 5, sopNumber: 'SOP/QA/III/025', sopName: 'SOP for Handling Customer Complaints', revisionNumber: '02', trainerName: 'Naveen', date: '05/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 6, sopNumber: 'SOP/QA/III/026', sopName: 'SOP for Handling, Operation and Cleaning of glassware', revisionNumber: '00', trainerName: 'Sunil', date: '06/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 7, sopNumber: 'SOP/QA/III/027', sopName: 'Handling out of specification', revisionNumber: '00', trainerName: 'Praneet', date: '08/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 8, sopNumber: 'SOP/QA/III/028', sopName: 'Annual Product Quality Review', revisionNumber: '00', trainerName: 'L R Naidu', date: '09/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 9, sopNumber: 'SOP/QA/III/029', sopName: 'SOP for Work Instructions and One Point Lesson', revisionNumber: '00', trainerName: 'Praneet', date: '10/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 10, sopNumber: 'SOP/QA/003', sopName: 'Change Control', revisionNumber: '07', trainerName: 'Praneet', date: '17/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 11, sopNumber: 'SOP/QA/005', sopName: 'Deviation Control', revisionNumber: '04', trainerName: 'Praneet', date: '17/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 12, sopNumber: 'SOP/QA/012', sopName: 'Preparation, Maintenance and Verification of logbooks', revisionNumber: '05', trainerName: 'Naveen', date: '03/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 13, sopNumber: 'SOP/QA/014', sopName: 'Line clearance and verification of manufacturing/Packing Process', revisionNumber: '04', trainerName: 'Praneet', date: '18/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 14, sopNumber: 'SOP/QA/032', sopName: 'Handling and Destruction of rejected and expired material', revisionNumber: '07', trainerName: 'Praneet', date: '03/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 15, sopNumber: 'SOP/QA/034', sopName: 'SOP for Extension', revisionNumber: '03', trainerName: 'L R Naidu', date: '19/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 16, sopNumber: 'SOP/QA/030', sopName: 'Roles and responsibilities of Quality Management System (QMS) Team', revisionNumber: '01', trainerName: 'L R Naidu', date: '20/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 17, sopNumber: 'SOP/QA/004', sopName: ' Incident Reporting', revisionNumber: '06', trainerName: 'Praneet', date: '21/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 18, sopNumber: 'SOP/QA/041', sopName: 'Roles and responsibilities of LAB - QA', revisionNumber: '04', trainerName: 'Praneet', date: '22/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 19, sopNumber: 'SOP/QA/014', sopName: 'Corrective and Preventive action', revisionNumber: '00', trainerName: 'L R Naidu', date: '17/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 20, sopNumber: 'NA', sopName: 'Significate of quality event', revisionNumber: 'NA', trainerName: 'Praneet', date: '12/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 21, sopNumber: 'NA', sopName: 'RCA tools', revisionNumber: 'NA', trainerName: 'L R Naidu', date: '13/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 22, sopNumber: 'NA', sopName: 'Problem sloving Skills', revisionNumber: 'NA', trainerName: 'L R Naidu', date: '21/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 23, sopNumber: 'NA', sopName: 'Training on effective investigation', revisionNumber: 'NA', trainerName: 'L R Naidu', date: '21/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 24, sopNumber: 'SOP/QA/007', sopName: 'Document and Record Control', revisionNumber: '08', trainerName: 'Praneet', date: '12/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 25, sopNumber: 'SOP/QA/019', sopName: 'Procedure for Mastering documents and Maintaining Master list of documents', revisionNumber: '04', trainerName: 'Praneet', date: '13/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 26, sopNumber: 'SOP/QA/021', sopName: 'Calibration process in SAP systemline', revisionNumber: '06', trainerName: 'Praneet', date: '15/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 27, sopNumber: 'SOP/QA/027', sopName: 'Labeling and control (in-house) status', revisionNumber: '06', trainerName: 'Praneet', date: '18/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 28, sopNumber: 'SOP/QA/028', sopName: 'SOP for Record room', revisionNumber: '03', trainerName: 'Praneet', date: '19/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 29, sopNumber: 'SOP/QA/038', sopName: 'Feed back from manufacturing unit to design and development post design transfer', revisionNumber: '01', trainerName: 'Naveen', date: '20/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 30, sopNumber: 'SOP/QA/039', sopName: 'Procedure for Requirement Specifications, Acceptance Testing and supported GxP Regulated activities.', revisionNumber: '02', trainerName: 'Praneet', date: '22/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' }
       ]
     },
     { 
@@ -380,7 +418,18 @@ const QualityObjectives_v2 = () => {
       value: 50, 
       target: 100,
       errorDecrease: 50,
-      staffInvolvement: 55
+      staffInvolvement: 55,
+      infoRows: [
+        { department: 'QMS', beforeMembers: 4, beforePercent: 44, afterMembers: 6, afterPercent: 66 },
+        { department: 'IPQA', beforeMembers: 9, beforePercent: 100, afterMembers: 9, afterPercent: 100 },
+        { department: 'Lab QA', beforeMembers: 2, beforePercent: 22, afterMembers: 4, afterPercent: 44 }
+      ],
+      infoStats: {
+        totalEmployees: 9,
+        totalDepartments: 3,
+        totalBeforePercent: 55.33,
+        totalAfterPercent: 70
+      }
     },
     { 
       site: 'Site V', 
@@ -619,6 +668,172 @@ const QualityObjectives_v2 = () => {
       return (
         <div style={{ padding: '20px', textAlign: 'center', color: '#0f172a', fontWeight: 600 }}>
           Data need to be added.
+        </div>
+      );
+    }
+
+    if (obj07Qi3InfoModal) {
+      return (
+        <div
+          onClick={() => {
+            setObj07Qi3InfoModal(null);
+            setObj07Qi3InfoSite(null);
+          }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.55) 0%, rgba(30, 41, 59, 0.65) 100%)',
+            backdropFilter: 'blur(14px) saturate(120%)',
+            WebkitBackdropFilter: 'blur(14px) saturate(120%)',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 0,
+            margin: 0,
+            animation: 'fadeIn 0.3s ease-out'
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+                width: '96vw',
+                height: '96vh',
+                maxWidth: '1600px',
+                overflow: 'hidden',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%)',
+                borderRadius: '24px',
+                boxShadow: '0 25px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                animation: 'modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              }}
+          >
+            <div style={{
+              padding: '28px 32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderBottom: '2px solid rgba(148,163,184,0.2)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.85) 100%)',
+              backdropFilter: 'blur(12px)'
+            }}>
+              <div>
+                <div style={{ fontSize: '1.2rem', color: '#64748b', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>
+                  Objective 07 • QI 3
+                </div>
+                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a' }}>
+                  {obj07Qi3InfoModal.site} QA Staff Involved in QMS, IPQA, Lab QA
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setObj07Qi3InfoModal(null);
+                  setObj07Qi3InfoSite(null);
+                }}
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '14px',
+                  border: 'none',
+                  background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                  color: '#ffffff',
+                  fontSize: '1.6rem',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  boxShadow: '0 8px 20px rgba(239,68,68,0.35)',
+                  transition: 'all 0.25s ease'
+                }}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ padding: '24px 32px', overflow: 'auto', height: '100%' }}>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+                gap: '16px',
+                marginBottom: '24px'
+              }}>
+                <div style={{ padding: '18px', borderRadius: '14px', background: 'linear-gradient(135deg, #ef4444 0%, #fca5a5 100%)', color: '#fff', boxShadow: '0 10px 30px rgba(239,68,68,0.25)' }}>
+                  <div style={{ fontSize: '1rem', opacity: 0.9, fontWeight: 700, marginBottom: '6px' }}>Before %</div>
+                  <div style={{ fontSize: '2.4rem', fontWeight: 900 }}>{obj07Qi3InfoModal?.stats?.totalBeforePercent ?? 0}%</div>
+                </div>
+                <div style={{ padding: '18px', borderRadius: '14px', background: 'linear-gradient(135deg, #10b981 0%, #6ee7b7 100%)', color: '#065f46', boxShadow: '0 10px 30px rgba(16,185,129,0.25)' }}>
+                  <div style={{ fontSize: '1rem', opacity: 0.9, fontWeight: 700, marginBottom: '6px' }}>After %</div>
+                  <div style={{ fontSize: '2.4rem', fontWeight: 900 }}>{obj07Qi3InfoModal?.stats?.totalAfterPercent ?? 0}%</div>
+                </div>
+                <div style={{ padding: '18px', borderRadius: '14px', background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)', color: '#0f172a', boxShadow: '0 10px 30px rgba(59,130,246,0.25)' }}>
+                  <div style={{ fontSize: '1rem', opacity: 0.9, fontWeight: 700, marginBottom: '6px' }}>Total Employees</div>
+                  <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#0f172a' }}>{obj07Qi3InfoModal?.stats?.totalEmployees || 0}</div>
+                </div>
+                <div style={{ padding: '18px', borderRadius: '14px', background: 'linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%)', color: '#0f172a', boxShadow: '0 10px 30px rgba(139,92,246,0.25)' }}>
+                  <div style={{ fontSize: '1rem', opacity: 0.9, fontWeight: 700, marginBottom: '6px' }}>QA Sub-Departments</div>
+                  <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#0f172a' }}>{obj07Qi3InfoModal?.stats?.totalDepartments || 0}</div>
+                </div>
+              </div>
+
+              <div style={{
+                marginBottom: '20px',
+                padding: '14px 16px',
+                borderRadius: '12px',
+                background: '#0f172a',
+                color: '#e2e8f0',
+                display: 'grid',
+                gridTemplateColumns: '1.2fr 1fr 1fr 1fr 1fr'
+              }}>
+                <div style={{ fontWeight: 800 }}>Department</div>
+                <div style={{ textAlign: 'center', fontWeight: 800 }}>Before (Members)</div>
+                <div style={{ textAlign: 'center', fontWeight: 800 }}>Before (%)</div>
+                <div style={{ textAlign: 'center', fontWeight: 800 }}>After (Members)</div>
+                <div style={{ textAlign: 'center', fontWeight: 800 }}>After (%)</div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
+                {obj07Qi3InfoModal.rows.map((row, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: '14px 16px',
+                      borderRadius: '12px',
+                      background: idx % 2 === 0 ? '#f8fafc' : '#e2e8f0',
+                      display: 'grid',
+                      gridTemplateColumns: '1.2fr 1fr 1fr 1fr 1fr',
+                      alignItems: 'center',
+                      border: '1px solid #cbd5e1'
+                    }}
+                  >
+                    <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a' }}>{row.department}</div>
+                    <div style={{ textAlign: 'center', fontSize: '1.1rem', fontWeight: 700, color: '#0f172a' }}>{row.beforeMembers}</div>
+                    <div style={{ textAlign: 'center', fontSize: '1.1rem', fontWeight: 700, color: '#ef4444' }}>{row.beforePercent}%</div>
+                    <div style={{ textAlign: 'center', fontSize: '1.1rem', fontWeight: 700, color: '#0f172a' }}>{row.afterMembers}</div>
+                    <div style={{ textAlign: 'center', fontSize: '1.1rem', fontWeight: 700, color: '#16a34a' }}>{row.afterPercent}%</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{
+                padding: '16px',
+                borderRadius: '14px',
+                background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+                border: '1px solid #cbd5e1',
+                display: 'grid',
+                gridTemplateColumns: '1.2fr 1fr 1fr',
+                gap: '12px',
+                alignItems: 'center'
+              }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a' }}>Totals</div>
+                <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 800, color: '#ef4444' }}>Before: {obj07Qi3InfoModal?.stats?.totalBeforePercent ?? 0}%</div>
+                <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 800, color: '#16a34a' }}>After: {obj07Qi3InfoModal?.stats?.totalAfterPercent ?? 0}%</div>
+              </div>
+            </div>
+          </div>
         </div>
       );
     }
@@ -1962,8 +2177,9 @@ const QualityObjectives_v2 = () => {
                 left: 0,
                 width: '100vw',
                 height: '100vh',
-                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.95) 100%)',
-                backdropFilter: 'blur(12px)',
+                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.55) 0%, rgba(30, 41, 59, 0.65) 100%)',
+                backdropFilter: 'blur(14px) saturate(120%)',
+                WebkitBackdropFilter: 'blur(14px) saturate(120%)',
                 zIndex: 2000,
                 display: 'flex',
                 alignItems: 'center',
@@ -2133,7 +2349,7 @@ const QualityObjectives_v2 = () => {
                       color: '#ffffff'
                     }}>
                       <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Completed</div>
-                      <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.filter(r => r.status === 'Completed').length}</div>
+                          <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.filter(r => r.status === 'Completed').length}</div>
                     </div>
                     <div style={{
                       padding: '24px',
@@ -2142,8 +2358,8 @@ const QualityObjectives_v2 = () => {
                       boxShadow: '0 10px 30px rgba(245,158,11,0.3)',
                       color: '#ffffff'
                     }}>
-                      <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>In Progress</div>
-                      <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.filter(r => r.status === 'In Progress').length}</div>
+                          <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Pending</div>
+                          <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.filter(r => r.status === 'Pending').length}</div>
                     </div>
                     <div style={{
                       padding: '24px',
@@ -2152,8 +2368,8 @@ const QualityObjectives_v2 = () => {
                       boxShadow: '0 10px 30px rgba(139,92,246,0.3)',
                       color: '#ffffff'
                     }}>
-                      <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Scheduled</div>
-                      <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.filter(r => r.status === 'Scheduled').length}</div>
+                          <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>In Progress / Scheduled</div>
+                          <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi2InfoModal.rows.filter(r => r.status === 'In Progress' || r.status === 'Scheduled').length + 7}</div>
                     </div>
                   </div>
 
@@ -2165,11 +2381,12 @@ const QualityObjectives_v2 = () => {
                   }}>
                     {obj07Qi2InfoModal.rows.map((row, idx) => {
                       const statusColors = {
-                        'Completed': { bg: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)', border: '#10b981', text: '#065f46', badge: '#10b981' },
-                        'In Progress': { bg: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', border: '#f59e0b', text: '#92400e', badge: '#f59e0b' },
-                        'Scheduled': { bg: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)', border: '#6366f1', text: '#3730a3', badge: '#6366f1' }
+                            'Completed': { bg: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)', border: '#10b981', text: '#065f46', badge: '#10b981' },
+                            'Pending': { bg: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)', border: '#94a3b8', text: '#0f172a', badge: '#94a3b8' },
+                            'In Progress': { bg: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', border: '#f59e0b', text: '#92400e', badge: '#f59e0b' },
+                            'Scheduled': { bg: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)', border: '#6366f1', text: '#3730a3', badge: '#6366f1' }
                       };
-                      const scheme = statusColors[row.status];
+                          const scheme = statusColors[row.status] || statusColors['Pending'];
                       
                       return (
                         <div
@@ -2218,14 +2435,23 @@ const QualityObjectives_v2 = () => {
                             lineHeight: '1.3',
                             paddingRight: '120px'
                           }}>
-                            {row.training}
+                            {row.srNo ? `${row.srNo}. ${row.sopName}` : row.sopName}
+                          </div>
+
+                          <div style={{
+                            fontSize: '1.2rem',
+                            fontWeight: 700,
+                            color: scheme.text,
+                            marginBottom: '10px'
+                          }}>
+                            SOP Number: {row.sopNumber}
                           </div>
 
                           <div style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(2, 1fr)',
                             gap: '12px',
-                            marginTop: '16px'
+                            marginTop: '8px'
                           }}>
                             <div style={{
                               padding: '12px 16px',
@@ -2233,8 +2459,8 @@ const QualityObjectives_v2 = () => {
                               background: '#ffffff',
                               border: `2px solid ${scheme.border}30`
                             }}>
-                              <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Duration</div>
-                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>📅 {row.duration}</div>
+                              <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Revision</div>
+                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>🌀 {row.revisionNumber}</div>
                             </div>
                             <div style={{
                               padding: '12px 16px',
@@ -2242,21 +2468,36 @@ const QualityObjectives_v2 = () => {
                               background: '#ffffff',
                               border: `2px solid ${scheme.border}30`
                             }}>
-                              <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Participants</div>
-                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>👥 {row.participants}</div>
+                              <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Trainer</div>
+                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>👤 {row.trainerName}</div>
                             </div>
                             <div style={{
                               padding: '12px 16px',
                               borderRadius: '10px',
-                              background: scheme.badge,
-                              gridColumn: 'span 2',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              gap: '8px'
+                              background: '#ffffff',
+                              border: `2px solid ${scheme.border}30`
                             }}>
-                              <div style={{ fontSize: '1.05rem', color: '#ffffff', fontWeight: 700 }}>📆 Scheduled:</div>
-                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#ffffff' }}>{row.date}</div>
+                              <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Date</div>
+                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>📅 {row.date}</div>
+                            </div>
+                            <div style={{
+                              padding: '12px 16px',
+                              borderRadius: '10px',
+                              background: '#ffffff',
+                              border: `2px solid ${scheme.border}30`
+                            }}>
+                              <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Time</div>
+                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>⏰ {row.time}</div>
+                            </div>
+                            <div style={{
+                              padding: '12px 16px',
+                              borderRadius: '10px',
+                              background: '#ffffff',
+                              border: `2px solid ${scheme.border}30`,
+                              gridColumn: 'span 2'
+                            }}>
+                              <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Remarks</div>
+                              <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>📝 {row.remarks}</div>
                             </div>
                           </div>
                         </div>
@@ -2280,18 +2521,53 @@ const QualityObjectives_v2 = () => {
               background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
               borderRadius: '16px',
               border: `2px solid ${colors.primary}30`,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              position: 'relative'
             }}>
               <div style={{ 
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '12px',
                 fontSize: '1.5rem', 
                 fontWeight: 800, 
                 color: colors.primary, 
                 marginBottom: '20px',
                 paddingBottom: '12px',
-                borderBottom: `2px solid ${colors.primary}20`,
-                textAlign: 'center'
+                borderBottom: `2px solid ${colors.primary}20`
               }}>
-                {item.site}
+                <span style={{ flex: 1, textAlign: 'center' }}>{item.site}</span>
+                {item.site === 'Site III' && item.infoRows && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const isOpen = obj07Qi3InfoSite === item.site;
+                      setObj07Qi3InfoSite(isOpen ? null : item.site);
+                      setObj07Qi3InfoModal(isOpen ? null : { 
+                        site: item.site, 
+                        rows: item.infoRows, 
+                        errorDecrease: item.errorDecrease, 
+                        staffInvolvement: item.staffInvolvement,
+                        stats: item.infoStats
+                      });
+                    }}
+                    style={{
+                      minWidth: '36px',
+                      height: '36px',
+                      borderRadius: '50%',
+                      border: `2px solid ${colors.primary}50`,
+                      background: obj07Qi3InfoSite === item.site ? `${colors.primary}15` : '#ffffff',
+                      color: colors.primary,
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    aria-label="Show Site III error details"
+                  >
+                    i
+                  </button>
+                )}
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
