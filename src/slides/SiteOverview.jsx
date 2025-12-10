@@ -24,21 +24,21 @@ import QMSOverview from './QMSOverview'
 // Data extracted from actual component calculations
 const metricsData = {
   'SITE-I': {
-    'Incidents': { total: 262, period: 'Jan-Nov 2025', improvement: '15%', from: 20, to: 17, label: 'Closure Days Reduced' },
+    'Incidents': { total: 262, period: 'Jan-Nov 2025', improvement: '10%', from: 20, to: 18, label: 'Closure Days Reduced' },
     'CA': { total: 89, period: 'Jan-Nov 2025', improvement: '54%', from: 91, to: 42, label: 'Avg Days to Close Reduced' },
     'PA': { total: 29, period: 'Jan-Nov 2025', improvement: '60%', from: 135, to: 54, label: 'Processing Time Reduced' },
     'Out of Specifications': { total: 259, period: 'Apr-Nov 2025', improvement: '49%', avg: 21, latest: 17, label: 'Improvement' },
     'Change Controls': { total: 492, period: 'Jan-Nov 2025', improvement: '13%', from: 46, to: 40, label: 'Closure Days Reduced' }
   },
   'SITE-III': {
-    'Incidents': { total: 82, period: 'Jan-Nov 2025', improvement: '42%', from: 24, to: 14, label: 'Closure Days Reduced' },
+    'Incidents': { total: 82, period: 'Jan-Nov 2025', improvement: '36%', from: 25, to: 16, label: 'Closure Days Reduced' },
     'CA': { total: 52, period: 'Jan-Nov 2025', improvement: '16%', from: 56, to: 47, label: 'Avg Days to Close Reduced' },
     'PA': { total: 66, period: 'Jan-Nov 2025', improvement: '6%', from: 36, to: 34, label: 'Processing Time Reduced' },
     'Out of Specifications': { total: 159, period: 'Apr-Nov 2025', improvement: '49%', avg: 14, latest: 9, label: 'Improvement' },
     'Change Controls': { total: 261, period: 'Jan-Nov 2025', improvement: '61%', from: 41, to: 16, label: 'Closure Days Reduced' }
   },
   'SITE-V': {
-    'Incidents': { total: 196, period: 'Jan-Nov 2025', improvement: '59%', from: 17, to: 7, label: 'Closure Days Reduced' },
+    'Incidents': { total: 196, period: 'Jan-Nov 2025', improvement: '28%', from: 18, to: 13, label: 'Closure Days Reduced' },
     'CA': { total: 70, period: 'Jan-Nov 2025', improvement: '52%', from: 56, to: 27, label: 'NC Closure Days Reduced' },
     'PA': { total: 37, period: 'Jan-Nov 2025', improvement: '54%', from: 63, to: 29, label: 'Processing Time Reduced' },
     'Out of Specifications': { total: 89, period: 'Apr-Aug 2025', improvement: '59%', avg: 12, latest: 7, label: 'Improvement' },
@@ -49,7 +49,7 @@ const metricsData = {
 // Executive Summary Data - 3 Sites Data
 const sitesData = {
   'SITE-I': {
-    Incidents: { total: 262, improvement: 15, from: 20, to: 17 },
+    Incidents: { total: 262, improvement: 10, from: 20, to: 18 },
     CA: { total: 89, improvement: 54, from: 91, to: 42 },
     PA: { total: 29, improvement: 60, from: 135, to: 54 },
     OOS: { total: 259, improvement: 49, avg: 21, latest: 17 },
@@ -57,7 +57,7 @@ const sitesData = {
     Investigation: { total: 262, improvement: -8, from: 5.65, to: 6.1 }
   },
   'SITE-III': {
-    Incidents: { total: 82, improvement: 42, from: 24, to: 14 },
+    Incidents: { total: 82, improvement: 36, from: 25, to: 16 },
     CA: { total: 52, improvement: 16, from: 56, to: 47 },
     PA: { total: 66, improvement: 6, from: 36, to: 34 },
     OOS: { total: 159, improvement: 49, avg: 14, latest: 9 },
@@ -65,7 +65,7 @@ const sitesData = {
     Investigation: { total: 82, improvement: 72, from: 14.3, to: 4.0 }
   },
   'SITE-V': {
-    Incidents: { total: 196, improvement: 59, from: 17, to: 7 },
+    Incidents: { total: 196, improvement: 28, from: 18, to: 13 },
     CA: { total: 70, improvement: 52, from: 56, to: 27 },
     PA: { total: 37, improvement: 54, from: 63, to: 29 },
     OOS: { total: 89, improvement: 59, avg: 12, latest: 7 },
@@ -107,15 +107,15 @@ function OverallPerformance({ onCompleteOverviewClick }) {
 
   const categoryDetails = {
     'Incidents': {
-      title: 'Incidents - Average Improvement Calculation',
-      avgImprovement: improvements[0],
-      calculation: `(SITE-I: 15% + SITE-III: 42% + SITE-V: 59%) ÷ 3 = ${improvements[0]}%`,
-      sites: [
-        { name: 'SITE-I', improvement: 15, from: '20 days', to: '17 days', total: 262 },
-        { name: 'SITE-III', improvement: 42, from: '24 days', to: '14 days', total: 82 },
-        { name: 'SITE-V', improvement: 59, from: '17 days', to: '7 days', total: 196 }
-      ],
-      description: 'Incident closure time reduction across all manufacturing sites'
+            title: 'Incidents - Average Improvement Calculation',
+            avgImprovement: improvements[0],
+              calculation: `(SITE-I: 10% + SITE-III: 36% + SITE-V: 28%) ÷ 3 = ${improvements[0]}%`,
+            sites: [
+                { name: 'SITE-I', improvement: 10, from: '20 days', to: '18 days', total: 262 },
+                { name: 'SITE-III', improvement: 36, from: '25 days', to: '16 days', total: 82 },
+                { name: 'SITE-V', improvement: 28, from: '18 days', to: '13 days', total: 196 }
+            ],
+            description: 'Incident closure time reduction across all manufacturing sites'
     },
     'CA': {
       title: 'Corrective Actions (CA) - Average Improvement Calculation',
@@ -596,10 +596,10 @@ function SiteComparisonGrid({ onSiteClick }) {
       },
       { 
         icon: '📊', 
-        title: 'Pictorial Representation', 
+        title: 'Training on Decision making & RCA tools', 
         metric: '100%',
         unit: 'implemented',
-        desc: 'Visual dashboards & metrics',
+        desc: '5x Why Analysis, Fishbone Diagram, 80/20 Rule',
         color: '#8b5cf6',
         bgColor: '#faf5ff'
       },
@@ -608,13 +608,13 @@ function SiteComparisonGrid({ onSiteClick }) {
         title: 'Change Control Tracking', 
         metric: 'Complete',
         unit: 'system',
-        desc: 'Automated tracking sheet',
+        desc: 'Implemented tracking sheet',
         color: '#f59e0b',
         bgColor: '#fffbeb'
       },
       { 
         icon: '⏱️', 
-        title: 'Investigation Time', 
+        title: 'Investigation Time Line', 
         metric: '72%',
         unit: 'reduction',
         desc: 'Faster incident resolution',
