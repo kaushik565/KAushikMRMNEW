@@ -9,6 +9,7 @@ export default function QualityObjectives() {
     qi06: null,
     qi07: null
   });
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   // Close all modals when slide changes
   useEffect(() => {
@@ -516,7 +517,6 @@ export default function QualityObjectives() {
           {data.map((item, idx) => {
             const trainingCategories = [
               { label: 'No Training', value: item.noTraining, color: '#ef4444' },
-              { label: 'Old Revision', value: item.trainedOldRevision, color: '#f59e0b' },
               { label: 'Latest Revision', value: item.trainedLatestRevision, color: '#10b981' }
             ];
             
@@ -727,6 +727,10 @@ export default function QualityObjectives() {
       return (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
           {data.map((item, idx) => {
+            const hasBiweeklyData = item.biweeklyChecks?.some(
+              (check) => check.status && check.status.toLowerCase() !== 'no data available'
+            );
+
             return (
               <div key={idx} style={{
                 padding: '24px',
@@ -761,81 +765,104 @@ export default function QualityObjectives() {
                   </div>
                 </div>
 
-                {/* Timeline of Checks */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  {item.biweeklyChecks.map((check, checkIdx) => (
-                    <div key={checkIdx} style={{
-                      position: 'relative',
-                      paddingLeft: '32px'
-                    }}>
-                      {/* Timeline Dot */}
-                      <div style={{
-                        position: 'absolute',
-                        left: '8px',
-                        top: '4px',
-                        width: '12px',
-                        height: '12px',
-                        borderRadius: '50%',
-                        background: '#10b981',
-                        border: '2px solid #ffffff',
-                        boxShadow: '0 0 0 2px #10b981'
-                      }}></div>
-                      
-                      {/* Timeline Line */}
-                      {checkIdx < item.biweeklyChecks.length - 1 && (
-                        <div style={{
-                          position: 'absolute',
-                          left: '13px',
-                          top: '20px',
-                          width: '2px',
-                          height: 'calc(100% + 6px)',
-                          background: `${colors.primary}20`
-                        }}></div>
-                      )}
+                {hasBiweeklyData ? (
+                  <>
+                    {/* Timeline of Checks */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                      {item.biweeklyChecks.map((check, checkIdx) => (
+                        <div key={checkIdx} style={{
+                          position: 'relative',
+                          paddingLeft: '32px'
+                        }}>
+                          {/* Timeline Dot */}
+                          <div style={{
+                            position: 'absolute',
+                            left: '8px',
+                            top: '4px',
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            background: '#10b981',
+                            border: '2px solid #ffffff',
+                            boxShadow: '0 0 0 2px #10b981'
+                          }}></div>
+                          
+                          {/* Timeline Line */}
+                          {checkIdx < item.biweeklyChecks.length - 1 && (
+                            <div style={{
+                              position: 'absolute',
+                              left: '13px',
+                              top: '20px',
+                              width: '2px',
+                              height: 'calc(100% + 6px)',
+                              background: `${colors.primary}20`
+                            }}></div>
+                          )}
 
-                      {/* Check Content */}
-                      <div style={{
-                        padding: '12px 14px',
-                        background: '#f0fdf4',
-                        borderRadius: '10px',
-                        border: '1px solid #86efac'
-                      }}>
-                        <div style={{ 
-                            fontSize: '1.5rem', 
-                          fontWeight: 700, 
-                          color: colors.primary,
-                        }}>
-                          {check.date}
+                          {/* Check Content */}
+                          <div style={{
+                            padding: '12px 14px',
+                            background: '#f0fdf4',
+                            borderRadius: '10px',
+                            border: '1px solid #86efac'
+                          }}>
+                            <div style={{ 
+                                fontSize: '1.5rem', 
+                              fontWeight: 700, 
+                              color: colors.primary,
+                            }}>
+                              {check.date}
+                            </div>
+                            <div style={{ 
+                                fontSize: '1.5rem', 
+                              color: '#166534',
+                              lineHeight: '1.4',
+                              fontWeight: 600
+                            }}>
+                              ✓ {check.status}
+                            </div>
+                          </div>
                         </div>
-                        <div style={{ 
-                            fontSize: '1.5rem', 
-                          color: '#166534',
-                          lineHeight: '1.4',
-                          fontWeight: 600
-                        }}>
-                          ✓ {check.status}
-                        </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
 
-                {/* Summary Badge */}
-                <div style={{
-                  marginTop: '20px',
-                  padding: '14px',
-                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                  borderRadius: '12px',
-                  textAlign: 'center',
-                  color: '#ffffff'
-                }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '4px', opacity: 0.9 }}>
-                    Verification Status
+                    {/* Summary Badge */}
+                    <div style={{
+                      marginTop: '20px',
+                      padding: '14px',
+                      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                      borderRadius: '12px',
+                      textAlign: 'center',
+                      color: '#ffffff'
+                    }}>
+                      <div style={{ fontSize: '1.5rem', marginBottom: '4px', opacity: 0.9 }}>
+                        Verification Status
+                      </div>
+                      {item.site === 'Site V' ? (
+                        <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>
+                          Initiated 11 incidents
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>
+                          ✓ All Checks Passed
+                        </div>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div style={{
+                    padding: '18px',
+                    background: '#f8fafc',
+                    borderRadius: '12px',
+                    border: '1px dashed #cbd5e1',
+                    textAlign: 'center',
+                    color: '#475569',
+                    fontSize: '1.5rem',
+                    fontWeight: 700
+                  }}>
+                    Data not available yet.
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>
-                    ✓ All Checks Passed
-                  </div>
-                </div>
+                )}
               </div>
             );
           })}
@@ -1751,26 +1778,40 @@ export default function QualityObjectives() {
             <div
               key={card.id}
               onClick={() => handleCardClick(card.id)}
+              onMouseEnter={() => setHoveredCard(card.id)}
+              onMouseLeave={() => setHoveredCard(null)}
               style={{
-                padding: '20px',
+                padding: '26px',
                 borderRadius: '18px',
-                border: activeModals.card === card.id ? `2px solid ${card.color}` : '1.5px solid #e2e8f0',
-                background: activeModals.card === card.id 
+                border: activeModals.card === card.id
+                  ? `2px solid ${card.color}`
+                  : hoveredCard === card.id
+                    ? `2px solid ${card.color}90`
+                    : '1.5px solid #e2e8f0',
+                background: activeModals.card === card.id
                   ? `linear-gradient(145deg, ${card.color} 0%, ${card.color}d0 100%)`
-                  : `linear-gradient(145deg, ${card.bgColor} 0%, #ffffff 100%)`,
-                boxShadow: activeModals.card === card.id 
+                  : hoveredCard === card.id
+                    ? `linear-gradient(145deg, ${card.color}bb 0%, ${card.color}e6 100%)`
+                    : `linear-gradient(145deg, ${card.bgColor} 0%, #ffffff 100%)`,
+                boxShadow: activeModals.card === card.id
                   ? `0 14px 36px ${card.color}30`
-                  : '0 10px 26px rgba(15, 23, 42, 0.08)',
+                  : hoveredCard === card.id
+                    ? `0 12px 30px ${card.color}25`
+                    : '0 10px 26px rgba(15, 23, 42, 0.08)',
                 cursor: 'pointer',
                 transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                transform: activeModals.card === card.id ? 'translateY(-8px)' : 'translateY(0)',
+                transform: activeModals.card === card.id
+                  ? 'translateY(-8px)'
+                  : hoveredCard === card.id
+                    ? 'translateY(-4px)'
+                    : 'translateY(0)',
                 position: 'relative',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '14px',
+                gap: '18px',
                 animation: `slideIn 0.5s ease-out ${idx * 0.1}s both`,
-                height: '100%'
+                minHeight: '320px'
               }}
             >
               {/* Active Indicator */}
@@ -1802,7 +1843,7 @@ export default function QualityObjectives() {
                   <div style={{
                     padding: '8px 14px',
                     borderRadius: '14px',
-                    fontSize: '1.5rem',
+                    fontSize: '2.0rem',
                     fontWeight: 800,
                     letterSpacing: '0.5px',
                     color: '#0f172a',
@@ -1825,10 +1866,10 @@ export default function QualityObjectives() {
 
               {/* Description */}
               <div style={{
-                fontSize: '1.5rem',
+                fontSize: '2.0rem',
                 color: activeModals.card === card.id ? 'rgba(255, 255, 255, 0.95)' : '#475569',
-                fontWeight: '500',
-                lineHeight: '1.55',
+                fontWeight: '600',
+                lineHeight: '1.6',
                 position: 'relative',
                 zIndex: 1,
                 textAlign: 'left'
