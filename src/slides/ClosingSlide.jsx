@@ -2,7 +2,7 @@ const logoUrl = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/mast
 
 export default function ClosingSlide() {
   return (
-    <section className="closing-slide" style={{
+    <section className="closing-slide" data-state="closing-slide" style={{
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',

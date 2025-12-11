@@ -26,6 +26,7 @@ export default function IPQAOverview() {
   const [selectedQualityScoreInfo, setSelectedQualityScoreInfo] = useState(null);
   const [showSite3Improvements, setShowSite3Improvements] = useState(false);
   const [showSiteVImprovements, setShowSiteVImprovements] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Lock background scroll while any overlay/modal is open to avoid slide jump
   const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart || selectedSiteIChart;
@@ -81,6 +82,39 @@ export default function IPQAOverview() {
       window.scrollTo(0, -offset);
     }
   }, [hasOverlayOpen]);
+
+  // Scroll to top button visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = document.querySelector('section[data-state="ipqa-overview"]');
+      if (section) {
+        setShowScrollTop(section.scrollTop > 300);
+      }
+    };
+
+    // Add a small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      const section = document.querySelector('section[data-state="ipqa-overview"]');
+      if (section) {
+        section.addEventListener('scroll', handleScroll);
+      }
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      const section = document.querySelector('section[data-state="ipqa-overview"]');
+      if (section) {
+        section.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    const section = document.querySelector('section[data-state="ipqa-overview"]');
+    if (section) {
+      section.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   // IPQA Key Metrics Data
   const metricsData = {
@@ -725,7 +759,9 @@ export default function IPQAOverview() {
     };
 
     return (
-      <div style={{
+      <div 
+        id={`site-${siteName.toLowerCase().replace('site-', '')}-section`}
+        style={{
         backgroundColor: siteData.bgColor,
         borderRadius: '16px',
         padding: '24px',
@@ -733,7 +769,8 @@ export default function IPQAOverview() {
         border: `3px solid ${siteData.color}`,
         boxShadow: `0 4px 12px ${siteData.color}20`,
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        scrollMarginTop: '20px'
       }}>
         {/* Background decoration */}
         <div style={{
@@ -2273,15 +2310,16 @@ export default function IPQAOverview() {
       {/* Main Overview */}
         <section
           className="content-slide"
+          data-state="ipqa-overview"
           style={{
-            overflowY: 'auto',
             paddingTop: '20px',
             background: '#ffffff',
             color: '#0f172a',
-            filter: selectedDetail ? 'blur(2px)' : 'none',
-            opacity: selectedDetail ? 0.35 : 1,
-            pointerEvents: selectedDetail ? 'none' : 'auto',
-            transition: 'opacity 0.2s ease, filter 0.2s ease'
+            ...(selectedDetail && {
+              filter: 'blur(2px)',
+              opacity: 0.35,
+              pointerEvents: 'none'
+            })
           }}
           aria-hidden={!!selectedDetail}
         >
@@ -2331,15 +2369,26 @@ export default function IPQAOverview() {
 
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px'}}>
               {/* SITE-I Overall Quality Performance */}
-              <div style={{
+              <div 
+                onClick={() => {
+                  const siteISection = document.getElementById('site-i-section');
+                  if (siteISection) {
+                    siteISection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+                style={{
                 background: 'linear-gradient(135deg, #ffffff, #fef2f2)',
                 borderRadius: '14px',
                 padding: '20px',
                 border: '3px solid #dc2626',
                 boxShadow: '0 6px 20px rgba(220, 38, 38, 0.15)',
                 position: 'relative',
-                overflow: 'hidden'
-              }}>
+                overflow: 'hidden',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(220, 38, 38, 0.25)'}}
+              onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(220, 38, 38, 0.15)'}}>
                 <div style={{position: 'absolute', top: '-30px', right: '-30px', fontSize: '6em', opacity: '0.05'}}>🎯</div>
                 
                 <div style={{
@@ -2427,15 +2476,26 @@ export default function IPQAOverview() {
               </div>
 
               {/* SITE-III Overall Quality Performance */}
-              <div style={{
+              <div 
+                onClick={() => {
+                  const siteIIISection = document.getElementById('site-iii-section');
+                  if (siteIIISection) {
+                    siteIIISection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+                style={{
                 background: 'linear-gradient(135deg, #ffffff, #faf5ff)',
                 borderRadius: '14px',
                 padding: '20px',
                 border: '3px solid #8b5cf6',
                 boxShadow: '0 6px 20px rgba(139, 92, 246, 0.15)',
                 position: 'relative',
-                overflow: 'hidden'
-              }}>
+                overflow: 'hidden',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(139, 92, 246, 0.25)'}}
+              onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(139, 92, 246, 0.15)'}}>
                 <div style={{position: 'absolute', top: '-30px', right: '-30px', fontSize: '6em', opacity: '0.05'}}>🎯</div>
                 
                 <div style={{
@@ -2536,15 +2596,26 @@ export default function IPQAOverview() {
               </div>
 
               {/* SITE-V Overall Quality Performance */}
-              <div style={{
+              <div 
+                onClick={() => {
+                  const siteVSection = document.getElementById('site-v-section');
+                  if (siteVSection) {
+                    siteVSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+                style={{
                 background: 'linear-gradient(135deg, #ffffff, #ecfeff)',
                 borderRadius: '14px',
                 padding: '20px',
                 border: '3px solid #0ea5e9',
                 boxShadow: '0 6px 20px rgba(14, 165, 233, 0.15)',
                 position: 'relative',
-                overflow: 'hidden'
-              }}>
+                overflow: 'hidden',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(14, 165, 233, 0.25)'}}
+              onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(14, 165, 233, 0.15)'}}>
                 <div style={{position: 'absolute', top: '-30px', right: '-30px', fontSize: '6em', opacity: '0.05'}}>🎯</div>
                 
                 <div style={{
@@ -3060,6 +3131,46 @@ export default function IPQAOverview() {
             ))}
           </div>
         </section>
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && createPortal(
+        <button
+          onClick={scrollToTop}
+          style={{
+            position: 'fixed',
+            bottom: '30px',
+            left: '30px',
+            zIndex: 99999,
+            background: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '50%',
+            width: '56px',
+            height: '56px',
+            fontSize: '1.5em',
+            cursor: 'pointer',
+            boxShadow: '0 4px 20px rgba(14, 165, 233, 0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.3s ease',
+            fontWeight: 'bold',
+            pointerEvents: 'auto'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.1) translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 6px 25px rgba(14, 165, 233, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1) translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 20px rgba(14, 165, 233, 0.4)';
+          }}
+          title="Scroll to top"
+        >
+          ↑
+        </button>,
+        document.body
+      )}
 
       {/* Detail Modal */}
       {selectedDetail && createPortal(

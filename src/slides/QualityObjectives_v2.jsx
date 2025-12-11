@@ -3859,7 +3859,7 @@ const QualityObjectives_v2 = () => {
   };
 
   return (
-    <section style={{ padding: '60px 24px', minHeight: '100vh', background: 'linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 25%, #fef3c7 50%, #fef2f2 75%, #f0f9ff 100%)', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', boxSizing: 'border-box', overflow: 'visible' }}>
+    <section data-state="quality-objectives" style={{ padding: '60px 24px', background: 'linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 25%, #fef3c7 50%, #fef2f2 75%, #f0f9ff 100%)', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', boxSizing: 'border-box', overflow: 'visible' }}>
       {/* Decorative Elements */}
       <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(30, 144, 255, 0.1) 0%, transparent 70%)', pointerEvents: 'none' }}></div>
       <div style={{ position: 'absolute', bottom: '-80px', left: '-80px', width: '350px', height: '350px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%)', pointerEvents: 'none' }}></div>

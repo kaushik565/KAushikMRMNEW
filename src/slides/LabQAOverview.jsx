@@ -185,7 +185,7 @@ export default function LabQAOverview() {
   };
 
   return (
-    <section style={{
+    <section data-state="lab-qa-overview" style={{
       background: '#f8fafc',
       border: '1px solid #e2e8f0',
       borderRadius: '16px',

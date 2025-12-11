@@ -1210,6 +1210,7 @@ export default function SiteOverview() {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedSite, setSelectedSite] = useState(null)
   const [scrollPosition, setScrollPosition] = useState(0)
+  const [showScrollTop, setShowScrollTop] = useState(false)
   const sectionRef = useRef(null)
   const siteRefMap = useRef({
     'SITE-I': useRef(null),
@@ -1251,8 +1252,31 @@ export default function SiteOverview() {
     }
   }
 
+  // Scroll to top button visibility - check on scroll and when modal opens/closes
+  useEffect(() => {
+    const handleScroll = () => {
+      if (sectionRef.current) {
+        setShowScrollTop(sectionRef.current.scrollTop > 300);
+      }
+    };
+
+    const section = sectionRef.current;
+    if (section) {
+      section.addEventListener('scroll', handleScroll);
+      // Initial check
+      handleScroll();
+      return () => section.removeEventListener('scroll', handleScroll);
+    }
+  }, [selectedCategory, selectedSite]);
+
+  const scrollToTop = () => {
+    if (sectionRef.current) {
+      sectionRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section className="content-slide" ref={sectionRef} style={{ position: 'relative', overflow: 'auto' }}>
+    <section className="content-slide" data-state="site-overview" ref={sectionRef} style={{ position: 'relative', overflow: 'auto' }}>
       <h2 style={{ borderBottom: '4px solid #b91c1c', paddingBottom: '8px', marginBottom: '20px', color: '#b91c1c', fontSize: '1.8em', fontWeight: '600' }}>
         📊 Key Metrics Overview - QMS
       </h2>
@@ -1624,6 +1648,44 @@ export default function SiteOverview() {
             </p>
           )}
         </div>
+      )}
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          style={{
+            position: 'fixed',
+            bottom: '30px',
+            left: '30px',
+            zIndex: 9998,
+            background: 'linear-gradient(135deg, #b91c1c, #991b1b)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '50%',
+            width: '56px',
+            height: '56px',
+            fontSize: '1.5em',
+            cursor: 'pointer',
+            boxShadow: '0 4px 20px rgba(185, 28, 28, 0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.3s ease',
+            fontWeight: 'bold'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.1) translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 6px 25px rgba(185, 28, 28, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1) translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 20px rgba(185, 28, 28, 0.4)';
+          }}
+          title="Scroll to top"
+        >
+          ↑
+        </button>
       )}
     </section>
   )
