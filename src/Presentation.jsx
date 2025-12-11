@@ -142,8 +142,8 @@ export default function Presentation() {
       <ErrorBoundary><IPQAOverview /></ErrorBoundary>
       <ErrorBoundary><LabQAOverview /></ErrorBoundary>
       <ErrorBoundary><QualityObjectivesV2 /></ErrorBoundary>
-      <ErrorBoundary><ClosingSlide /></ErrorBoundary>
       <ErrorBoundary><QualityWeekPlaceholder /></ErrorBoundary>
+      <ErrorBoundary><ClosingSlide /></ErrorBoundary>
     </>
   )
 }
