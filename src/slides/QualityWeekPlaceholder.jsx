@@ -1,7 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 export default function QualityWeekPlaceholder() {
   const [hoveredIdx, setHoveredIdx] = useState(null)
+  const [showBadgeModal, setShowBadgeModal] = useState(false)
+  const slideRef = useRef(null)
+  const hasShownRef = useRef(false)
+
+  // Show badge modal when slide becomes active
+  useEffect(() => {
+    const checkAndShowBadge = () => {
+      if (slideRef.current?.classList.contains('present')) {
+        setShowBadgeModal(true)
+        setTimeout(() => setShowBadgeModal(false), 1000)
+      }
+    }
+
+    // Use MutationObserver to detect when slide becomes active
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const isPresentNow = slideRef.current?.classList.contains('present')
+          if (isPresentNow) {
+            setShowBadgeModal(true)
+            setTimeout(() => setShowBadgeModal(false), 1000)
+          }
+        }
+      })
+    })
+
+    if (slideRef.current) {
+      observer.observe(slideRef.current, { attributes: true })
+      // Check immediately in case already present
+      checkAndShowBadge()
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const events = [
     { icon: '📋', title: 'Quality Pledge' },
@@ -17,6 +51,7 @@ export default function QualityWeekPlaceholder() {
 
   return (
     <section
+      ref={slideRef}
       data-state="quality-week-placeholder"
       style={{
         background: '#ffffff'
@@ -29,8 +64,86 @@ export default function QualityWeekPlaceholder() {
         display: 'flex',
         flexDirection: 'column',
         gap: '12px',
-        overflowY: 'hidden'
+        overflowY: 'hidden',
+        position: 'relative'
       }}>
+        {/* Quality Week Badge - Top Left Corner */}
+        <div style={{
+          position: 'absolute',
+          top: '15px',
+          left: '20px',
+          zIndex: 10,
+          animation: 'fadeIn 0.6s ease-in-out'
+        }}>
+          <img 
+            src="/quality-week-badge.png"
+            alt="Quality Week Badge"
+            style={{
+              width: '150px',
+              height: 'auto',
+              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15))',
+              objectFit: 'contain',
+              cursor: 'pointer',
+              transition: 'transform 0.3s ease'
+            }}
+            onClick={() => setShowBadgeModal(true)}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          />
+        </div>
+
+        {/* Badge Full Screen Modal */}
+        {showBadgeModal && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 9999,
+              cursor: 'pointer',
+              animation: 'fadeIn 0.3s ease-in-out'
+            }}
+            onClick={() => setShowBadgeModal(false)}
+          >
+            <img
+              src="/quality-week-badge.png"
+              alt="Quality Week Badge - Full View"
+              style={{
+                maxWidth: '90%',
+                maxHeight: '90%',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3))',
+                animation: 'fadeIn 0.4s ease-in-out'
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '30px',
+                color: 'white',
+                fontSize: '2.5rem',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                opacity: 0.8,
+                transition: 'opacity 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.opacity = '1'}
+              onMouseLeave={(e) => e.target.style.opacity = '0.8'}
+            >
+              ✕
+            </div>
+          </div>
+        )}
+        
         <style>{`
           @keyframes slideInLeft {
             0% { opacity: 0; transform: translateX(-30px); }
