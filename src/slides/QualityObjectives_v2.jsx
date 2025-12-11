@@ -85,6 +85,7 @@ const QualityObjectives_v2 = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [obj05Qi1InfoSite, setObj05Qi1InfoSite] = useState(null);
   const [obj05Qi1InfoModal, setObj05Qi1InfoModal] = useState(null);
+  const [obj05Qi1ActivitiesModal, setObj05Qi1ActivitiesModal] = useState(null);
   const [obj05Qi2InfoSite, setObj05Qi2InfoSite] = useState(null);
   const [obj05Qi2InfoModal, setObj05Qi2InfoModal] = useState(null);
   const [obj07Qi1InfoSite, setObj07Qi1InfoSite] = useState(null);
@@ -3377,8 +3378,68 @@ const QualityObjectives_v2 = () => {
                     background: `${colors.primary}10`,
                     borderRadius: '12px',
                     border: `1px solid ${colors.primary}30`,
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    position: 'relative',
+                    cursor: item.site === 'Site III' ? 'pointer' : 'default',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onClick={() => {
+                    if (item.site === 'Site III' && item.infoRows) {
+                      setObj05Qi1InfoSite(item.site);
+                      setObj05Qi1InfoModal({ site: item.site, rows: item.infoRows });
+                    }
+                  }}
+                  onMouseEnter={(e) => {
+                    if (item.site === 'Site III') {
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                      e.currentTarget.style.boxShadow = '0 6px 16px rgba(59,130,246,0.2)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (item.site === 'Site III') {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }
                   }}>
+                    {item.site === 'Site III' && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setObj05Qi1InfoSite(item.site);
+                          setObj05Qi1InfoModal({ site: item.site, rows: item.infoRows });
+                        }}
+                        style={{
+                          position: 'absolute',
+                          top: '10px',
+                          right: '10px',
+                          width: '28px',
+                          height: '28px',
+                          borderRadius: '50%',
+                          background: colors.primary,
+                          color: '#ffffff',
+                          border: 'none',
+                          fontSize: '0.9em',
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: '0 2px 8px rgba(59, 130, 246, 0.3)',
+                          transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.12)';
+                          e.currentTarget.style.background = '#1d4ed8';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.background = colors.primary;
+                        }}
+                        aria-label="Show risk cause details"
+                      >
+                        ⓘ
+                      </button>
+                    )}
                     <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600, marginBottom: '8px' }}>
                       Identification of the risk cause more defects
                     </div>
@@ -3392,8 +3453,66 @@ const QualityObjectives_v2 = () => {
                     background: `${colors.primary}10`,
                     borderRadius: '12px',
                     border: `1px solid ${colors.primary}30`,
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    position: 'relative',
+                    cursor: item.site === 'Site III' ? 'pointer' : 'default',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onClick={() => {
+                    if (item.site === 'Site III') {
+                      setObj05Qi1ActivitiesModal({ site: item.site });
+                    }
+                  }}
+                  onMouseEnter={(e) => {
+                    if (item.site === 'Site III') {
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                      e.currentTarget.style.boxShadow = '0 6px 16px rgba(59,130,246,0.2)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (item.site === 'Site III') {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }
                   }}>
+                    {item.site === 'Site III' && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setObj05Qi1ActivitiesModal({ site: item.site });
+                        }}
+                        style={{
+                          position: 'absolute',
+                          top: '10px',
+                          right: '10px',
+                          width: '28px',
+                          height: '28px',
+                          borderRadius: '50%',
+                          background: colors.primary,
+                          color: '#ffffff',
+                          border: 'none',
+                          fontSize: '0.9em',
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: '0 2px 8px rgba(59, 130, 246, 0.3)',
+                          transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.12)';
+                          e.currentTarget.style.background = '#1d4ed8';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.background = colors.primary;
+                        }}
+                        aria-label="Show activities details"
+                      >
+                        ⓘ
+                      </button>
+                    )}
                     <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 600, marginBottom: '8px' }}>
                       List of activities based on critical process
                     </div>
@@ -3424,6 +3543,177 @@ const QualityObjectives_v2 = () => {
               </div>
             );
           })}
+          {obj05Qi1ActivitiesModal && (
+            <div
+              onClick={() => setObj05Qi1ActivitiesModal(null)}
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.55) 0%, rgba(30, 41, 59, 0.65) 100%)',
+                backdropFilter: 'blur(14px) saturate(120%)',
+                WebkitBackdropFilter: 'blur(14px) saturate(120%)',
+                zIndex: 2000,
+                padding: 0,
+                margin: 0,
+                animation: 'fadeIn 0.3s ease-out'
+              }}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: '100vw',
+                  height: '100vh',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%)',
+                  boxShadow: '0 25px 80px rgba(0,0,0,0.35)',
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  animation: 'modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                }}
+              >
+                <div style={{
+                  padding: '28px 32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderBottom: '2px solid rgba(148,163,184,0.2)',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.85) 100%)',
+                  backdropFilter: 'blur(12px)'
+                }}>
+                  <div>
+                    <div style={{ fontSize: '1.2rem', color: '#64748b', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>
+                      Objective 05 • QI 1
+                    </div>
+                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a' }}>
+                      List of activities based on critical process QO5-QI01 / {obj05Qi1ActivitiesModal.site}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setObj05Qi1ActivitiesModal(null)}
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '14px',
+                      border: 'none',
+                      background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                      color: '#ffffff',
+                      fontSize: '1.6rem',
+                      fontWeight: 900,
+                      cursor: 'pointer',
+                      boxShadow: '0 8px 20px rgba(239,68,68,0.35)',
+                      transition: 'all 0.25s ease'
+                    }}
+                    aria-label="Close"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <div style={{ padding: '24px 32px', overflow: 'auto', height: '100%' }}>
+                  <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid #cbd5e1' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', background: '#ffffff' }}>
+                      <thead>
+                        <tr style={{ background: '#0f172a', color: '#ffffff' }}>
+                          <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800, borderRight: '1px solid #475569' }}>Action</th>
+                          <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800, borderRight: '1px solid #475569' }}>Responsibility</th>
+                          <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800, borderRight: '1px solid #475569' }}>Start date</th>
+                          <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800, borderRight: '1px solid #475569' }}>Target Date</th>
+                          <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800, borderRight: '1px solid #475569' }}>Status</th>
+                          <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800 }}>Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>Preparation of Process Risk analysis</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QA/MG/DI</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>01/11/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>21/12/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#f59e0b', borderRight: '1px solid #e2e8f0' }}>In progress</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Delay</td>
+                        </tr>
+                        <tr style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>IPQA training on critical processes</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QA</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>01/08/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>15/08/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#10b981', borderRight: '1px solid #e2e8f0' }}>Completed</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#10b981' }}>Ontime</td>
+                        </tr>
+                        <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>Introduce Work Instruction SOP and format for for better understanding of operators and inspectors</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QA</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>11/08/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>31/08/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#10b981', borderRight: '1px solid #e2e8f0' }}>Completed</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#10b981' }}>Ontime</td>
+                        </tr>
+                        <tr style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>Introduction of 'Inprocess QA verification during the production'.</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QA</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>15/09/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>15/10/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#10b981', borderRight: '1px solid #e2e8f0' }}>Completed</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#10b981' }}>Ontime</td>
+                        </tr>
+                        <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>Introduce limit sample register</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QC</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>15/10/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>30/12/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#f59e0b', borderRight: '1px solid #e2e8f0' }}>In progress</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Delay</td>
+                        </tr>
+                        <tr style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>Increase the sampling frequency of IPQC during the production</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QC</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>15/09/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>30/12/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#f59e0b', borderRight: '1px solid #e2e8f0' }}>In progress</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Delay</td>
+                        </tr>
+                        <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>Set the defect rate at all the levels (Inprocess, and final) for critical processes</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QA</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>15/09/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>30/12/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#f59e0b', borderRight: '1px solid #e2e8f0' }}>In progress</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Delay</td>
+                        </tr>
+                        <tr style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>Prepare limit and defect sample boards at Production floor</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QA/QC/ MG</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>06/10/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>30/12/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#64748b', borderRight: '1px solid #e2e8f0' }}>Not started</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Delay</td>
+                        </tr>
+                        <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>Revise SOP/WI to include clear acceptance/rejection criteria and visual references</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QC/MG</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>16/10/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>30/12/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#64748b', borderRight: '1px solid #e2e8f0' }}>Not started</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Delay</td>
+                        </tr>
+                        <tr style={{ background: '#ffffff' }}>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#0f172a', borderRight: '1px solid #e2e8f0' }}>Revise SOP/WI to include additonal checkpoints in IQC/IPQC/FQC arises from analysis</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>QA/QC/ MG</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>16/10/2025</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #e2e8f0' }}>30/01/2026</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#64748b', borderRight: '1px solid #e2e8f0' }}>Not started</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', fontWeight: 700, color: '#ef4444' }}>Delay</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           {obj05Qi1InfoModal && (
             <div
               onClick={() => {
