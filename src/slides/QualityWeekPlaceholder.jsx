@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 export default function QualityWeekPlaceholder() {
   const [hoveredIdx, setHoveredIdx] = useState(null)
   const [showBadgeModal, setShowBadgeModal] = useState(false)
+  const [showCelebration, setShowCelebration] = useState(false)
   const slideRef = useRef(null)
   const hasShownRef = useRef(false)
 
@@ -11,7 +12,15 @@ export default function QualityWeekPlaceholder() {
     const checkAndShowBadge = () => {
       if (slideRef.current?.classList.contains('present')) {
         setShowBadgeModal(true)
-        setTimeout(() => setShowBadgeModal(false), 1000)
+        setShowCelebration(false)
+        
+        setTimeout(() => {
+          setShowBadgeModal(false)
+          // Start celebration effect after badge closes
+          setShowCelebration(true)
+          // Stop celebration after 6 seconds
+          setTimeout(() => setShowCelebration(false), 6000)
+        }, 1000)
       }
     }
 
@@ -22,7 +31,15 @@ export default function QualityWeekPlaceholder() {
           const isPresentNow = slideRef.current?.classList.contains('present')
           if (isPresentNow) {
             setShowBadgeModal(true)
-            setTimeout(() => setShowBadgeModal(false), 1000)
+            setShowCelebration(false)
+            
+            setTimeout(() => {
+              setShowBadgeModal(false)
+              // Start celebration effect after badge closes
+              setShowCelebration(true)
+              // Stop celebration after 6 seconds
+              setTimeout(() => setShowCelebration(false), 6000)
+            }, 1000)
           }
         }
       })
@@ -143,6 +160,406 @@ export default function QualityWeekPlaceholder() {
             </div>
           </div>
         )}
+
+        {/* Celebration Effect */}
+        {showCelebration && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            pointerEvents: 'none',
+            zIndex: 1000,
+            overflow: 'hidden'
+          }}>
+            {/* Advanced Fireworks - Bottom Left */}
+            {[...Array(4)].map((_, fireworkIdx) => {
+              const colors = ['#ff006e', '#00f5ff', '#ffbe0b', '#8338ec', '#fb5607', '#06ffa5'];
+              return (
+                <div key={`fw-left-${fireworkIdx}`}>
+                  {[...Array(20)].map((_, particleIdx) => {
+                    const angle = (particleIdx / 20) * Math.PI * 2;
+                    const color = colors[fireworkIdx % colors.length];
+                    const distance = 120 + Math.random() * 80;
+                    return (
+                      <div
+                        key={`p-${particleIdx}`}
+                        style={{
+                          position: 'absolute',
+                          bottom: '12%',
+                          left: '8%',
+                          width: '6px',
+                          height: '6px',
+                          borderRadius: '50%',
+                          backgroundColor: color,
+                          boxShadow: `0 0 20px ${color}, inset 0 0 10px rgba(255,255,255,0.8)`,
+                          animation: `advancedFirework 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${fireworkIdx * 0.5}s infinite`,
+                          '--px-x': `${Math.cos(angle) * distance}px`,
+                          '--px-y': `${Math.sin(angle) * distance}px`
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+
+            {/* Advanced Fireworks - Bottom Right */}
+            {[...Array(4)].map((_, fireworkIdx) => {
+              const colors = ['#ff006e', '#00f5ff', '#ffbe0b', '#8338ec', '#fb5607', '#06ffa5'];
+              return (
+                <div key={`fw-right-${fireworkIdx}`}>
+                  {[...Array(20)].map((_, particleIdx) => {
+                    const angle = (particleIdx / 20) * Math.PI * 2;
+                    const color = colors[(fireworkIdx + 2) % colors.length];
+                    const distance = 120 + Math.random() * 80;
+                    return (
+                      <div
+                        key={`p-${particleIdx}`}
+                        style={{
+                          position: 'absolute',
+                          bottom: '12%',
+                          right: '8%',
+                          width: '6px',
+                          height: '6px',
+                          borderRadius: '50%',
+                          backgroundColor: color,
+                          boxShadow: `0 0 20px ${color}, inset 0 0 10px rgba(255,255,255,0.8)`,
+                          animation: `advancedFirework 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${fireworkIdx * 0.5 + 0.25}s infinite`,
+                          '--px-x': `${Math.cos(angle) * distance}px`,
+                          '--px-y': `${Math.sin(angle) * distance}px`
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+
+            {/* Advanced Fireworks - Top Center */}
+            {[...Array(4)].map((_, fireworkIdx) => {
+              const colors = ['#ff006e', '#00f5ff', '#ffbe0b', '#8338ec', '#fb5607', '#06ffa5'];
+              return (
+                <div key={`fw-top-${fireworkIdx}`}>
+                  {[...Array(20)].map((_, particleIdx) => {
+                    const angle = (particleIdx / 20) * Math.PI * 2;
+                    const color = colors[(fireworkIdx + 4) % colors.length];
+                    const distance = 120 + Math.random() * 80;
+                    return (
+                      <div
+                        key={`p-${particleIdx}`}
+                        style={{
+                          position: 'absolute',
+                          top: '10%',
+                          left: '50%',
+                          width: '6px',
+                          height: '6px',
+                          borderRadius: '50%',
+                          backgroundColor: color,
+                          boxShadow: `0 0 20px ${color}, inset 0 0 10px rgba(255,255,255,0.8)`,
+                          animation: `advancedFirework 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${fireworkIdx * 0.5 + 0.15}s infinite`,
+                          '--px-x': `${Math.cos(angle) * distance}px`,
+                          '--px-y': `${Math.sin(angle) * distance}px`
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+
+            {/* Advanced Fireworks - Center Left */}
+            {[...Array(3)].map((_, fireworkIdx) => {
+              const colors = ['#ff006e', '#00f5ff', '#ffbe0b', '#8338ec', '#fb5607', '#06ffa5'];
+              return (
+                <div key={`fw-mid-left-${fireworkIdx}`}>
+                  {[...Array(18)].map((_, particleIdx) => {
+                    const angle = (particleIdx / 18) * Math.PI * 2;
+                    const color = colors[(fireworkIdx + 1) % colors.length];
+                    const distance = 100 + Math.random() * 70;
+                    return (
+                      <div
+                        key={`p-${particleIdx}`}
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '15%',
+                          width: '5px',
+                          height: '5px',
+                          borderRadius: '50%',
+                          backgroundColor: color,
+                          boxShadow: `0 0 18px ${color}, inset 0 0 8px rgba(255,255,255,0.8)`,
+                          animation: `advancedFirework 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${fireworkIdx * 0.6 + 1.2}s infinite`,
+                          '--px-x': `${Math.cos(angle) * distance}px`,
+                          '--px-y': `${Math.sin(angle) * distance}px`
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+
+            {/* Advanced Fireworks - Center Right */}
+            {[...Array(3)].map((_, fireworkIdx) => {
+              const colors = ['#ff006e', '#00f5ff', '#ffbe0b', '#8338ec', '#fb5607', '#06ffa5'];
+              return (
+                <div key={`fw-mid-right-${fireworkIdx}`}>
+                  {[...Array(18)].map((_, particleIdx) => {
+                    const angle = (particleIdx / 18) * Math.PI * 2;
+                    const color = colors[(fireworkIdx + 3) % colors.length];
+                    const distance = 100 + Math.random() * 70;
+                    return (
+                      <div
+                        key={`p-${particleIdx}`}
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          right: '15%',
+                          width: '5px',
+                          height: '5px',
+                          borderRadius: '50%',
+                          backgroundColor: color,
+                          boxShadow: `0 0 18px ${color}, inset 0 0 8px rgba(255,255,255,0.8)`,
+                          animation: `advancedFirework 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${fireworkIdx * 0.6 + 1.3}s infinite`,
+                          '--px-x': `${Math.cos(angle) * distance}px`,
+                          '--px-y': `${Math.sin(angle) * distance}px`
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+
+            {/* Floating Balloons */}
+            {[...Array(20)].map((_, i) => {
+              const colors = ['#ff006e', '#00f5ff', '#ffbe0b', '#8338ec', '#fb5607', '#06ffa5'];
+              const color = colors[i % colors.length];
+              const left = Math.random() * 100;
+              const delay = Math.random() * 1.5;
+              const duration = 6 + Math.random() * 3;
+              const swayDistance = 40 + Math.random() * 60;
+              
+              return (
+                <div
+                  key={`balloon-${i}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${left}%`,
+                    bottom: '-80px',
+                    width: '50px',
+                    height: '65px',
+                    animation: `balloonFloat ${duration}s ease-in-out ${delay}s forwards`,
+                    '--sway-dist': `${swayDistance}px`
+                  }}
+                >
+                  {/* Balloon body */}
+                  <div style={{
+                    width: '50px',
+                    height: '55px',
+                    borderRadius: '50% 50% 50% 0',
+                    background: `linear-gradient(135deg, ${color}, ${color}dd)`,
+                    boxShadow: `
+                      -10px -10px 20px rgba(255,255,255,0.3) inset,
+                      10px 10px 20px rgba(0,0,0,0.2) inset,
+                      0 8px 15px rgba(0,0,0,0.3),
+                      0 0 30px ${color}80
+                    `,
+                    position: 'relative'
+                  }}>
+                    {/* Balloon shine */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '8px',
+                      left: '10px',
+                      width: '15px',
+                      height: '20px',
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.8), transparent)',
+                      borderRadius: '50%'
+                    }} />
+                  </div>
+                  
+                  {/* String */}
+                  <div style={{
+                    width: '2px',
+                    height: '15px',
+                    background: 'linear-gradient(to bottom, #ddd, #999)',
+                    margin: '0 auto'
+                  }} />
+                </div>
+              );
+            })}
+
+            {/* Advanced Curled Streamers - Thin and Small */}
+            {[...Array(50)].map((_, i) => {
+              const colors = ['#ff006e', '#00f5ff', '#ffbe0b', '#8338ec', '#fb5607', '#06ffa5', '#118ab2', '#06a77d'];
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              const left = Math.random() * 100;
+              const delay = Math.random() * 1.2;
+              const duration = 5.5 + Math.random() * 2.5;
+              const rotation = Math.random() * 4;
+              
+              return (
+                <div
+                  key={`streamer-${i}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${left}%`,
+                    top: '-60px',
+                    width: '4px',
+                    height: '60px',
+                    background: `linear-gradient(to bottom, ${color}, transparent)`,
+                    animation: `streamerFall ${duration}s ease-in ${delay}s forwards`,
+                    transformOrigin: 'top center',
+                    borderRadius: '2px',
+                    boxShadow: `0 0 8px ${color}80`,
+                    '--rotation': `${rotation}`,
+                    opacity: 0.85
+                  }}
+                />
+              );
+            })}
+
+            {/* Falling Stars */}
+            {[...Array(30)].map((_, i) => {
+              const colors = ['#ffff00', '#00ffff', '#ffb3ff', '#06ffa5'];
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              const left = Math.random() * 100;
+              const delay = Math.random() * 1;
+              const duration = 6 + Math.random() * 2;
+              
+              return (
+                <div
+                  key={`star-${i}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${left}%`,
+                    top: '-30px',
+                    fontSize: '1.5rem',
+                    animation: `starFall ${duration}s linear ${delay}s forwards`,
+                    opacity: 0.9
+                  }}
+                >
+                  ⭐
+                </div>
+              );
+            })}
+
+            {/* Tiny Circular Confetti */}
+            {[...Array(60)].map((_, i) => {
+              const colors = ['#ff006e', '#00f5ff', '#ffbe0b', '#8338ec', '#fb5607', '#06ffa5'];
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              const left = Math.random() * 100;
+              const delay = Math.random() * 0.9;
+              const duration = 5.5 + Math.random() * 2;
+              const size = 3 + Math.random() * 6;
+              const swayDistance = 20 + Math.random() * 40;
+              
+              return (
+                <div
+                  key={`dot-${i}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${left}%`,
+                    top: '-20px',
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    backgroundColor: color,
+                    borderRadius: '50%',
+                    boxShadow: `0 0 ${size}px ${color}`,
+                    animation: `swayingFall ${duration}s ease-in ${delay}s forwards`,
+                    '--sway': `${swayDistance}px`,
+                    opacity: 0.9
+                  }}
+                />
+              );
+            })}
+
+            {/* Falling Sparkles */}
+            {[...Array(40)].map((_, i) => {
+              const symbols = ['✨', '💫', '⚡'];
+              const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+              const left = Math.random() * 100;
+              const delay = Math.random() * 1.1;
+              const duration = 5 + Math.random() * 2.5;
+              const size = 0.9 + Math.random() * 0.6;
+              
+              return (
+                <div
+                  key={`sprite-${i}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${left}%`,
+                    top: '-30px',
+                    fontSize: `${size}rem`,
+                    animation: `spriteFall ${duration}s linear ${delay}s forwards`,
+                    opacity: 0.85
+                  }}
+                >
+                  {symbol}
+                </div>
+              );
+            })}
+
+            {/* Premium Confetti */}
+            {[...Array(50)].map((_, i) => {
+              const colors = ['#ff006e', '#00f5ff', '#ffbe0b', '#8338ec', '#fb5607', '#06ffa5', '#118ab2', '#06a77d'];
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              const left = Math.random() * 100;
+              const delay = Math.random() * 0.8;
+              const duration = 5.5 + Math.random() * 2.5;
+              const size = 6 + Math.random() * 12;
+              const isCircle = Math.random() > 0.5;
+              
+              return (
+                <div
+                  key={`conf-${i}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${left}%`,
+                    top: '-30px',
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    backgroundColor: color,
+                    borderRadius: isCircle ? '50%' : '2px',
+                    boxShadow: `0 0 ${size / 2}px ${color}`,
+                    animation: `premiumConfetti ${duration}s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay}s forwards`,
+                    opacity: 0.95
+                  }}
+                />
+              );
+            })}
+
+            {/* Sparkle Particles */}
+            {[...Array(35)].map((_, i) => {
+              const colors = ['#ffff00', '#00ffff', '#ffb3ff', '#ffffff'];
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              const left = Math.random() * 100;
+              const delay = Math.random() * 1;
+              const size = 4 + Math.random() * 8;
+              
+              return (
+                <div
+                  key={`spark-${i}`}
+                  style={{
+                    position: 'absolute',
+                    left: `${left}%`,
+                    top: '-20px',
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    backgroundColor: color,
+                    borderRadius: '50%',
+                    boxShadow: `0 0 ${size * 2}px ${color}`,
+                    animation: `advancedSparkle 4s ease-out ${delay}s forwards`,
+                    opacity: 1
+                  }}
+                />
+              );
+            })}
+          </div>
+        )}
         
         <style>{`
           @keyframes slideInLeft {
@@ -152,6 +569,118 @@ export default function QualityWeekPlaceholder() {
           @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
+          }
+          @keyframes advancedFirework {
+            0% {
+              opacity: 1;
+              transform: translate(0, 0) scale(1);
+            }
+            70% {
+              opacity: 1;
+            }
+            100% {
+              opacity: 0;
+              transform: translate(var(--px-x), var(--px-y)) scale(0);
+            }
+          }
+          @keyframes balloonFloat {
+            0% {
+              transform: translateY(0) translateX(0) scale(0.6);
+              opacity: 0;
+            }
+            15% {
+              opacity: 1;
+              transform: translateY(-50px) translateX(0) scale(1);
+            }
+            50% {
+              transform: translateY(calc(-50vh)) translateX(var(--sway-dist));
+            }
+            100% {
+              opacity: 0;
+              transform: translateY(calc(-120vh)) translateX(0) scale(0.8);
+            }
+          }
+          @keyframes advancedRibbonFall {
+            0% {
+              transform: translateY(0) rotateZ(0deg) translateX(0);
+              opacity: 0.9;
+            }
+            50% {
+              transform: translateY(calc(50vh)) rotateZ(180deg) translateX(var(--sway));
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(calc(100vh + 100px)) rotateZ(360deg) translateX(0);
+              opacity: 0.1;
+            }
+          }
+          @keyframes streamerFall {
+            0% {
+              transform: translateY(0) rotate(0deg);
+              opacity: 0.9;
+            }
+            100% {
+              transform: translateY(calc(100vh + 100px)) rotate(var(--rotation) * 180deg);
+              opacity: 0.1;
+            }
+          }
+          @keyframes starFall {
+            0% {
+              transform: translateY(0) scale(1) rotate(0deg);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(calc(100vh + 50px)) scale(0.5) rotate(360deg);
+              opacity: 0.2;
+            }
+          }
+          @keyframes swayingFall {
+            0% {
+              transform: translateY(0) translateX(0);
+              opacity: 1;
+            }
+            50% {
+              transform: translateY(calc(50vh)) translateX(var(--sway));
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(calc(100vh + 50px)) translateX(0);
+              opacity: 0.2;
+            }
+          }
+          @keyframes spriteFall {
+            0% {
+              transform: translateY(0) scale(1);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(calc(100vh + 50px)) scale(0.3);
+              opacity: 0;
+            }
+          }
+          @keyframes premiumConfetti {
+            0% {
+              transform: translateY(0) rotateZ(0deg) scale(1);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(calc(100vh + 50px)) rotateZ(720deg) scale(0.5);
+              opacity: 0;
+            }
+          }
+          @keyframes advancedSparkle {
+            0% {
+              transform: translateY(0) scale(1);
+              opacity: 1;
+            }
+            50% {
+              transform: translateY(calc(50vh)) scale(0.8);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(calc(100vh + 50px)) scale(0);
+              opacity: 0;
+            }
           }
         `}</style>
 
