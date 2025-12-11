@@ -24,12 +24,13 @@ export default function IPQAOverview() {
   const [selectedSiteIChart, setSelectedSiteIChart] = useState(null);
   const [selectedSite3KPIInfo, setSelectedSite3KPIInfo] = useState(null);
   const [selectedQualityScoreInfo, setSelectedQualityScoreInfo] = useState(null);
+  const [showSiteIImprovements, setShowSiteIImprovements] = useState(false);
   const [showSite3Improvements, setShowSite3Improvements] = useState(false);
   const [showSiteVImprovements, setShowSiteVImprovements] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Lock background scroll while any overlay/modal is open to avoid slide jump
-  const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart || selectedSiteIChart;
+  const hasOverlayOpen = selectedDetail || selectedDeptChart || selectedCartridgeChart || selectedManufacturingChart || selectedSite3Chart || selectedSiteIChart || showSiteIImprovements || showSite3Improvements || showSiteVImprovements;
 
   // Close all modals when slide changes
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function IPQAOverview() {
       setSelectedSiteIChart(null);
       setSelectedSite3KPIInfo(null);
       setSelectedQualityScoreInfo(null);
+      setShowSiteIImprovements(false);
       setShowSite3Improvements(false);
       setShowSiteVImprovements(false);
     };
@@ -2473,6 +2475,58 @@ export default function IPQAOverview() {
                     ↑ +0.4% improvement
                   </div>
                 </div>
+
+                {/* Key Improvements Section */}
+                <div style={{
+                  marginTop: '14px',
+                  padding: '10px',
+                  background: '#fef2f2',
+                  borderRadius: '8px',
+                  border: '2px solid #fecaca',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}>
+                  <div style={{
+                    fontSize: '0.8em',
+                    fontWeight: '700',
+                    color: '#991b1b',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    📈 Key Improvements
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowSiteIImprovements(true);
+                    }}
+                    style={{
+                      background: '#dc2626',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '24px',
+                      height: '24px',
+                      fontSize: '0.8em',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s',
+                      boxShadow: '0 2px 6px rgba(220, 38, 38, 0.3)',
+                      position: 'relative',
+                      zIndex: 10,
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {e.currentTarget.style.transform = 'scale(1.15)'; e.currentTarget.style.boxShadow = '0 4px 10px rgba(220, 38, 38, 0.5)';e.currentTarget.style.background = '#b91c1c';}}
+                    onMouseLeave={(e) => {e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 2px 6px rgba(220, 38, 38, 0.3)';e.currentTarget.style.background = '#dc2626';}}
+                  >
+                    ⓘ
+                  </button>
+                </div>
               </div>
 
               {/* SITE-III Overall Quality Performance */}
@@ -2569,29 +2623,68 @@ export default function IPQAOverview() {
                   </div>
                 </div>
 
-                <div 
-                  onClick={() => setShowSite3Improvements(true)}
-                  style={{
-                    textAlign: 'center',
-                    padding: '10px',
-                    background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
-                    borderRadius: '8px',
-                    border: '2px solid #22c55e',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'scale(1.05)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.3)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
-                >
+                <div style={{
+                  textAlign: 'center',
+                  padding: '10px',
+                  background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
+                  borderRadius: '8px',
+                  border: '2px solid #22c55e'
+                }}>
                   <div style={{fontSize: '0.8em', fontWeight: '700', color: '#166534'}}>
                     ↑ +0.3% improvement
                   </div>
+                </div>
+
+                {/* Key Improvements Section */}
+                <div style={{
+                  marginTop: '14px',
+                  padding: '10px',
+                  background: '#f3e8ff',
+                  borderRadius: '8px',
+                  border: '2px solid #e9d5ff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}>
+                  <div style={{
+                    fontSize: '0.8em',
+                    fontWeight: '700',
+                    color: '#6b21a8',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    📈 Key Improvements
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowSite3Improvements(true);
+                    }}
+                    style={{
+                      background: '#8b5cf6',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '24px',
+                      height: '24px',
+                      fontSize: '0.8em',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s',
+                      boxShadow: '0 2px 6px rgba(139, 92, 246, 0.3)',
+                      position: 'relative',
+                      zIndex: 10,
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {e.currentTarget.style.transform = 'scale(1.15)'; e.currentTarget.style.boxShadow = '0 4px 10px rgba(139, 92, 246, 0.5)';e.currentTarget.style.background = '#7c3aed';}}
+                    onMouseLeave={(e) => {e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 2px 6px rgba(139, 92, 246, 0.3)';e.currentTarget.style.background = '#8b5cf6';}}
+                  >
+                    ⓘ
+                  </button>
                 </div>
               </div>
 
@@ -2689,29 +2782,68 @@ export default function IPQAOverview() {
                   </div>
                 </div>
 
-                <div 
-                  onClick={() => setShowSiteVImprovements(true)}
-                  style={{
-                    textAlign: 'center',
-                    padding: '10px',
-                    background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
-                    borderRadius: '8px',
-                    border: '2px solid #22c55e',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'scale(1.05)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.3)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
-                >
+                <div style={{
+                  textAlign: 'center',
+                  padding: '10px',
+                  background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
+                  borderRadius: '8px',
+                  border: '2px solid #22c55e'
+                }}>
                   <div style={{fontSize: '0.8em', fontWeight: '700', color: '#166534'}}>
                     ↑ +0.5% improvement
                   </div>
+                </div>
+
+                {/* Key Improvements Section */}
+                <div style={{
+                  marginTop: '14px',
+                  padding: '10px',
+                  background: '#e0f2fe',
+                  borderRadius: '8px',
+                  border: '2px solid #cffafe',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}>
+                  <div style={{
+                    fontSize: '0.8em',
+                    fontWeight: '700',
+                    color: '#0c4a6e',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    📈 Key Improvements
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowSiteVImprovements(true);
+                    }}
+                    style={{
+                      background: '#0ea5e9',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '24px',
+                      height: '24px',
+                      fontSize: '0.8em',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s',
+                      boxShadow: '0 2px 6px rgba(14, 165, 233, 0.3)',
+                      position: 'relative',
+                      zIndex: 10,
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {e.currentTarget.style.transform = 'scale(1.15)'; e.currentTarget.style.boxShadow = '0 4px 10px rgba(14, 165, 233, 0.5)';e.currentTarget.style.background = '#0284c7';}}
+                    onMouseLeave={(e) => {e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 2px 6px rgba(14, 165, 233, 0.3)';e.currentTarget.style.background = '#0ea5e9';}}
+                  >
+                    ⓘ
+                  </button>
                 </div>
               </div>
             </div>
@@ -3459,6 +3591,237 @@ export default function IPQAOverview() {
         />
       )}
 
+      {/* SITE-I Improvements Modal */}
+      {showSiteIImprovements && createPortal(
+        <div 
+          onClick={() => setShowSiteIImprovements(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'linear-gradient(135deg, rgba(220, 38, 38, 0.15), rgba(239, 68, 68, 0.15))',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 999999,
+            padding: '20px',
+            animation: 'fadeIn 0.3s ease-out'
+          }}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'linear-gradient(to bottom, #ffffff, #fefefe)',
+              borderRadius: '24px',
+              maxWidth: '900px',
+              width: '100%',
+              maxHeight: '92vh',
+              overflow: 'hidden',
+              position: 'relative',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(220, 38, 38, 0.1)',
+              animation: 'slideUp 0.4s ease-out'
+            }}
+          >
+            {/* Header with gradient background */}
+            <div style={{
+              background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)',
+              padding: '32px 40px',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+                opacity: 0.4
+              }} />
+              
+              <button
+                onClick={() => setShowSiteIImprovements(false)}
+                style={{
+                  position: 'absolute',
+                  top: '20px',
+                  right: '20px',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  border: 'none',
+                  color: 'white',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  fontSize: '1.5em',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s',
+                  zIndex: 10
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                ✕
+              </button>
+
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                padding: '8px 16px',
+                borderRadius: '20px',
+                marginBottom: '12px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                width: 'fit-content',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                <span style={{ fontSize: '1.3em' }}>✨</span>
+                <span style={{ fontSize: '0.85em', fontWeight: '600', color: '#ffffff', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  Site I IPQA
+                </span>
+              </div>
+              
+              <h2 style={{ 
+                fontSize: '2.2em', 
+                fontWeight: '900', 
+                color: '#ffffff', 
+                margin: '0',
+                lineHeight: '1.2',
+                textShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                Process Improvements
+              </h2>
+            </div>
+
+            {/* Scrollable Content */}
+            <div style={{ 
+              padding: '32px 40px', 
+              maxHeight: 'calc(92vh - 150px)', 
+              overflowY: 'auto',
+              overflowX: 'hidden'
+            }}>
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: '1fr',
+                gap: '14px' 
+              }}>
+                {[
+                  { 
+                    icon: '🔬', 
+                    title: 'MG Coat Dispensing', 
+                    desc: 'Added inprocess checks while MG coat dispensing to ensure quality and consistency.' 
+                  },
+                  { 
+                    icon: '🧪', 
+                    title: 'Mastermix Dispensing', 
+                    desc: 'Added inprocess checks while Mastermix dispensing to validate accuracy and reduce errors.' 
+                  },
+                  { 
+                    icon: '📋', 
+                    title: 'Material Checklist Verification', 
+                    desc: 'Added more checkpoints in Checklist and calculation sheet of incoming/new material to ensure completeness.' 
+                  },
+                  { 
+                    icon: '⚙️', 
+                    title: 'Chip Processing', 
+                    desc: 'Added inprocess checks for Chip arrangement and chip washing to maintain proper configuration and cleanliness.' 
+                  }
+                ].map((item, idx) => (
+                  <div key={idx} style={{
+                    background: '#ffffff',
+                    border: '2px solid #fee2e2',
+                    borderRadius: '14px',
+                    padding: '16px',
+                    transition: 'all 0.25s ease',
+                    cursor: 'default',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-3px)'
+                    e.currentTarget.style.boxShadow = '0 10px 20px rgba(220, 38, 38, 0.15)'
+                    e.currentTarget.style.borderColor = '#dc2626'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = 'none'
+                    e.currentTarget.style.borderColor = '#fee2e2'
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      gap: '12px'
+                    }}>
+                      <div style={{
+                        width: '42px',
+                        height: '42px',
+                        borderRadius: '12px',
+                        background: 'linear-gradient(135deg, #fee2e2, #fecaca)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '1.4em'
+                      }}>
+                        {item.icon}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{
+                          fontSize: '0.98em',
+                          fontWeight: '800',
+                          color: '#991b1b',
+                          marginBottom: '6px'
+                        }}>
+                          {idx + 1}. {item.title}
+                        </div>
+                        <div style={{
+                          fontSize: '0.9em',
+                          color: '#0f172a',
+                          lineHeight: '1.5',
+                          fontWeight: '600'
+                        }}>
+                          {item.desc}
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      width: '50px',
+                      height: '50px',
+                      borderRadius: '12px',
+                      background: 'linear-gradient(135deg, #fef2f2, #fee2e2)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '1.8em',
+                      opacity: 0.6
+                    }}>
+                      {item.icon}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
       {/* SITE-III Improvements Modal */}
       {showSite3Improvements && createPortal(
         <div 
@@ -3606,7 +3969,7 @@ export default function IPQAOverview() {
                     fontWeight: 'bold'
                   }}>✓</div>
                   <div style={{ position: 'relative', zIndex: 1 }}>
-                    <div style={{ fontSize: '3em', fontWeight: '900', color: '#059669', marginBottom: '4px' }}>8</div>
+                    <div style={{ fontSize: '3em', fontWeight: '900', color: '#059669', marginBottom: '4px' }}>7</div>
                     <div style={{ fontSize: '0.95em', fontWeight: '700', color: '#047857', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                       Completed
                     </div>
@@ -3685,13 +4048,13 @@ export default function IPQAOverview() {
                 }}>
                   {[
                     { icon: '🤝', title: 'Monthly huddles with MG & MN', desc: 'Review rejections/challenges with actions locked each month.' },
-                    { icon: '👀', title: 'Shopfloor observation loop', desc: 'Every 15 days: on-floor walks to surface issues early.', highlight: 'Reduced Process incidents from 34 days to 21 days.' },
+                    { icon: '👀', title: 'Shopfloor observation loop', desc: 'Every 15 days: on-floor walks to surface issues early.', highlight: 'Reduced Process incidents from 34 to 21 (Nos).' },
                     { icon: '📄', title: 'On-floor work instructions', desc: 'Live, visual SOPs at point-of-use to reduce ambiguity.' },
                     { icon: '♻️', title: 'Line-wise rework bays', desc: 'Dedicated rework space to contain and correct defects.' },
                     { icon: '🧪', title: 'Particle count checks', desc: 'Routine counts to keep contamination tightly controlled.' },
                     { icon: '🏷️', title: 'QR pasting segregation', desc: 'Separated QR activities to prevent label mix-ups.' },
                     { icon: '🖼️', title: 'Pictorial job aids', desc: 'Step visuals at stations for faster, error-proof execution.' },
-                    { icon: '📊', title: 'Change control tracker', desc: 'Single tracker for visibility on all change controls.' }
+                   // { icon: '📊', title: 'Change control tracker', desc: 'Single tracker for visibility on all change controls.' }
                   ].map((item, idx) => (
                     <div key={idx} style={{
                       background: '#ffffff',
@@ -3749,7 +4112,7 @@ export default function IPQAOverview() {
                           {item.highlight && (
                             <div style={{
                               fontSize: '0.88em',
-                              color: '#059669',
+                              color: '#dc2626',
                               lineHeight: '1.5',
                               fontWeight: '700',
                               marginTop: '6px',
