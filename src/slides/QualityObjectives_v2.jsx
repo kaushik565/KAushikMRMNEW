@@ -689,9 +689,6 @@ const QualityObjectives_v2 = () => {
             backdropFilter: 'blur(14px) saturate(120%)',
             WebkitBackdropFilter: 'blur(14px) saturate(120%)',
             zIndex: 2000,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             padding: 0,
             margin: 0,
             animation: 'fadeIn 0.3s ease-out'
@@ -700,13 +697,11 @@ const QualityObjectives_v2 = () => {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-                width: '96vw',
-                height: '96vh',
-                maxWidth: '1600px',
+                width: '100vw',
+                height: '100vh',
                 overflow: 'hidden',
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%)',
-                borderRadius: '24px',
-                boxShadow: '0 25px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset',
+                boxShadow: '0 25px 80px rgba(0,0,0,0.35)',
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
@@ -2181,9 +2176,6 @@ const QualityObjectives_v2 = () => {
                 backdropFilter: 'blur(14px) saturate(120%)',
                 WebkitBackdropFilter: 'blur(14px) saturate(120%)',
                 zIndex: 2000,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 padding: 0,
                 margin: 0,
                 animation: 'fadeIn 0.3s ease-out'
@@ -2192,12 +2184,11 @@ const QualityObjectives_v2 = () => {
               <div
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  width: '95vw',
-                  height: '95vh',
+                  width: '100vw',
+                  height: '100vh',
                   overflow: 'hidden',
                   background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%)',
-                  borderRadius: '24px',
-                  boxShadow: '0 25px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset',
+                  boxShadow: '0 25px 80px rgba(0,0,0,0.35)',
                   position: 'relative',
                   display: 'flex',
                   flexDirection: 'column',
@@ -2778,9 +2769,6 @@ const QualityObjectives_v2 = () => {
                 background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.95) 100%)',
                 backdropFilter: 'blur(12px)',
                 zIndex: 2000,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 padding: 0,
                 margin: 0,
                 animation: 'fadeIn 0.3s ease-out'
@@ -2789,12 +2777,11 @@ const QualityObjectives_v2 = () => {
               <div
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  width: '95vw',
-                  height: '95vh',
+                  width: '100vw',
+                  height: '100vh',
                   overflow: 'hidden',
                   background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%)',
-                  borderRadius: '24px',
-                  boxShadow: '0 25px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset',
+                  boxShadow: '0 25px 80px rgba(0,0,0,0.35)',
                   position: 'relative',
                   display: 'flex',
                   flexDirection: 'column',
@@ -3345,9 +3332,6 @@ const QualityObjectives_v2 = () => {
               background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.95) 100%)',
               backdropFilter: 'blur(12px)',
               zIndex: 2000,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               padding: 0,
               margin: 0,
               animation: 'fadeIn 0.3s ease-out'
@@ -3356,12 +3340,11 @@ const QualityObjectives_v2 = () => {
             <div
               onClick={(e) => e.stopPropagation()}
               style={{
-                width: '95vw',
-                height: '95vh',
+                width: '100vw',
+                height: '100vh',
                 overflow: 'hidden',
                 background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%)',
-                borderRadius: '24px',
-                boxShadow: '0 25px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.5) inset',
+                boxShadow: '0 25px 80px rgba(0,0,0,0.35)',
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',

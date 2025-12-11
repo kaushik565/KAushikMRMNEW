@@ -5,6 +5,21 @@ import { ComposedChart, Bar, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianG
 export default function LabQAOverview() {
   const [selectedSite, setSelectedSite] = useState(null);
   const [selectedSiteIV, setSelectedSiteIV] = useState(false);
+  const [showSiteIIncidents, setShowSiteIIncidents] = useState(false);
+
+  // Site I Incidents Data
+  const siteIIncidents = [
+    { initiating: 'QA', concerned: 'QC', description: 'More than 3 cut signs on logbook LOG/QC/012-130d and LOG/QC/012-133e' },
+    { initiating: 'QA', concerned: 'QC', description: 'GDP error on logbook LOG/QC/044-6C and LOG/QC/044-40a' },
+    { initiating: 'QA', concerned: 'QC', description: 'GDP error on logbook LOG/QC/039-2a' },
+    { initiating: 'QA', concerned: 'QA, VL,QC', description: 'Descripancy observed on LOGBOOKS ( LOG/QC/053-2a) and calibration was not carried out before its due date (QC/EQID/I-00450)' },
+    { initiating: 'QA', concerned: 'QC', description: 'cleaning entry skipped on logbook LOG/QC/012-193a, LOG/QC/012-191a' },
+    { initiating: 'QA', concerned: 'QA, QC', description: 'Descripancy observed on Logbook verification ( LOG/QC/044-19d and LOG/QC/057-1c)' },
+    { initiating: 'QA', concerned: 'QC', description: 'During Logbook verification QC personnel did not record the data after performing activity' },
+    { initiating: 'QA', concerned: 'QC', description: 'More than 03 cut signs on Equipment ID QC/EQID/I-00215' },
+    { initiating: 'QA', concerned: 'QC,QA', description: 'Descripancies observed in logbook mentioned in annexure I and II' },
+    { initiating: 'QA', concerned: 'PK,PM,QC', description: 'Incorrect version printed on Truenat MTB-INH Kit label and Truenat Trich packinsert' }
+  ];
 
   // Close modal when slide changes
   useEffect(() => {
@@ -244,10 +259,11 @@ export default function LabQAOverview() {
               display: 'flex',
               alignItems: 'center',
               gap: '12px',
-              marginBottom: '16px'
+              marginBottom: '16px',
+              position: 'relative'
             }}>
               <div style={{ fontSize: '2.2em' }}>{site.icon}</div>
-              <div>
+              <div style={{ flex: 1 }}>
                 <div style={{
                   fontSize: '1.2em',
                   fontWeight: '900',
@@ -263,6 +279,41 @@ export default function LabQAOverview() {
                   Click for details
                 </div>
               </div>
+              
+              {/* Info button for Site-I */}
+              {site.name === 'SITE-I' && (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowSiteIIncidents(true);
+                  }}
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    background: site.color,
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.1em',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.1)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
+                  }}
+                >
+                  ℹ️
+                </div>
+              )}
             </div>
 
             {/* KPI Values */}
@@ -476,6 +527,187 @@ export default function LabQAOverview() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Site I Incidents Modal */}
+      {showSiteIIncidents && createPortal(
+        <div
+          onClick={() => setShowSiteIIncidents(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(5px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '20px'
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'white',
+              borderRadius: '16px',
+              maxWidth: '1200px',
+              width: '100%',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+            }}
+          >
+            {/* Header */}
+            <div style={{
+              background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+              padding: '24px 30px',
+              borderRadius: '16px 16px 0 0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              position: 'sticky',
+              top: 0,
+              zIndex: 10
+            }}>
+              <div>
+                <div style={{
+                  fontSize: '1.8em',
+                  fontWeight: '900',
+                  color: '#ffffff',
+                  marginBottom: '8px'
+                }}>
+                  SITE-I Incidents Details
+                </div>
+                <div style={{
+                  fontSize: '1em',
+                  color: '#e0e7ff',
+                  fontWeight: '600',
+                  display: 'flex',
+                  gap: '20px'
+                }}>
+                  <span>📊 GDP Related: <strong>9</strong></span>
+                  <span>⚙️ Process Related: <strong>1</strong></span>
+                </div>
+              </div>
+              <div
+                onClick={() => setShowSiteIIncidents(false)}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  fontSize: '1.5em',
+                  color: '#ffffff',
+                  fontWeight: 'bold',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                ✕
+              </div>
+            </div>
+
+            {/* Table Content */}
+            <div style={{ padding: '30px' }}>
+              <table style={{
+                width: '100%',
+                borderCollapse: 'collapse',
+                fontSize: '0.95em'
+              }}>
+                <thead>
+                  <tr style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)' }}>
+                    <th style={{
+                      padding: '16px 14px',
+                      textAlign: 'left',
+                      color: '#ffffff',
+                      fontWeight: '900',
+                      fontSize: '1em',
+                      borderRadius: '8px 0 0 0',
+                      width: '15%'
+                    }}>
+                      Initiating Dept.
+                    </th>
+                    <th style={{
+                      padding: '16px 14px',
+                      textAlign: 'left',
+                      color: '#ffffff',
+                      fontWeight: '900',
+                      fontSize: '1em',
+                      width: '18%'
+                    }}>
+                      Concerned Dept.
+                    </th>
+                    <th style={{
+                      padding: '16px 14px',
+                      textAlign: 'left',
+                      color: '#ffffff',
+                      fontWeight: '900',
+                      fontSize: '1em',
+                      borderRadius: '0 8px 0 0'
+                    }}>
+                      Description of the Incident
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {siteIIncidents.map((incident, idx) => (
+                    <tr key={idx} style={{
+                      background: idx % 2 === 0 ? '#f8fafc' : '#ffffff',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#e0f2fe';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = idx % 2 === 0 ? '#f8fafc' : '#ffffff';
+                    }}>
+                      <td style={{
+                        padding: '14px',
+                        fontWeight: '700',
+                        color: '#3b82f6',
+                        borderBottom: '1px solid #e2e8f0'
+                      }}>
+                        {incident.initiating}
+                      </td>
+                      <td style={{
+                        padding: '14px',
+                        fontWeight: '700',
+                        color: '#0f172a',
+                        borderBottom: '1px solid #e2e8f0'
+                      }}>
+                        {incident.concerned}
+                      </td>
+                      <td style={{
+                        padding: '14px',
+                        fontWeight: '600',
+                        color: '#334155',
+                        borderBottom: '1px solid #e2e8f0',
+                        lineHeight: '1.6'
+                      }}>
+                        {incident.description}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>,
+        document.body
       )}
 
       {/* Site IV Full-Screen Modal */}
