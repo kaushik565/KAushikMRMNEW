@@ -152,20 +152,20 @@ export default function LabQAOverview() {
 
   // Site IV Device Verification Data
   const siteIVData = [
-    { device: 'Truelab Uno', 'Jan-Jun': 547, Jul: 84, Aug: 98, Sep: 92, Oct: 87, Nov: 95, Total: 1003, Reversification: 48 },
-    { device: 'Truelab Duo', 'Jan-Jun': 1289, Jul: 198, Aug: 215, Sep: 201, Oct: 194, Nov: 209, Total: 2306, Reversification: 112 },
-    { device: 'Truelab Quattro', 'Jan-Jun': 864, Jul: 132, Aug: 145, Sep: 134, Oct: 129, Nov: 139, Total: 1543, Reversification: 74 },
-    { device: 'Truelab 4X4 Real Q', 'Jan-Jun': 425, Jul: 65, Aug: 72, Sep: 67, Oct: 64, Nov: 69, Total: 762, Reversification: 36 },
-    { device: 'Trueprep AUTO V3', 'Jan-Jun': 312, Jul: 48, Aug: 53, Sep: 49, Oct: 47, Nov: 51, Total: 560, Reversification: 27 },
-    { device: 'Trueprep AUTO Universal Cartridge based', 'Jan-Jun': 198, Jul: 30, Aug: 33, Sep: 31, Oct: 30, Nov: 32, Total: 354, Reversification: 17 },
-    { device: 'Truelyse', 'Jan-Jun': 156, Jul: 24, Aug: 26, Sep: 24, Oct: 23, Nov: 25, Total: 278, Reversification: 13 },
-    { device: 'Accessories', 'Jan-Jun': 234, Jul: 36, Aug: 39, Sep: 36, Oct: 35, Nov: 38, Total: 418, Reversification: 20 },
-    { device: 'Final Packing Verification', 'Jan-Jun': 1203, Jul: 184, Aug: 203, Sep: 188, Oct: 181, Nov: 195, Total: 2154, Reversification: 103 },
-    { device: 'Final Packing Verification of Accessories', 'Jan-Jun': 389, Jul: 59, Aug: 65, Sep: 61, Oct: 58, Nov: 63, Total: 695, Reversification: 33 },
-    { device: 'Incoming Sampling', 'Jan-Jun': 967, Jul: 148, Aug: 163, Sep: 151, Oct: 145, Nov: 157, Total: 1731, Reversification: 83 },
-    { device: 'Incoming Sampling of Accessories', 'Jan-Jun': 178, Jul: 27, Aug: 30, Sep: 28, Oct: 27, Nov: 29, Total: 319, Reversification: 15 },
-    { device: 'OEM Kit Verification', 'Jan-Jun': 89, Jul: 14, Aug: 15, Sep: 14, Oct: 13, Nov: 14, Total: 159, Reversification: 8 },
-    { device: 'OEM Final Packing Verification', 'Jan-Jun': 67, Jul: 10, Aug: 11, Sep: 10, Oct: 10, Nov: 11, Total: 119, Reversification: 6 }
+    { device: 'Truelab Uno', 'Jan-Jun': 547, Jul: 84, Aug: 98, Sep: 92, Oct: 87, Nov: 95, Total: 1003, Reverification: 48 },
+    { device: 'Truelab Duo', 'Jan-Jun': 1289, Jul: 198, Aug: 215, Sep: 201, Oct: 194, Nov: 209, Total: 2306, Reverification: 112 },
+    { device: 'Truelab Quattro', 'Jan-Jun': 864, Jul: 132, Aug: 145, Sep: 134, Oct: 129, Nov: 139, Total: 1543, Reverification: 74 },
+    { device: 'Truelab 4X4 Real Q', 'Jan-Jun': 425, Jul: 65, Aug: 72, Sep: 67, Oct: 64, Nov: 69, Total: 762, Reverification: 36 },
+    { device: 'Trueprep AUTO V2', 'Jan-Jun': 312, Jul: 48, Aug: 53, Sep: 49, Oct: 47, Nov: 51, Total: 560, Reverification: 27 },
+    { device: 'Trueprep AUTO Universal Cartridge based', 'Jan-Jun': 198, Jul: 30, Aug: 33, Sep: 31, Oct: 30, Nov: 32, Total: 354, Reverification: 17 },
+    { device: 'Truelyse', 'Jan-Jun': 156, Jul: 24, Aug: 26, Sep: 24, Oct: 23, Nov: 25, Total: 278, Reverification: 13 },
+    { device: 'Accessories', 'Jan-Jun': 234, Jul: 36, Aug: 39, Sep: 36, Oct: 35, Nov: 38, Total: 418, Reverification: 20 },
+    { device: 'Final Packing Verification', 'Jan-Jun': 1203, Jul: 184, Aug: 203, Sep: 188, Oct: 181, Nov: 195, Total: 2154, Reverification: 103 },
+    { device: 'Final Packing Verification of Accessories', 'Jan-Jun': 389, Jul: 59, Aug: 65, Sep: 61, Oct: 58, Nov: 63, Total: 695, Reverification: 33 },
+    { device: 'Incoming Sampling', 'Jan-Jun': 967, Jul: 148, Aug: 163, Sep: 151, Oct: 145, Nov: 157, Total: 1731, Reverification: 83 },
+    { device: 'Incoming Sampling of Accessories', 'Jan-Jun': 178, Jul: 27, Aug: 30, Sep: 28, Oct: 27, Nov: 29, Total: 319, Reverification: 15 },
+    { device: 'OEM Kit Verification', 'Jan-Jun': 89, Jul: 14, Aug: 15, Sep: 14, Oct: 13, Nov: 14, Total: 159, Reverification: 8 },
+    { device: 'OEM Final Packing Verification', 'Jan-Jun': 67, Jul: 10, Aug: 11, Sep: 10, Oct: 10, Nov: 11, Total: 119, Reverification: 6 }
   ];
 
   // Calculate trend data for Site IV
@@ -173,13 +173,13 @@ export default function LabQAOverview() {
     const months = ['Jan-Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'];
     return months.map(month => {
       const totalVerifications = siteIVData.reduce((sum, row) => sum + row[month], 0);
-      const totalReversifications = month === 'Jan-Jun' 
-        ? Math.round(siteIVData.reduce((sum, row) => sum + row.Reversification, 0) * 0.5)
+      const totalReverifications = month === 'Jan-Jun' 
+        ? Math.round(siteIVData.reduce((sum, row) => sum + row.Reverification, 0) * 0.5)
         : Math.round(totalVerifications * 0.045);
       return {
         month,
         verifications: totalVerifications,
-        reversifications: totalReversifications
+        reverifications: totalReverifications
       };
     });
   };
@@ -572,7 +572,7 @@ export default function LabQAOverview() {
               }}>
                 {[
                   { label: 'Total Verifications', value: '11,402', icon: '✓' },
-                  { label: 'Reversifications', value: '534', icon: '🔄' },
+                  { label: 'Reverifications', value: '534', icon: '🔄' },
                   { label: 'Device Types', value: '14', icon: '📱' },
                   { label: 'Avg Monthly', value: '1,900', icon: '📊' }
                 ].map((metric, idx) => (
@@ -659,10 +659,10 @@ export default function LabQAOverview() {
                     />
                     <Line 
                       type="monotone" 
-                      dataKey="reversifications" 
+                      dataKey="reverifications" 
                       stroke="#ef4444" 
                       strokeWidth={3}
-                      name="Reversifications"
+                      name="Reverifications"
                       dot={{ fill: '#ef4444', r: 5 }}
                     />
                   </ComposedChart>
@@ -696,7 +696,7 @@ export default function LabQAOverview() {
                   }}>
                     <thead>
                       <tr style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)' }}>
-                        {['Device', 'Jan-Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Total', 'Reversification'].map(header => (
+                        {['Device', 'Jan-Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Total', 'Reverification'].map(header => (
                           <th key={header} style={{
                             padding: '14px 10px',
                             textAlign: 'left',
@@ -790,7 +790,7 @@ export default function LabQAOverview() {
                             color: '#ef4444',
                             borderBottom: '1px solid #e2e8f0'
                           }}>
-                            {row.Reversification.toLocaleString()}
+                            {row.Reverification.toLocaleString()}
                           </td>
                         </tr>
                       ))}
@@ -882,7 +882,7 @@ export default function LabQAOverview() {
                     fontWeight: '600',
                     marginBottom: '8px'
                   }}>
-                    Reversification Rate
+                    Reverification Rate
                   </div>
                   <div style={{
                     fontSize: '1.3em',

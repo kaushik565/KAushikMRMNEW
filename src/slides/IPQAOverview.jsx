@@ -3685,7 +3685,7 @@ export default function IPQAOverview() {
                 }}>
                   {[
                     { icon: '🤝', title: 'Monthly huddles with MG & MN', desc: 'Review rejections/challenges with actions locked each month.' },
-                    { icon: '👀', title: 'Shopfloor observation loop', desc: 'Every 15 days: on-floor walks to surface issues early.' },
+                    { icon: '👀', title: 'Shopfloor observation loop', desc: 'Every 15 days: on-floor walks to surface issues early.', highlight: 'Reduced Process incidents from 34 days to 21 days.' },
                     { icon: '📄', title: 'On-floor work instructions', desc: 'Live, visual SOPs at point-of-use to reduce ambiguity.' },
                     { icon: '♻️', title: 'Line-wise rework bays', desc: 'Dedicated rework space to contain and correct defects.' },
                     { icon: '🧪', title: 'Particle count checks', desc: 'Routine counts to keep contamination tightly controlled.' },
@@ -3746,6 +3746,19 @@ export default function IPQAOverview() {
                           }}>
                             {item.desc}
                           </div>
+                          {item.highlight && (
+                            <div style={{
+                              fontSize: '0.88em',
+                              color: '#059669',
+                              lineHeight: '1.5',
+                              fontWeight: '700',
+                              marginTop: '6px',
+                              paddingTop: '6px',
+                              borderTop: '1px solid #d1fae5'
+                            }}>
+                              {item.highlight}
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div style={{
