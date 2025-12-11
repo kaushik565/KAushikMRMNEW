@@ -1166,7 +1166,7 @@ export default function QualityWeekPlaceholder() {
                     borderTop: '1px solid rgba(148, 163, 184, 0.2)',
                     lineHeight: '1.3'
                   }}>
-                    📝 Based on 150 participation feedback forms
+                    {/* 📝 Based on 150 participation feedback forms */}
                   </div>
                 </div>
               </div>
