@@ -4,8 +4,10 @@ export default function QualityWeekPlaceholder() {
   const [hoveredIdx, setHoveredIdx] = useState(null)
   const [showBadgeModal, setShowBadgeModal] = useState(false)
   const [showCelebration, setShowCelebration] = useState(false)
+  const [carouselIdx, setCarouselIdx] = useState(0)
   const slideRef = useRef(null)
   const hasShownRef = useRef(false)
+  const carouselTimerRef = useRef(null)
 
   // Show badge modal when slide becomes active
   useEffect(() => {
@@ -54,6 +56,15 @@ export default function QualityWeekPlaceholder() {
     return () => observer.disconnect()
   }, [])
 
+  // Carousel effect for images (change every 2 seconds)
+  useEffect(() => {
+    carouselTimerRef.current = setInterval(() => {
+      setCarouselIdx((prev) => (prev + 1) % 9)
+    }, 2000)
+
+    return () => clearInterval(carouselTimerRef.current)
+  }, [])
+
   const events = [
     { icon: '📋', title: 'Quality Pledge' },
     { icon: '📊', title: 'Badges Distribution' },
@@ -64,6 +75,18 @@ export default function QualityWeekPlaceholder() {
     { icon: '🌳', title: 'Quality Tree' },
     { icon: '🏆', title: 'HOD Quiz' },
     { icon: '🎁', title: 'Prize Distribution' }
+  ]
+
+  const outcomeImages = [
+    { src: '/Image 2.JPG', label: 'Image 2' },
+    { src: '/Image 3.JPG', label: 'Image 3' },
+    { src: '/Image 4.JPG', label: 'Image 4' },
+    { src: '/Image 5.jpeg', label: 'Image 5' },
+    { src: '/Image 6.jpeg', label: 'Image 6' },
+    { src: '/Image 7.jpeg', label: 'Image 7' },
+    { src: '/Image 8.jpeg', label: 'Image 8' },
+    { src: '/Image 9.jpeg', label: 'Image 9' },
+    { src: '/Image 10.JPG', label: 'Image 10' }
   ]
 
   return (
@@ -821,10 +844,11 @@ export default function QualityWeekPlaceholder() {
             border: '2px solid rgba(251, 191, 36, 0.3)',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignItems: 'stretch',
+            justifyContent: 'flex-start',
             position: 'relative',
             overflow: 'hidden',
+            gap: '10px',
             minHeight: 0
           }}>
             {/* Decorative Background Pattern */}
@@ -849,79 +873,302 @@ export default function QualityWeekPlaceholder() {
               pointerEvents: 'none'
             }}></div>
 
-            <h2 style={{
-              fontSize: '2.3rem',
-              fontWeight: 800,
-              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              marginBottom: '14px',
-              textAlign: 'center',
-              letterSpacing: '-0.02em',
-              zIndex: 1,
-              flex: '0 0 auto'
-            }}>
-              🎯 Outcomes
-            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', height: '100%', zIndex: 1, minHeight: 0 }}>
+              <h2 style={{
+                fontSize: '2.3rem',
+                fontWeight: 800,
+                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                margin: 0,
+                textAlign: 'left',
+                letterSpacing: '-0.02em',
+                flex: '0 0 auto'
+              }}>
+                🎯 Outcomes
+              </h2>
 
-            {/* Under Development Content */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '12px',
-              zIndex: 1,
-              flex: 1,
-              justifyContent: 'center',
-              minHeight: 0
-            }}>
-              <div style={{
-                fontSize: '6.5rem',
-                animation: 'fadeIn 1s ease-in-out infinite alternate'
-              }}>
-                🚧
-              </div>
-              
-              <div style={{
-                textAlign: 'center'
-              }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1, minHeight: 0 }}>
+                {/* Celebration Highlights - Split Layout */}
                 <div style={{
-                  fontSize: '2.3rem',
-                  fontWeight: 800,
-                  color: '#92400e',
-                  marginBottom: '6px',
-                  letterSpacing: '-0.01em'
+                  flex: '2 1 65%',
+                  width: '100%',
+                  background: 'rgba(255, 255, 255, 0.92)',
+                  borderRadius: '12px',
+                  padding: '14px',
+                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.08)',
+                  border: '2px solid rgba(244, 114, 182, 0.15)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  minHeight: 0
                 }}>
-                  Under Development
-                </div>
-                <div style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 600,
-                  color: '#b45309',
-                  lineHeight: '1.4'
-                }}>
-                  Outcomes and metrics will be<br />
-                  displayed after completion
-                </div>
-              </div>
+                  <div style={{ 
+                    fontSize: '1.4rem',
+                    fontWeight: 800,
+                    color: '#9a3412',
+                    letterSpacing: '-0.01em'
+                  }}>
+                    🎉 Celebration Highlights
+                  </div>
 
-              {/* Progress Indicator */}
-              <div style={{
-                width: '250px',
-                height: '5px',
-                background: 'rgba(180, 83, 9, 0.2)',
-                borderRadius: '10px',
-                overflow: 'hidden',
-                marginTop: '8px'
-              }}>
+                  <div style={{ display: 'flex', gap: '12px', flex: 1, minHeight: 0 }}>
+                    {/* LEFT SIDE - Carousel */}
+                    <div style={{
+                      flex: '1.7 1 63%',
+                      background: '#ffffff',
+                      borderRadius: '12px',
+                      padding: '12px',
+                      border: '2px solid rgba(244, 114, 182, 0.25)',
+                      boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '10px',
+                      minHeight: 0,
+                      height: '430px'
+                    }}>
+                      <div style={{
+                        position: 'relative',
+                        width: '100%',
+                        flex: 1,
+                        background: '#f1f5f9',
+                        borderRadius: '10px',
+                        overflow: 'hidden',
+                        minHeight: '400px',
+                        maxHeight: '400px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <img
+                          src={outcomeImages[carouselIdx].src}
+                          alt="Carousel highlight"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            display: 'block',
+                            animation: 'fadeIn 0.6s ease-in-out'
+                          }}
+                        />
+                        <div style={{
+                          position: 'absolute',
+                          bottom: '10px',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          display: 'flex',
+                          gap: '6px',
+                          zIndex: 2
+                        }}>
+                          {outcomeImages.map((_, idx) => (
+                            <div
+                              key={idx}
+                              style={{
+                                width: '8px',
+                                height: '8px',
+                                borderRadius: '50%',
+                                background: carouselIdx === idx ? '#f59e0b' : 'rgba(255,255,255,0.5)',
+                                transition: 'background 0.3s ease',
+                                cursor: 'pointer',
+                                boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
+                              }}
+                              onClick={() => {
+                                setCarouselIdx(idx)
+                                clearInterval(carouselTimerRef.current)
+                                carouselTimerRef.current = setInterval(() => {
+                                  setCarouselIdx((prev) => (prev + 1) % 9)
+                                }, 2000)
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* RIGHT SIDE - Grid */}
+                    <div style={{
+                      flex: '1 1 37%',
+                      background: '#ffffff',
+                      borderRadius: '12px',
+                      padding: '16px',
+                      border: '2px solid rgba(244, 114, 182, 0.25)',
+                      boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(3, 1fr)',
+                      gap: '14px',
+                      minHeight: 0,
+                      height: '430px',
+                      overflowY: 'auto',
+                      paddingRight: '8px',
+                      scrollbarWidth: 'thin',
+                      scrollbarColor: 'rgba(244, 114, 182, 0.4) transparent'
+                    }}>
+                      {outcomeImages.map((img, idx) => (
+                        <div
+                          key={img.src}
+                          onClick={() => {
+                            setCarouselIdx(idx)
+                            clearInterval(carouselTimerRef.current)
+                            carouselTimerRef.current = setInterval(() => {
+                              setCarouselIdx((prev) => (prev + 1) % 9)
+                            }, 2000)
+                          }}
+                          style={{
+                            position: 'relative',
+                            width: '100%',
+                            aspectRatio: '1',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            cursor: 'pointer',
+                            border: carouselIdx === idx ? '3px solid #f59e0b' : '2px solid rgba(148, 163, 184, 0.3)',
+                            boxShadow: carouselIdx === idx ? '0 0 14px rgba(245,158,11,0.5)' : '0 6px 14px rgba(0,0,0,0.12)',
+                            transition: 'all 0.3s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.05)';
+                            e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.12)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                            if (carouselIdx === idx) {
+                              e.currentTarget.style.boxShadow = '0 0 12px rgba(245,158,11,0.4)';
+                            } else {
+                              e.currentTarget.style.boxShadow = '0 4px 10px rgba(0,0,0,0.08)';
+                            }
+                          }}
+                        >
+                          <img
+                            src={img.src}
+                            alt={`Grid thumbnail ${idx + 1}`}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              display: 'block'
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Section - QMS Understanding Metrics */}
                 <div style={{
-                  width: '40%',
-                  height: '100%',
-                  background: 'linear-gradient(90deg, #f59e0b 0%, #d97706 100%)',
-                  borderRadius: '10px',
-                  animation: 'fadeIn 1.5s ease-in-out infinite alternate'
-                }}></div>
+                  flex: '1 1 35%',
+                  width: '100%',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,250,252,0.95) 100%)',
+                  borderRadius: '12px',
+                  padding: '20px',
+                  boxShadow: '0 8px 18px rgba(0, 0, 0, 0.08)',
+                  border: '2px solid rgba(59, 130, 246, 0.3)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'stretch',
+                  justifyContent: 'flex-start',
+                  gap: '14px',
+                  minHeight: '140px',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}>
+                  {/* Title */}
+                  <div style={{
+                    fontSize: '2.3rem',
+                    fontWeight: 800,
+                    color: '#0f172a',
+                    letterSpacing: '-0.01em'
+                  }}>
+                    📊 QMS Understanding Impact
+                  </div>
+
+                  {/* Metrics Grid */}
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '12px',
+                    flex: 1
+                  }}>
+                    {/* Before */}
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%)',
+                      borderRadius: '10px',
+                      padding: '12px',
+                      border: '2px solid rgba(249, 115, 22, 0.25)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '6px'
+                    }}>
+                      <div style={{
+                        fontSize: '1.5rem',
+                        fontWeight: 700,
+                        color: '#92400e',
+                        textAlign: 'center',
+                        lineHeight: '1.2'
+                      }}>
+                        Before Sessions
+                      </div>
+                      <div style={{
+                        fontSize: '3.6rem',
+                        fontWeight: 900,
+                        background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent'
+                      }}>
+                        82%
+                      </div>
+                    </div>
+
+                    {/* After */}
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%)',
+                      borderRadius: '10px',
+                      padding: '12px',
+                      border: '2px solid rgba(34, 197, 94, 0.25)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '6px'
+                    }}>
+                      <div style={{
+                        fontSize: '1.5rem',
+                        fontWeight: 700,
+                        color: '#166534',
+                        textAlign: 'center',
+                        lineHeight: '1.2'
+                      }}>
+                        After Sessions
+                      </div>
+                      <div style={{
+                        fontSize: '3.6rem',
+                        fontWeight: 900,
+                        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent'
+                      }}>
+                        95%
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Note */}
+                  <div style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 600,
+                    color: '#64748b',
+                    textAlign: 'center',
+                    paddingTop: '8px',
+                    borderTop: '1px solid rgba(148, 163, 184, 0.2)',
+                    lineHeight: '1.3'
+                  }}>
+                    📝 Based on 150 participation feedback forms
+                  </div>
+                </div>
               </div>
             </div>
           </div>

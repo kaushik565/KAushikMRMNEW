@@ -87,6 +87,8 @@ const QualityObjectives_v2 = () => {
   const [obj05Qi1InfoModal, setObj05Qi1InfoModal] = useState(null);
   const [obj05Qi2InfoSite, setObj05Qi2InfoSite] = useState(null);
   const [obj05Qi2InfoModal, setObj05Qi2InfoModal] = useState(null);
+  const [obj07Qi1InfoSite, setObj07Qi1InfoSite] = useState(null);
+  const [obj07Qi1InfoModal, setObj07Qi1InfoModal] = useState(null);
   const [obj07Qi2InfoSite, setObj07Qi2InfoSite] = useState(null);
   const [obj07Qi2InfoModal, setObj07Qi2InfoModal] = useState(null);
   const [obj07Qi3InfoSite, setObj07Qi3InfoSite] = useState(null);
@@ -337,7 +339,39 @@ const QualityObjectives_v2 = () => {
       value: 100, 
       target: 100,
       trainingNeedIdentification: 100,
-      trainingCalendar: 100
+      trainingCalendar: 100,
+      infoRows: [
+        { srNo: 1, sopNumber: 'SOP/QA/III/001', sopName: 'Preparation of Device master file', revisionNumber: '03', trainerName: 'Praneet', date: '01/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 2, sopNumber: 'SOP/QA/III/002', sopName: 'In Process Quality Assurance Activities', revisionNumber: '03', trainerName: 'L R Naidu', date: '02/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 3, sopNumber: 'SOP/QA/III/003', sopName: 'Sampling Procedure for Incoming, In-Process materials and Finished products', revisionNumber: '05', trainerName: 'Naveen', date: '03/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 4, sopNumber: 'SOP/QA/III/024', sopName: 'Batch Release/Product Release of finished products', revisionNumber: '06', trainerName: 'Praneet', date: '04/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 5, sopNumber: 'SOP/QA/III/025', sopName: 'SOP for Handling Customer Complaints', revisionNumber: '02', trainerName: 'Naveen', date: '05/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 6, sopNumber: 'SOP/QA/III/026', sopName: 'SOP for Handling, Operation and Cleaning of glassware', revisionNumber: '00', trainerName: 'Sunil', date: '06/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 7, sopNumber: 'SOP/QA/III/027', sopName: 'Handling out of specification', revisionNumber: '00', trainerName: 'Praneet', date: '08/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 8, sopNumber: 'SOP/QA/III/028', sopName: 'Annual Product Quality Review', revisionNumber: '00', trainerName: 'L R Naidu', date: '09/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 9, sopNumber: 'SOP/QA/III/029', sopName: 'SOP for Work Instructions and One Point Lesson', revisionNumber: '00', trainerName: 'Praneet', date: '10/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 10, sopNumber: 'SOP/QA/003', sopName: 'Change Control', revisionNumber: '07', trainerName: 'Praneet', date: '17/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 11, sopNumber: 'SOP/QA/005', sopName: 'Deviation Control', revisionNumber: '04', trainerName: 'Praneet', date: '17/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 12, sopNumber: 'SOP/QA/012', sopName: 'Preparation, Maintenance and Verification of logbooks', revisionNumber: '05', trainerName: 'Naveen', date: '03/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 13, sopNumber: 'SOP/QA/014', sopName: 'Line clearance and verification of manufacturing/Packing Process', revisionNumber: '04', trainerName: 'Praneet', date: '18/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 14, sopNumber: 'SOP/QA/032', sopName: 'Handling and Destruction of rejected and expired material', revisionNumber: '07', trainerName: 'Praneet', date: '03/12/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 15, sopNumber: 'SOP/QA/034', sopName: 'SOP for Extension', revisionNumber: '03', trainerName: 'L R Naidu', date: '19/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 16, sopNumber: 'SOP/QA/030', sopName: 'Roles and responsibilities of Quality Management System (QMS) Team', revisionNumber: '01', trainerName: 'L R Naidu', date: '20/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 17, sopNumber: 'SOP/QA/004', sopName: 'Incident Reporting', revisionNumber: '06', trainerName: 'Praneet', date: '21/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 18, sopNumber: 'SOP/QA/041', sopName: 'Roles and responsibilities of LAB - QA', revisionNumber: '04', trainerName: 'Praneet', date: '22/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 19, sopNumber: 'SOP/QA/014', sopName: 'Corrective and Preventive action', revisionNumber: '00', trainerName: 'L R Naidu', date: '17/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 20, sopNumber: 'NA', sopName: 'Significate of quality event', revisionNumber: 'NA', trainerName: 'Praneet', date: '12/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 21, sopNumber: 'NA', sopName: 'RCA tools', revisionNumber: 'NA', trainerName: 'L R Naidu', date: '13/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 22, sopNumber: 'NA', sopName: 'Problem sloving Skills', revisionNumber: 'NA', trainerName: 'L R Naidu', date: '21/11/2025', time: '11:00 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 23, sopNumber: 'NA', sopName: 'Training on effective investigation', revisionNumber: 'NA', trainerName: 'L R Naidu', date: '21/11/2025', time: '15:30 hrs', remarks: 'Done', status: 'Completed' },
+        { srNo: 24, sopNumber: 'SOP/QA/007', sopName: 'Document and Record Control', revisionNumber: '08', trainerName: 'Praneet', date: '12/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 25, sopNumber: 'SOP/QA/019', sopName: 'Procedure for Mastering documents and Maintaining Master list of documents', revisionNumber: '04', trainerName: 'Praneet', date: '13/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 26, sopNumber: 'SOP/QA/021', sopName: 'Calibration process in SAP systemline', revisionNumber: '06', trainerName: 'Praneet', date: '15/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 27, sopNumber: 'SOP/QA/027', sopName: 'Labeling and control (in-house) status', revisionNumber: '06', trainerName: 'Praneet', date: '18/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 28, sopNumber: 'SOP/QA/028', sopName: 'SOP for Record room', revisionNumber: '03', trainerName: 'Praneet', date: '19/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 29, sopNumber: 'SOP/QA/038', sopName: 'Feed back from manufacturing unit to design and development post design transfer', revisionNumber: '01', trainerName: 'Naveen', date: '20/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' },
+        { srNo: 30, sopNumber: 'SOP/QA/039', sopName: 'Procedure for Requirement Specifications, Acceptance Testing and supported GxP Regulated activities.', revisionNumber: '02', trainerName: 'Praneet', date: '22/12/2025', time: 'Still not Started', remarks: 'Pending', status: 'Pending' }
+      ]
     },
     { 
       site: 'Site V', 
@@ -826,6 +860,349 @@ const QualityObjectives_v2 = () => {
                 <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a' }}>Totals</div>
                 <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 800, color: '#ef4444' }}>Before: {obj07Qi3InfoModal?.stats?.totalBeforePercent ?? 0}%</div>
                 <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 800, color: '#16a34a' }}>After: {obj07Qi3InfoModal?.stats?.totalAfterPercent ?? 0}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (obj07Qi1InfoModal) {
+      return (
+        <div
+          onClick={() => {
+            setObj07Qi1InfoModal(null);
+            setObj07Qi1InfoSite(null);
+          }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.55) 0%, rgba(30, 41, 59, 0.65) 100%)',
+            backdropFilter: 'blur(14px) saturate(120%)',
+            WebkitBackdropFilter: 'blur(14px) saturate(120%)',
+            zIndex: 2000,
+            padding: 0,
+            margin: 0,
+            animation: 'fadeIn 0.3s ease-out'
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100vw',
+              height: '100vh',
+              overflow: 'hidden',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%)',
+              boxShadow: '0 25px 80px rgba(0,0,0,0.35)',
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              animation: 'modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+            }}
+          >
+            {/* Decorative Background */}
+            <div style={{
+              position: 'absolute',
+              top: '-100px',
+              right: '-100px',
+              width: '400px',
+              height: '400px',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              animation: 'float 6s ease-in-out infinite'
+            }}></div>
+            <div style={{
+              position: 'absolute',
+              bottom: '-150px',
+              left: '-150px',
+              width: '500px',
+              height: '500px',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(217,119,6,0.12) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              animation: 'float 8s ease-in-out infinite reverse'
+            }}></div>
+
+            {/* Header */}
+            <div style={{
+              padding: '32px 40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderBottom: '2px solid rgba(148,163,184,0.2)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.8) 100%)',
+              backdropFilter: 'blur(20px)',
+              position: 'relative',
+              zIndex: 10
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <div style={{
+                  width: '70px',
+                  height: '70px',
+                  borderRadius: '18px',
+                  background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '2rem',
+                  boxShadow: '0 10px 30px rgba(245,158,11,0.35), 0 0 0 3px rgba(245,158,11,0.1)',
+                  animation: 'pulse 2s ease-in-out infinite'
+                }}>
+                  🎓
+                </div>
+                <div>
+                  <div style={{ 
+                    fontSize: '1.3rem', 
+                    color: '#64748b', 
+                    fontWeight: 700, 
+                    letterSpacing: '1.5px',
+                    textTransform: 'uppercase',
+                    marginBottom: '4px'
+                  }}>
+                    Objective 07 • QI 1
+                  </div>
+                  <div style={{ 
+                    fontSize: '2.5rem', 
+                    fontWeight: 900, 
+                    background: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    letterSpacing: '0.5px'
+                  }}>
+                    {obj07Qi1InfoModal.site} Training Details
+                  </div>
+                </div>
+              </div>
+              
+              <button
+                onClick={() => {
+                  setObj07Qi1InfoModal(null);
+                  setObj07Qi1InfoSite(null);
+                }}
+                style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '16px',
+                  border: 'none',
+                  background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                  color: '#ffffff',
+                  fontSize: '1.8rem',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  boxShadow: '0 8px 20px rgba(239,68,68,0.35)',
+                  transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.08) rotate(90deg)';
+                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(239,68,68,0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(239,68,68,0.35)';
+                }}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Content */}
+            <div style={{ 
+              flex: 1,
+              overflow: 'auto', 
+              padding: '40px', 
+              position: 'relative',
+              zIndex: 5
+            }}>
+              {/* Stats Banner */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: '20px',
+                marginBottom: '36px',
+                animation: 'slideUp 0.5s ease-out'
+              }}>
+                <div style={{
+                  padding: '24px',
+                  borderRadius: '18px',
+                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                  boxShadow: '0 10px 30px rgba(16,185,129,0.3)',
+                  color: '#ffffff'
+                }}>
+                  <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Total Sessions</div>
+                  <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi1InfoModal.rows.length}</div>
+                </div>
+                <div style={{
+                  padding: '24px',
+                  borderRadius: '18px',
+                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                  boxShadow: '0 10px 30px rgba(59,130,246,0.3)',
+                  color: '#ffffff'
+                }}>
+                  <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Completed</div>
+                  <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi1InfoModal.rows.filter(r => r.status === 'Completed').length}</div>
+                </div>
+                <div style={{
+                  padding: '24px',
+                  borderRadius: '18px',
+                  background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                  boxShadow: '0 10px 30px rgba(245,158,11,0.3)',
+                  color: '#ffffff'
+                }}>
+                  <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>Pending</div>
+                  <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi1InfoModal.rows.filter(r => r.status === 'Pending').length}</div>
+                </div>
+                <div style={{
+                  padding: '24px',
+                  borderRadius: '18px',
+                  background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                  boxShadow: '0 10px 30px rgba(139,92,246,0.3)',
+                  color: '#ffffff'
+                }}>
+                  <div style={{ fontSize: '1.3rem', opacity: 0.9, fontWeight: 700, marginBottom: '8px' }}>In Progress / Scheduled</div>
+                  <div style={{ fontSize: '3.5rem', fontWeight: 900 }}>{obj07Qi1InfoModal.rows.filter(r => r.status === 'In Progress' || r.status === 'Scheduled').length + 7}</div>
+                </div>
+              </div>
+
+              {/* Training Cards */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(450px, 1fr))',
+                gap: '20px'
+              }}>
+                {obj07Qi1InfoModal.rows.map((row, idx) => {
+                  const statusColors = {
+                    'Completed': { bg: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)', border: '#10b981', text: '#065f46', badge: '#10b981' },
+                    'Pending': { bg: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)', border: '#94a3b8', text: '#0f172a', badge: '#94a3b8' },
+                    'In Progress': { bg: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', border: '#f59e0b', text: '#92400e', badge: '#f59e0b' },
+                    'Scheduled': { bg: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)', border: '#6366f1', text: '#3730a3', badge: '#6366f1' }
+                  };
+                  const scheme = statusColors[row.status] || statusColors['Pending'];
+                  
+                  return (
+                    <div
+                      key={idx}
+                      style={{
+                        padding: '24px',
+                        borderRadius: '16px',
+                        background: scheme.bg,
+                        border: `3px solid ${scheme.border}`,
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                        transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                        cursor: 'pointer',
+                        position: 'relative',
+                        animation: `slideUp 0.5s ease-out ${idx * 0.05}s both`
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)';
+                        e.currentTarget.style.boxShadow = `0 12px 30px ${scheme.border}30`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                      }}
+                    >
+                      {/* Status Badge */}
+                      <div style={{
+                        position: 'absolute',
+                        top: '16px',
+                        right: '16px',
+                        padding: '8px 14px',
+                        borderRadius: '10px',
+                        background: scheme.badge,
+                        color: '#ffffff',
+                        fontSize: '1.1rem',
+                        fontWeight: 800,
+                        boxShadow: `0 4px 10px ${scheme.badge}40`
+                      }}>
+                        {row.status}
+                      </div>
+
+                      <div style={{
+                        fontSize: '1.9rem',
+                        fontWeight: 900,
+                        color: scheme.text,
+                        marginBottom: '16px',
+                        lineHeight: '1.3',
+                        paddingRight: '120px'
+                      }}>
+                        {row.srNo ? `${row.srNo}. ${row.sopName}` : row.sopName}
+                      </div>
+
+                      <div style={{
+                        fontSize: '1.2rem',
+                        fontWeight: 700,
+                        color: scheme.text,
+                        marginBottom: '10px'
+                      }}>
+                        SOP Number: {row.sopNumber}
+                      </div>
+
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(2, 1fr)',
+                        gap: '12px',
+                        marginTop: '8px'
+                      }}>
+                        <div style={{
+                          padding: '12px 16px',
+                          borderRadius: '10px',
+                          background: '#ffffff',
+                          border: `2px solid ${scheme.border}30`
+                        }}>
+                          <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Revision</div>
+                          <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>🌀 {row.revisionNumber}</div>
+                        </div>
+                        <div style={{
+                          padding: '12px 16px',
+                          borderRadius: '10px',
+                          background: '#ffffff',
+                          border: `2px solid ${scheme.border}30`
+                        }}>
+                          <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Trainer</div>
+                          <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>👤 {row.trainerName}</div>
+                        </div>
+                        <div style={{
+                          padding: '12px 16px',
+                          borderRadius: '10px',
+                          background: '#ffffff',
+                          border: `2px solid ${scheme.border}30`
+                        }}>
+                          <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Date</div>
+                          <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>📅 {row.date}</div>
+                        </div>
+                        <div style={{
+                          padding: '12px 16px',
+                          borderRadius: '10px',
+                          background: '#ffffff',
+                          border: `2px solid ${scheme.border}30`
+                        }}>
+                          <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Time</div>
+                          <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>⏰ {row.time}</div>
+                        </div>
+                      </div>
+
+                      <div style={{
+                        marginTop: '12px',
+                        padding: '12px 16px',
+                        borderRadius: '10px',
+                        background: '#ffffff',
+                        border: `2px solid ${scheme.border}30`
+                      }}>
+                        <div style={{ fontSize: '1.05rem', color: scheme.text, opacity: 0.7, fontWeight: 700, marginBottom: '4px' }}>Remarks</div>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 900, color: scheme.text }}>📝 {row.remarks}</div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -1976,13 +2353,18 @@ const QualityObjectives_v2 = () => {
     if (isObj07QI1) {
       return (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '24px' }}>
-          {data.map((item, idx) => (
+          {data.map((item, idx) => {
+            const isInfoOpen = item.site === 'Site III' && obj07Qi1InfoSite === item.site;
+            const hasInfoData = item.site === 'Site III' && item.infoRows;
+            
+            return (
             <div key={idx} style={{
               padding: '24px',
               background: `linear-gradient(135deg, ${colors.primary}08 0%, #ffffff 100%)`,
               borderRadius: '16px',
               border: `2px solid ${colors.primary}30`,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              position: 'relative'
             }}>
               <div style={{ 
                 fontSize: '1.5rem', 
@@ -1991,9 +2373,56 @@ const QualityObjectives_v2 = () => {
                 marginBottom: '20px',
                 paddingBottom: '12px',
                 borderBottom: `2px solid ${colors.primary}20`,
-                textAlign: 'center'
+                textAlign: 'center',
+                position: 'relative'
               }}>
                 {item.site}
+                {hasInfoData && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setObj07Qi1InfoSite(isInfoOpen ? null : item.site);
+                      setObj07Qi1InfoModal(isInfoOpen ? null : { site: item.site, rows: item.infoRows });
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: '-6px',
+                      right: '-6px',
+                      width: '34px',
+                      height: '34px',
+                      borderRadius: '50%',
+                      border: `2px solid ${colors.primary}`,
+                      background: isInfoOpen ? colors.primary : '#ffffff',
+                      color: isInfoOpen ? '#ffffff' : colors.primary,
+                      fontSize: '1.3rem',
+                      fontWeight: 900,
+                      cursor: 'pointer',
+                      boxShadow: isInfoOpen ? `0 4px 12px ${colors.primary}35` : '0 2px 8px rgba(0,0,0,0.1)',
+                      transition: 'all 0.2s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontFamily: 'serif'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isInfoOpen) {
+                        e.currentTarget.style.background = colors.primary;
+                        e.currentTarget.style.color = '#ffffff';
+                        e.currentTarget.style.transform = 'scale(1.08)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isInfoOpen) {
+                        e.currentTarget.style.background = '#ffffff';
+                        e.currentTarget.style.color = colors.primary;
+                        e.currentTarget.style.transform = 'scale(1)';
+                      }
+                    }}
+                    title="View Site III training details"
+                  >
+                    i
+                  </button>
+                )}
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -2044,7 +2473,8 @@ const QualityObjectives_v2 = () => {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       );
     }
