@@ -93,6 +93,7 @@ const QualityObjectives_v2 = () => {
   const [obj07Qi2InfoModal, setObj07Qi2InfoModal] = useState(null);
   const [obj07Qi3InfoSite, setObj07Qi3InfoSite] = useState(null);
   const [obj07Qi3InfoModal, setObj07Qi3InfoModal] = useState(null);
+  const [obj07Qi3ErrorDetailsModal, setObj07Qi3ErrorDetailsModal] = useState(null);
 
   useEffect(() => {
     const closeAll = () => setActiveModals({ card: null, qi04: null, qi05: null, qi06: null, qi07: null });
@@ -860,6 +861,150 @@ const QualityObjectives_v2 = () => {
                 <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a' }}>Totals</div>
                 <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 800, color: '#ef4444' }}>Before: {obj07Qi3InfoModal?.stats?.totalBeforePercent ?? 0}%</div>
                 <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 800, color: '#16a34a' }}>After: {obj07Qi3InfoModal?.stats?.totalAfterPercent ?? 0}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (obj07Qi3ErrorDetailsModal) {
+      const tableData = {
+        qaErrors: [
+          { category: 'NC', first: '1', firstDesc: 'Statements in incident and corrective actions were contradicting each other. Documents categorized as major', second: '0', secondDesc: 'NA' },
+          { category: 'PI', first: '5', firstDesc: '1. Investigation report mentioned a proposed preventive action, however, no corresponding preventive action was documented\n2. DMF, Risk management report, Risk analysis and evaluation\n3. Lack of monitoring of SOP like no evidence', second: '1', secondDesc: 'Controlled of drawings' },
+          { category: 'MNC', first: '2', firstDesc: 'DMF and Improper customer complaint handling', second: '2', secondDesc: 'Updated BOM and SOP/QA/007 molbio logo and name was not changed' },
+          { category: 'Total', first: '8', firstDesc: 'NA', second: '3', secondDesc: 'NA' }
+        ],
+        incidents: [
+          { period: 'Jan - Jun', count: '6', desc: 'Mastered without checking impact assessment, Duo serial numbering, customer complaint sign was not done for last year, hammered sir GDP error, Scan document torn, CA days crossed' },
+          { period: 'Jul - Nov', count: '0', desc: 'NA' }
+        ]
+      };
+
+      return (
+        <div
+          onClick={() => setObj07Qi3ErrorDetailsModal(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.55) 0%, rgba(30, 41, 59, 0.65) 100%)',
+            backdropFilter: 'blur(14px) saturate(120%)',
+            WebkitBackdropFilter: 'blur(14px) saturate(120%)',
+            zIndex: 2000,
+            padding: 0,
+            margin: 0,
+            animation: 'fadeIn 0.3s ease-out'
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+                width: '100vw',
+                height: '100vh',
+                overflow: 'hidden',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #fef2f2 100%)',
+                boxShadow: '0 25px 80px rgba(0,0,0,0.35)',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                animation: 'modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              }}
+          >
+            <div style={{
+              padding: '28px 32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderBottom: '2px solid rgba(148,163,184,0.2)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.85) 100%)',
+              backdropFilter: 'blur(12px)'
+            }}>
+              <div>
+                <div style={{ fontSize: '1.2rem', color: '#64748b', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>
+                  Objective 07 • QI 3
+                </div>
+                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a' }}>
+                  📉 Decrease in QA Process Errors
+                </div>
+              </div>
+              <button
+                onClick={() => setObj07Qi3ErrorDetailsModal(false)}
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '14px',
+                  border: 'none',
+                  background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                  color: '#ffffff',
+                  fontSize: '1.6rem',
+                  fontWeight: 900,
+                  cursor: 'pointer',
+                  boxShadow: '0 8px 20px rgba(239,68,68,0.35)',
+                  transition: 'all 0.25s ease'
+                }}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ padding: '24px 32px', overflow: 'auto', height: '100%' }}>
+              {/* QA Errors Table */}
+              <div style={{ marginBottom: '32px' }}>
+                <h3 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0f172a', marginBottom: '16px' }}>1st IQA vs 2nd IQA - Error Categories</h3>
+                <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid #cbd5e1' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', background: '#ffffff' }}>
+                    <thead>
+                      <tr style={{ background: '#0f172a', color: '#ffffff' }}>
+                        <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800, borderRight: '1px solid #cbd5e1' }}>Category</th>
+                        <th style={{ padding: '14px 16px', fontWeight: 800, borderRight: '1px solid #cbd5e1' }}>1st IQA Count</th>
+                        <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800, borderRight: '1px solid #cbd5e1' }}>Description</th>
+                        <th style={{ padding: '14px 16px', fontWeight: 800, borderRight: '1px solid #cbd5e1' }}>2nd IQA Count</th>
+                        <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800 }}>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tableData.qaErrors.map((row, idx) => (
+                        <tr key={idx} style={{ background: idx % 2 === 0 ? '#f8fafc' : '#ffffff', borderBottom: idx < tableData.qaErrors.length - 1 ? '1px solid #e2e8f0' : 'none' }}>
+                          <td style={{ padding: '14px 16px', fontWeight: 800, color: '#0f172a', borderRight: '1px solid #cbd5e1' }}>{row.category}</td>
+                          <td style={{ padding: '14px 16px', textAlign: 'center', fontWeight: 700, color: '#ef4444', borderRight: '1px solid #cbd5e1' }}>{row.first}</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', borderRight: '1px solid #cbd5e1', whiteSpace: 'pre-wrap' }}>{row.firstDesc}</td>
+                          <td style={{ padding: '14px 16px', textAlign: 'center', fontWeight: 700, color: '#16a34a', borderRight: '1px solid #cbd5e1' }}>{row.second}</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', whiteSpace: 'pre-wrap' }}>{row.secondDesc}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Incidents Table */}
+              <div>
+                <h3 style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0f172a', marginBottom: '16px' }}>Incidents Comparison</h3>
+                <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid #cbd5e1' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', background: '#ffffff' }}>
+                    <thead>
+                      <tr style={{ background: '#0f172a', color: '#ffffff' }}>
+                        <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800, borderRight: '1px solid #cbd5e1' }}>Period</th>
+                        <th style={{ padding: '14px 16px', fontWeight: 800, borderRight: '1px solid #cbd5e1' }}>Count</th>
+                        <th style={{ padding: '14px 16px', textAlign: 'left', fontWeight: 800 }}>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tableData.incidents.map((row, idx) => (
+                        <tr key={idx} style={{ background: idx % 2 === 0 ? '#f8fafc' : '#ffffff', borderBottom: idx < tableData.incidents.length - 1 ? '1px solid #e2e8f0' : 'none' }}>
+                          <td style={{ padding: '14px 16px', fontWeight: 800, color: '#0f172a', borderRight: '1px solid #cbd5e1' }}>{row.period}</td>
+                          <td style={{ padding: '14px 16px', textAlign: 'center', fontWeight: 700, color: row.period === 'Jan - Jun' ? '#ef4444' : '#16a34a', borderRight: '1px solid #cbd5e1' }}>{row.count}</td>
+                          <td style={{ padding: '14px 16px', fontSize: '0.95rem', color: '#475569', whiteSpace: 'pre-wrap' }}>{row.desc}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -2997,8 +3142,55 @@ const QualityObjectives_v2 = () => {
                   padding: '20px',
                   background: 'linear-gradient(135deg, #ef444410 0%, #ffffff 100%)',
                   borderRadius: '12px',
-                  border: '2px solid #ef444420'
+                  border: '2px solid #ef444420',
+                  position: 'relative',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onClick={() => setObj07Qi3ErrorDetailsModal(true)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(239, 68, 68, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
                 }}>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setObj07Qi3ErrorDetailsModal(true);
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '12px',
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '50%',
+                      background: '#ef4444',
+                      color: '#ffffff',
+                      border: 'none',
+                      fontSize: '0.9em',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.15)';
+                      e.currentTarget.style.background = '#dc2626';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.background = '#ef4444';
+                    }}
+                  >
+                    ⓘ
+                  </button>
                   <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
                     📉 Decrease in QA Process Errors
                   </div>
