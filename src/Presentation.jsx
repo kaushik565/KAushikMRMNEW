@@ -9,8 +9,8 @@ import LabQAOverview from './slides/LabQAOverview'
 import QualityObjectivesV2 from './slides/QualityObjectives_v2'
 import ClosingSlide from './slides/ClosingSlide'
 import QualityWeekPlaceholder from './slides/QualityWeekPlaceholder'
-const primaryLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
-const fallbackLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
+const primaryLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/public/logo.png'
+const fallbackLogo = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/public/logo.png'
 
 export default function Presentation() {
   const deckRef = useRef(null)
