@@ -1,4 +1,4 @@
-const logoUrl = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/logo.png'
+const logoUrl = 'https://raw.githubusercontent.com/kaushik565/KAushikMRMNEW/master/public/logo.png'
 
 export default function ClosingSlide() {
   return (
