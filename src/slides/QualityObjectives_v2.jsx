@@ -445,8 +445,8 @@ const QualityObjectives_v2 = () => {
       site: 'Site I', 
       value: 50, 
       target: 100,
-      errorDecrease: 55,
-      staffInvolvement: 58
+      errorDecrease: 56,
+      staffInvolvement: 40
     },
     { 
       site: 'Site III', 
@@ -3093,7 +3093,7 @@ const QualityObjectives_v2 = () => {
               <div style={{ 
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
                 gap: '12px',
                 fontSize: '1.5rem', 
                 fontWeight: 800, 
@@ -3103,37 +3103,6 @@ const QualityObjectives_v2 = () => {
                 borderBottom: `2px solid ${colors.primary}20`
               }}>
                 <span style={{ flex: 1, textAlign: 'center' }}>{item.site}</span>
-                {item.site === 'Site III' && item.infoRows && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const isOpen = obj07Qi3InfoSite === item.site;
-                      setObj07Qi3InfoSite(isOpen ? null : item.site);
-                      setObj07Qi3InfoModal(isOpen ? null : { 
-                        site: item.site, 
-                        rows: item.infoRows, 
-                        errorDecrease: item.errorDecrease, 
-                        staffInvolvement: item.staffInvolvement,
-                        stats: item.infoStats
-                      });
-                    }}
-                    style={{
-                      minWidth: '36px',
-                      height: '36px',
-                      borderRadius: '50%',
-                      border: `2px solid ${colors.primary}50`,
-                      background: obj07Qi3InfoSite === item.site ? `${colors.primary}15` : '#ffffff',
-                      color: colors.primary,
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                      boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
-                      transition: 'all 0.2s ease'
-                    }}
-                    aria-label="Show Site III error details"
-                  >
-                    i
-                  </button>
-                )}
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -3144,53 +3113,59 @@ const QualityObjectives_v2 = () => {
                   borderRadius: '12px',
                   border: '2px solid #ef444420',
                   position: 'relative',
-                  cursor: 'pointer',
+                  cursor: item.site === 'Site III' ? 'pointer' : 'default',
                   transition: 'all 0.2s ease'
                 }}
-                onClick={() => setObj07Qi3ErrorDetailsModal(true)}
+                onClick={() => item.site === 'Site III' && setObj07Qi3ErrorDetailsModal(true)}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(239, 68, 68, 0.2)';
+                  if (item.site === 'Site III') {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(239, 68, 68, 0.2)';
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
+                  if (item.site === 'Site III') {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }
                 }}>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setObj07Qi3ErrorDetailsModal(true);
-                    }}
-                    style={{
-                      position: 'absolute',
-                      top: '12px',
-                      right: '12px',
-                      width: '28px',
-                      height: '28px',
-                      borderRadius: '50%',
-                      background: '#ef4444',
-                      color: '#ffffff',
-                      border: 'none',
-                      fontSize: '0.9em',
-                      cursor: 'pointer',
-                      fontWeight: 'bold',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)',
-                      transition: 'all 0.2s'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.15)';
-                      e.currentTarget.style.background = '#dc2626';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.background = '#ef4444';
-                    }}
-                  >
-                    ⓘ
-                  </button>
+                  {item.site === 'Site III' && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setObj07Qi3ErrorDetailsModal(true);
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: '12px',
+                        right: '12px',
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '50%',
+                        background: '#ef4444',
+                        color: '#ffffff',
+                        border: 'none',
+                        fontSize: '0.9em',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)',
+                        transition: 'all 0.2s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.15)';
+                        e.currentTarget.style.background = '#dc2626';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.background = '#ef4444';
+                      }}
+                    >
+                      ⓘ
+                    </button>
+                  )}
                   <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
                     📉 Decrease in QA Process Errors
                   </div>
@@ -3227,8 +3202,81 @@ const QualityObjectives_v2 = () => {
                   padding: '20px',
                   background: 'linear-gradient(135deg, #10b98110 0%, #ffffff 100%)',
                   borderRadius: '12px',
-                  border: '2px solid #10b98120'
+                  border: '2px solid #10b98120',
+                  cursor: item.site === 'Site III' ? 'pointer' : 'default',
+                  transition: 'all 0.2s ease',
+                  position: 'relative'
+                }}
+                onClick={() => {
+                  if (item.site === 'Site III' && item.infoRows) {
+                    setObj07Qi3InfoSite(item.site);
+                    setObj07Qi3InfoModal({
+                      site: item.site,
+                      rows: item.infoRows,
+                      errorDecrease: item.errorDecrease,
+                      staffInvolvement: item.staffInvolvement,
+                      stats: item.infoStats
+                    });
+                  }
+                }}
+                onMouseEnter={(e) => {
+                  if (item.site === 'Site III') {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(16, 185, 129, 0.2)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (item.site === 'Site III') {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }
                 }}>
+                  {item.site === 'Site III' && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (item.infoRows) {
+                          setObj07Qi3InfoSite(item.site);
+                          setObj07Qi3InfoModal({
+                            site: item.site,
+                            rows: item.infoRows,
+                            errorDecrease: item.errorDecrease,
+                            staffInvolvement: item.staffInvolvement,
+                            stats: item.infoStats
+                          });
+                        }
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: '12px',
+                        right: '12px',
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '50%',
+                        background: '#10b981',
+                        color: '#ffffff',
+                        border: 'none',
+                        fontSize: '0.9em',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)',
+                        transition: 'all 0.2s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.15)';
+                        e.currentTarget.style.background = '#0f9f75';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.background = '#10b981';
+                      }}
+                    >
+                      ⓘ
+                    </button>
+                  )}
                   <div style={{ fontSize: '1.5rem', color: '#0f172a', fontWeight: 700, marginBottom: '12px', textAlign: 'center' }}>
                     👥 QA Staff Involved in QMS, IPQA, Lab QA
                   </div>
