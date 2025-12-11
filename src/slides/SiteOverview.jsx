@@ -586,14 +586,15 @@ function SiteComparisonGrid({ onSiteClick }) {
     // Key achievements
     const achievements = [
       { 
-        icon: '⚡', 
-        title: 'Impact Assessment Time', 
-        metric: '61%',
-        unit: 'improvement',
-        desc: 'Reduced CC impact time',
-        color: '#ef4444',
-        bgColor: '#fef2f2'
+        icon: '🤝', 
+        title: 'Collaboration Meetings', 
+        metric: `${totalMeetings}`,
+        unit: 'sessions',
+        desc: 'QA-led discussions',
+        color: '#0ea5e9',
+        bgColor: '#e0f2fe'
       },
+     
       { 
         icon: '📊', 
         title: 'Training on Decision making & RCA tools', 
